@@ -1,5 +1,7 @@
 # Türkiye PDHES Potansiyeli — Eğitim ve Ön İnceleme
 
+**[Canlı Demo: Türkiye PDHES Potansiyeli](https://murathany90.github.io/TR_PDHES_Potansiyel/)**
+
 Türkiye'deki pompaj depolamalı hidroelektrik santral adaylarını veri, harita, kavramsal 3D yerleşim, risk notları ve senaryo hesaplarıyla inceleyen açık web demosu.
 
 > Bu uygulama yatırım tavsiyesi, fizibilite raporu, mühendislik tasarımı veya resmi TEİAŞ/DSİ/EPDK/ÇED görüşü değildir. Koordinatlar, teknik değerler, şebeke ilişkileri ve ekonomik varsayımlar kaynak bazlı, yaklaşık veya kavramsal olabilir.
