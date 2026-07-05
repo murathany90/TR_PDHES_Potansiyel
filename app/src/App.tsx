@@ -115,7 +115,7 @@ export default function App() {
       topNav={
         <TopNav
           title="Türkiye PDHES Potansiyeli — Eğitim ve Ön İnceleme"
-          subtitle="Adayları harita, kavramsal 3D yerleşim, risk notları ve senaryo hesaplarıyla inceleyen açık eğitim demosu"
+          subtitle=""
           controls={controls}
         />
       }
@@ -123,7 +123,7 @@ export default function App() {
     >
       <div style={{ padding: '18px 18px 0 18px', flexShrink: 0 }}>
         <WarningBanner
-          message="Eğitim ve masaüstü ön inceleme demosudur; yatırım tavsiyesi, fizibilite, mühendislik tasarımı veya resmi kurum görüşü değildir."
+          message="Eğitim ve masaüstü ön inceleme demosudur; yatırım tavsiyesi, fizibilite, mühendislik tasarımı veya resmi kurum görüşü değildir. Harita altlıkları ve arazi verileri 3. taraf servislerden yüklenmektedir."
           type="warning"
         />
       </div>

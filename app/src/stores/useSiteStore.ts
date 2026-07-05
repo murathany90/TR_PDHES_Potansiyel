@@ -24,6 +24,7 @@ interface SiteStore {
   resetSites: () => void;
   exportSites: () => string;
   selectedSite: () => Site | undefined;
+  fetchGridAssets: () => Promise<void>;
 }
 
 function readSites(key: string): Site[] | null {
@@ -101,5 +102,20 @@ export const useSiteStore = create<SiteStore>((set, get) => ({
   selectedSite: () => {
     const state = get();
     return state.sites.find((s) => s.id === state.selectedId) || state.sites[0];
+  },
+  fetchGridAssets: async () => {
+    if (get().gridAssets) return;
+    try {
+      const base = import.meta.env.BASE_URL;
+      const res = await fetch(`${base.replace(/\/$/, '')}/grid_assets.json`);
+      if (res.ok) {
+        const data = await res.json();
+        if (data.type === 'FeatureCollection') {
+          set({ gridAssets: data });
+        }
+      }
+    } catch (e) {
+      console.error('Failed to load grid assets:', e);
+    }
   },
 }));

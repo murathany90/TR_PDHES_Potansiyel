@@ -8,7 +8,6 @@ type FetchLike = (input: RequestInfo | URL, init?: RequestInit) => Promise<Respo
 
 interface LoadedAppData {
   sites: ReturnType<typeof validateSites>['sites'];
-  grid: FeatureCollection;
 }
 
 function isFeatureCollection(value: unknown): value is FeatureCollection {
@@ -22,30 +21,21 @@ export async function loadAppData(
   fetcher: FetchLike = fetch,
   base = import.meta.env.BASE_URL,
 ): Promise<LoadedAppData> {
-  const [dataResponse, gridResponse] = await Promise.all([
-    fetcher(publicAssetUrl('data.json', base)),
-    fetcher(publicAssetUrl('grid_assets.json', base)),
-  ]);
+  const dataResponse = await fetcher(publicAssetUrl('data.json', base));
 
-  if (!dataResponse.ok || !gridResponse.ok) {
+  if (!dataResponse.ok) {
     throw new Error(
-      `Uygulama verileri yüklenemedi (aday: ${dataResponse.status}, şebeke: ${gridResponse.status}).`,
+      `Uygulama verileri yüklenemedi (aday: ${dataResponse.status}).`,
     );
   }
 
-  const [siteJson, gridJson] = await Promise.all([
-    dataResponse.json() as Promise<unknown>,
-    gridResponse.json() as Promise<unknown>,
-  ]);
+  const siteJson = await dataResponse.json() as Promise<unknown>;
   const validation = validateSites(siteJson);
   if (!validation.ok) {
     throw new Error(`Aday veri sözleşmesi geçersiz: ${validation.errors.slice(0, 3).join(' ')}`);
   }
-  if (!isFeatureCollection(gridJson)) {
-    throw new Error('Şebeke verisi geçerli bir GeoJSON FeatureCollection değil.');
-  }
 
-  return { sites: validation.sites, grid: gridJson };
+  return { sites: validation.sites };
 }
 
 export function useAppData() {
@@ -59,7 +49,7 @@ export function useAppData() {
     let active = true;
 
     loadAppData()
-      .then(({ sites: baseSites, grid }) => {
+      .then(({ sites: baseSites }) => {
         if (!active) return;
         const persistedSites = getPersistedSites();
         const legacySites = getLegacyCustomSites();
@@ -70,7 +60,6 @@ export function useAppData() {
         ];
         setBaseSites(baseSites);
         setSites(mergedSites);
-        setGridAssets(grid);
         setError(null);
       })
       .catch((reason: unknown) => {
@@ -86,7 +75,7 @@ export function useAppData() {
     return () => {
       active = false;
     };
-  }, [setBaseSites, setGridAssets, setLoading, setSites]);
+  }, [setBaseSites, setLoading, setSites]);
 
   return { error };
 }

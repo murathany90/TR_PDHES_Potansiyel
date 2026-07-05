@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { MapPin, Mountain, AlertTriangle, Droplets, Zap, Activity, Waypoints, Box, Layers } from 'lucide-react';
 import { useMapLibre, type MapLayerVisibility } from '../hooks/useMapLibre';
 import { useSiteStore } from '../stores/useSiteStore';
@@ -32,12 +32,16 @@ const LAYER_LABELS: Array<{ key: keyof MapLayerVisibility; label: string; Icon: 
 
 export default function MapPage() {
   const mapContainer = useRef<HTMLDivElement>(null);
-  const { sites, selectedId, selectSite, gridAssets } = useSiteStore();
+  const { sites, selectedId, selectSite, gridAssets, fetchGridAssets } = useSiteStore();
   const { mapStyle, heightScale, setHeightScale } = useSettingsStore();
   const [leftCollapsed, setLeftCollapsed] = useState(false);
   const [rightCollapsed, setRightCollapsed] = useState(false);
   const [layers, setLayers] = useState<MapLayerVisibility>(DEFAULT_LAYERS);
   const site = sites.find((item) => item.id === selectedId) || sites[0];
+
+  useEffect(() => {
+    fetchGridAssets();
+  }, [fetchGridAssets]);
 
   useMapLibre({
     containerRef: mapContainer,
