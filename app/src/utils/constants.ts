@@ -1,12 +1,16 @@
 import type { ComponentDef, WorldExample } from '../types/site';
 
 export const COMPONENTS: ComponentDef[] = [
-  { key: 'upper_reservoir', label: 'Üst rezervuar', color: '#4aa3ff' },
-  { key: 'lower_reservoir', label: 'Alt rezervuar / deniz alımı', color: '#1fb6ff' },
-  { key: 'powerhouse', label: 'Yeraltı güç evi (powerhouse)', color: '#b277ff' },
-  { key: 'surge_tank', label: 'Denge bacası (surge tank)', color: '#ffd75a' },
-  { key: 'switchyard', label: 'Şalt sahası (switchyard)', color: '#48f49a' },
-  { key: 'portal', label: 'Tünel portalı / servis alanı', color: '#ff944d' },
+  { key: 'upper_reservoir', label: 'Üst Rezervuar', color: '#4aa3ff', description: 'Pompalama ile doldurulan ve üretim sırasında suyu aşağı veren yüksek kotlu rezervuar.' },
+  { key: 'tunnel', label: 'Yeraltı Tüneli (Headrace)', color: '#888e95', description: 'Suyu üst rezervuardan denge bacasına taşıyan yatay veya hafif eğimli yeraltı tüneli.' },
+  { key: 'surge_tank', label: 'Denge Bacası (Surge Tank)', color: '#ffd75a', description: 'Ani debi değişimlerinde oluşan su darbesini sönümleyen dikey hidrolik yapı.' },
+  { key: 'penstock', label: 'Cebri Boru (Penstock)', color: '#ff7733', description: 'Yüksek basınçlı suyu türbine veya pompa-türbine taşıyan çelik ya da kompozit boru hattı.' },
+  { key: 'powerhouse', label: 'Yeraltı Güç Evi (Powerhouse)', color: '#b277ff', description: 'Pompa-türbin, motor-jeneratör, vana ve yardımcı sistemlerin yer aldığı yeraltı tesisi.' },
+  { key: 'tailrace', label: 'Kuyruksuyu (Tailrace)', color: '#36d6ff', description: 'Suyu santralden alt rezervuara veya denize boşaltan düşük basınçlı kanal/tünel.' },
+  { key: 'lower_reservoir', label: 'Alt Rezervuar / Deniz Alımı', color: '#1fb6ff', description: 'Üretim sonrası suyun toplandığı, pompalama sırasında su kaynağı olarak kullanılan rezervuar veya doğal su kütlesi.' },
+  { key: 'switchyard', label: 'Şalt Sahası (Switchyard)', color: '#48f49a', description: 'Üretilen enerjinin iletim şebekesine bağlanması için trafo ve koruma ekipmanlarının bulunduğu alan.' },
+  { key: 'transmission', label: 'İletim Hattı (Grid Connection)', color: '#aaaaaa', description: 'Elektriği şalt sahasından ulusal şebekeye yüksek gerilimle taşıyan hat.' },
+  { key: 'portal', label: 'Tünel Portalı', color: '#ff944d', description: 'Tünel giriş/çıkışını koruyan ve servis ulaşımı sağlayan yapı.' },
 ];
 
 export const WORLD_EXAMPLES: WorldExample[] = [

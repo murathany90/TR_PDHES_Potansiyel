@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useSiteStore } from '../stores/useSiteStore';
 import { COMPONENTS } from '../utils/constants';
 import LayerToggle from '../components/ui/LayerToggle';
@@ -9,14 +9,11 @@ export default function ThreeDPage({ site: propSite }: { site?: any }) {
   const { sites, selectedId } = useSiteStore();
   const site = propSite || sites.find((item) => item.id === selectedId);
 
-  const [layers, setLayers] = useState<Record<string, boolean>>({
-    upper_reservoir: true,
-    lower_reservoir: true,
-    powerhouse: true,
-    tunnel: true,
-    surge_tank: true,
-    switchyard: true,
-  });
+  const initialLayers = useMemo(() => {
+    return COMPONENTS.reduce((acc, c) => ({ ...acc, [c.key]: true }), {});
+  }, []);
+
+  const [layers, setLayers] = useState<Record<string, boolean>>(initialLayers);
 
   const [activeComponent, setActiveComponent] = useState('upper_reservoir');
   const [mode, setMode] = useState<'generate' | 'pump'>('generate');
@@ -24,6 +21,16 @@ export default function ThreeDPage({ site: propSite }: { site?: any }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const maxUnits = site?.components_detail?.powerhouse?.units || 4;
   const [activeUnits, setActiveUnits] = useState(maxUnits);
+
+  // Reset state when site changes
+  useEffect(() => {
+    if (site) {
+      setActiveComponent('upper_reservoir');
+      setMode('generate');
+      setIsPlaying(false);
+      setActiveUnits(site?.components_detail?.powerhouse?.units || 4);
+    }
+  }, [site?.id]);
 
   const [showTerrain, setShowTerrain] = useState(true);
   const [showLabels, setShowLabels] = useState(true);
@@ -100,6 +107,14 @@ export default function ThreeDPage({ site: propSite }: { site?: any }) {
           </div>
 
           <h3 style={{ marginBottom: 12 }}>Katman Görünürlüğü</h3>
+          <div style={{ display: 'flex', gap: 8, marginBottom: 12 }}>
+            <button className="btn ghost" style={{ flex: 1, padding: '4px', fontSize: 12 }} onClick={() => setLayers(COMPONENTS.reduce((acc, c) => ({ ...acc, [c.key]: true }), {}))}>
+              Tümünü Aç
+            </button>
+            <button className="btn ghost" style={{ flex: 1, padding: '4px', fontSize: 12 }} onClick={() => setLayers(COMPONENTS.reduce((acc, c) => ({ ...acc, [c.key]: false }), {}))}>
+              Tümünü Kapat
+            </button>
+          </div>
           <div style={{ marginBottom: 24 }}>
             <LayerToggle 
               label="⛰️ 3D Arazi (Terrain)" 
@@ -139,15 +154,26 @@ export default function ThreeDPage({ site: propSite }: { site?: any }) {
             Bileşen Detayları: {COMPONENTS.find(c => c.key === activeComponent)?.label || activeComponent}
           </h3>
           <div className="card" style={{ padding: 16, marginBottom: 24 }}>
+            {/* Generic description from constants */}
+            <p style={{ fontSize: 13, color: 'var(--text)', marginBottom: 16, lineHeight: 1.5 }}>
+              {COMPONENTS.find(c => c.key === activeComponent)?.description || 'Kavramsal yerleşim bileşeni.'}
+            </p>
+
+            {/* Dynamic data from site details */}
             {Object.entries((site.components_detail as any)[activeComponent] || {}).map(([k, v]) => (
               <p key={k} style={{ marginBottom: 8, fontSize: 14 }}>
                 <b style={{ color: 'var(--text)' }}>{k.replace(/_/g, ' ').toUpperCase()}:</b>{' '}
                 <span className="muted">{String(v)}</span>
               </p>
             ))}
-            {Object.keys((site.components_detail as any)[activeComponent] || {}).length === 0 && (
-              <p className="muted" style={{ fontSize: 13 }}>Bu bileşen için detay verisi bulunmuyor.</p>
-            )}
+            
+            <div style={{ marginTop: 16, padding: '8px 12px', background: 'rgba(239, 68, 68, 0.1)', borderLeft: '3px solid #ef4444', fontSize: 12, color: '#fca5a5' }}>
+              ⚠️ Bu değerler ve 3D konumlar temsilidir.
+            </div>
+          </div>
+
+          <div className="notice" style={{ marginBottom: 24, fontSize: 12 }}>
+            <b>ÖNEMLİ:</b> Bu 3D model kavramsal yerleşim amaçlıdır. Gerçek rezervuar sınırları, kotlar, tünel güzergâhı, cebri boru, şalt sahası ve iletim bağlantısı mühendislik etüdü, jeoteknik çalışma, DSİ/TEİAŞ görüşleri ve arazi ölçümleriyle doğrulanmalıdır.
           </div>
 
           <h3 style={{ marginTop: 16, marginBottom: 12 }}>Güven Etiketi</h3>

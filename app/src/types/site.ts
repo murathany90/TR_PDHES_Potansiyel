@@ -177,6 +177,7 @@ export interface ComponentDef {
   key: string;
   label: string;
   color: string;
+  description?: string;
 }
 
 export interface WorldExample {

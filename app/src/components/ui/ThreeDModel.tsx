@@ -1,8 +1,11 @@
-import { useRef, useMemo } from 'react';
+import { useRef, useMemo, useEffect } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, Html, Line, Sky } from '@react-three/drei';
 import * as THREE from 'three';
 import type { ComponentsDetail } from '../../types/site';
+import { useSiteStore } from '../../stores/useSiteStore';
+
+
 
 interface ThreeDModelProps {
   siteId?: string;
@@ -53,6 +56,10 @@ const getTerrainHeight = (x: number, z: number, isPresenzano?: boolean) => {
     const noise3 = Math.sin(xOrig * 0.3 + py * 0.2) * 0.5;
     return (slope + noise1 + noise2 + noise3 - 5) * 3;
   }
+};
+
+const placeOnTerrain = (x: number, z: number, offsetY: number, isPresenzano?: boolean) => {
+  return new THREE.Vector3(x, getTerrainHeight(x, z, isPresenzano) + offsetY, z);
 };
 
 /* ─────────────────────────────────────────────
@@ -122,44 +129,6 @@ function RealisticTerrain({ opacity, isPresenzano }: { opacity: number; isPresen
       rotation={[-Math.PI / 2, 0, 0]} position={[0, -5, 0]}
       receiveShadow
     />
-  );
-}
-
-/* ─────────────────────────────────────────────
-   Vegetation and Rocks System
-   ───────────────────────────────────────────── */
-function LowPolyTree({ position, scale = 1 }: { position: [number, number, number]; scale?: number }) {
-  return (
-    <group position={position} scale={[scale, scale, scale]}>
-      {/* Trunk */}
-      <mesh castShadow>
-        <cylinderGeometry args={[0.12, 0.2, 1.0, 5]} />
-        <meshStandardMaterial color="#422b1c" roughness={0.95} />
-      </mesh>
-      {/* Foliage (Cone layers) */}
-      <mesh position={[0, 0.7, 0]} castShadow>
-        <coneGeometry args={[0.7, 1.2, 5]} />
-        <meshStandardMaterial color="#1a3f24" roughness={0.8} flatShading />
-      </mesh>
-      <mesh position={[0, 1.1, 0]} castShadow>
-        <coneGeometry args={[0.5, 0.8, 5]} />
-        <meshStandardMaterial color="#225430" roughness={0.8} flatShading />
-      </mesh>
-    </group>
-  );
-}
-
-function ForestRock({ position, scale = 1 }: { position: [number, number, number]; scale?: number }) {
-  const rot: [number, number, number] = useMemo(() => [
-    Math.random() * Math.PI,
-    Math.random() * Math.PI,
-    Math.random() * Math.PI
-  ], []);
-  return (
-    <mesh position={position} rotation={rot} scale={[scale, scale, scale]} castShadow receiveShadow>
-      <dodecahedronGeometry args={[0.7, 0]} />
-      <meshStandardMaterial color="#504c46" roughness={0.88} flatShading />
-    </mesh>
   );
 }
 
@@ -321,6 +290,63 @@ function RealisticLowerReservoir({ position, active, onClick, waterLevelRef, sho
 
       <Html position={[0, 4, 0]} center style={{ display: showLabels ? 'block' : 'none' }}>
         <div style={labelStyle(active, '#15cfe8')}>{isPresenzano ? 'Presenzano Alt Rezervuarı (6 Milyon m³)' : 'Alt Rezervuar'}</div>
+      </Html>
+    </group>
+  );
+}
+
+/* ─────────────────────────────────────────────
+   Sea Water Lower Reservoir (Open Ocean/Sea Plane)
+   ───────────────────────────────────────────── */
+function SeaWaterReservoir({ position, active, onClick, waterLevelRef, showLabels }: any) {
+  const pos: [number, number, number] = [position.x, position.y - 4, position.z];
+  const waterMesh = useRef<THREE.Mesh>(null);
+  
+  useFrame(({ clock }) => {
+    if (!waterMesh.current) return;
+    const t = clock.getElapsedTime();
+    // Subtle tide and waves
+    waterMesh.current.position.y = (waterLevelRef.current - 0.5) * 1.5; 
+    const wave = Math.cos(t * 0.8) * 0.01;
+    waterMesh.current.scale.set(1 + wave, 1, 1 + wave);
+  });
+
+  return (
+    <group position={pos}>
+      <group onClick={(e) => { e.stopPropagation(); onClick(); }}>
+        {/* Coastal Intake/Outfall Structure */}
+        <group position={[-25, 1, 0]}>
+          <mesh castShadow receiveShadow>
+            <boxGeometry args={[8, 4, 12]} />
+            <meshStandardMaterial color="#6a737a" roughness={0.9} />
+          </mesh>
+          <mesh position={[2, 0, 0]} castShadow>
+            <boxGeometry args={[4, 3.5, 8]} />
+            <meshStandardMaterial color="#44484d" roughness={0.9} />
+          </mesh>
+          <mesh position={[4.1, -0.5, 0]}>
+            <boxGeometry args={[0.2, 2.5, 6]} />
+            <meshStandardMaterial color="#1a1c1e" wireframe />
+          </mesh>
+        </group>
+      </group>
+
+      {/* Infinite Sea Plane */}
+      <mesh ref={waterMesh} rotation={[-Math.PI/2, 0, 0]} position={[20, 0, 0]}>
+        <planeGeometry args={[400, 400, 32, 32]} />
+        <meshPhysicalMaterial 
+          color="#045a7a" 
+          transparent 
+          opacity={0.85}
+          roughness={0.1} 
+          metalness={0.1}
+          transmission={0.8} 
+          ior={1.333}
+        />
+      </mesh>
+
+      <Html position={[-20, 6, 0]} center style={{ display: showLabels ? 'block' : 'none' }}>
+        <div style={labelStyle(active, '#15cfe8')}>Deniz Alım / Deşarj Yapısı</div>
       </Html>
     </group>
   );
@@ -1009,6 +1035,107 @@ function RealisticSurgeTank({ position, active, showLabels, onClick }: any) {
 }
 
 /* ─────────────────────────────────────────────
+   Portal Structure (Tunnel Inlet/Outlet)
+   ───────────────────────────────────────────── */
+function Portal({ position, rotation, active, onClick, showLabels, label }: any) {
+  return (
+    <group position={position} rotation={rotation} onClick={(e) => { e.stopPropagation(); onClick(); }}>
+      {/* Concrete Arch / Retaining Wall */}
+      <mesh position={[0, 2, 0]} castShadow receiveShadow>
+        <boxGeometry args={[4, 5, 2]} />
+        <meshStandardMaterial color="#6a737a" roughness={0.9} />
+      </mesh>
+      {/* Tunnel Opening (Dark Hole) */}
+      <mesh position={[0, 1.5, 1.05]}>
+        <cylinderGeometry args={[1.5, 1.5, 0.2, 32, 1, false, 0, Math.PI]} />
+        <meshBasicMaterial color="#000" />
+      </mesh>
+      <Html position={[0, 5.5, 0]} center style={{ display: showLabels ? 'block' : 'none' }}>
+        <div style={labelStyle(active, '#ff944d')}>{label || 'Tünel Portalı'}</div>
+      </Html>
+    </group>
+  );
+}
+
+/* ─────────────────────────────────────────────
+   Instanced Environment (Performance Optimization)
+   ───────────────────────────────────────────── */
+function InstancedEnvironment({ assets }: { assets: Array<{ type: 'tree' | 'rock'; pos: [number, number, number]; scale: number; rot: [number, number, number] }> }) {
+  const trees = assets.filter(a => a.type === 'tree');
+  const rocks = assets.filter(a => a.type === 'rock');
+
+  const treeTrunkRef = useRef<THREE.InstancedMesh>(null);
+  const treeFoliage1Ref = useRef<THREE.InstancedMesh>(null);
+  const treeFoliage2Ref = useRef<THREE.InstancedMesh>(null);
+  const rockRef = useRef<THREE.InstancedMesh>(null);
+
+  const dummy = useMemo(() => new THREE.Object3D(), []);
+
+  useEffect(() => {
+    trees.forEach((tree, i) => {
+      dummy.position.set(...tree.pos);
+      dummy.rotation.set(...tree.rot);
+      dummy.scale.setScalar(tree.scale);
+      dummy.updateMatrix();
+
+      // Trunk
+      if (treeTrunkRef.current) treeTrunkRef.current.setMatrixAt(i, dummy.matrix);
+      
+      // Foliage 1 (Shifted up by 0.7 * scale locally, but instanced mesh args are applied to the base geometry, so we adjust dummy)
+      dummy.position.set(tree.pos[0], tree.pos[1] + 0.7 * tree.scale, tree.pos[2]);
+      dummy.updateMatrix();
+      if (treeFoliage1Ref.current) treeFoliage1Ref.current.setMatrixAt(i, dummy.matrix);
+      
+      // Foliage 2
+      dummy.position.set(tree.pos[0], tree.pos[1] + 1.1 * tree.scale, tree.pos[2]);
+      dummy.updateMatrix();
+      if (treeFoliage2Ref.current) treeFoliage2Ref.current.setMatrixAt(i, dummy.matrix);
+    });
+
+    if (treeTrunkRef.current) treeTrunkRef.current.instanceMatrix.needsUpdate = true;
+    if (treeFoliage1Ref.current) treeFoliage1Ref.current.instanceMatrix.needsUpdate = true;
+    if (treeFoliage2Ref.current) treeFoliage2Ref.current.instanceMatrix.needsUpdate = true;
+
+    rocks.forEach((rock, i) => {
+      dummy.position.set(...rock.pos);
+      dummy.rotation.set(...rock.rot);
+      dummy.scale.setScalar(rock.scale);
+      dummy.updateMatrix();
+      if (rockRef.current) rockRef.current.setMatrixAt(i, dummy.matrix);
+    });
+
+    if (rockRef.current) rockRef.current.instanceMatrix.needsUpdate = true;
+  }, [trees, rocks, dummy]);
+
+  return (
+    <group>
+      {trees.length > 0 && (
+        <>
+          <instancedMesh ref={treeTrunkRef} args={[undefined, undefined, trees.length]} castShadow>
+            <cylinderGeometry args={[0.12, 0.2, 1.0, 5]} />
+            <meshStandardMaterial color="#422b1c" roughness={0.95} />
+          </instancedMesh>
+          <instancedMesh ref={treeFoliage1Ref} args={[undefined, undefined, trees.length]} castShadow>
+            <coneGeometry args={[0.7, 1.2, 5]} />
+            <meshStandardMaterial color="#1a3f24" roughness={0.8} flatShading />
+          </instancedMesh>
+          <instancedMesh ref={treeFoliage2Ref} args={[undefined, undefined, trees.length]} castShadow>
+            <coneGeometry args={[0.5, 0.8, 5]} />
+            <meshStandardMaterial color="#225430" roughness={0.8} flatShading />
+          </instancedMesh>
+        </>
+      )}
+      {rocks.length > 0 && (
+        <instancedMesh ref={rockRef} args={[undefined, undefined, rocks.length]} castShadow receiveShadow>
+          <dodecahedronGeometry args={[0.7, 0]} />
+          <meshStandardMaterial color="#504c46" roughness={0.88} flatShading />
+        </instancedMesh>
+      )}
+    </group>
+  );
+}
+
+/* ─────────────────────────────────────────────
    Common Helpers
    ───────────────────────────────────────────── */
 function labelStyle(active: boolean, color: string): React.CSSProperties {
@@ -1027,7 +1154,9 @@ function labelStyle(active: boolean, color: string): React.CSSProperties {
    Main Scene Assembly
    ───────────────────────────────────────────── */
 function Scene({ siteId, activeComponent, onSelectComponent, layers, mode, componentsDetail, isPlaying, activeUnits, maxUnits, showTerrain, showLabels, terrainOpacity }: ThreeDModelProps) {
+  const site = useSiteStore(state => state.sites.find(s => s.id === siteId));
   const isPresenzano = siteId === 'presenzano';
+  const isSeaWater = site?.pdhesType === 'SEA_WATER';
   const d = componentsDetail;
   
   // Shared Simulation Water Levels
@@ -1044,21 +1173,21 @@ function Scene({ siteId, activeComponent, onSelectComponent, layers, mode, compo
     }
   });
 
+  // Dynamic Spacing Factors based on real site properties
+  const tunnelScale = site?.tunnelKm ? Math.max(0.6, Math.min(1.8, site.tunnelKm / 3)) : 1;
+  const headScale = site?.head ? Math.max(0.8, Math.min(1.5, site.head / 300)) : 1;
+
   // Calculate dynamic heights/positions aligned to terrain height field
-  const upperTerrainY = getTerrainHeight(-140, 15, isPresenzano);
-  const upperPos = useMemo(() => new THREE.Vector3(-140, upperTerrainY + 40, -15), [upperTerrainY]);
-  
-  const surgeTankPos = useMemo(() => new THREE.Vector3(-30, getTerrainHeight(-30, 0, isPresenzano), 0), [isPresenzano]);
-  
-  const phTerrainY = getTerrainHeight(45, 15, isPresenzano);
-  const powerhousePos = useMemo(() => new THREE.Vector3(45, phTerrainY - 2, 15), [phTerrainY]);
-  
-  const lowerTerrainY = getTerrainHeight(80, 30, isPresenzano);
-  const lowerPos = useMemo(() => new THREE.Vector3(80, lowerTerrainY, 30), [lowerTerrainY]);
+  const upperPos = useMemo(() => placeOnTerrain(-140 * tunnelScale, -15, 40 * headScale, isPresenzano), [tunnelScale, headScale, isPresenzano]);
+  const surgeTankPos = useMemo(() => placeOnTerrain(-30 * tunnelScale, 0, 0, isPresenzano), [tunnelScale, isPresenzano]);
+  const powerhousePos = useMemo(() => placeOnTerrain(45, 15, -2, isPresenzano), [isPresenzano]);
+  const lowerPos = useMemo(() => placeOnTerrain(80, 30, 0, isPresenzano), [isPresenzano]);
+  const portalUpperPos = useMemo(() => placeOnTerrain(-100 * tunnelScale, -10, 0, isPresenzano), [tunnelScale, isPresenzano]);
+  const portalLowerPos = useMemo(() => placeOnTerrain(60, 20, 0, isPresenzano), [isPresenzano]);
 
   // environment assets list
   const environmentAssets = useMemo(() => {
-    const assets: Array<{ type: 'tree' | 'rock'; pos: [number, number, number]; scale: number; id: number }> = [];
+    const assets: Array<{ type: 'tree' | 'rock'; pos: [number, number, number]; scale: number; rot: [number, number, number] }> = [];
     let count = 0;
     
     const pseudoRandom = (seed: number) => {
@@ -1087,7 +1216,12 @@ function Scene({ siteId, activeComponent, onSelectComponent, layers, mode, compo
       if (ry > -3 && ry < 99) {
         const type = pseudoRandom(count++) > 0.45 ? 'tree' : 'rock';
         const scale = 0.4 + pseudoRandom(count++) * 0.7;
-        assets.push({ type, pos: [rx, ry, rz], scale, id: i });
+        const rot: [number, number, number] = [
+          type === 'rock' ? pseudoRandom(count++) * Math.PI : 0,
+          pseudoRandom(count++) * Math.PI,
+          type === 'rock' ? pseudoRandom(count++) * Math.PI : 0
+        ];
+        assets.push({ type, pos: [rx, ry, rz], scale, rot });
       }
     }
     return assets;
@@ -1107,14 +1241,8 @@ function Scene({ siteId, activeComponent, onSelectComponent, layers, mode, compo
 
       {showTerrain && <RealisticTerrain opacity={terrainOpacity} isPresenzano={isPresenzano} />}
 
-      {/* Scattered Vegetation and Rocks */}
-      {showTerrain && terrainOpacity >= 95 && environmentAssets.map((asset) => {
-        if (asset.type === 'tree') {
-          return <LowPolyTree key={asset.id} position={asset.pos} scale={asset.scale} />;
-        } else {
-          return <ForestRock key={asset.id} position={asset.pos} scale={asset.scale} />;
-        }
-      })}
+      {/* Scattered Vegetation and Rocks (Instanced for Performance) */}
+      {showTerrain && terrainOpacity >= 95 && <InstancedEnvironment assets={environmentAssets} />}
 
       {/* Upper Reservoir & Dam */}
       {layers.upper_reservoir && (
@@ -1129,16 +1257,26 @@ function Scene({ siteId, activeComponent, onSelectComponent, layers, mode, compo
         />
       )}
       
-      {/* Lower Reservoir Basin */}
+      {/* Lower Reservoir Basin / Sea */}
       {layers.lower_reservoir && (
-        <RealisticLowerReservoir 
-          position={lowerPos}
-          active={activeComponent === 'lower_reservoir'} 
-          onClick={() => onSelectComponent('lower_reservoir')} 
-          waterLevelRef={waterLevelRef} 
-          showLabels={showLabels} 
-          isPresenzano={isPresenzano}
-        />
+        isSeaWater ? (
+          <SeaWaterReservoir 
+            position={lowerPos}
+            active={activeComponent === 'lower_reservoir'} 
+            onClick={() => onSelectComponent('lower_reservoir')} 
+            waterLevelRef={waterLevelRef} 
+            showLabels={showLabels} 
+          />
+        ) : (
+          <RealisticLowerReservoir 
+            position={lowerPos}
+            active={activeComponent === 'lower_reservoir'} 
+            onClick={() => onSelectComponent('lower_reservoir')} 
+            waterLevelRef={waterLevelRef} 
+            showLabels={showLabels} 
+            isPresenzano={isPresenzano}
+          />
+        )
       )}
 
       {/* Cavern Powerhouse */}
@@ -1181,8 +1319,30 @@ function Scene({ siteId, activeComponent, onSelectComponent, layers, mode, compo
         />
       )}
 
+      {/* Portals */}
+      {layers.portal && (
+        <>
+          <Portal 
+            position={portalUpperPos} 
+            rotation={[0, Math.PI/4, 0]} 
+            active={activeComponent === 'portal'} 
+            onClick={() => onSelectComponent('portal')} 
+            showLabels={showLabels} 
+            label="Üst Tünel Portalı"
+          />
+          <Portal 
+            position={portalLowerPos} 
+            rotation={[0, -Math.PI/6, 0]} 
+            active={activeComponent === 'portal'} 
+            onClick={() => onSelectComponent('portal')} 
+            showLabels={showLabels} 
+            label="Kuyruksuyu Portalı"
+          />
+        </>
+      )}
+
       {/* Steel Penstocks */}
-      {layers.tunnel && (
+      {layers.penstock && (
         <RealisticPenstock 
           active={activeComponent === 'penstock'} 
           onClick={() => onSelectComponent('penstock')} 
@@ -1209,7 +1369,7 @@ function Scene({ siteId, activeComponent, onSelectComponent, layers, mode, compo
       )}
 
       {/* Tailrace Concrete Channel */}
-      {layers.powerhouse && (
+      {layers.tailrace && (
         <TailraceChannel 
           from={powerhousePos} 
           to={lowerPos} 
@@ -1242,7 +1402,7 @@ function Scene({ siteId, activeComponent, onSelectComponent, layers, mode, compo
       )}
 
       {/* Switchyard to first transmission tower cable */}
-      {layers.switchyard && (
+      {layers.transmission && layers.switchyard && (
         <group>
           {(() => {
             const syPos = new THREE.Vector3(75, getTerrainHeight(75, -25, isPresenzano) - 1, -25);
@@ -1265,7 +1425,7 @@ function Scene({ siteId, activeComponent, onSelectComponent, layers, mode, compo
       )}
 
       {/* Transmission pylons and lines */}
-      {layers.switchyard && <TransmissionLine isPresenzano={isPresenzano} isPlaying={isPlaying} mode={mode} activeUnits={activeUnits} />}
+      {layers.transmission && <TransmissionLine isPresenzano={isPresenzano} isPlaying={isPlaying} mode={mode} activeUnits={activeUnits} />}
 
       <OrbitControls makeDefault enableDamping dampingFactor={0.05} maxPolarAngle={Math.PI/2.1} minDistance={30} maxDistance={400} />
     </>
