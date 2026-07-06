@@ -37,7 +37,7 @@ export default function MapPage() {
   const [leftCollapsed, setLeftCollapsed] = useState(false);
   const [rightCollapsed, setRightCollapsed] = useState(false);
   const [layers, setLayers] = useState<MapLayerVisibility>(DEFAULT_LAYERS);
-  const [isCardOpen, setIsCardOpen] = useState(false);
+  const [isCardOpen, setIsCardOpen] = useState(true);
   const site = sites.find((item) => item.id === selectedId) || sites[0];
 
   useEffect(() => {
