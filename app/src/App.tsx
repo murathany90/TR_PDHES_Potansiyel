@@ -160,7 +160,7 @@ export default function App() {
     <AppShell
       topNav={
         <TopNav
-          title="Türkiye PDHES Potansiyeli — Eğitim ve Ön İnceleme"
+          title="Türkiye Pompaj Depolama HES (PDHES) Potansiyeli - PDHES Eğitim ve Ön İnceleme"
           subtitle=""
           controls={controls}
           homeHref="/pdhes"
