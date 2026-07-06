@@ -26,6 +26,7 @@ const site = {
   upper: 'Üst',
   thesis: 'Test açıklaması',
   risks: ['Jeoloji'],
+  scores: { topo: 80, grid: 70, env: 60, geology: 50, access: 90, market: 70 },
 } as Site;
 
 describe('DataPage', () => {
@@ -42,5 +43,6 @@ describe('DataPage', () => {
     const siteButton = screen.getByRole('button', { name: /test sahası/i });
     fireEvent.click(siteButton);
     expect(useSiteStore.getState().selectedId).toBe(site.id);
+    expect(screen.getAllByText(/kaynak \/ senaryo skoru/i).length).toBeGreaterThan(0);
   });
 });

@@ -3,6 +3,8 @@ import { useCalcEngine } from '../hooks/useCalcEngine';
 import { moneyBn, moneyM } from '../utils/format';
 import ScorePill from '../components/ui/ScorePill';
 import WarningBanner from '../components/ui/WarningBanner';
+import { useSettingsStore } from '../stores/useSettingsStore';
+import { calculateWeightedScore } from '../utils/scoring';
 
 const SCORE_LABELS: Record<string, string> = {
   topo: 'Topografya / düşü (head)',
@@ -15,6 +17,7 @@ const SCORE_LABELS: Record<string, string> = {
 
 export default function CalcPage({ site }: { site?: Site }) {
   const { scenario, values, setScenarioValue, resetScenario } = useCalcEngine(site);
+  const weights = useSettingsStore((state) => state.weights);
 
   if (!site || !values) return <section className="panel active"><p className="muted">Veri yükleniyor...</p></section>;
 
@@ -23,6 +26,7 @@ export default function CalcPage({ site }: { site?: Site }) {
     ? 0
     : Math.max(0, Math.min(100, 100 - (values.payback - 4) * 5));
   const paybackLabel = values.payback === null ? 'hesaplanamaz' : `${values.payback.toFixed(1)} yıl`;
+  const technicalScenarioScore = calculateWeightedScore(site.scores, weights);
 
   return (
     <section className="panel active">
@@ -92,6 +96,16 @@ ${site.revenueM} milyon €/yıl x çevrim(${scenario.cycles}/300) x gelir(${sce
 
         <div className="card">
           <h2>Skor ve risk kırılımı</h2>
+          <div className="scenario-score-preview compact" aria-live="polite">
+            <div>
+              <span>Kaynak skor {site.score}</span>
+              <small>Veri seti, değişmez</small>
+            </div>
+            <div>
+              <span>Teknik senaryo skoru {technicalScenarioScore}</span>
+              <small>Ayar ağırlıklarıyla</small>
+            </div>
+          </div>
           <div style={{ display: 'grid', gap: 10 }}>
             {Object.entries(site.scores).map(([key, value]) => (
               <div className="bar-row" key={key}>

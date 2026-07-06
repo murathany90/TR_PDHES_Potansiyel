@@ -351,6 +351,15 @@ html[data-theme="light"] .tl:before { box-shadow: 0 0 0 5px rgba(13,158,92,.08);
 
 /* ── Settings ── */
 .settings-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.scenario-score-preview {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 16px;
+}
+.scenario-score-preview > div {
+  display: grid; gap: 4px; padding: 12px; border: 1px solid var(--line);
+  border-radius: 12px; background: var(--panel2);
+}
+.scenario-score-preview span { font-weight: 700; }
+.scenario-score-preview small { color: var(--muted); font-size: 12px; }
 .codebox {
   max-height: 520px; overflow: auto; background: var(--panel); border: 1px solid var(--line);
   border-radius: 15px; padding: 14px; color: #a6d8bf; white-space: pre; font-size: 12px;

@@ -72,6 +72,13 @@ export default function App() {
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
+    let themeColor = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]');
+    if (!themeColor) {
+      themeColor = document.createElement('meta');
+      themeColor.name = 'theme-color';
+      document.head.appendChild(themeColor);
+    }
+    themeColor.content = theme === 'dark' ? '#0a0a0a' : '#fafafa';
   }, [theme]);
 
   const selectedSite = sites.find((s) => s.id === selectedId) || sites[0];

@@ -1,16 +1,25 @@
 import { useSettingsStore } from '../stores/useSettingsStore';
 import { useSiteStore } from '../stores/useSiteStore';
+import WarningBanner from '../components/ui/WarningBanner';
+import { calculateWeightedScore } from '../utils/scoring';
 
 const WEIGHT_LABELS: Record<string, string> = {
   topo: 'Topografya / düşü',
   grid: 'Şebeke yakınlığı',
   env: 'Çevresel kısıt',
-  geo: 'Jeoloji / deprem',
+  geology: 'Jeoloji / deprem',
+  access: 'Erişim ve lojistik',
+  market: 'Piyasa ve yük',
 };
 
 export default function SettingsPage() {
   const { theme, mapStyle, heightScale, weights, setTheme, setMapStyle, setHeightScale, setWeight } = useSettingsStore();
-  const { resetSites, sites } = useSiteStore();
+  const { resetSites, sites, selectedId } = useSiteStore();
+  const selectedSite = sites.find((site) => site.id === selectedId) || sites[0];
+  const scenarioScore = selectedSite
+    ? calculateWeightedScore(selectedSite.scores, weights)
+    : null;
+  const totalWeight = Object.values(weights).reduce((sum, weight) => sum + weight, 0);
 
   return (
     <section className="panel active">
@@ -53,9 +62,26 @@ export default function SettingsPage() {
               </div>
             );
           })}
-          <p className="notice small" style={{ marginTop: 12 }}>
-            Bu ağırlıklar arayüz taslağıdır; mevcut aday skorlarını henüz yeniden hesaplamaz.
-          </p>
+          {selectedSite && (
+            <div className="scenario-score-preview" aria-live="polite">
+              <div>
+                <span>Kaynak skor {selectedSite.score}</span>
+                <small>Veri seti, değişmez</small>
+              </div>
+              <div>
+                <span>Senaryo skoru {scenarioScore}</span>
+                <small>{totalWeight} toplam ağırlık</small>
+              </div>
+            </div>
+          )}
+          <div style={{ marginTop: 12 }}>
+            <WarningBanner
+              type={totalWeight === 0 ? 'warning' : 'info'}
+              message={totalWeight === 0
+                ? 'Senaryo skoru için en az bir ağırlığı sıfırdan büyük seçin.'
+                : 'Ağırlıklar senaryo skorunu anlık hesaplar; veri setindeki kaynak skoru değiştirmez.'}
+            />
+          </div>
           <h3 style={{ marginTop: 16 }}>Veri yönetimi</h3>
           <button className="btn danger" onClick={() => { if (confirm('Kaydedilmiş saha düzenlemeleri sıfırlansın mı?')) resetSites(); }}>
             Saha düzenlemelerini sıfırla

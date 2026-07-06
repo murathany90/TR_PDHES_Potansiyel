@@ -3,6 +3,7 @@
 import { cleanup, render, screen, waitFor } from '@testing-library/react';
 import { HashRouter, MemoryRouter } from 'react-router-dom';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { useSettingsStore } from './stores/useSettingsStore';
 import App from './App';
 
 describe('application navigation', () => {
@@ -61,6 +62,20 @@ describe('application navigation', () => {
 
     await waitFor(() => {
       expect(scrollIntoView).toHaveBeenCalledWith({ block: 'start', behavior: 'auto' });
+    });
+  });
+
+  it('keeps the browser theme color aligned with the selected theme', async () => {
+    useSettingsStore.setState({ theme: 'dark' });
+
+    render(
+      <MemoryRouter initialEntries={['/pdhes']}>
+        <App />
+      </MemoryRouter>,
+    );
+
+    await waitFor(() => {
+      expect(document.querySelector('meta[name="theme-color"]')?.getAttribute('content')).toBe('#0a0a0a');
     });
   });
 });

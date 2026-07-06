@@ -14,6 +14,7 @@ const site = {
   capexBn: 2,
   revenueM: 200,
   powerMW: 1000,
+  score: 70,
   risks: ['Jeoloji'],
   scores: {
     topo: 80,
@@ -41,5 +42,12 @@ describe('CalcPage', () => {
     render(<CalcPage site={site} />);
 
     expect(screen.getByRole('alert').textContent).toMatch(/yatırım kararı yerine kullanılamaz/i);
+  });
+
+  it('shows a weighted technical scenario score without replacing the source score', () => {
+    render(<CalcPage site={site} />);
+
+    expect(screen.getByText(/kaynak skor 70/i)).toBeTruthy();
+    expect(screen.getByText(/teknik senaryo skoru/i)).toBeTruthy();
   });
 });

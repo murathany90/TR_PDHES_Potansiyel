@@ -8,9 +8,12 @@ import {
   type PdhesTypeFilter,
 } from '../utils/pdhesFilters';
 import WarningBanner from '../components/ui/WarningBanner';
+import { useSettingsStore } from '../stores/useSettingsStore';
+import { calculateWeightedScore } from '../utils/scoring';
 
 export default function DataPage({ site }: { site?: Site }) {
   const { sites, selectedId, selectSite } = useSiteStore();
+  const weights = useSettingsStore((state) => state.weights);
   const [typeFilter, setTypeFilter] = useState<PdhesTypeFilter>('ALL');
 
   if (!site) return <div className="panel active"><p className="muted">Veri yükleniyor...</p></div>;
@@ -52,7 +55,7 @@ export default function DataPage({ site }: { site?: Site }) {
                   <th>Su yolu</th>
                   <th>Yatırım</th>
                   <th>Gelir</th>
-                  <th>Skor</th>
+                  <th>Kaynak / senaryo skoru</th>
                 </tr>
               </thead>
               <tbody>
@@ -76,9 +79,16 @@ export default function DataPage({ site }: { site?: Site }) {
                     <td>{moneyBn(candidate.capexBn)}</td>
                     <td>{moneyM(candidate.revenueM)}</td>
                     <td>
-                      <span className="score">
-                        <span className="scorebar"><i style={{ width: `${candidate.score}%` }} /></span>
+                      <span
+                        className="score"
+                        aria-label={`Kaynak skor ${candidate.score}, senaryo skoru ${calculateWeightedScore(candidate.scores, weights)}`}
+                      >
+                        <span className="scorebar" aria-hidden="true">
+                          <i style={{ width: `${calculateWeightedScore(candidate.scores, weights)}%` }} />
+                        </span>
                         <b>{candidate.score}</b>
+                        <span aria-hidden="true">→</span>
+                        <b>{calculateWeightedScore(candidate.scores, weights)}</b>
                       </span>
                     </td>
                   </tr>
@@ -93,7 +103,10 @@ export default function DataPage({ site }: { site?: Site }) {
           <h3>{site.name}</h3>
           <p className="muted">{site.thesis}</p>
           <div className="metric-row" style={{ gridTemplateColumns: '1fr 1fr', marginTop: 12 }}>
-            <div className="metric good"><span>Skor / Konsept</span><b>{site.score} - {site.concept === 'sea' ? 'Deniz' : 'Klasik'}</b></div>
+            <div className="metric good">
+              <span>Kaynak / senaryo skoru</span>
+              <b>{site.score} → {calculateWeightedScore(site.scores, weights)}</b>
+            </div>
             <div className="metric info"><span>Kapasite / Enerji</span><b>{num(site.powerMW)} MW / {site.energyGWh} GWh</b></div>
             <div className="metric warn"><span>Yatırım / Gelir</span><b>{moneyBn(site.capexBn)} / {moneyM(site.revenueM)}</b></div>
             <div className="metric"><span>Geri ödeme</span><b>{site.payback} yıl</b></div>
