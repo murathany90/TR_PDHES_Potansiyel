@@ -544,7 +544,7 @@ html[data-theme="light"] .kbd { color: #0f1c18; }
     min-width: 0;
   }
   .global-controls > .select,
-  .global-controls > .btn.primary { grid-column: 1 / -1; }
+  .global-controls > .btn.primary { grid-column: 1 / -1; max-width: none; }
   .tabs {
     position: sticky; top: 0; z-index: 20; padding: 8px 12px;
     background: color-mix(in srgb, var(--bg) 94%, transparent);
@@ -583,6 +583,7 @@ html[data-theme="light"] .kbd { color: #0f1c18; }
     padding: 8px 11px; border: 1px solid var(--line); border-radius: 999px;
     background: var(--panel); white-space: nowrap;
   }
+  .section-nav a.sub { padding-left: 11px; font-size: 14px; opacity: 1; }
   .section-nav a.active { border-color: var(--green); background: rgba(var(--focus-rgb),.1); }
   .threed-left { min-height: 380px; border-right: none; border-bottom: 1px solid var(--line); }
 }
