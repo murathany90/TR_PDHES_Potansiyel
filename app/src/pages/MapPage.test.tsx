@@ -8,7 +8,7 @@ import type { Site } from '../types/site';
 import MapPage from './MapPage';
 
 vi.mock('../hooks/useMapLibre', () => ({
-  useMapLibre: vi.fn(),
+  useMapLibre: vi.fn(() => ({ mapRef: { current: null } })),
 }));
 
 const site = {
