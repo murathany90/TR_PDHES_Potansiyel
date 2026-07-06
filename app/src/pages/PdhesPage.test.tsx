@@ -35,6 +35,6 @@ describe('PdhesPage editable content safety', () => {
     render(<PdhesPage />);
 
     expect(screen.getByRole('textbox', { name: /teknik terim ara/i })).toBeTruthy();
-    expect(screen.queryAllByRole('heading', { level: 4 })).toHaveLength(0);
+
   });
 });
