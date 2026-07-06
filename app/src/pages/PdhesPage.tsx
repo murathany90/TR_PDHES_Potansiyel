@@ -74,7 +74,7 @@ export default function PdhesPage({ sectionId }: PdhesPageProps) {
         <div>
           <h2 id="sec-tanim" className="big-title" style={{ marginTop: 0 }}>{content('pdhesWhatIs.title')}</h2>
 
-          <div className="grid" style={{ gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+          <div className="grid content-split">
             <div className="card">
               <h2>{content('pdhesWhatIs.definitionTitle')}</h2>
               <p>{content('pdhesWhatIs.definitionBody')}</p>
@@ -142,7 +142,7 @@ V: aktif hacim
             ))}
           </div>
 
-          <div className="grid" style={{ gridTemplateColumns: '1fr 1fr', gap: 16, marginTop: 32 }}>
+          <div className="grid content-split section-split">
             <div>
               <h2 id="sec-faydalar">{content('pdhesWhatIs.benefitsTitle')}</h2>
               <ul style={{ paddingLeft: 18 }}>

@@ -62,8 +62,16 @@ export default function MapPage() {
   return (
     <section className="panel active no-pad">
       <div className={layoutCls}>
-        <aside className="map-left">
-          <button className="btn ghost panel-toggle" onClick={() => setLeftCollapsed(true)}>‹</button>
+        <aside className="map-left" aria-label="Saha keşfi">
+          <button
+            type="button"
+            className="btn ghost panel-toggle"
+            aria-label="Saha keşfi panelini kapat"
+            title="Saha keşfi panelini kapat"
+            onClick={() => setLeftCollapsed(true)}
+          >
+            ‹
+          </button>
           <h2 style={{ marginTop: 0 }}>Saha keşfi</h2>
           <p className="muted small">Seçili aday için tahmini rezervuar, su yolu, güç evi ve şebeke bağlantısı yerleşimini gösterir.</p>
           <div className="card" style={{ padding: 12, boxShadow: 'none', marginTop: 10 }}>
@@ -78,9 +86,11 @@ export default function MapPage() {
           <h3 style={{ marginTop: 16 }}>Adaylar</h3>
           <div className="site-list">
             {sites.map((candidate) => (
-              <div
+              <button
+                type="button"
                 key={candidate.id}
                 className={`site-item ${candidate.id === selectedId ? 'active' : ''}`}
+                aria-current={candidate.id === selectedId ? 'true' : undefined}
                 onClick={() => selectSite(candidate.id)}
               >
                 <div className="row">
@@ -88,7 +98,7 @@ export default function MapPage() {
                   <span className={`tag ${candidate.concept === 'sea' ? 'sea' : 'classic'}`}>{candidate.score}</span>
                 </div>
                 <span className="muted small">{candidate.region}</span>
-              </div>
+              </button>
             ))}
           </div>
         </aside>
@@ -102,15 +112,19 @@ export default function MapPage() {
             
             <div className="card-row">
               <span className="card-label">Mod</span>
-              <div className="segmented-control">
-                <button 
+              <div className="segmented-control" role="group" aria-label="Harita boyutu">
+                <button
+                  type="button"
                   className={`segment-btn ${!layers.terrain3d ? 'active' : ''}`}
+                  aria-pressed={!layers.terrain3d}
                   onClick={() => setLayers(current => ({ ...current, terrain3d: false }))}
                 >
                   2D Düz
                 </button>
-                <button 
+                <button
+                  type="button"
                   className={`segment-btn ${layers.terrain3d ? 'active' : ''}`}
+                  aria-pressed={layers.terrain3d}
                   onClick={() => setLayers(current => ({ ...current, terrain3d: true }))}
                 >
                   3D Arazi
@@ -121,7 +135,7 @@ export default function MapPage() {
             {layers.terrain3d && (
               <div className="card-row" style={{ marginTop: 4 }}>
                 <span className="card-label">3D Kalitesi (Engebe)</span>
-                <div className="quality-options">
+                <div className="quality-options" role="group" aria-label="3D arazi kalitesi">
                   {[
                     { label: 'Düşük', val: 1.0 },
                     { label: 'Orta', val: 1.3 },
@@ -129,8 +143,10 @@ export default function MapPage() {
                     { label: 'Ekstrem', val: 3.0 }
                   ].map((opt) => (
                     <button
+                      type="button"
                       key={opt.val}
                       className={`quality-btn ${Math.abs(heightScale - opt.val) < 0.1 ? 'active' : ''}`}
+                      aria-pressed={Math.abs(heightScale - opt.val) < 0.1}
                       onClick={() => setHeightScale(opt.val)}
                       title={`${opt.label} (${opt.val}x)`}
                     >
@@ -142,12 +158,40 @@ export default function MapPage() {
             )}
           </div>
 
-          {leftCollapsed && <button className="btn ghost floating-toggle left" onClick={() => setLeftCollapsed(false)}>›</button>}
-          {rightCollapsed && <button className="btn ghost floating-toggle right" onClick={() => setRightCollapsed(false)}>‹</button>}
+          {leftCollapsed && (
+            <button
+              type="button"
+              className="btn ghost floating-toggle left"
+              aria-label="Saha keşfi panelini aç"
+              title="Saha keşfi panelini aç"
+              onClick={() => setLeftCollapsed(false)}
+            >
+              ›
+            </button>
+          )}
+          {rightCollapsed && (
+            <button
+              type="button"
+              className="btn ghost floating-toggle right"
+              aria-label="Kapasite özeti panelini aç"
+              title="Kapasite özeti panelini aç"
+              onClick={() => setRightCollapsed(false)}
+            >
+              ‹
+            </button>
+          )}
         </div>
 
-        <aside className="map-right">
-          <button className="btn ghost panel-toggle" onClick={() => setRightCollapsed(true)}>›</button>
+        <aside className="map-right" aria-label="Kapasite özeti">
+          <button
+            type="button"
+            className="btn ghost panel-toggle"
+            aria-label="Kapasite özeti panelini kapat"
+            title="Kapasite özeti panelini kapat"
+            onClick={() => setRightCollapsed(true)}
+          >
+            ›
+          </button>
           <h2 style={{ marginTop: 0 }}>Kavramsal kapasite özeti</h2>
           <div className="grid" style={{ gap: 10 }}>
             <div className="metric good"><span>Kapasite</span><b>{num(site.powerMW)} MW / {site.energyGWh} GWh</b></div>
@@ -160,6 +204,7 @@ export default function MapPage() {
           <div className="layer-grid">
             {LAYER_LABELS.map(({ key, label, Icon }) => (
               <button
+                type="button"
                 key={key}
                 className={`layer-btn ${layers[key] ? 'active' : ''}`}
                 onClick={() => setLayers((current) => ({ ...current, [key]: !current[key] }))}

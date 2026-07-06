@@ -1,11 +1,14 @@
 import { useState, useEffect, useMemo } from 'react';
+import { Droplets, Mountain, Play, Square, Tag, Zap } from 'lucide-react';
 import { useSiteStore } from '../stores/useSiteStore';
 import { COMPONENTS } from '../utils/constants';
+import type { Site } from '../types/site';
 import LayerToggle from '../components/ui/LayerToggle';
 import ScenarioSlider from '../components/ui/ScenarioSlider';
 import ThreeDModel from '../components/ui/ThreeDModel';
+import WarningBanner from '../components/ui/WarningBanner';
 
-export default function ThreeDPage({ site: propSite }: { site?: any }) {
+export default function ThreeDPage({ site: propSite }: { site?: Site }) {
   const { sites, selectedId } = useSiteStore();
   const site = propSite || sites.find((item) => item.id === selectedId);
 
@@ -39,7 +42,7 @@ export default function ThreeDPage({ site: propSite }: { site?: any }) {
   if (!site) return <section className="panel active"><p className="muted">Veri yükleniyor...</p></section>;
 
   return (
-    <section className="panel active no-pad" style={{ height: '100%', overflow: 'hidden' }}>
+    <section className="panel active no-pad threed-page">
       <div className="threed-layout">
         
         <div className="threed-left" style={{ padding: 0 }}>
@@ -67,28 +70,37 @@ export default function ThreeDPage({ site: propSite }: { site?: any }) {
           {/* Mode Toggle */}
           <div style={{ display: 'flex', gap: 8, marginBottom: 12 }}>
             <button
+              type="button"
               className={`btn ${mode === 'generate' ? 'primary' : 'ghost'}`}
+              aria-pressed={mode === 'generate'}
               style={{ flex: 1, minHeight: 36, fontSize: 13 }}
               onClick={() => setMode('generate')}
             >
-              ⚡ Üretim Modu
+              <Zap size={16} aria-hidden="true" />
+              Üretim modu
             </button>
             <button
+              type="button"
               className={`btn ${mode === 'pump' ? 'primary' : 'ghost'}`}
+              aria-pressed={mode === 'pump'}
               style={{ flex: 1, minHeight: 36, fontSize: 13 }}
               onClick={() => setMode('pump')}
             >
-              💧 Pompalama Modu
+              <Droplets size={16} aria-hidden="true" />
+              Pompalama modu
             </button>
           </div>
           
           <div style={{ display: 'flex', gap: 8, marginBottom: 24 }}>
              <button
-              className={`btn ${isPlaying ? 'primary' : 'ghost'}`}
-              style={{ flex: 1, minHeight: 36, fontSize: 13, background: isPlaying ? '#ef4444' : undefined, borderColor: isPlaying ? '#ef4444' : undefined }}
+              type="button"
+              className={`btn ${isPlaying ? 'danger-solid' : 'ghost'}`}
+              aria-pressed={isPlaying}
+              style={{ flex: 1, minHeight: 36, fontSize: 13 }}
               onClick={() => setIsPlaying(!isPlaying)}
             >
-              {isPlaying ? '⏹ Simülasyonu Durdur' : '▶️ Simülasyonu Başlat'}
+              {isPlaying ? <Square size={16} aria-hidden="true" /> : <Play size={16} aria-hidden="true" />}
+              {isPlaying ? 'Simülasyonu durdur' : 'Simülasyonu başlat'}
             </button>
           </div>
           
@@ -96,8 +108,10 @@ export default function ThreeDPage({ site: propSite }: { site?: any }) {
           <div style={{ display: 'flex', gap: 4, marginBottom: 24, flexWrap: 'wrap' }}>
             {Array.from({ length: maxUnits }).map((_, i) => (
                <button
+                type="button"
                 key={i}
                 className={`btn ${i < activeUnits ? 'primary' : 'ghost'}`}
+                aria-pressed={i < activeUnits}
                 style={{ padding: '4px 12px', minHeight: 32, fontSize: 13, flex: 1 }}
                 onClick={() => setActiveUnits(i + 1)}
               >
@@ -108,22 +122,22 @@ export default function ThreeDPage({ site: propSite }: { site?: any }) {
 
           <h3 style={{ marginBottom: 12 }}>Katman Görünürlüğü</h3>
           <div style={{ display: 'flex', gap: 8, marginBottom: 12 }}>
-            <button className="btn ghost" style={{ flex: 1, padding: '4px', fontSize: 12 }} onClick={() => setLayers(COMPONENTS.reduce((acc, c) => ({ ...acc, [c.key]: true }), {}))}>
+            <button type="button" className="btn ghost" style={{ flex: 1, padding: '4px', fontSize: 12 }} onClick={() => setLayers(COMPONENTS.reduce((acc, c) => ({ ...acc, [c.key]: true }), {}))}>
               Tümünü Aç
             </button>
-            <button className="btn ghost" style={{ flex: 1, padding: '4px', fontSize: 12 }} onClick={() => setLayers(COMPONENTS.reduce((acc, c) => ({ ...acc, [c.key]: false }), {}))}>
+            <button type="button" className="btn ghost" style={{ flex: 1, padding: '4px', fontSize: 12 }} onClick={() => setLayers(COMPONENTS.reduce((acc, c) => ({ ...acc, [c.key]: false }), {}))}>
               Tümünü Kapat
             </button>
           </div>
           <div style={{ marginBottom: 24 }}>
             <LayerToggle 
-              label="⛰️ 3D Arazi (Terrain)" 
+              label={<><Mountain size={16} aria-hidden="true" /> 3D Arazi (Terrain)</>}
               color="#4c6b45"
               active={showTerrain} 
               onChange={setShowTerrain} 
             />
             <LayerToggle 
-              label="🏷️ İsim Etiketleri" 
+              label={<><Tag size={16} aria-hidden="true" /> İsim Etiketleri</>}
               color="#aaaaaa"
               active={showLabels} 
               onChange={setShowLabels} 
@@ -167,13 +181,16 @@ export default function ThreeDPage({ site: propSite }: { site?: any }) {
               </p>
             ))}
             
-            <div style={{ marginTop: 16, padding: '8px 12px', background: 'rgba(239, 68, 68, 0.1)', borderLeft: '3px solid #ef4444', fontSize: 12, color: '#fca5a5' }}>
-              ⚠️ Bu değerler ve 3D konumlar temsilidir.
+            <div style={{ marginTop: 16 }}>
+              <WarningBanner type="danger" message="Bu değerler ve 3D konumlar temsilidir." />
             </div>
           </div>
 
-          <div className="notice" style={{ marginBottom: 24, fontSize: 12 }}>
-            <b>ÖNEMLİ:</b> Bu 3D model kavramsal yerleşim amaçlıdır. Gerçek rezervuar sınırları, kotlar, tünel güzergâhı, cebri boru, şalt sahası ve iletim bağlantısı mühendislik etüdü, jeoteknik çalışma, DSİ/TEİAŞ görüşleri ve arazi ölçümleriyle doğrulanmalıdır.
+          <div style={{ marginBottom: 24 }}>
+            <WarningBanner
+              type="warning"
+              message="Önemli: Bu 3D model kavramsal yerleşim amaçlıdır. Gerçek rezervuar sınırları, kotlar, tünel güzergâhı, cebri boru, şalt sahası ve iletim bağlantısı mühendislik etüdü, jeoteknik çalışma, DSİ/TEİAŞ görüşleri ve arazi ölçümleriyle doğrulanmalıdır."
+            />
           </div>
 
           <h3 style={{ marginTop: 16, marginBottom: 12 }}>Güven Etiketi</h3>

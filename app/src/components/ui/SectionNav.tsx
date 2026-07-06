@@ -35,21 +35,13 @@ export default function SectionNav({ sections }: { sections: Section[] }) {
   }, [sections]);
 
   return (
-    <nav className="section-nav">
-      <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '8px' }}>
+    <nav className="section-nav" aria-label="Bu sayfadaki bölümler">
+      <ul className="section-nav-list">
         {sections.map((sec) => (
           <li key={sec.id}>
-            <a 
+            <a
               href={`#/pdhes/${sec.id}`}
               className={activeId === sec.id ? 'active' : ''}
-              style={{
-                textDecoration: 'none',
-                color: activeId === sec.id ? 'var(--green)' : 'var(--muted)',
-                fontWeight: activeId === sec.id ? 600 : 400,
-                display: 'block',
-                padding: '4px 0',
-                transition: 'color 0.2s',
-              }}
             >
               {sec.title}
             </a>

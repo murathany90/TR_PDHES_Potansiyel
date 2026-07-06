@@ -1,7 +1,8 @@
 import { Check } from 'lucide-react';
+import type { ReactNode } from 'react';
 
 interface Props {
-  label: string;
+  label: ReactNode;
   active: boolean;
   onChange: (active: boolean) => void;
   color?: string;
@@ -30,9 +31,10 @@ export default function LayerToggle({ label, active, onChange, color = 'var(--gr
         type="checkbox" 
         checked={active} 
         onChange={(e) => onChange(e.target.checked)} 
-        style={{ display: 'none' }}
+        className="sr-only"
       />
       <div 
+        aria-hidden="true"
         style={{
           width: 20,
           height: 20,
@@ -45,7 +47,7 @@ export default function LayerToggle({ label, active, onChange, color = 'var(--gr
           transition: 'all 0.2s'
         }}
       >
-        {active && <Check size={14} color="#000" />}
+        {active && <Check size={14} color="#000" aria-hidden="true" />}
       </div>
     </label>
   );
