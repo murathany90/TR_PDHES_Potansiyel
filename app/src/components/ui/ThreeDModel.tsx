@@ -193,13 +193,13 @@ function RealisticUpperReservoir({ position, active, onClick, detail, waterLevel
           <>
             {/* Thick sloped embankment body */}
             <mesh castShadow receiveShadow>
-              <cylinderGeometry args={[damRadius - 1.5, damRadius + 3.0, damH, 48, 1, false, Math.PI * 0.8, Math.PI * 0.5]} />
+              <cylinderGeometry args={[damRadius - 1.5, damRadius + 3.0, damH, 48, 1, false, Math.PI * 0.85, Math.PI * 0.35]} />
               <meshStandardMaterial color="#424549" roughness={0.9} side={THREE.DoubleSide} metalness={0.05} />
             </mesh>
             
             {/* Crest Road (flat roadway top) */}
             <mesh position={[0, damH/2 + 0.05, 0]} castShadow>
-              <cylinderGeometry args={[damRadius - 1.3, damRadius - 1.3, 0.1, 48, 1, false, Math.PI * 0.8, Math.PI * 0.5]} />
+              <cylinderGeometry args={[damRadius - 1.3, damRadius - 1.3, 0.1, 48, 1, false, Math.PI * 0.85, Math.PI * 0.35]} />
               <meshStandardMaterial color="#5a5d61" roughness={0.8} side={THREE.DoubleSide} />
             </mesh>
 
@@ -215,7 +215,7 @@ function RealisticUpperReservoir({ position, active, onClick, detail, waterLevel
 
             {/* Asphalt concrete sealing face overlay on the upstream side */}
             <mesh position={[0, 0, -0.05]} castShadow>
-              <cylinderGeometry args={[damRadius - 1.6, damRadius + 2.8, damH - 0.2, 48, 1, true, Math.PI * 0.8, Math.PI * 0.5]} />
+              <cylinderGeometry args={[damRadius - 1.6, damRadius + 2.8, damH - 0.2, 48, 1, true, Math.PI * 0.85, Math.PI * 0.35]} />
               <meshStandardMaterial color="#222426" roughness={0.9} side={THREE.DoubleSide} />
             </mesh>
           </>
@@ -223,12 +223,12 @@ function RealisticUpperReservoir({ position, active, onClick, detail, waterLevel
           /* Concrete Arch Dam for Generic sites */
           <>
             <mesh castShadow receiveShadow>
-              <cylinderGeometry args={[damRadius, damRadius + 1.2, damH, 48, 1, false, Math.PI * 0.8, Math.PI * 0.5]} />
+              <cylinderGeometry args={[damRadius, damRadius + 1.2, damH, 48, 1, false, Math.PI * 0.85, Math.PI * 0.35]} />
               <meshStandardMaterial color="#888e95" roughness={0.85} side={THREE.DoubleSide} metalness={0.1} />
             </mesh>
             
             <mesh position={[0, damH/2 + 0.1, 0]} castShadow>
-              <cylinderGeometry args={[damRadius + 0.2, damRadius + 0.2, 0.2, 48, 1, false, Math.PI * 0.8, Math.PI * 0.5]} />
+              <cylinderGeometry args={[damRadius + 0.2, damRadius + 0.2, 0.2, 48, 1, false, Math.PI * 0.85, Math.PI * 0.35]} />
               <meshStandardMaterial color="#6a6f75" roughness={0.75} side={THREE.DoubleSide} />
             </mesh>
 
@@ -555,7 +555,7 @@ function RealisticPowerhouse({ active, onClick, detail, activeUnits, isPlaying, 
    ───────────────────────────────────────────── */
 function RealisticSwitchyard({ active, onClick, detail, showLabels, isPresenzano, isPlaying, mode, activeUnits, maxUnits, powerhouseDetail }: any) {
   const currentMW = powerhouseDetail?.total_capacity_mw ? (powerhouseDetail.total_capacity_mw / maxUnits) * activeUnits : 0;
-  const pos: [number, number, number] = [60, getTerrainHeight(60, 5, isPresenzano) - 1, 5];
+  const pos: [number, number, number] = [75, getTerrainHeight(75, -25, isPresenzano) - 1, -25];
   const transformerCount = isPresenzano ? 4 : 3;
   
   return (
@@ -639,24 +639,23 @@ function RealisticSwitchyard({ active, onClick, detail, showLabels, isPresenzano
       </Html>
 
       {isPlaying && activeUnits > 0 && (
-        <Html position={[0, 22, 0]} center>
+        <Html position={[0, 12, 0]} center>
           <div style={{
-            background: 'rgba(14,17,23,0.92)',
-            border: mode === 'generate' ? '3px solid #10b981' : '3px solid #ef4444',
-            padding: '16px 32px',
-            borderRadius: '14px',
+            background: 'rgba(14,17,23,0.88)',
+            border: mode === 'generate' ? '2px solid #10b981' : '2px solid #ef4444',
+            padding: '6px 14px',
+            borderRadius: '8px',
             color: '#fff',
-            fontSize: '18px',
+            fontSize: '11px',
             fontWeight: 'bold',
             whiteSpace: 'nowrap',
-            boxShadow: mode === 'generate' ? '0 0 30px rgba(16,185,129,0.5)' : '0 0 30px rgba(239,68,68,0.5)',
-            textAlign: 'center',
-            minWidth: '180px'
+            boxShadow: mode === 'generate' ? '0 0 12px rgba(16,185,129,0.4)' : '0 0 12px rgba(239,68,68,0.4)',
+            textAlign: 'center'
           }}>
-            <div style={{ color: mode === 'generate' ? '#10b981' : '#ef4444', marginBottom: 6, fontSize: '13px', letterSpacing: '1px' }}>
-              {mode === 'generate' ? '⚡ ÜRETİM (ŞEBEKEYE)' : '🔋 POMPA (ŞEBEKEDEN)'}
+            <div style={{ color: mode === 'generate' ? '#10b981' : '#ef4444', marginBottom: 2, fontSize: '9px', letterSpacing: '0.5px' }}>
+              {mode === 'generate' ? '⚡ ÜRETİM' : '🔋 POMPA'}
             </div>
-            <div style={{ fontSize: '28px' }}>{currentMW.toFixed(1)} MW</div>
+            <div style={{ fontSize: '14px' }}>{currentMW.toFixed(0)} MW</div>
           </div>
         </Html>
       )}
@@ -725,9 +724,9 @@ function LatticeTower({ position, scale = 1 }: { position: [number, number, numb
 
 function TransmissionLine({ isPresenzano, isPlaying, mode, activeUnits }: any) {
   const poles = useMemo<[number, number, number][]>(() => [
-    [80, getTerrainHeight(80, -15, isPresenzano), -15],
-    [110, getTerrainHeight(110, -35, isPresenzano), -35],
-    [140, getTerrainHeight(140, -55, isPresenzano), -55]
+    [90, getTerrainHeight(90, -35, isPresenzano), -35],
+    [115, getTerrainHeight(115, -50, isPresenzano), -50],
+    [140, getTerrainHeight(140, -65, isPresenzano), -65]
   ], [isPresenzano]);
 
   const wires = useMemo(() => {
@@ -1078,8 +1077,8 @@ function Scene({ siteId, activeComponent, onSelectComponent, layers, mode, compo
   });
 
   // Calculate dynamic heights/positions aligned to terrain height field
-  const upperTerrainY = getTerrainHeight(-90, 15, isPresenzano);
-  const upperPos = useMemo(() => new THREE.Vector3(-90, upperTerrainY, -15), [upperTerrainY]);
+  const upperTerrainY = getTerrainHeight(-120, 15, isPresenzano);
+  const upperPos = useMemo(() => new THREE.Vector3(-120, upperTerrainY, -15), [upperTerrainY]);
   
   const surgeTankPos = useMemo(() => new THREE.Vector3(-30, getTerrainHeight(-30, 0, isPresenzano), 0), [isPresenzano]);
   
@@ -1107,7 +1106,7 @@ function Scene({ siteId, activeComponent, onSelectComponent, layers, mode, compo
       const distToUpper = Math.hypot(rx - (-90), rz - (-15));
       const distToLower = Math.hypot(rx - 80, rz - 30);
       const distToPH = Math.hypot(rx - 45, rz - 15);
-      const distToSY = Math.hypot(rx - 60, rz - 5);
+      const distToSY = Math.hypot(rx - 75, rz - (-25));
       const distToST = Math.hypot(rx - (-30), rz - 0);
 
       if (distToUpper < 45 || distToLower < 35 || distToPH < 25 || distToSY < 25 || distToST < 20) {
@@ -1250,6 +1249,51 @@ function Scene({ siteId, activeComponent, onSelectComponent, layers, mode, compo
           onClick={() => onSelectComponent('tailrace')} 
           showLabels={showLabels} 
         />
+      )}
+
+      {/* Powerhouse to Switchyard underground cable */}
+      {layers.switchyard && layers.powerhouse && (
+        <group>
+          {(() => {
+            const syPos = new THREE.Vector3(75, getTerrainHeight(75, -25, isPresenzano) - 1, -25);
+            const cableFrom = new THREE.Vector3(powerhousePos.x + 3, powerhousePos.y, powerhousePos.z - 2);
+            const cableTo = new THREE.Vector3(syPos.x - 6, syPos.y, syPos.z + 4);
+            const mid = new THREE.Vector3().lerpVectors(cableFrom, cableTo, 0.5);
+            mid.y -= 2;
+            const curve = new THREE.QuadraticBezierCurve3(cableFrom, mid, cableTo);
+            const pts = curve.getPoints(20);
+            return (
+              <>
+                <Line points={pts.map(v => [v.x, v.y, v.z]) as any} color="#333" lineWidth={2} />
+                <Line points={pts.map(v => [v.x, v.y + 0.3, v.z]) as any} color="#333" lineWidth={2} />
+                <Line points={pts.map(v => [v.x, v.y - 0.3, v.z]) as any} color="#333" lineWidth={2} />
+              </>
+            );
+          })()}
+        </group>
+      )}
+
+      {/* Switchyard to first transmission tower cable */}
+      {layers.switchyard && (
+        <group>
+          {(() => {
+            const syPos = new THREE.Vector3(75, getTerrainHeight(75, -25, isPresenzano) - 1, -25);
+            const firstPole = new THREE.Vector3(90, getTerrainHeight(90, -35, isPresenzano), -35);
+            const cableFrom = new THREE.Vector3(syPos.x + 5, syPos.y + 4, syPos.z - 4);
+            const cableTo = new THREE.Vector3(firstPole.x, firstPole.y + 5.8*0.75, firstPole.z);
+            const mid = new THREE.Vector3().lerpVectors(cableFrom, cableTo, 0.5);
+            mid.y -= 1.5;
+            const curve = new THREE.QuadraticBezierCurve3(cableFrom, mid, cableTo);
+            const pts = curve.getPoints(20);
+            return (
+              <>
+                <Line points={pts.map(v => [v.x - 1, v.y, v.z]) as any} color="#111" lineWidth={1} />
+                <Line points={pts.map(v => [v.x + 1, v.y, v.z]) as any} color="#111" lineWidth={1} />
+                <Line points={pts.map(v => [v.x, v.y + 0.6, v.z]) as any} color="#111" lineWidth={1} />
+              </>
+            );
+          })()}
+        </group>
       )}
 
       {/* Transmission pylons and lines */}
