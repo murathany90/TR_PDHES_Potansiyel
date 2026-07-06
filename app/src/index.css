@@ -831,3 +831,5 @@ html[data-theme="light"] .pdhes-rich-shell .source-footer { background: var(--pa
 
 @media (max-width: 1050px) { .pdhes-rich-shell .hero, .pdhes-rich-shell .layout { grid-template-columns: 1fr; } .pdhes-rich-shell .toc { position:relative; top:auto; max-height:none; } .pdhes-rich-shell .hero-stats, .pdhes-rich-shell .note-grid.four, .pdhes-rich-shell .check-flow { grid-template-columns: repeat(2,1fr); } .pdhes-rich-shell .rich-list.compact, .pdhes-rich-shell .type-grid { grid-template-columns:1fr; } }
 @media (max-width: 680px) { .pdhes-rich-shell { padding: 14px; } .pdhes-rich-shell .hero-card, .pdhes-rich-shell .info-card { padding:18px; border-radius:22px; } .pdhes-rich-shell .hero-stats, .pdhes-rich-shell .note-grid, .pdhes-rich-shell .note-grid.four, .pdhes-rich-shell .split-box, .pdhes-rich-shell .comparison-mini, .pdhes-rich-shell .check-flow { grid-template-columns:1fr; } .pdhes-rich-shell .fullscreen-btn { position:static; display:block; width:calc(100% - 24px); margin:12px; } }
+
+.section-nav-list a.sub { padding-left: 1.5rem; font-size: 0.85rem; opacity: 0.85; font-weight: 400; }

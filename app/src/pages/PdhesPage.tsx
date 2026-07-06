@@ -81,6 +81,16 @@ export default function PdhesPage({ sectionId }: PdhesPageProps) {
             { id: 'sec-maliyet', title: 'Maliyet ve Gelir' },
             { id: 'sec-sozluk', title: 'Teknik Sözlük' },
             { id: 'sec-sss', title: 'Sık Sorulan Sorular' },
+            { id: 'su-bataryasi', title: '1. PDHES nedir ve temel çalışma mantığı nasıldır?', sub: true },
+            { id: 'sarj-desarj', title: '2. PDHES hangi saatlerde su pompalar, hangi saatlerde elektrik üretir?', sub: true },
+            { id: 'anatomi', title: '3. Bir PDHES tesisinde hangi ana yapılar bulunur?', sub: true },
+            { id: 'enerji-formulu', title: '4. Bir PDHES’in depolayabileceği enerji miktarı nasıl belirlenir?', sub: true },
+            { id: 'sebeke-degeri', title: '5. PDHES elektrik şebekesine hangi katkıları sağlayabilir?', sub: true },
+            { id: 'teknoloji-olgunluk', title: '6. PDHES neden olgun ve uzun ömürlü bir depolama teknolojisi olarak görülür?', sub: true },
+            { id: 'topolojiler', title: '7. PDHES tesis tipleri nelerdir ve aralarındaki farklar nelerdir?', sub: true },
+            { id: 'turkiye-potansiyeli', title: '8. Türkiye’de PDHES neden değerlendirilmelidir?', sub: true },
+            { id: 'piyasa-gelir', title: '9. PDHES yatırımlarında gelir modeli nasıl oluşur?', sub: true },
+            { id: 'riskler-yol-haritasi', title: '10. Bir PDHES sahası değerlendirilirken hangi riskler incelenmelidir?', sub: true },
           ]} />
         </div>
         
@@ -218,23 +228,23 @@ V: aktif hacim
               <div className="number-pill">01</div>
               <div>
                 <span className="eyebrow">Tanım ve temel fikir</span>
-                <h2>PDHES nedir? Şebeke ölçeğinde “su bataryası” mantığı</h2>
+                <h2>PDHES nedir ve temel çalışma mantığı nasıldır?</h2>
               </div>
             </header>
             <figure className="figure-frame">
               <img src="pdhes-nedir/img-1.webp" alt="PDHES nedir? Şebeke ölçeğinde “su bataryası” mantığı görseli" loading="lazy" />
-              <button className="fullscreen-btn" type="button" onClick={() => openModal('pdhes-nedir/img-2.webp', 'PDHES nedir? Şebeke ölçeğinde “su bataryası” mantığı')}>⛶ Tam ekran oku</button>
+              <button className="fullscreen-btn" type="button" onClick={() => openModal('pdhes-nedir/img-2.webp', 'PDHES nedir ve temel çalışma mantığı nasıldır?')}>⛶ Tam ekran oku</button>
               <figcaption><b>Görsel:</b> PDHES’in gece/gündüz, pompalama/üretim ve üst-alt rezervuar ilişkisini özetleyen kavramsal kesit. <span>The Water Battery, s.1</span></figcaption>
             </figure>
             <div className="card-body">
-              <p><strong>Pompaj Depolamalı Hidroelektrik Sistemler (PDHES)</strong>, farklı kotlarda bulunan iki su haznesi arasında enerji depolayan büyük ölçekli bir elektrik sistemi teknolojisidir. Sistem, elektriğin bol ve görece ucuz olduğu saatlerde alt rezervuardaki suyu pompalarla üst rezervuara taşır; talebin arttığı veya sistemin hızlı güce ihtiyaç duyduğu saatlerde ise aynı suyu aşağı bırakarak türbinler üzerinden elektrik üretir.</p>
-              <p>Bu nedenle PDHES, kimyasal bir batarya değil; <strong>yerçekimi + su + elektromekanik makine</strong> birleşimiyle çalışan, şebeke ölçeğinde bir “su bataryasıdır”. Depolanan şey doğrudan elektrik değil, yüksek kotta bekletilen suyun <strong>potansiyel enerjisidir</strong>. Enerji gerektiğinde bu potansiyel enerji kinetik enerjiye, sonra mekanik enerjiye ve en sonunda elektrik enerjisine dönüşür.</p>
+              <p>Pompa depolamalı hidroelektrik santral, farklı kotlarda bulunan iki su rezervuarı arasında çalışan büyük ölçekli bir enerji depolama sistemidir. Elektrik talebinin düşük, üretim fazlasının veya elektrik fiyatının düşük olduğu saatlerde alt rezervuardaki su pompalarla üst rezervuara basılır. Böylece elektrik enerjisi, suyun yüksek kotta sahip olduğu potansiyel enerji olarak depolanır.</p>
+              <p>Elektrik talebinin arttığı saatlerde ise üst rezervuardaki su kontrollü şekilde alt rezervuara bırakılır. Su, cebri boru veya tünel sistemi üzerinden türbinlerden geçerken elektrik üretir. Bu nedenle PDHES, kimyasal batarya gibi elektrik depolamaz; enerjiyi suyun yüksekliğinden kaynaklanan yerçekimi potansiyeli olarak depolar.</p>
+              <p>Bu sistemler özellikle uzun süreli depolama, yüksek güç kapasitesi, şebeke esnekliği ve yenilenebilir enerji üretiminin dengelenmesi açısından önemlidir. Ancak her aday saha için kot farkı, su hacmi, çevresel etkiler, bağlantı imkânı ve maliyet ayrı ayrı incelenmelidir.</p>
               <div className="note-grid">
                 <div><b>Depolama biçimi</b><span>Yüksek kotta su hacmi</span></div>
                 <div><b>Güç üretimi</b><span>Pompa-türbin + motor-jeneratör</span></div>
                 <div><b>Temel değer</b><span>Uzun süreli depolama ve hızlı şebeke tepkisi</span></div>
               </div>
-              <p>PDHES’in ayırt edici yönü, çok büyük enerji miktarlarını saatler hatta bazı tasarımlarda daha uzun süreler için depolayabilmesi; aynı zamanda senkron makinelerle şebekeye atalet, frekans desteği, gerilim desteği ve hızlı devreye girme kabiliyeti sağlayabilmesidir.</p>
             </div>
           </article>
 
@@ -243,22 +253,23 @@ V: aktif hacim
               <div className="number-pill">02</div>
               <div>
                 <span className="eyebrow">Çalışma prensibi</span>
-                <h2>İki yönlü çevrim: Pompalama modu ve üretim modu</h2>
+                <h2>PDHES hangi saatlerde su pompalar, hangi saatlerde elektrik üretir?</h2>
               </div>
             </header>
             <figure className="figure-frame">
               <img src="pdhes-nedir/img-3.webp" alt="İki yönlü çevrim: Pompalama modu ve üretim modu görseli" loading="lazy" />
-              <button className="fullscreen-btn" type="button" onClick={() => openModal('pdhes-nedir/img-4.webp', 'İki yönlü çevrim: Pompalama modu ve üretim modu')}>⛶ Tam ekran oku</button>
+              <button className="fullscreen-btn" type="button" onClick={() => openModal('pdhes-nedir/img-4.webp', 'PDHES hangi saatlerde su pompalar, hangi saatlerde elektrik üretir?')}>⛶ Tam ekran oku</button>
               <figcaption><b>Görsel:</b> Şarj/pompalama ve deşarj/üretim yönlerinin aynı hidrolik makine üzerinden tersinir çalışması. <span>Turkey Water Battery Blueprint, s.3</span></figcaption>
             </figure>
             <div className="card-body">
-              <p>PDHES iki ana işletme moduyla çalışır. <strong>Pompalama modunda</strong> sistem elektrik tüketir; alt rezervuardaki suyu üst rezervuara taşır. Bu mod genellikle gece düşük talep saatlerinde, güneş ve rüzgâr üretim fazlası oluştuğunda veya sistemin fazla baz yük üretimini değerlendirmesi gerektiğinde kullanılır.</p>
-              <p><strong>Üretim modunda</strong> ise üst rezervuardaki su cebri boru veya tünel üzerinden aşağı bırakılır. Su, türbin çarkını döndürür; motor-jeneratör bu kez jeneratör gibi çalışarak şebekeye elektrik verir. Bu mod puant saatlerinde, ani talep artışlarında, frekans düşüşlerinde veya yenilenebilir üretimin azaldığı zamanlarda değerlidir.</p>
+              <p>PDHES iki ana işletme moduyla çalışır: pompalama modu ve üretim modu.</p>
+              <p>Pompalama modunda sistem elektrik tüketir. Bu işlem genellikle elektrik talebinin düşük olduğu gece saatlerinde, yenilenebilir üretimin fazla olduğu dönemlerde veya sistemde enerji fazlası oluştuğunda yapılır. Alt rezervuardaki su pompalarla üst rezervuara basılır. Bu sırada elektrik enerjisi, suyun yüksek kotta depolanan potansiyel enerjisine dönüştürülür.</p>
+              <p>Üretim modunda ise sistem elektrik üretir. Elektrik talebinin arttığı, puant yükün oluştuğu veya şebekenin hızlı desteğe ihtiyaç duyduğu saatlerde üst rezervuardaki su türbinlerden geçirilir. Türbin-jeneratör grubu bu akıştan elektrik üretir ve şebekeye güç verir.</p>
+              <p>Bu çevrimde enerji kayıpları vardır. Sisteme verilen enerjinin tamamı geri alınamaz. Bu nedenle PDHES’in ekonomik çalışması için pompalama yapılan saatler ile üretim yapılan saatler arasındaki fiyat farkı, şebeke ihtiyacı ve yan hizmet gelirleri birlikte değerlendirilmelidir.</p>
               <div className="split-box">
                 <div className="mode charge"><h4>Şarj / Pompalama</h4><ul><li>Elektrik tüketir.</li><li>Su alt rezervuardan üst rezervuara çıkar.</li><li>Fazla yenilenebilir üretimi değerlendirir.</li><li>Enerji potansiyel enerji olarak saklanır.</li></ul></div>
                 <div className="mode discharge"><h4>Deşarj / Üretim</h4><ul><li>Elektrik üretir.</li><li>Su üst rezervuardan alt rezervuara iner.</li><li>Puant talebi ve sistem açığını karşılar.</li><li>Frekans ve gerilim desteğine katkı verir.</li></ul></div>
               </div>
-              <p>Bu döngüde kayıplar vardır; pompalama, hidrolik sürtünme, türbin, jeneratör, trafo ve yardımcı sistem kayıpları nedeniyle sisteme verilen elektriğin tamamı geri alınamaz. Modern PDHES tasarımlarında <strong>çevrim verimi genellikle yaklaşık %70-85</strong> aralığında ele alınır. Bu kayıp, elektrik fiyat farkı, yan hizmet geliri ve sistem güvenilirliği değeriyle telafi edilir.</p>
             </div>
           </article>
 
@@ -267,16 +278,19 @@ V: aktif hacim
               <div className="number-pill">03</div>
               <div>
                 <span className="eyebrow">Mühendislik bileşenleri</span>
-                <h2>Sistem anatomisi: rezervuar, cebri boru, güç evi ve şalt sahası</h2>
+                <h2>Bir PDHES tesisinde hangi ana yapılar bulunur?</h2>
               </div>
             </header>
             <figure className="figure-frame">
               <img src="pdhes-nedir/img-5.webp" alt="Sistem anatomisi: rezervuar, cebri boru, güç evi ve şalt sahası görseli" loading="lazy" />
-              <button className="fullscreen-btn" type="button" onClick={() => openModal('pdhes-nedir/img-6.webp', 'Sistem anatomisi: rezervuar, cebri boru, güç evi ve şalt sahası')}>⛶ Tam ekran oku</button>
+              <button className="fullscreen-btn" type="button" onClick={() => openModal('pdhes-nedir/img-6.webp', 'Bir PDHES tesisinde hangi ana yapılar bulunur?')}>⛶ Tam ekran oku</button>
               <figcaption><b>Görsel:</b> Üst rezervuar, cebri boru, motor-jeneratör ve tersinir Francis pompa-türbin yapısının kesit anlatımı. <span>The Water Battery, s.2</span></figcaption>
             </figure>
             <div className="card-body">
-              <p>Bir PDHES projesi yalnızca iki göletten ibaret değildir. Gerçekte tesis; hidrolik, elektromekanik, jeoteknik, inşaat, şalt ve şebeke bağlantı sistemlerinden oluşan karmaşık bir altyapıdır. Ön inceleme aşamasında en önemli soru, bu bileşenlerin araziye ve şebekeye birlikte uyup uymadığıdır.</p>
+              <p>Bir PDHES tesisinin temel bileşenleri üst rezervuar, alt rezervuar, su iletim sistemi, pompa-türbin grubu, motor-jeneratör, santral binası, şalt sahası ve iletim bağlantısından oluşur.</p>
+              <p>Üst rezervuar, enerjinin depolandığı ana haznedir. Su yüksek kotta tutulduğu için potansiyel enerji taşır. Alt rezervuar ise üretim sonunda suyun ulaştığı veya pompalama sırasında suyun alındığı haznedir. Bu iki rezervuar arasındaki kot farkı, sistemin enerji üretme kapasitesini doğrudan etkiler.</p>
+              <p>Su iletim sistemi; tünel, cebri boru, vana odası, denge bacası ve kuyruksuyu yapılarından oluşabilir. Bu sistem suyun kontrollü ve güvenli şekilde hareket etmesini sağlar. Santral binasında pompa-türbin ve motor-jeneratör grupları yer alır. Şalt sahası ve iletim bağlantısı ise üretilen elektriğin şebekeye aktarılmasını sağlar.</p>
+              <p>Gerçek bir projede bu bileşenlerin yerleşimi yalnızca harita üzerinde seçilerek belirlenemez. Jeoloji, topoğrafya, kamulaştırma, çevresel etkiler, hidrolik tasarım, kısa devre gücü, bağlantı kapasitesi ve işletme güvenliği birlikte incelenmelidir.</p>
               <ul className="rich-list">
                 <li><strong>Üst rezervuar:</strong> Suyun potansiyel enerji olarak depolandığı yüksek kotlu haznedir. Aktif hacim, su seviyesi aralığı, sızdırmazlık, heyelan riski ve çevresel etkiler kritik parametrelerdir.</li>
                 <li><strong>Alt rezervuar:</strong> Üretim sonrası suyun toplandığı ve pompalama sırasında su kaynağı olan haznedir. Mevcut baraj, göl, deniz veya yapay havuz olabilir.</li>
@@ -293,25 +307,27 @@ V: aktif hacim
               <div className="number-pill">04</div>
               <div>
                 <span className="eyebrow">Temel mühendislik bağıntısı</span>
-                <h2>Enerji hesabının özü: düşü, hacim ve çevrim verimi</h2>
+                <h2>Bir PDHES’in depolayabileceği enerji miktarı nasıl belirlenir?</h2>
               </div>
             </header>
             <figure className="figure-frame">
               <img src="pdhes-nedir/img-7.webp" alt="Enerji hesabının özü: düşü, hacim ve çevrim verimi görseli" loading="lazy" />
-              <button className="fullscreen-btn" type="button" onClick={() => openModal('pdhes-nedir/img-8.webp', 'Enerji hesabının özü: düşü, hacim ve çevrim verimi')}>⛶ Tam ekran oku</button>
+              <button className="fullscreen-btn" type="button" onClick={() => openModal('pdhes-nedir/img-8.webp', 'Bir PDHES’in depolayabileceği enerji miktarı nasıl belirlenir?')}>⛶ Tam ekran oku</button>
               <figcaption><b>Görsel:</b> PDHES’in hızlı rezerv yükleme ve frekans kontrolü sağlayan esnek şebeke kaynağı olarak konumlandırılması. <span>Turkey Strategic Hydro Battery, s.3</span></figcaption>
             </figure>
             <div className="card-body">
-              <p>PDHES potansiyelini anlamak için en temel bağıntı, suyun yükseklik farkından doğan potansiyel enerji hesabıdır. Ön değerlendirme düzeyinde enerji şu mantıkla okunur:</p>
+              <p>PDHES’te depolanabilecek enerji miktarı temel olarak üç ana değişkene bağlıdır: kullanılabilir su hacmi, üst ve alt rezervuar arasındaki net düşü, sistem verimi.</p>
+              <p>Kullanılabilir su hacmi arttıkça depolanabilecek enerji artar. Net düşü, suyun türbinlere ulaşırken sahip olduğu etkili yükseklik farkıdır. Düşü ne kadar yüksekse aynı su hacminden elde edilebilecek enerji de o kadar artar. Sistem verimi ise pompalama, türbinleme, jeneratör, hidrolik kayıplar ve elektriksel kayıpların toplam etkisini gösterir.</p>
+              <p>Basitleştirilmiş enerji hesabı şu mantığa dayanır: suyun kütlesi, yerçekimi ivmesi, düşü ve verim birlikte dikkate alınır. Ancak bu hesap yalnızca ön değerlendirme için kullanılabilir. Gerçek fizibilitede net düşü, sürtünme kayıpları, su seviyesi değişimi, türbin verim eğrileri, işletme aralığı, rezervuar ölü hacmi ve çevresel kısıtlar ayrıca modellenmelidir.</p>
+              <p>Bu nedenle bir sahada yüksek kot farkı bulunması tek başına yeterli değildir. Uygun rezervuar alanı, yeterli hacim, bağlantı imkânı ve kabul edilebilir çevresel etki birlikte sağlanmalıdır.</p>
               <div className="formula-card"><span>E = ρ × g × H × V × η</span><small>ρ: su yoğunluğu · g: yerçekimi · H: net düşü · V: aktif hacim · η: verim</small></div>
-              <p>Bu formül, aday sahanın neden yalnızca haritada “iki yakın su kütlesi” aramakla değerlendirilemeyeceğini gösterir. Aynı hacimde su, daha yüksek düşüde çok daha fazla enerji saklar. Ancak düşü arttıkça basınç tüneli, cebri boru, vana, denge bacası ve kaya mekaniği gereksinimleri de ağırlaşır.</p>
+              
               <div className="note-grid four">
                 <div><b>Net düşü</b><span>Brüt kot farkından hidrolik kayıplar düşülür.</span></div>
                 <div><b>Aktif hacim</b><span>Kullanılabilir su hacmidir; toplam göl hacmiyle aynı değildir.</span></div>
                 <div><b>Güç</b><span>Debi ve düşüyle ilişkilidir; MW kapasiteyi belirler.</span></div>
                 <div><b>Enerji</b><span>Hacim ve düşüyle ilişkilidir; MWh/GWh depolamayı belirler.</span></div>
               </div>
-              <p>Dolayısıyla bir adayın iyi olması için yüksek düşü tek başına yeterli değildir. Üst rezervuar inşası, alt rezervuar uygunluğu, hidrolik yol uzunluğu, şebeke bağlantısı, çevresel kısıtlar ve ekonomik gelir modeli birlikte elenmelidir.</p>
             </div>
           </article>
 
@@ -320,17 +336,19 @@ V: aktif hacim
               <div className="number-pill">05</div>
               <div>
                 <span className="eyebrow">Sistem işletmesi ve esneklik</span>
-                <h2>Şebeke kararlılığı: yenilenebilir üretim artarken neden kritik?</h2>
+                <h2>PDHES elektrik şebekesine hangi katkıları sağlayabilir?</h2>
               </div>
             </header>
             <figure className="figure-frame">
               <img src="pdhes-nedir/img-9.webp" alt="Şebeke kararlılığı: yenilenebilir üretim artarken neden kritik? görseli" loading="lazy" />
-              <button className="fullscreen-btn" type="button" onClick={() => openModal('pdhes-nedir/img-10.webp', 'Şebeke kararlılığı: yenilenebilir üretim artarken neden kritik?')}>⛶ Tam ekran oku</button>
+              <button className="fullscreen-btn" type="button" onClick={() => openModal('pdhes-nedir/img-10.webp', 'PDHES elektrik şebekesine hangi katkıları sağlayabilir?')}>⛶ Tam ekran oku</button>
               <figcaption><b>Görsel:</b> Yenilenebilir üretim ile tüketim eğrileri arasındaki saatlik uyumsuzluk ve “şebeke kararlılık boşluğu”. <span>Turkey Energy Balance Blueprint, s.2</span></figcaption>
             </figure>
             <div className="card-body">
-              <p>Güneş ve rüzgâr üretimi arttıkça elektrik sisteminde yeni bir sorun büyür: üretimin olduğu saat ile tüketimin en yüksek olduğu saat her zaman aynı değildir. Gündüz güneş üretimi fazlayken akşam puantında üretim düşebilir; rüzgâr ise saatlik ve günlük dalgalanma gösterebilir. Bu durum sistemde <strong>esneklik ihtiyacı</strong> yaratır.</p>
-              <p>PDHES bu boşluğu iki yönden kapatır: Fazla üretim olduğunda suyu yukarı basarak enerjiyi depolar; talep yükseldiğinde veya yenilenebilir üretim düştüğünde suyu aşağı bırakarak hızlı üretim yapar. Böylece yalnızca enerji arbitrajı değil, <strong>sistem güvenliği</strong> de sağlar.</p>
+              <p>PDHES yalnızca enerji depolama amacıyla değil, şebeke işletme güvenliğini desteklemek amacıyla da kullanılabilir. Büyük güçlü ve hızlı tepki verebilen bir santral olduğu için arz-talep dengesinin korunmasına katkı sağlar.</p>
+              <p>Üretim modunda sisteme hızlı aktif güç desteği verebilir. Talebin aniden arttığı veya üretimin düştüğü durumlarda devreye girerek frekansın korunmasına yardımcı olabilir. Pompalama modunda ise fazla üretimi tüketerek sistemdeki dengesizliği azaltabilir. Bu özellik özellikle rüzgâr ve güneş üretiminin yüksek olduğu saatlerde önemlidir.</p>
+              <p>PDHES tesisleri uygun teknik tasarımla frekans kontrolü, rezerv kapasite, gerilim desteği, reaktif güç desteği, siyah başlatma imkânı ve sistem toparlanmasına katkı gibi hizmetler sunabilir. Ancak bu hizmetlerin sağlanabilmesi için türbin-jeneratör teknolojisi, kontrol sistemi, bağlantı noktası, TEİAŞ işletme kriterleri ve piyasa kuralları ayrıca değerlendirilmelidir.</p>
+              <p>Şebeke açısından PDHES’in değeri yalnızca ürettiği elektrik miktarıyla ölçülmemelidir. Esneklik, hızlı devreye girme, uzun süreli destek ve sistem güvenilirliğine katkı da ayrı bir değer oluşturur.</p>
               <ul className="rich-list compact">
                 <li><strong>Frekans kontrolü:</strong> Ani üretim/tüketim dengesizliklerinde hızlı aktif güç tepkisi verebilir.</li>
                 <li><strong>Senkron atalet:</strong> Büyük dönen makineler frekans değişimini doğal olarak yavaşlatabilir.</li>
@@ -338,7 +356,6 @@ V: aktif hacim
                 <li><strong>Kara başlatma:</strong> Uygun tasarımlarda sistem toparlama senaryolarında değerli olabilir.</li>
                 <li><strong>Kısıntı azaltımı:</strong> RES/GES üretim fazlasının boşa gitmesini azaltabilir.</li>
               </ul>
-              <p>Bu nedenle PDHES, yalnızca fiyat farkından para kazanan bir yatırım değil; yenilenebilir ağırlıklı elektrik sisteminde güvenilirliği, rezerv kapasitesini ve operasyonel esnekliği artıran bir altyapı unsuru olarak değerlendirilmelidir.</p>
             </div>
           </article>
 
@@ -347,22 +364,22 @@ V: aktif hacim
               <div className="number-pill">06</div>
               <div>
                 <span className="eyebrow">Teknolojik değer önerisi</span>
-                <h2>Neden stratejik? Olgun teknoloji, uzun ömür ve düşük kapasite kaybı</h2>
+                <h2>PDHES neden olgun ve uzun ömürlü bir depolama teknolojisi olarak görülür?</h2>
               </div>
             </header>
             <figure className="figure-frame">
               <img src="pdhes-nedir/img-11.webp" alt="Neden stratejik? Olgun teknoloji, uzun ömür ve düşük kapasite kaybı görseli" loading="lazy" />
-              <button className="fullscreen-btn" type="button" onClick={() => openModal('pdhes-nedir/img-12.webp', 'Neden stratejik? Olgun teknoloji, uzun ömür ve düşük kapasite kaybı')}>⛶ Tam ekran oku</button>
+              <button className="fullscreen-btn" type="button" onClick={() => openModal('pdhes-nedir/img-12.webp', 'PDHES neden olgun ve uzun ömürlü bir depolama teknolojisi olarak görülür?')}>⛶ Tam ekran oku</button>
               <figcaption><b>Görsel:</b> PDHES’in kanıtlanmış olgunluk, şebeke atalet katkısı, RES entegrasyonu ve düşük döngüsel bozulma avantajları. <span>Türkiye Energy Battery Roadmap, s.2</span></figcaption>
             </figure>
             <div className="card-body">
-              <p>PDHES’in stratejik değeri, teknolojik olgunluğundan gelir. Dünyada onlarca yıldır işletilen büyük pompaj depolama tesisleri vardır. Bu tesisler yalnızca günlük enerji kaydırma için değil; ani yük değişimleri, frekans sapmaları, iletim kısıtları ve puant yük yönetimi için de kullanılmaktadır.</p>
-              <p>Kimyasal bataryalar hızlı tepki ve modüler kurulum avantajı sunarken, PDHES çok büyük enerji miktarı, uzun ekonomik ömür, düşük çevrimsel performans kaybı ve senkron makine katkısı ile farklı bir sınıfta yer alır. Bu iki teknoloji birbirinin birebir ikamesi değil, çoğu sistemde tamamlayıcısıdır.</p>
+              <p>PDHES, dünyada uzun süredir kullanılan ve büyük ölçekli enerji depolama için teknik olarak kanıtlanmış bir teknolojidir. Temel bileşenleri hidroelektrik mühendisliği, pompa-türbin teknolojisi, büyük elektrik makineleri ve yüksek gerilim bağlantı sistemlerine dayanır. Bu nedenle teknoloji riski birçok yeni depolama seçeneğine göre daha düşüktür.</p>
+              <p>Uygun tasarlanmış bir PDHES tesisi uzun işletme ömrüne sahip olabilir. Mekanik ve elektrik ekipmanları periyodik bakım, yenileme ve modernizasyonla uzun yıllar işletilebilir. Depolama kapasitesi ise kimyasal bataryalarda olduğu gibi çevrim sayısına bağlı hızlı bir kapasite kaybına uğramaz. Ancak bu, bakım ihtiyacının olmadığı anlamına gelmez. Rezervuar, tünel, cebri boru, türbin, jeneratör, trafo ve kontrol sistemleri düzenli bakım ister.</p>
+              <p>PDHES’in stratejik önemi; büyük güçlerde çalışabilmesi, saatler mertebesinde enerji sağlayabilmesi, yenilenebilir üretimi dengelemesi ve şebeke güvenliğine katkı vermesinden kaynaklanır. Buna karşılık ilk yatırım maliyeti yüksek, izin süreçleri uzun ve saha seçimi zor olabilir. Bu nedenle her proje teknik, ekonomik, çevresel ve hukuki yönleriyle ayrı ayrı incelenmelidir.</p>
               <div className="comparison-mini">
-                <div><h4>PDHES güçlüdür</h4><p>Uzun süreli depolama, büyük MW/MWh ölçeği, şebeke hizmetleri, senkron atalet, uzun ömür.</p></div>
-                <div><h4>Batarya güçlüdür</h4><p>Hızlı kurulum, modülerlik, dağıtık kullanım, milisaniye seviyesinde güç elektroniği tepkisi.</p></div>
+                <div><h4>PDHES güçlüdür</h4></div>
+                <div><h4>Batarya güçlüdür</h4></div>
               </div>
-              <p>Türkiye gibi topografyası güçlü, hidroelektrik mirası bulunan ve yenilenebilir kapasitesi hızla artan bir sistemde PDHES; yalnızca enerji üretimi değil, <strong>enerji dönüşümünün sigortası</strong> olarak düşünülmelidir.</p>
             </div>
           </article>
 
@@ -371,22 +388,25 @@ V: aktif hacim
               <div className="number-pill">07</div>
               <div>
                 <span className="eyebrow">Saha tipi ve yerleşim kararı</span>
-                <h2>Topoloji seçimi: kapalı çevrim, mevcut HES entegrasyonu ve deniz suyu modeli</h2>
+                <h2>PDHES tesis tipleri nelerdir ve aralarındaki farklar nelerdir?</h2>
               </div>
             </header>
             <figure className="figure-frame">
               <img src="pdhes-nedir/img-13.webp" alt="Topoloji seçimi: kapalı çevrim, mevcut HES entegrasyonu ve deniz suyu modeli görseli" loading="lazy" />
-              <button className="fullscreen-btn" type="button" onClick={() => openModal('pdhes-nedir/img-14.webp', 'Topoloji seçimi: kapalı çevrim, mevcut HES entegrasyonu ve deniz suyu modeli')}>⛶ Tam ekran oku</button>
+              <button className="fullscreen-btn" type="button" onClick={() => openModal('pdhes-nedir/img-14.webp', 'PDHES tesis tipleri nelerdir ve aralarındaki farklar nelerdir?')}>⛶ Tam ekran oku</button>
               <figcaption><b>Görsel:</b> Mevcut HES ile bütünleşik model ve yeni yatırım/greenfield modelinin mühendislik yaklaşımı açısından karşılaştırılması. <span>Turkey Strategic Hydro Battery, s.6</span></figcaption>
             </figure>
             <div className="card-body">
-              <p>PDHES için tek bir proje tipi yoktur. Sahanın jeolojisi, su kaynağı, çevresel kısıtları, iletim bağlantısı ve mevcut hidro altyapıya yakınlığı farklı topolojileri gündeme getirir. Bu sekmede adaylar değerlendirilirken PDHES tipi mutlaka açıkça belirtilmelidir.</p>
+              <p>PDHES tesisleri genel olarak kapalı çevrim, açık çevrim ve deniz suyu kullanan sistemler olarak sınıflandırılabilir.</p>
+              <p>Kapalı çevrim PDHES’te üst ve alt rezervuar doğal akarsu sistemiyle sürekli bağlantılı olmayabilir. Su esas olarak iki rezervuar arasında çevrim yapar. Bu tip projelerde akarsu rejimine doğrudan etki daha sınırlı olabilir; ancak yine de arazi kullanımı, su temini, buharlaşma, sızma, çevresel etki ve rezervuar güvenliği değerlendirilmelidir.</p>
+              <p>Açık çevrim PDHES’te rezervuarlardan biri veya her ikisi doğal su kütlesiyle bağlantılı olabilir. Mevcut baraj veya hidroelektrik altyapısıyla birlikte değerlendirilebilir. Bu durumda hidrolik işletme, mansap etkileri, ekolojik akış, su tahsisleri ve mevcut santral işletmesi daha karmaşık hale gelir.</p>
+              <p>Deniz suyu PDHES’te alt rezervuar olarak deniz kullanılabilir. Üst rezervuar kıyıya yakın yüksek bir kotta yer alır. Bu yaklaşım bazı kıyı bölgelerinde kot farkı avantajı sağlayabilir; ancak tuzlu su korozyonu, deniz ekosistemi, kıyı yapıları, çevresel izinler ve malzeme seçimi önemli tasarım konularıdır.</p>
+              <p>Her tipin avantajı ve sınırlaması farklıdır. Bu nedenle tesis tipi yalnızca harita üzerinde değil; su kaynağı, topoğrafya, jeoloji, çevresel hassasiyet, bağlantı imkânı ve işletme amacı birlikte değerlendirilerek seçilmelidir.</p>
               <div className="type-grid">
-                <article><h4>Kapalı çevrim</h4><p>Doğal nehir akışından büyük ölçüde ayrılan iki yapay/ayrık rezervuar arasında çalışır. Ekolojik akış etkisi daha yönetilebilir olabilir; ancak yeni rezervuar ve inşaat ihtiyacı yüksektir.</p></article>
-                <article><h4>Açık / bütünleşik çevrim</h4><p>Mevcut baraj, göl veya HES altyapısından yararlanır. İnşaat ve izin avantajı doğabilir; fakat mevcut su rejimi, DSİ işletmesi ve mansap etkileri daha karmaşık hale gelir.</p></article>
-                <article><h4>Deniz suyu PDHES</h4><p>Denizi alt rezervuar gibi kullanır. Uygun kıyı topografyasında güçlü bir seçenek olabilir; korozyon, biyolojik birikim ve deniz ekolojisi özel tasarım ister.</p></article>
+                <article><h4>Kapalı çevrim</h4></article>
+                <article><h4>Açık / bütünleşik çevrim</h4></article>
+                <article><h4>Deniz suyu PDHES</h4></article>
               </div>
-              <p>Ön elemede “iki su kütlesi arasındaki mesafe” yeterli değildir. Minimum düşü, maksimum hidrolik yol uzunluğu, tünel güzergâhı, arazi eğimi, rezervuar inşa edilebilirliği, taşkın güvenliği, şalt alanı ve bağlantı hattı birlikte düşünülmelidir.</p>
             </div>
           </article>
 
@@ -395,19 +415,20 @@ V: aktif hacim
               <div className="number-pill">08</div>
               <div>
                 <span className="eyebrow">Ulusal stratejik bağlam</span>
-                <h2>Türkiye açısından fırsat: topografya, hidro miras ve yenilenebilir dönüşüm</h2>
+                <h2>Türkiye’de PDHES neden değerlendirilmelidir?</h2>
               </div>
             </header>
             <figure className="figure-frame">
               <img src="pdhes-nedir/img-15.webp" alt="Türkiye açısından fırsat: topografya, hidro miras ve yenilenebilir dönüşüm görseli" loading="lazy" />
-              <button className="fullscreen-btn" type="button" onClick={() => openModal('pdhes-nedir/img-16.webp', 'Türkiye açısından fırsat: topografya, hidro miras ve yenilenebilir dönüşüm')}>⛶ Tam ekran oku</button>
+              <button className="fullscreen-btn" type="button" onClick={() => openModal('pdhes-nedir/img-16.webp', 'Türkiye’de PDHES neden değerlendirilmelidir?')}>⛶ Tam ekran oku</button>
               <figcaption><b>Görsel:</b> NotebookLM görselinde Türkiye için vurgulanan 19,6 TWh gerçekleştirilebilir potansiyel iddiası ve Avrupa karşılaştırması. <span>Turkey Strategic Hydro Battery, s.7</span></figcaption>
             </figure>
             <div className="card-body">
-              <p>Türkiye’nin PDHES açısından güçlü tarafı yalnızca dağlık topografya değildir. Ülkenin mevcut hidroelektrik altyapısı, çok sayıda rezervuarı, büyüyen rüzgâr/güneş portföyü, büyük tüketim merkezleri ve güçlü iletim sistemi yatırımları birlikte değerlendirildiğinde PDHES için stratejik bir pencere oluşur.</p>
-              <p>Yüklenen NotebookLM görsellerinde Türkiye için çok yüksek bir gerçekleştirilebilir potansiyel anlatısı öne çıkarılmaktadır. Bu tür rakamlar kesin yatırım kararı değil, <strong>masaüstü potansiyel taraması</strong> olarak okunmalıdır. Gerçek proje portföyüne dönüşebilmesi için her adayın jeoloji, ÇED, DSİ işletmesi, TEİAŞ bağlantısı, piyasa geliri ve finansman açısından doğrulanması gerekir.</p>
+              <p>Türkiye’de elektrik üretim yapısı giderek daha fazla yenilenebilir kaynağa dayanmaktadır. Rüzgâr ve güneş üretimi arttıkça üretim saatleri ile tüketim saatleri her zaman aynı zamana denk gelmeyebilir. Bu durum bazı saatlerde üretim fazlası, bazı saatlerde ise esneklik ihtiyacı oluşturabilir.</p>
+              <p>PDHES, bu dengesizliğin yönetilmesinde kullanılabilecek büyük ölçekli bir seçenektir. Uygun sahalarda fazla elektrikle su üst rezervuara pompalanabilir, ihtiyaç olduğunda aynı su elektrik üretimi için kullanılabilir. Bu yönüyle PDHES, yenilenebilir üretimin sisteme daha güvenli entegre edilmesine katkı sağlayabilir.</p>
+              <p>Türkiye’nin topoğrafyası, mevcut baraj altyapısı, dağlık bölgeleri, kıyı alanları ve iletim sistemi dikkate alındığında PDHES için incelenebilecek farklı saha tipleri vardır. Ancak potansiyel bulunması, her sahanın yapılabilir olduğu anlamına gelmez. Gerçek uygulanabilirlik için çevresel izinler, jeoteknik koşullar, su kullanımı, bağlantı kapasitesi, maliyet, kamulaştırma ve piyasa gelirleri birlikte değerlendirilmelidir.</p>
+              <p>Bu nedenle Türkiye için PDHES konusu, yalnızca enerji üretimi değil; depolama, sistem esnekliği, arz güvenliği ve yenilenebilir enerji entegrasyonu başlıklarıyla birlikte ele alınmalıdır.</p>
               <div className="callout warning"><b>Önemli not:</b> Potansiyel haritaları “yapılabilir proje” listesi değildir. Her aday saha; kot, hacim, mesafe, mülkiyet, korunan alan, fay/heyelan, bağlantı kapasitesi ve gelir modeli açısından ayrı ayrı fizibilite sürecinden geçmelidir.</div>
-              <p>Bu web sitesindeki aday veri seti de aynı mantıkla okunmalıdır: amaç kesin proje ilan etmek değil, Türkiye’de PDHES tartışmasını görselleştirmek, ön eleme kriterlerini anlatmak ve yatırım/planlama konuşmalarını veri tabanlı hale getirmektir.</p>
             </div>
           </article>
 
@@ -416,16 +437,19 @@ V: aktif hacim
               <div className="number-pill">09</div>
               <div>
                 <span className="eyebrow">Ekonomi ve piyasa tasarımı</span>
-                <h2>Gelir modeli: arbitraj tek başına yeterli mi?</h2>
+                <h2>PDHES yatırımlarında gelir modeli nasıl oluşur?</h2>
               </div>
             </header>
             <figure className="figure-frame">
               <img src="pdhes-nedir/img-17.webp" alt="Gelir modeli: arbitraj tek başına yeterli mi? görseli" loading="lazy" />
-              <button className="fullscreen-btn" type="button" onClick={() => openModal('pdhes-nedir/img-18.webp', 'Gelir modeli: arbitraj tek başına yeterli mi?')}>⛶ Tam ekran oku</button>
+              <button className="fullscreen-btn" type="button" onClick={() => openModal('pdhes-nedir/img-18.webp', 'PDHES yatırımlarında gelir modeli nasıl oluşur?')}>⛶ Tam ekran oku</button>
               <figcaption><b>Görsel:</b> Gece depolama, puant üretim, fiyat farkı ve yıllık net kâr yaklaşımını özetleyen finansal akış şeması. <span>Turkey Strategic Hydro Battery, s.13</span></figcaption>
             </figure>
             <div className="card-body">
-              <p>PDHES yatırımının ekonomik mantığı çoğu zaman “ucuz saatte pompala, pahalı saatte üret” şeklinde anlatılır. Bu doğrudur; ancak büyük ölçekli projeler için çoğu durumda tek başına yeterli değildir. Çünkü PDHES’in yatırım maliyeti yüksek, izin ve inşaat süresi uzundur. Bu nedenle gelir modeli çoklu fayda üzerinden kurulmalıdır.</p>
+              <p>PDHES’in gelir modeli yalnızca ucuz saatte elektrik alıp pahalı saatte elektrik satma mantığına dayanmaz. Bu arbitraj geliri önemli olabilir; ancak çoğu projede tek başına yeterli olmayabilir. Çünkü pompalama ve üretim çevriminde verim kaybı vardır, ayrıca yatırım maliyeti yüksektir.</p>
+              <p>Gelir kalemleri arasında enerji arbitrajı, kapasite mekanizması, yan hizmet gelirleri, frekans kontrolü, rezerv hizmetleri, sistem kısıtlarının azaltılması ve yenilenebilir üretim kesintilerinin düşürülmesi gibi başlıklar yer alabilir. Hangi gelirlerin mümkün olduğu ilgili piyasa kurallarına, bağlantı anlaşmasına, teknik yeterliliklere ve sistem işletmecisinin ihtiyaçlarına bağlıdır.</p>
+              <p>Ekonomik değerlendirmede yatırım maliyeti, inşaat süresi, finansman maliyeti, çevrim sayısı, net verim, işletme-bakım giderleri, gelir belirsizliği ve piyasa fiyat senaryoları dikkate alınmalıdır. Ayrıca santralin kaç saatlik depolama sağlayacağı, ne kadar hızlı devreye gireceği ve hangi şebeke hizmetlerine katılabileceği gelir modelini doğrudan etkiler.</p>
+              <p>Bu nedenle PDHES için yalnızca kurulu güç üzerinden değerlendirme yapmak eksik olur. Enerji kapasitesi, işletme esnekliği, piyasa katılımı ve sistem faydası birlikte analiz edilmelidir.</p>
               <ul className="rich-list compact">
                 <li><strong>Enerji arbitrajı:</strong> Düşük fiyatlı saatlerde tüketim, yüksek fiyatlı saatlerde üretim.</li>
                 <li><strong>Dengeleme piyasası:</strong> Gerçek zamanlı sistem dengesizliklerinde hızlı yük alma/yük atma kabiliyeti.</li>
@@ -433,7 +457,6 @@ V: aktif hacim
                 <li><strong>Kapasite değeri:</strong> Emre amade ve güvenilir esnek kapasitenin sistem planlamasındaki katkısı.</li>
                 <li><strong>Kısıntı azaltımı:</strong> Yenilenebilir üretimin sistem kısıtı nedeniyle azaltılmasını önleyerek dolaylı ekonomik değer yaratması.</li>
               </ul>
-              <p>Bu nedenle Türkiye için PDHES tartışması yalnızca santral bazlı fizibilite değil, aynı zamanda <strong>piyasa tasarımı</strong> sorusudur. Yatırım sinyali, yan hizmet gelirleri, kapasite mekanizması, DGP/yan hizmet ürün süreleri ve uzun vadeli sistem esnekliği planlaması birlikte ele alınmalıdır.</p>
             </div>
           </article>
 
@@ -442,16 +465,20 @@ V: aktif hacim
               <div className="number-pill">10</div>
               <div>
                 <span className="eyebrow">Fizibiliteye geçmeden önce</span>
-                <h2>Riskler, çevresel uyum ve ön etüt yol haritası</h2>
+                <h2>Bir PDHES sahası değerlendirilirken hangi riskler incelenmelidir?</h2>
               </div>
             </header>
             <figure className="figure-frame">
               <img src="pdhes-nedir/img-19.webp" alt="Riskler, çevresel uyum ve ön etüt yol haritası görseli" loading="lazy" />
-              <button className="fullscreen-btn" type="button" onClick={() => openModal('pdhes-nedir/img-20.webp', 'Riskler, çevresel uyum ve ön etüt yol haritası')}>⛶ Tam ekran oku</button>
+              <button className="fullscreen-btn" type="button" onClick={() => openModal('pdhes-nedir/img-20.webp', 'Bir PDHES sahası değerlendirilirken hangi riskler incelenmelidir?')}>⛶ Tam ekran oku</button>
               <figcaption><b>Görsel:</b> Çevresel etki değerlendirmesi, sosyal kabul, su/ekosistem ve proje geliştirme boyutlarını birlikte gösteren uyum şeması. <span>Turkey Strategic Hydro Battery, s.14</span></figcaption>
             </figure>
             <div className="card-body">
-              <p>PDHES temiz ve uzun ömürlü bir depolama altyapısı olabilir; ancak her saha otomatik olarak uygun değildir. Büyük su yapıları, tüneller, yeraltı güç evi, iletim bağlantısı ve rezervuar inşası ciddi çevresel, sosyal ve jeoteknik değerlendirme gerektirir.</p>
+              <p>PDHES projeleri büyük altyapı yatırımlarıdır. Bu nedenle ön değerlendirme aşamasında teknik, çevresel, ekonomik ve hukuki riskler birlikte incelenmelidir.</p>
+              <p>Teknik açıdan en önemli başlıklar kot farkı, rezervuar hacmi, zemin koşulları, heyelan riski, fay hatları, tünel güzergâhı, cebri boru yerleşimi, su kayıpları, bağlantı noktası ve iletim kapasitesidir. Jeolojik ve jeoteknik koşullar uygun değilse yüksek potansiyel görünen bir saha uygulanabilir olmayabilir.</p>
+              <p>Çevresel açıdan su kullanımı, doğal yaşam alanları, orman alanları, koruma statüleri, tarım alanları, yerleşim yerleri, kültürel varlıklar ve mansap etkileri incelenmelidir. Kapalı çevrim projelerde bile su temini, buharlaşma, sızma ve rezervuar güvenliği değerlendirilmelidir.</p>
+              <p>Ekonomik açıdan yatırım maliyeti, inşaat süresi, finansman, piyasa gelirleri, işletme-bakım giderleri ve izin süreçleri dikkate alınmalıdır. Şebeke açısından ise bağlantı kapasitesi, kısa devre seviyesi, N-1 güvenliği, sistem işletme ihtiyaçları ve yan hizmet katılım koşulları değerlendirilmelidir.</p>
+              <p>Ön etüt süreci harita tabanlı aday belirleme ile başlayabilir; ancak nihai karar için arazi ölçümleri, jeoteknik etüt, hidrolik modelleme, çevresel değerlendirme, bağlantı görüşleri ve detaylı fizibilite çalışması gerekir. Bu nedenle erken aşama analizler karar destek amaçlı görülmeli, kesin yatırım kararı yerine daha ayrıntılı inceleme için başlangıç noktası olarak kullanılmalıdır.</p>
               <div className="check-flow">
                 <div><span>1</span><b>Topoğrafya</b><small>Yeterli net düşü ve makul hidrolik yol var mı?</small></div>
                 <div><span>2</span><b>Hacim</b><small>Aktif depolama hacmi hedef MWh için yeterli mi?</small></div>
@@ -460,7 +487,7 @@ V: aktif hacim
                 <div><span>5</span><b>Şebeke</b><small>Bağlantı noktası, gerilim seviyesi, kısa devre gücü ve N-1 uygun mu?</small></div>
                 <div><span>6</span><b>Ekonomi</b><small>CAPEX, OPEX, arbitraj, yan hizmet ve kapasite değeri dengeli mi?</small></div>
               </div>
-              <p>Bu sayfadaki anlatımın en önemli amacı, PDHES’i abartılı bir “her derde çare” teknolojisi gibi değil; güçlü ama titiz planlama isteyen bir <strong>stratejik şebeke altyapısı</strong> olarak konumlandırmaktır.</p>
+              
               <div className="callout danger"><b>Fizibilite uyarısı:</b> Bu site ve bu sekme eğitim/ön inceleme amaçlıdır. Gerçek rezervuar sınırları, kotlar, tünel güzergâhı, kurulu güç, enerji hacmi, bağlantı uygunluğu ve yatırım kararı için mühendislik etüdü, DSİ/TEİAŞ görüşleri, ÇED ve saha ölçümleri gerekir.</div>
             </div>
           </article>

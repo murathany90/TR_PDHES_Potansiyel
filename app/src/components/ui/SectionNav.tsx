@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 interface Section {
   id: string;
   title: string;
+  sub?: boolean;
 }
 
 export default function SectionNav({ sections }: { sections: Section[] }) {
@@ -41,7 +42,7 @@ export default function SectionNav({ sections }: { sections: Section[] }) {
           <li key={sec.id}>
             <a
               href={`#/pdhes/${sec.id}`}
-              className={activeId === sec.id ? 'active' : ''}
+              className={`${activeId === sec.id ? 'active' : ''} ${sec.sub ? 'sub' : ''}`.trim()}
             >
               {sec.title}
             </a>
