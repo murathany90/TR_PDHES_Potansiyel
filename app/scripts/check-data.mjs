@@ -1,22 +1,26 @@
 import { readFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 
-const pairs = [
-  ['data.json', '../data.json'],
-  ['grid_assets.json', '../grid_assets.json'],
+const datasets = [
+  {
+    name: 'data.json',
+    validate: (value) => Array.isArray(value) && value.length > 0,
+  },
+  {
+    name: 'grid_assets.json',
+    validate: (value) =>
+      value?.type === 'FeatureCollection' &&
+      Array.isArray(value.features),
+  },
 ];
 
-let failed = false;
+for (const dataset of datasets) {
+  const raw = await readFile(resolve('public', dataset.name), 'utf8');
+  const parsed = JSON.parse(raw);
 
-for (const [publicName, rootPath] of pairs) {
-  const publicData = await readFile(resolve('public', publicName));
-  const rootData = await readFile(resolve(rootPath));
-  if (!publicData.equals(rootData)) {
-    failed = true;
-    console.error(`${publicName}: kök ve app/public kopyaları farklı.`);
-  } else {
-    console.log(`✓ ${publicName}: kopyalar eşleşiyor`);
+  if (!dataset.validate(parsed)) {
+    throw new Error(`${dataset.name}: beklenen veri yapısıyla eşleşmiyor.`);
   }
-}
 
-if (failed) process.exitCode = 1;
+  console.log(`✓ ${dataset.name}: kanonik public veri kümesi geçerli`);
+}
