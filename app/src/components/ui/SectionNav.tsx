@@ -9,14 +9,12 @@ export default function SectionNav({ sections }: { sections: Section[] }) {
   const [activeId, setActiveId] = useState<string>(sections[0]?.id || '');
 
   useEffect(() => {
-    const getScrollElement = () => document.querySelector('.panel.active') || document.querySelector('main') || window;
-    
+    const panel = document.querySelector<HTMLElement>('.panel.active');
+
     const handleScroll = () => {
-      const scrollElement = getScrollElement();
-      // Calculate scroll position. If it's window, use scrollY. Otherwise use scrollTop.
-      // Add an offset (e.g. 150) so sections trigger slightly before they hit the absolute top.
-      const scrollPosition = (scrollElement === window ? window.scrollY : (scrollElement as HTMLElement).scrollTop) + 150;
-      
+      const panelIsScrollable = Boolean(panel && panel.scrollHeight > panel.clientHeight + 1);
+      const scrollPosition = (panelIsScrollable ? panel!.scrollTop : window.scrollY) + 150;
+
       for (let i = sections.length - 1; i >= 0; i--) {
         const section = document.getElementById(sections[i].id);
         if (section && section.offsetTop <= scrollPosition) {
@@ -25,13 +23,15 @@ export default function SectionNav({ sections }: { sections: Section[] }) {
         }
       }
     };
-    
-    const scrollElement = getScrollElement();
-    scrollElement.addEventListener('scroll', handleScroll);
-    // Trigger once on mount to set initial active section
+
+    panel?.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll);
     handleScroll();
-    
-    return () => scrollElement.removeEventListener('scroll', handleScroll);
+
+    return () => {
+      panel?.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, [sections]);
 
   return (

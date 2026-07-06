@@ -13,7 +13,7 @@ import { publicAssetUrl } from '../../utils/publicUrl';
 export default function TopNav({ title, subtitle, controls, homeHref = '/pdhes' }: TopNavProps) {
   return (
     <header className="topbar">
-      <Link className="brand" to={homeHref} aria-label="PDHES ana sayfası">
+      <Link className="brand" to={homeHref}>
         <img 
           src={publicAssetUrl('apple-touch-icon.png')} 
           alt=""

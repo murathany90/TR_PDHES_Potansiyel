@@ -148,10 +148,10 @@ html[data-theme="light"] .tag {
 .tag.classic { border-color: rgba(72,244,154,.45); color: #a6ffc9; }
 .tag.risk { border-color: rgba(255,215,90,.35); color: #ffe59b; }
 .tag.danger { border-color: rgba(255,92,115,.38); color: #ffb3bf; }
-html[data-theme="light"] .tag.sea { border-color: rgba(11,143,199,.45); color: #0b8fc7; }
-html[data-theme="light"] .tag.classic { border-color: rgba(13,158,92,.45); color: #0d9e5c; }
-html[data-theme="light"] .tag.risk { border-color: rgba(184,134,11,.35); color: #b8860b; }
-html[data-theme="light"] .tag.danger { border-color: rgba(220,38,38,.38); color: #dc2626; }
+html[data-theme="light"] .tag.sea { border-color: rgba(7,89,133,.5); color: #075985; }
+html[data-theme="light"] .tag.classic { border-color: rgba(6,95,70,.5); color: #065f46; }
+html[data-theme="light"] .tag.risk { border-color: rgba(146,64,14,.45); color: #92400e; }
+html[data-theme="light"] .tag.danger { border-color: rgba(185,28,28,.45); color: #b91c1c; }
 
 /* ── Cards ── */
 .card {
@@ -634,7 +634,7 @@ html[data-theme="light"] .map-floating-card {
   margin-bottom: 4px;
 }
 html[data-theme="light"] .map-floating-card .card-title {
-  color: #0d9488;
+  color: var(--green);
 }
 .map-floating-card .card-row {
   display: flex;
@@ -684,6 +684,9 @@ html[data-theme="light"] .map-floating-card .segment-btn:hover {
   color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
 }
+html[data-theme="light"] .map-floating-card .segment-btn.active {
+  color: #fff;
+}
 .map-floating-card .quality-options {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -721,9 +724,9 @@ html[data-theme="light"] .map-floating-card .quality-btn:hover {
   font-weight: 600;
 }
 html[data-theme="light"] .map-floating-card .quality-btn.active {
-  background: rgba(13, 148, 136, 0.1);
-  border-color: #0d9488;
-  color: #0d9488;
+  background: rgba(4, 120, 87, 0.1);
+  border-color: var(--green);
+  color: var(--green);
 }
 
 @media (max-width: 700px) {

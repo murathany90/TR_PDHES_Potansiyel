@@ -113,9 +113,14 @@ export default function App() {
         Haritada incele
       </NavLink>
 
-      <button className="btn ghost" onClick={toggleTheme} title="Tema değiştir" aria-label="Tema değiştir">
+      <button
+        className="btn ghost"
+        onClick={toggleTheme}
+        title="Tema değiştir"
+        aria-label={theme === 'dark' ? 'Açık tema' : 'Koyu tema'}
+      >
         {theme === 'dark' ? <Sun size={16} aria-hidden="true" /> : <Moon size={16} aria-hidden="true" />}
-        {theme === 'dark' ? 'Açık' : 'Koyu'}
+        {theme === 'dark' ? 'Açık tema' : 'Koyu tema'}
       </button>
       <NavLink
         className="btn ghost utility-link"

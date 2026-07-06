@@ -46,10 +46,25 @@ export default function PdhesPage({ sectionId }: PdhesPageProps) {
 
   useEffect(() => {
     if (!sectionId) return;
-    const target = document.getElementById(sectionId);
-    if (typeof target?.scrollIntoView === 'function') {
-      target.scrollIntoView({ block: 'start', behavior: 'auto' });
-    }
+    const frame = window.requestAnimationFrame(() => {
+      const target = document.getElementById(sectionId);
+      if (!target) return;
+
+      const panel = target.closest<HTMLElement>('.panel.active');
+      const panelIsScrollable = Boolean(panel && panel.scrollHeight > panel.clientHeight + 1);
+
+      if (panel && panelIsScrollable && typeof panel.scrollTo === 'function') {
+        window.scrollTo({ top: 0, behavior: 'auto' });
+        panel.scrollTo({
+          top: Math.max(0, target.offsetTop - 16),
+          behavior: 'auto',
+        });
+      } else if (typeof target.scrollIntoView === 'function') {
+        target.scrollIntoView({ block: 'start', behavior: 'auto' });
+      }
+    });
+
+    return () => window.cancelAnimationFrame(frame);
   }, [sectionId]);
 
   return (

@@ -50,8 +50,12 @@ describe('application navigation', () => {
   });
 
   it('scrolls the nested content panel to the section encoded in the route', async () => {
-    const scrollIntoView = vi.fn();
-    HTMLElement.prototype.scrollIntoView = scrollIntoView;
+    const scrollTo = vi.fn();
+    const windowScrollTo = vi.fn();
+    HTMLElement.prototype.scrollTo = scrollTo;
+    window.scrollTo = windowScrollTo;
+    vi.spyOn(HTMLElement.prototype, 'scrollHeight', 'get').mockReturnValue(1000);
+    vi.spyOn(HTMLElement.prototype, 'clientHeight', 'get').mockReturnValue(500);
     window.location.hash = '#/pdhes/sec-tarihce';
 
     render(
@@ -61,7 +65,8 @@ describe('application navigation', () => {
     );
 
     await waitFor(() => {
-      expect(scrollIntoView).toHaveBeenCalledWith({ block: 'start', behavior: 'auto' });
+      expect(scrollTo).toHaveBeenCalledWith({ top: 0, behavior: 'auto' });
+      expect(windowScrollTo).toHaveBeenCalledWith({ top: 0, behavior: 'auto' });
     });
   });
 

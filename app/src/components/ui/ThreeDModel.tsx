@@ -1530,7 +1530,7 @@ function Scene({ siteId, activeComponent, onSelectComponent, layers, mode, compo
 export default function ThreeDModel(props: ThreeDModelProps) {
   return (
     <div style={{ width: '100%', height: '100%', minHeight: 600, borderRadius: 16, overflow: 'hidden', background: '#0e1117' }}>
-      <Canvas shadows camera={{ position: [150, 120, 180], fov: 45 }}>
+      <Canvas shadows="basic" camera={{ position: [150, 120, 180], fov: 45 }}>
         <Scene {...props} />
       </Canvas>
     </div>
