@@ -164,117 +164,85 @@ function ForestRock({ position, scale = 1 }: { position: [number, number, number
 }
 
 /* ─────────────────────────────────────────────
-   Realistic Upper Reservoir (Arch/Embankment Dam)
+   Realistic Upper Reservoir (Open Basin with Crescent Dam Wall)
    ───────────────────────────────────────────── */
 function RealisticUpperReservoir({ position, active, onClick, detail, waterLevelRef, showLabels, isPresenzano }: any) {
-  const damH = logScale(detail.dam_height_m, 20, 3, 8) * 2.5;
-  const vol = logScale(detail.active_volume_mcm, 5, 4, 10) * 2.5;
-  const pos: [number, number, number] = [position.x, position.y - damH * 0.3, position.z];
+  const damH = logScale(detail.dam_height_m, 20, 3, 8) * 1.2;
+  const radius = 22;
+  const pos: [number, number, number] = [position.x, position.y - 2, position.z];
   
   const waterMesh = useRef<THREE.Mesh>(null);
   
   useFrame(({ clock }) => {
     if (!waterMesh.current) return;
     const t = clock.getElapsedTime();
-    // Simulate water depletion and subtle ripple oscillations
-    waterMesh.current.position.y = (damH * 0.7) * waterLevelRef.current - damH / 2 + 0.3;
+    waterMesh.current.position.y = -damH/3 + (damH * 0.6) * waterLevelRef.current + 0.3;
     const wave = Math.sin(t * 1.3) * 0.015;
     waterMesh.current.scale.set(1 + wave, 1, 1 + wave);
   });
-
-  const damRadius = vol * 1.5 + 5;
 
   return (
     <group position={pos}>
       {/* Clickable structure */}
       <group onClick={(e) => { e.stopPropagation(); onClick(); }}>
-        {isPresenzano ? (
-          /* Soil/Rockfill Embankment Dam for Presenzano (Cesima Upper Dam) */
-          <>
-            {/* Thick sloped embankment body */}
-            <mesh castShadow receiveShadow>
-              <cylinderGeometry args={[damRadius - 1.5, damRadius + 3.0, damH, 48, 1, false, Math.PI * 0.85, Math.PI * 0.35]} />
-              <meshStandardMaterial color="#424549" roughness={0.9} side={THREE.DoubleSide} metalness={0.05} />
-            </mesh>
-            
-            {/* Crest Road (flat roadway top) */}
-            <mesh position={[0, damH/2 + 0.05, 0]} castShadow>
-              <cylinderGeometry args={[damRadius - 1.3, damRadius - 1.3, 0.1, 48, 1, false, Math.PI * 0.85, Math.PI * 0.35]} />
-              <meshStandardMaterial color="#5a5d61" roughness={0.8} side={THREE.DoubleSide} />
-            </mesh>
+        {/* Containment walls - open cylindrical basin like lower reservoir */}
+        <mesh castShadow receiveShadow>
+          <cylinderGeometry args={[radius, radius + 0.8, damH, 48, 1, true]} />
+          <meshStandardMaterial color="#505457" roughness={0.9} side={THREE.DoubleSide} />
+        </mesh>
+        
+        {/* Crescent dam wall on the downstream side (partial arc) */}
+        <mesh position={[0, 0, radius * 0.85]} castShadow receiveShadow>
+          <boxGeometry args={[radius * 1.4, damH + 2, 4]} />
+          <meshStandardMaterial color={isPresenzano ? '#424549' : '#888e95'} roughness={0.85} side={THREE.DoubleSide} />
+        </mesh>
+        
+        {/* Dam crest road on top */}
+        <mesh position={[0, damH/2 + 0.5, radius * 0.85]} castShadow>
+          <boxGeometry args={[radius * 1.5, 0.2, 5]} />
+          <meshStandardMaterial color="#5a5d61" roughness={0.8} />
+        </mesh>
 
-            {/* Concrete Abutments on Cesima mountainside */}
-            <mesh position={[-damRadius * 0.8, 0, damRadius * 0.51]} rotation={[0, -0.4, 0]} castShadow>
-              <boxGeometry args={[4, damH + 2, 5]} />
-              <meshStandardMaterial color="#686d72" roughness={0.85} />
-            </mesh>
-            <mesh position={[damRadius * 0.8, 0, damRadius * 0.51]} rotation={[0, 0.4, 0]} castShadow>
-              <boxGeometry args={[4, damH + 2, 5]} />
-              <meshStandardMaterial color="#686d72" roughness={0.85} />
-            </mesh>
-
-            {/* Asphalt concrete sealing face overlay on the upstream side */}
-            <mesh position={[0, 0, -0.05]} castShadow>
-              <cylinderGeometry args={[damRadius - 1.6, damRadius + 2.8, damH - 0.2, 48, 1, true, Math.PI * 0.85, Math.PI * 0.35]} />
-              <meshStandardMaterial color="#222426" roughness={0.9} side={THREE.DoubleSide} />
-            </mesh>
-          </>
-        ) : (
-          /* Concrete Arch Dam for Generic sites */
-          <>
-            <mesh castShadow receiveShadow>
-              <cylinderGeometry args={[damRadius, damRadius + 1.2, damH, 48, 1, false, Math.PI * 0.85, Math.PI * 0.35]} />
-              <meshStandardMaterial color="#888e95" roughness={0.85} side={THREE.DoubleSide} metalness={0.1} />
-            </mesh>
-            
-            <mesh position={[0, damH/2 + 0.1, 0]} castShadow>
-              <cylinderGeometry args={[damRadius + 0.2, damRadius + 0.2, 0.2, 48, 1, false, Math.PI * 0.85, Math.PI * 0.35]} />
-              <meshStandardMaterial color="#6a6f75" roughness={0.75} side={THREE.DoubleSide} />
-            </mesh>
-
-            <mesh position={[-damRadius * 0.8, 0, damRadius * 0.51]} rotation={[0, -0.4, 0]} castShadow>
-              <boxGeometry args={[3, damH + 2, 4]} />
-              <meshStandardMaterial color="#7a8086" roughness={0.8} />
-            </mesh>
-            <mesh position={[damRadius * 0.8, 0, damRadius * 0.51]} rotation={[0, 0.4, 0]} castShadow>
-              <boxGeometry args={[3, damH + 2, 4]} />
-              <meshStandardMaterial color="#7a8086" roughness={0.8} />
-            </mesh>
-
-            <group position={[0, damH/2 - 0.4, damRadius * 0.96]} rotation={[0, Math.PI, 0]}>
-              <mesh position={[-1.2, 0.4, 0]} castShadow><boxGeometry args={[0.3, 1.1, 1.4]} /><meshStandardMaterial color="#888e95" /></mesh>
-              <mesh position={[0, 0.4, 0]} castShadow><boxGeometry args={[0.3, 1.1, 1.4]} /><meshStandardMaterial color="#888e95" /></mesh>
-              <mesh position={[1.2, 0.4, 0]} castShadow><boxGeometry args={[0.3, 1.1, 1.4]} /><meshStandardMaterial color="#888e95" /></mesh>
-              <mesh position={[-0.6, 0.35, -0.05]} castShadow><boxGeometry args={[0.9, 0.7, 0.1]} /><meshStandardMaterial color="#ac421f" metalness={0.7} roughness={0.4} /></mesh>
-              <mesh position={[0.6, 0.35, -0.05]} castShadow><boxGeometry args={[0.9, 0.7, 0.1]} /><meshStandardMaterial color="#ac421f" metalness={0.7} roughness={0.4} /></mesh>
-              
-              <mesh position={[0, -damH/2, -1.1]} rotation={[-0.65, 0, 0]} castShadow>
-                <boxGeometry args={[2.7, 0.4, damH * 1.25]} />
-                <meshStandardMaterial color="#757c82" roughness={0.85} />
-              </mesh>
-            </group>
-          </>
-        )}
+        {/* Abutments */}
+        <mesh position={[-radius * 0.72, 0, radius * 0.55]} rotation={[0, -0.3, 0]} castShadow>
+          <boxGeometry args={[3, damH + 2, 4]} />
+          <meshStandardMaterial color="#686d72" roughness={0.85} />
+        </mesh>
+        <mesh position={[radius * 0.72, 0, radius * 0.55]} rotation={[0, 0.3, 0]} castShadow>
+          <boxGeometry args={[3, damH + 2, 4]} />
+          <meshStandardMaterial color="#686d72" roughness={0.85} />
+        </mesh>
+        
+        {/* Water Intake Tower */}
+        <group position={[radius - 2, 0, -2]} rotation={[0, 0.5, 0]}>
+          <mesh castShadow>
+            <boxGeometry args={[2.2, damH + 1, 1.8]} />
+            <meshStandardMaterial color="#7a7f84" roughness={0.8} />
+          </mesh>
+          <mesh position={[0, damH/2 + 0.6, 0]} castShadow>
+            <boxGeometry args={[0.8, 0.5, 0.6]} />
+            <meshStandardMaterial color="#b8451f" />
+          </mesh>
+        </group>
       </group>
       
-      {/* Reservoir Basin Bed */}
-      <mesh position={[0, -damH/2, -vol * 0.5]} rotation={[-Math.PI/2, 0, 0]} scale={[1.5, 1.0, 1.0]} receiveShadow>
-         <circleGeometry args={[vol, 64]} />
-         <meshStandardMaterial color="#42352b" roughness={0.95} />
+      {/* Basin Floor */}
+      <mesh position={[0, -damH/2, 0]} rotation={[-Math.PI/2, 0, 0]} receiveShadow>
+         <circleGeometry args={[radius - 0.2, 48]} />
+         <meshStandardMaterial color="#302620" roughness={1.0} />
       </mesh>
 
-      {/* Advanced Animated Physical Water */}
-      <mesh ref={waterMesh} position={[0, 0, -vol * 0.5]} rotation={[-Math.PI/2, 0, 0]} scale={[1.44, 0.94, 1.0]}>
-        <circleGeometry args={[vol, 64]} />
+      {/* Water Body - open and clearly visible */}
+      <mesh ref={waterMesh} rotation={[-Math.PI/2, 0, 0]}>
+        <circleGeometry args={[radius - 0.3, 48]} />
         <meshPhysicalMaterial 
           color="#0f5c94" 
           transparent 
-          opacity={0.8}
+          opacity={0.85}
           roughness={0.1} 
           metalness={0.05}
           transmission={0.85} 
           ior={1.333}
-          thickness={4.0}
         />
       </mesh>
 
@@ -1077,8 +1045,8 @@ function Scene({ siteId, activeComponent, onSelectComponent, layers, mode, compo
   });
 
   // Calculate dynamic heights/positions aligned to terrain height field
-  const upperTerrainY = getTerrainHeight(-120, 15, isPresenzano);
-  const upperPos = useMemo(() => new THREE.Vector3(-120, upperTerrainY, -15), [upperTerrainY]);
+  const upperTerrainY = getTerrainHeight(-140, 15, isPresenzano);
+  const upperPos = useMemo(() => new THREE.Vector3(-140, upperTerrainY + 40, -15), [upperTerrainY]);
   
   const surgeTankPos = useMemo(() => new THREE.Vector3(-30, getTerrainHeight(-30, 0, isPresenzano), 0), [isPresenzano]);
   
