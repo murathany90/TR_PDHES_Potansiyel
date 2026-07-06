@@ -86,9 +86,9 @@ function RealisticTerrain({ opacity, isPresenzano }: { opacity: number; isPresen
   const material = useMemo(() => {
     const m = new THREE.MeshStandardMaterial({
       vertexColors: true,
-      roughness: 0.9,
-      metalness: 0.05,
-      flatShading: false,
+      roughness: 0.85,
+      metalness: 0.1,
+      flatShading: true,
       transparent: true,
       opacity: opacity,
     });
@@ -822,7 +822,11 @@ function TransmissionLine({ isPresenzano, isPlaying, mode, activeUnits }: any) {
           args={[undefined, undefined, particleCount]}
         >
           <sphereGeometry args={[1, 8, 8]} />
-          <meshBasicMaterial color={mode === 'generate' ? '#10b981' : '#ef4444'} transparent opacity={0.8} />
+          <meshBasicMaterial 
+            color={mode === 'generate' ? '#00ffff' : '#ff3333'} 
+            transparent 
+            opacity={0.9} 
+          />
         </instancedMesh>
       ))}
     </group>
@@ -917,13 +921,14 @@ function RealisticPenstock({ active, onClick, from, to, isPlaying, mode, activeU
   });
 
   const steelMat = new THREE.MeshStandardMaterial({
-    color: active ? '#f5b50b' : '#303438',
-    metalness: 0.88,
-    roughness: 0.28,
+    color: active ? '#f5b50b' : (isPlaying ? '#505860' : '#303438'),
+    metalness: 0.9,
+    roughness: 0.2,
     emissive: active ? '#553c00' : '#000',
     emissiveIntensity: active ? 0.35 : 0,
     transparent: isPlaying,
-    opacity: isPlaying ? 0.4 : 1
+    opacity: isPlaying ? 0.25 : 1,
+    wireframe: isPlaying
   });
 
   return (
@@ -1230,10 +1235,9 @@ function Scene({ siteId, activeComponent, onSelectComponent, layers, mode, compo
 
   // Dynamic Spacing Factors based on real site properties
   const tunnelScale = site?.tunnelKm ? Math.max(0.6, Math.min(1.8, site.tunnelKm / 3)) : 1;
-  const headScale = site?.head ? Math.max(0.8, Math.min(1.5, site.head / 300)) : 1;
 
   // Calculate dynamic heights/positions aligned to terrain height field
-  const upperPos = useMemo(() => placeOnTerrain(-140 * tunnelScale, -15, 40 * headScale, isPresenzano), [tunnelScale, headScale, isPresenzano]);
+  const upperPos = useMemo(() => placeOnTerrain(-140 * tunnelScale, -15, 0, isPresenzano), [tunnelScale, isPresenzano]);
   const surgeTankPos = useMemo(() => placeOnTerrain(-30 * tunnelScale, 0, 0, isPresenzano), [tunnelScale, isPresenzano]);
   const powerhousePos = useMemo(() => placeOnTerrain(45, 15, -2, isPresenzano), [isPresenzano]);
   const lowerPos = useMemo(() => placeOnTerrain(80, 30, 0, isPresenzano), [isPresenzano]);
@@ -1309,6 +1313,9 @@ function Scene({ siteId, activeComponent, onSelectComponent, layers, mode, compo
           waterLevelRef={waterLevelRef} 
           showLabels={showLabels} 
           isPresenzano={isPresenzano}
+          isPlaying={isPlaying}
+          mode={mode}
+          activeUnits={activeUnits}
         />
       )}
       
@@ -1321,6 +1328,9 @@ function Scene({ siteId, activeComponent, onSelectComponent, layers, mode, compo
             onClick={() => onSelectComponent('lower_reservoir')} 
             waterLevelRef={waterLevelRef} 
             showLabels={showLabels} 
+            isPlaying={isPlaying}
+            mode={mode}
+            activeUnits={activeUnits}
           />
         ) : (
           <RealisticLowerReservoir 
@@ -1330,6 +1340,9 @@ function Scene({ siteId, activeComponent, onSelectComponent, layers, mode, compo
             waterLevelRef={waterLevelRef} 
             showLabels={showLabels} 
             isPresenzano={isPresenzano}
+            isPlaying={isPlaying}
+            mode={mode}
+            activeUnits={activeUnits}
           />
         )
       )}
