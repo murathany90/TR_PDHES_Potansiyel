@@ -261,7 +261,7 @@ html[data-theme="light"] .formula { background: #eef3f0; color: #2f4a3e; }
 
 /* ── Map Layout ── */
 .map-layout {
-  height: calc(75% - 32px); max-height: calc(100% - 32px); box-sizing: border-box; display: grid; grid-template-columns: minmax(0, 1fr) 320px;
+  height: calc(100vh - 134px); max-height: calc(100vh - 134px); box-sizing: border-box; display: grid; grid-template-columns: minmax(0, 1fr) 320px;
   grid-template-areas: "stage right";
   gap: 16px; transition: grid-template-columns 0.3s ease; padding: 16px;
 }
@@ -279,7 +279,7 @@ html[data-theme="light"] html[data-theme="light"] .map-right { background: rgba(
 .map-stage {
   height: 100%; position: relative; border: 1px solid var(--line);
   border-radius: 24px; overflow: hidden; background: #030504; box-shadow: var(--shadow);
-  min-height: 680px;
+  min-height: 0;
 }
 /* ── ThreeD Layout ── */
 .threed-layout { display: grid; grid-template-columns: minmax(0, 1fr) 360px; height: 100%; }
