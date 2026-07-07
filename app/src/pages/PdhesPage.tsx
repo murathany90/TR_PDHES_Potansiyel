@@ -239,7 +239,7 @@ export default function PdhesPage({ sectionId }: PdhesPageProps) {
           <h2 id="sec-maliyet" style={{ marginTop: 32 }}>{content('pdhesWhatIs.costsTitle')}</h2>
           <div className="card">
             <p style={{ margin: 0 }}>
-              <b>Yatırım harcaması (CAPEX);</b> rezervuar, tünel, cebri boru (penstock), yeraltı güç evi (powerhouse),
+              <b>Yatırım harcaması (CAPEX);</b> rezervuar, tünel, cebri boru (penstock), yeraltı türbin odası (powerhouse),
               elektromekanik ekipman, şalt sahası (switchyard), yol, izin ve mühendislik kalemlerinden oluşur.
               Gelir modeli enerji arbitrajı, Dengeleme Güç Piyasası, yan hizmetler ve olası kapasite ödemeleriyle
               birlikte değerlendirilmelidir.
@@ -334,7 +334,7 @@ export default function PdhesPage({ sectionId }: PdhesPageProps) {
               </div>
             </header>
             <figure className="figure-frame">
-              <img src="pdhes-nedir/img-5.webp" alt="Sistem anatomisi: rezervuar, cebri boru, güç evi ve şalt sahası görseli" loading="lazy" />
+              <img src="pdhes-nedir/img-5.webp" alt="Sistem anatomisi: rezervuar, cebri boru, türbin odası ve şalt sahası görseli" loading="lazy" />
               <button className="fullscreen-btn" type="button" onClick={() => openModal('pdhes-nedir/img-6.webp', 'Bir PDHES tesisinde hangi ana yapılar bulunur?')}>⛶ Tam ekran oku</button>
               <figcaption><b>Görsel:</b> Üst rezervuar, cebri boru, motor-jeneratör ve tersinir Francis pompa-türbin yapısının kesit anlatımı. <span>The Water Battery, s.2</span></figcaption>
             </figure>
@@ -348,7 +348,7 @@ export default function PdhesPage({ sectionId }: PdhesPageProps) {
                 <li><strong>Alt rezervuar:</strong> Üretim sonrası suyun toplandığı ve pompalama sırasında su kaynağı olan haznedir. Mevcut baraj, göl, deniz veya yapay havuz olabilir.</li>
                 <li><strong>Cebri boru / basınç tüneli:</strong> Yüksek basınçlı suyu türbine taşıyan ana hidrolik yoldur. Uzunluk, çap, eğim, sürtünme kayıpları ve su darbesi hesabı tasarımın merkezindedir.</li>
                 <li><strong>Denge bacası:</strong> Ani yük değişimlerinde su darbesi basınçlarını azaltır, hidrolik geçici rejimi güvenli hale getirir.</li>
-                <li><strong>Yeraltı güç evi:</strong> Pompa-türbin, motor-jeneratör, vanalar, trafolar ve yardımcı sistemlerin bulunduğu ana üretim merkezidir.</li>
+                <li><strong>Yeraltı türbin odası:</strong> Pompa-türbin, motor-jeneratör, vanalar, trafolar ve yardımcı sistemlerin bulunduğu ana üretim merkezidir.</li>
                 <li><strong>Şalt sahası ve iletim bağlantısı:</strong> Gücün TEİAŞ iletim sistemine aktarılmasını sağlar; bağlantı kapasitesi, kısa devre gücü, N-1 kriteri ve gerilim seviyesi burada belirleyicidir.</li>
               </ul>
             </div>

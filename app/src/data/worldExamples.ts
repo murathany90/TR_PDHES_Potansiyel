@@ -456,7 +456,7 @@ export const WORLD_EXAMPLES: WorldExample[] = [
     lon: 6.8982,
     wikiUrl: 'https://en.wikipedia.org/wiki/Nant_de_Drance_Hydropower_Plant',
     sourceNote: 'Yaklaşık 900 MW kapasiteyle modern Avrupa PDHES örneklerinden biridir.',
-    shortDescription: 'İsviçre\'de mevcut rezervuarların entegrasyonu ve yeraltı güç eviyle geliştirilen modern pompaj depolama tesisidir.',
+    shortDescription: 'İsviçre\'de mevcut rezervuarların entegrasyonu ve yeraltı türbin odasıyla geliştirilen modern pompaj depolama tesisidir.',
     wikiNote: 'Yeni nesil Avrupa PDHES projeleri içinde teknik tasarım ve sistem esnekliği açısından öne çıkar.',
   },
   {
@@ -507,7 +507,7 @@ export const WORLD_EXAMPLES: WorldExample[] = [
     lon: -5.113,
     wikiUrl: 'https://en.wikipedia.org/wiki/Cruachan_Power_Station',
     sourceNote: 'Yaklaşık 440 MW kapasiteyle İskoçya\'da yeraltı güç evli klasik pompaj depolama tesisidir.',
-    shortDescription: 'Ben Cruachan dağının içinde yer alan güç eviyle bilinen erken dönem PDHES örneklerindendir.',
+    shortDescription: 'Ben Cruachan dağının içinde yer alan türbin odasıyla bilinen erken dönem PDHES örneklerindendir.',
     wikiNote: 'Hızlı devreye girme ve sistem toparlanmasına katkı açısından bilinen bir tesistir.',
   },
   {

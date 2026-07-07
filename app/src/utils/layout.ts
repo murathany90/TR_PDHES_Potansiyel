@@ -149,21 +149,21 @@ export function buildLayout(s: Site, hScale: number): LayoutBundle {
     ];
     addPolygon('upper_reservoir', 'Cesima Üst Rezervuarı', upperPoly, 36, '#4aa3ff');
     addPolygon('lower_reservoir', 'Presenzano Alt Rezervuarı', lowerPoly, 16, '#1fb6ff');
-    addRect('powerhouse', 'Yeraltı güç evi (powerhouse)', layout.power, 260, 150, 70, '#b277ff', bearing + 2);
+    addRect('powerhouse', 'Yeraltı Türbin Odası (Powerhouse)', layout.power, 260, 150, 70, '#b277ff', bearing + 2);
     addCircle('surge_tank', 'Denge bacası (surge tank)', layout.surge, 70, 115, '#ffd75a');
     addRect('switchyard', '380 kV şalt sahası (switchyard)', layout.switchyard, 340, 240, 28, '#48f49a', bearing - 12);
     addRect('portal', 'Tünel portalı / servis alanı', mid(layout.upper, layout.power, .55), 220, 120, 24, '#ff944d', bearing + 16);
   } else if (s.concept === 'sea') {
     addRect('upper_reservoir', 'Kaplamalı üst rezervuar', layout.upper, 980, 760, 42, '#4aa3ff', bearing + 8);
     addRect('lower_reservoir', 'Deniz alım/deşarj yapısı', layout.lower, 140, 90, 18, '#8a9597', bearing - 18);
-    addRect('powerhouse', 'Yeraltı güç evi (powerhouse)', layout.power, 260, 150, 70, '#b277ff', bearing + 2);
+    addRect('powerhouse', 'Yeraltı Türbin Odası (Powerhouse)', layout.power, 260, 150, 70, '#b277ff', bearing + 2);
     addCircle('surge_tank', 'Denge bacası (surge tank)', layout.surge, 70, 115, '#ffd75a');
     addRect('switchyard', '154/380 kV şalt sahası (switchyard)', layout.switchyard, 340, 240, 28, '#48f49a', bearing - 12);
     addRect('portal', 'Tünel portalı / servis alanı', mid(layout.upper, layout.power, .55), 220, 120, 24, '#ff944d', bearing + 16);
   } else {
     addRect('upper_reservoir', 'Üst rezervuar', layout.upper, 1100, 850, 36, '#4aa3ff', bearing + 4);
     addRect('lower_reservoir', 'Mevcut alt rezervuar', layout.lower, 900, 500, 16, '#1fb6ff', bearing - 10);
-    addRect('powerhouse', 'Yeraltı güç evi (powerhouse)', layout.power, 320, 170, 78, '#b277ff', bearing + 1);
+    addRect('powerhouse', 'Yeraltı Türbin Odası (Powerhouse)', layout.power, 320, 170, 78, '#b277ff', bearing + 1);
     addCircle('surge_tank', 'Denge bacası (surge tank)', layout.surge, 82, 120, '#ffd75a');
     addRect('switchyard', '380 kV şalt / trafo sahası', layout.switchyard, 390, 260, 32, '#48f49a', bearing - 7);
     addRect('portal', 'Servis + drenaj tüneli portalı', mid(layout.upper, layout.power, .58), 240, 125, 22, '#ff944d', bearing + 12);

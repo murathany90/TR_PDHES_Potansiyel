@@ -14,7 +14,7 @@ type PointKey = 'upper' | 'lower' | 'power' | 'surge' | 'switchyard' | 'gridA' |
 const POINT_LABELS: Record<PointKey, string> = {
   upper: 'Üst rezervuar',
   lower: 'Alt rezervuar',
-  power: 'Yeraltı güç evi (powerhouse)',
+  power: 'Yeraltı Türbin Odası (Powerhouse)',
   surge: 'Denge bacası (surge tank)',
   switchyard: 'Şalt sahası (switchyard)',
   gridA: 'Şebeke hattı A',
@@ -98,7 +98,7 @@ export default function ThreeDEditorPage({ site, onDone }: ThreeDEditorPageProps
     `Yön açısı: ${layout.bearing}°`,
     pointText('Üst rezervuar', layout.upper),
     pointText('Alt rezervuar', layout.lower),
-    pointText('Güç evi', layout.power),
+    pointText('Türbin Odası', layout.power),
     pointText('Denge bacası', layout.surge),
     pointText('Şalt sahası', layout.switchyard),
     pointText('Şebeke bağlantısı', layout.gridTap),

@@ -566,7 +566,7 @@ function RealisticPowerhouse({ active, onClick, detail, activeUnits, isPlaying, 
       )}
 
       <Html position={[0, h/2 + 2.4, 0]} center style={{ display: showLabels ? 'block' : 'none' }}>
-        <div style={labelStyle(active, '#a855f7')}>{isPresenzano ? 'Presenzano Kuyu Tipi Santral (1.000 MW)' : `Güç Evi (Aktif: ${activeUnits}/${detail.units})`}</div>
+        <div style={labelStyle(active, '#a855f7')}>{isPresenzano ? 'Presenzano Kuyu Tipi Santral (1.000 MW)' : `Türbin Odası (Aktif: ${activeUnits}/${detail.units})`}</div>
       </Html>
     </group>
   );
@@ -879,14 +879,31 @@ function RealisticPenstock({ active, onClick, from, to, isPlaying, mode, activeU
         pMid.clone().add(offsetVec),
         pBot.clone().add(offsetVec)
       );
-      const tubeGeo = new THREE.TubeGeometry(cLine, 64, isPresenzano ? 0.22 : 0.32, 12, false);
+      
+      const radius = isPresenzano ? 0.35 : 0.55;
+      let geometry;
+      
+      if (isPlaying) {
+        // Half pipe open at top when playing
+        const shape = new THREE.Shape();
+        shape.absarc(0, 0, radius, Math.PI, Math.PI * 2, false);
+        geometry = new THREE.ExtrudeGeometry(shape, {
+          steps: 64,
+          extrudePath: cLine,
+          bevelEnabled: false,
+          closed: false
+        });
+      } else {
+        geometry = new THREE.TubeGeometry(cLine, 64, radius, 16, false);
+      }
+      
       return {
-        geometry: tubeGeo,
+        geometry,
         curve: cLine,
         id: index
       };
     });
-  }, [from, to, isPresenzano, maxUnits]);
+  }, [from, to, isPresenzano, maxUnits, isPlaying]);
 
   const anchorPoints = useMemo(() => {
     const pTop = from.clone();
@@ -942,15 +959,16 @@ function RealisticPenstock({ active, onClick, from, to, isPlaying, mode, activeU
   });
 
   const steelMat = new THREE.MeshStandardMaterial({
-    color: active ? '#f5b50b' : (isPlaying ? '#505860' : '#303438'),
-    metalness: 0.9,
-    roughness: 0.2,
+    color: active ? '#f5b50b' : (isPlaying ? '#5aa8e3' : '#606972'),
+    metalness: 0.7,
+    roughness: 0.3,
     emissive: active ? '#553c00' : '#000',
     emissiveIntensity: active ? 0.35 : 0,
     transparent: true,
-    opacity: isPlaying ? 0.4 : 1,
-    depthWrite: !isPlaying,
-    wireframe: isPlaying
+    opacity: isPlaying ? 0.8 : 1,
+    depthWrite: true,
+    wireframe: false,
+    side: THREE.DoubleSide
   });
 
   return (
@@ -1522,7 +1540,7 @@ function Scene({ siteId, activeComponent, onSelectComponent, layers, mode, compo
       {/* Transmission pylons and lines */}
       {layers.transmission && <TransmissionLine isPresenzano={isPresenzano} isPlaying={isPlaying} mode={mode} activeUnits={activeUnits} />}
 
-      <OrbitControls makeDefault enableDamping dampingFactor={0.05} maxPolarAngle={Math.PI/2.1} minDistance={30} maxDistance={400} />
+      <OrbitControls makeDefault enableDamping dampingFactor={0.05} maxPolarAngle={Math.PI/2.1} minDistance={20} maxDistance={1000} />
     </>
   );
 }
