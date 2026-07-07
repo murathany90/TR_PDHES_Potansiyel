@@ -69,7 +69,13 @@ export default function ReportsPage() {
               </div>
 
               <div className="markdown-body">
-                <ReactMarkdown remarkPlugins={[remarkGfm, remarkMath]} rehypePlugins={[rehypeKatex]}>
+                <ReactMarkdown 
+                  remarkPlugins={[remarkGfm, remarkMath]} 
+                  rehypePlugins={[rehypeKatex]}
+                  components={{
+                    img: ({node, ...props}) => <img {...props} src={publicAssetUrl(props.src || '')} style={{maxWidth: '100%', height: 'auto', borderRadius: 8}} />
+                  }}
+                >
                   {activeReport.content}
                 </ReactMarkdown>
               </div>
