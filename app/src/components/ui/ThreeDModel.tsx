@@ -890,8 +890,7 @@ function RealisticPenstock({ active, onClick, from, to, isPlaying, mode, activeU
         geometry = new THREE.ExtrudeGeometry(shape, {
           steps: 64,
           extrudePath: cLine,
-          bevelEnabled: false,
-          closed: false
+          bevelEnabled: false
         });
       } else {
         geometry = new THREE.TubeGeometry(cLine, 64, radius, 16, false);
