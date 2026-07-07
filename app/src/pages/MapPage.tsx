@@ -116,6 +116,26 @@ export default function MapPage() {
             <Layers size={18} />
             <b>{layers.terrain3d ? "3D" : "2D"}</b>
           </button>
+          <button
+            type="button"
+            className="btn minimalist-3d-toggle"
+            style={{ top: '74px' }}
+            onClick={() => {
+              if (mapRef.current) {
+                mapRef.current.flyTo({
+                  center: [35, 39],
+                  zoom: 5,
+                  pitch: 0,
+                  bearing: 0,
+                  duration: 1500
+                });
+              }
+            }}
+            title="Tümünü Göster"
+          >
+            <MapPin size={18} />
+            <b>Tümü</b>
+          </button>
 
 
           {rightCollapsed && (
@@ -180,16 +200,7 @@ export default function MapPage() {
             ))}
           </div>
 
-          <h3 style={{ marginTop: 16 }}>Yerleşim bileşenleri</h3>
-          <div className="legend">
-            {COMPONENTS.map((component) => (
-              <span className="tag" key={component.key}>
-                <i className="sw" style={{ background: component.color }} />
-                {component.label}
-              </span>
-            ))}
-          </div>
-        </aside>
+          </aside>
       </div>
     </section>
   );

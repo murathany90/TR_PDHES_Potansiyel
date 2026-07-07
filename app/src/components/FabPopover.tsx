@@ -27,6 +27,7 @@ export function FabPopover({
   const popoverRef = useRef<HTMLDivElement>(null);
   
   const sites = useSiteStore(state => state.sites);
+  const setWorldExampleFocus = useSiteStore(state => state.setWorldExampleFocus);
 
   // Close when clicking outside
   useEffect(() => {
@@ -118,7 +119,7 @@ export function FabPopover({
                   </thead>
                   <tbody>
                     {WORLD_EXAMPLES.map(ex => (
-                      <tr key={ex.id}>
+                      <tr key={ex.id} onClick={() => setWorldExampleFocus(ex.id)} style={{ cursor: 'pointer' }} className="hoverable-row">
                         <td>{ex.name}</td>
                         <td><div>{num(ex.capacityMw)} MW</div><div style={{fontSize: '0.85em', color: 'var(--muted)'}}>{ex.storageMwh ? num(ex.storageMwh) + ' MWh' : '-'}</div></td>
                         <td><div>{ex.headM ? `${num(ex.headM)} m` : '-'}</div><div style={{fontSize: '0.85em', color: 'var(--muted)'}}>-</div></td>
