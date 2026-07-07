@@ -106,19 +106,27 @@ export default function PdhesPage({ sectionId }: PdhesPageProps) {
 
           <div className="grid content-split">
             <div className="card">
-              <h2>{content('pdhesWhatIs.definitionTitle')}</h2>
-              <p>{content('pdhesWhatIs.definitionBody')}</p>
+              <h2>Tanım ve Çalışma Prensibi</h2>
+              <p>
+                Pompa depolamalı hidroelektrik santral, farklı kotlarda bulunan iki su rezervuarı arasında çalışan büyük ölçekli bir enerji depolama sistemidir. Sistem, elektrik talebinin düşük olduğu veya yenilenebilir üretimin fazla olduğu saatlerde suyu alt rezervuardan üst rezervuara pompalar. Böylece elektrik enerjisi, yüksek kotta depolanan suyun potansiyel enerjisine dönüştürülür.
+              </p>
+              <p>
+                Talebin arttığı saatlerde su üst rezervuardan alt rezervuara doğru bırakılır. Su, cebri boru veya tünel sistemi üzerinden türbinlerden geçerken jeneratörleri döndürür ve elektrik üretir. Bu nedenle PDHES, hem elektrik tüketebilen hem de elektrik üretebilen çift yönlü bir tesis olarak çalışır.
+              </p>
+              <p>
+                Bu yapı özellikle rüzgâr ve güneş üretiminin değişken olduğu elektrik sistemlerinde önemlidir. Üretimin fazla olduğu saatlerde enerjiyi depolayabilir, talebin arttığı saatlerde ise hızlı şekilde üretime geçerek şebeke dengesine katkı sağlayabilir.
+              </p>
             </div>
             <div className="card">
-              <h2>Enerji Formülü</h2>
-              <div className="formula" style={{ margin: 0, height: '100%' }}>
-{`E = ρ × g × H × V × η
-
-ρ: su yoğunluğu
-g: yerçekimi ivmesi
-H: net düşü (head)
-V: aktif hacim
-η: çevrim verimi (%70-85)`}
+              <h2>Pompalama ve Üretim Döngüsü</h2>
+              <ul style={{ paddingLeft: '1rem', margin: 0, gap: '8px', display: 'flex', flexDirection: 'column' }}>
+                <li><b>Pompalama modu:</b> Elektrik talebinin düşük olduğu veya sistemde üretim fazlası bulunduğu saatlerde alt rezervuardaki su pompalarla üst rezervuara basılır. Bu aşamada tesis elektrik tüketir ve enerjiyi suyun yüksek kotta sahip olduğu potansiyel enerji olarak depolar.</li>
+                <li><b>Üretim modu:</b> Elektrik talebinin arttığı saatlerde üst rezervuardaki su türbinlerden geçirilerek alt rezervuara bırakılır. Bu sırada türbin-jeneratör grubu elektrik üretir ve şebekeye güç verir.</li>
+                <li><b>Temel fikir:</b> PDHES, elektriği doğrudan depolamaz; elektrik enerjisini suyun yüksekliğinden kaynaklanan potansiyel enerjiye dönüştürür. İhtiyaç olduğunda bu enerji tekrar elektrik üretimi için kullanılır.</li>
+              </ul>
+              <div className="formula" style={{ margin: '16px 0 0', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                <div>Düşük talep / üretim fazlası &rarr; <b>Pompalama</b> &rarr; Üst rezervuar</div>
+                <div>Yüksek talep / puant saat &rarr; <b>Türbinleme</b> &rarr; Şebekeye üretim</div>
               </div>
             </div>
           </div>

@@ -5,6 +5,7 @@ import type { Site } from '../types/site';
 import { escapeHtml } from '../utils/format';
 import { buildLayout } from '../utils/layout';
 import { getMapStyleSpecification, getMarkerIconHtml, type MapStyleKind } from '../utils/mapProviders';
+import { useSiteStore } from '../stores/useSiteStore';
 import { WORLD_EXAMPLES } from '../data/worldExamples';
 
 export interface MapLayerVisibility {
@@ -267,6 +268,13 @@ export function useMapLibre({
       WORLD_EXAMPLES.forEach((example) => {
         const el = document.createElement('div');
         el.innerHTML = getMarkerIconHtml((example as any).concept || 'classic', '#00a8ff', false); // Focus ID state not easily available here without adding it to hook props, so defaulting to standard size
+        el.style.cursor = 'pointer';
+        el.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const { setWorldExampleFocus } = useSiteStore.getState();
+          setWorldExampleFocus(example.id);
+        });
+        
         const marker = new maplibregl.Marker({ element: el })
           .setLngLat([example.lon, example.lat])
           .addTo(map);

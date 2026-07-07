@@ -2,6 +2,7 @@ import { useRef, useState, useEffect } from 'react';
 import { MapPin, Mountain, AlertTriangle, Droplets, Zap, Activity, Waypoints, Box, Layers } from 'lucide-react';
 import { useMapLibre, type MapLayerVisibility } from '../hooks/useMapLibre';
 import { FabPopover } from '../components/FabPopover';
+import InfoAccordion from '../components/ui/InfoAccordion';
 import { ElevationProfile } from '../components/ElevationProfile';
 import { useSiteStore } from '../stores/useSiteStore';
 import { useSettingsStore } from '../stores/useSettingsStore';
@@ -39,6 +40,7 @@ export default function MapPage() {
     const [rightCollapsed, setRightCollapsed] = useState(false);
   const [layers, setLayers] = useState<MapLayerVisibility>(DEFAULT_LAYERS);
   const site = sites.find((item) => item.id === selectedId) || sites[0];
+  const worldExample = worldExampleFocusId ? WORLD_EXAMPLES.find((e) => e.id === worldExampleFocusId) : null;
 
   useEffect(() => {
     fetchGridAssets();
@@ -53,7 +55,10 @@ export default function MapPage() {
     heightScale,
     gridAssets,
     layers,
-    onSelectSite: selectSite,
+    onSelectSite: (id) => {
+      selectSite(id);
+      clearWorldExampleFocus();
+    },
   });
 
   useEffect(() => {
@@ -160,16 +165,26 @@ export default function MapPage() {
           >
             ›
           </button>
-          <h2 style={{ marginTop: 0 }}>Kavramsal kapasite özeti</h2>
-          <div className="grid" style={{ gap: 6 }}>
-            <div className="metric good"><span>Kapasite</span><b>{num(site.powerMW)} MW / {site.energyGWh} GWh</b></div>
-            <div className="metric info"><span>Düşü / su yolu</span><b>{num(site.head, 1)} m / {site.tunnelKm} km</b></div>
-            <div className="metric warn"><span>Yatırım gideri</span><b>{moneyBn(site.capexBn)}</b></div>
-            <div className="metric"><span>Gelir / geri ödeme</span><b>{moneyM(site.revenueM)} / {site.payback} yıl</b></div>
-          </div>
-
-          
-          <ElevationProfile site={site} />
+          <h2 style={{ marginTop: 0 }}>Kavramsal Özet</h2>
+          {worldExample ? (
+            <div className="grid" style={{ gap: 6, marginBottom: 16 }}>
+              <div className="metric good"><span>Tesis</span><b style={{fontSize: 14}}>{worldExample.name}</b></div>
+              <div className="metric info"><span>Kapasite</span><b>{worldExample.capacityMw.toLocaleString('tr-TR')} MW</b></div>
+              {worldExample.headM && <div className="metric warn"><span>Düşü</span><b>{worldExample.headM} m</b></div>}
+              {worldExample.storageMwh && <div className="metric"><span>Depolama</span><b>{worldExample.storageMwh.toLocaleString('tr-TR')} MWh</b></div>}
+              {worldExample.commissioningYear && <div className="metric"><span>Devreye Alınma</span><b>{worldExample.commissioningYear}</b></div>}
+            </div>
+          ) : (
+            <>
+              <div className="grid" style={{ gap: 6 }}>
+                <div className="metric good"><span>Kapasite</span><b>{num(site.powerMW)} MW / {site.energyGWh} GWh</b></div>
+                <div className="metric info"><span>Düşü / su yolu</span><b>{num(site.head, 1)} m / {site.tunnelKm} km</b></div>
+                <div className="metric warn"><span>Yatırım gideri</span><b>{moneyBn(site.capexBn)}</b></div>
+                <div className="metric"><span>Gelir / geri ödeme</span><b>{moneyM(site.revenueM)} / {site.payback} yıl</b></div>
+              </div>
+              <ElevationProfile site={site} />
+            </>
+          )}
 
           <h3 style={{ marginTop: 16 }}>Harita katmanları</h3>
           <div className="layer-grid">
@@ -188,16 +203,21 @@ export default function MapPage() {
             ))}
           </div>
 
-          <h3 style={{ marginTop: 16 }}>Proje zaman çizelgesi</h3>
-          <div className="timeline">
-            {site.timeline.map((event, index) => (
-              <div className="tl" key={`${event.date}-${index}`}>
-                <time>{event.date}</time>
-                <b style={{ display: 'block', marginTop: 3 }}>{event.title}</b>
-                <p>{event.text}</p>
-              </div>
-            ))}
-          </div>
+          {!worldExample && (
+            <div style={{ marginTop: 16 }}>
+              <InfoAccordion title="Proje zaman çizelgesi" defaultOpen={false}>
+                <div className="timeline">
+                  {site.timeline.map((event, index) => (
+                    <div className="tl" key={`${event.date}-${index}`}>
+                      <time>{event.date}</time>
+                      <b style={{ display: 'block', marginTop: 3 }}>{event.title}</b>
+                      <p>{event.text}</p>
+                    </div>
+                  ))}
+                </div>
+              </InfoAccordion>
+            </div>
+          )}
 
           </aside>
       </div>
