@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { MapPin, ExternalLink, AlertTriangle } from 'lucide-react';
+import { MapPin, ExternalLink, } from 'lucide-react';
 import { CONTENT_DEFAULTS, GLOSSARY, PDHES_TYPE_LABELS, WORLD_EXAMPLES } from '../utils/constants';
 import { STATUS_LABELS } from '../data/worldExamples';
 import { useWorkspaceStore } from '../stores/useWorkspaceStore';
@@ -181,16 +181,7 @@ V: aktif hacim
                 
                 <div className="we-details">
                   {example.wikiNote && <p className="we-note"><b>Not:</b> {example.wikiNote}</p>}
-                  <p className="we-analysis"><b>Analiz:</b> {example.analysis}</p>
-                  {example.turkeyLesson && <p className="we-lesson"><b>Türkiye Çıkarımı:</b> {example.turkeyLesson}</p>}
                 </div>
-                
-                {example.correctionNote && (
-                  <div className="we-correction">
-                    <AlertTriangle size={14} />
-                    <span>{example.correctionNote}</span>
-                  </div>
-                )}
                 
                 <div className="we-actions">
                   <button 

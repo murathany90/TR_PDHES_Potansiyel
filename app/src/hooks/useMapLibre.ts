@@ -4,7 +4,7 @@ import type { FeatureCollection, Geometry } from 'geojson';
 import type { Site } from '../types/site';
 import { escapeHtml } from '../utils/format';
 import { buildLayout } from '../utils/layout';
-import { getMapStyleSpecification, type MapStyleKind } from '../utils/mapProviders';
+import { getMapStyleSpecification, getMarkerIconHtml, type MapStyleKind } from '../utils/mapProviders';
 import { WORLD_EXAMPLES } from '../data/worldExamples';
 
 export interface MapLayerVisibility {
@@ -88,7 +88,7 @@ export function useMapLibre({
     const run = () => {
       if (requestId !== drawRequestRef.current) return;
       if (!map.isStyleLoaded()) {
-        map.once('styledata', run);
+        map.once('styledata', queueDrawLayers);
         return;
       }
       const oldLayers = [
@@ -242,10 +242,9 @@ export function useMapLibre({
         });
         
         sites.forEach((candidate) => {
-          const marker = new maplibregl.Marker({ 
-            color: candidate.id === selectedId ? '#ff2a55' : candidate.color,
-            scale: candidate.id === selectedId ? 1.1 : 0.85
-          })
+          const el = document.createElement('div');
+          el.innerHTML = getMarkerIconHtml(candidate.concept || 'classic', candidate.id === selectedId ? '#ff2a55' : candidate.color, candidate.id === selectedId);
+          const marker = new maplibregl.Marker({ element: el })
             .setLngLat([candidate.lon, candidate.lat])
             .addTo(map);
 
@@ -266,17 +265,8 @@ export function useMapLibre({
 
       // Add World Examples
       WORLD_EXAMPLES.forEach((example) => {
-        // Create a custom DOM element for the marker to give it a blue theme
         const el = document.createElement('div');
-        el.className = 'we-marker';
-        el.style.backgroundColor = '#00a8ff';
-        el.style.width = '14px';
-        el.style.height = '14px';
-        el.style.borderRadius = '50%';
-        el.style.border = '2px solid #fff';
-        el.style.boxShadow = '0 0 4px rgba(0,0,0,0.5)';
-        el.style.cursor = 'pointer';
-
+        el.innerHTML = getMarkerIconHtml((example as any).concept || 'classic', '#00a8ff', false); // Focus ID state not easily available here without adding it to hook props, so defaulting to standard size
         const marker = new maplibregl.Marker({ element: el })
           .setLngLat([example.lon, example.lat])
           .addTo(map);

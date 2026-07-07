@@ -29,12 +29,9 @@ export interface WorldExample {
   lat: number;
   lon: number;
   wikiUrl: string;
-  sourceNote: string;
+   sourceNote?: string;
   shortDescription: string;
-  wikiNote: string;
-  analysis: string;
-  turkeyLesson?: string;
-  correctionNote?: string;
+   wikiNote?: string;
 }
 
 export const STATUS_LABELS: Record<WorldExampleStatus, string> = {
@@ -57,15 +54,13 @@ export const WORLD_EXAMPLES: WorldExample[] = [
     headM: 425,
     storageMwh: 40000,
     commissioningYear: '2019–2024',
-    status: 'operational',
+    status: 'partial_operation',
     lat: 41.68417,
     lon: 116.55333,
     wikiUrl: 'https://en.wikipedia.org/wiki/Fengning_Pumped_Storage_Power_Station',
     sourceNote: 'Wikipedia listesinde 3.600 MW ve yaklaşık 40.000 MWh depolama kapasitesiyle verilir.',
     shortDescription: 'Çin\'de yenilenebilir üretim ve büyük yük merkezleri için geliştirilen çok büyük ölçekli pompaj depolama tesisidir.',
     wikiNote: 'Kademeli devreye alınmış ve son ünitelerle birlikte dünyanın en büyük PDHES örneklerinden biri haline gelmiştir.',
-    analysis: 'Büyük kurulu gücü ve yüksek enerji kapasitesi nedeniyle günlük dengeleme, pik yük yönetimi ve yenilenebilir üretim entegrasyonu için güçlü bir örnektir.',
-    turkeyLesson: 'Büyük ölçekli PDHES projelerinde yalnızca kurulu güç değil, saatlik enerji kapasitesi ve iletim sistemi bağlantısı birlikte değerlendirilmelidir.',
   },
   {
     id: 'bath-county',
@@ -84,8 +79,6 @@ export const WORLD_EXAMPLES: WorldExample[] = [
     sourceNote: 'Wikipedia listesinde 3.003 MW ve yaklaşık 24.000 MWh depolama kapasitesiyle yer alır.',
     shortDescription: 'ABD\'de uzun süre dünyanın en büyük pompaj depolama tesisi olarak gösterilen büyük ölçekli sistemdir.',
     wikiNote: 'Büyük rezervuar hacmi ve yüksek güç kapasitesi ile ABD elektrik sistemi için pik yük ve dengeleme işlevi sağlar.',
-    analysis: 'Büyük hacimli ve uzun süreli enerji aktarımı için klasik referans örneklerden biridir.',
-    turkeyLesson: 'Türkiye\'de büyük baraj havzaları veya yüksek hacimli adaylar için ölçek karşılaştırması yapılırken kullanılabilir.',
   },
   {
     id: 'kannagawa',
@@ -102,14 +95,10 @@ export const WORLD_EXAMPLES: WorldExample[] = [
     wikiUrl: 'https://en.wikipedia.org/wiki/Kannagawa_Hydropower_Plant',
     sourceNote: 'Toplam planlanan kapasite 2.820 MW olarak verilir; bazı üniteler işletmede, bazıları kademeli tamamlanmaktadır.',
     shortDescription: 'Japonya\'da çok yüksek düşüye sahip büyük ölçekli pompaj depolama tesisidir.',
-    wikiNote: 'Kurulu güç değeri nihai proje kapasitesini ifade edebilir; işletmedeki kapasite ve planlanan kapasite ayrımı kartta belirtilmelidir.',
-    analysis: 'Yüksek düşü sayesinde aynı su hacmiyle daha yüksek enerji üretimi sağlanabilir.',
-    turkeyLesson: 'Yüksek kot farkı bulunan dağlık bölgeler PDHES ön değerlendirmesinde ayrıca incelenmelidir.',
-    correctionNote: 'Sitede nihai kapasite ile işletmedeki kapasite karışmamalı; durum etiketi "kısmi işletme / kademeli tamamlanıyor" olmalıdır.',
   },
   {
     id: 'huizhou',
-    name: 'Huizhou',
+    name: 'Guangdong (Huizhou)',
     country: 'Çin',
     countryCode: 'CN',
     flag: '🇨🇳',
@@ -123,8 +112,6 @@ export const WORLD_EXAMPLES: WorldExample[] = [
     sourceNote: 'Wikipedia listesinde 2.448 MW olarak yer alır.',
     shortDescription: 'Güney Çin\'de büyük yük merkezlerine yakın konumlu pompaj depolama tesisidir.',
     wikiNote: 'Günlük yük değişimi ve sistem dengeleme amacıyla kullanılan büyük ölçekli Çin örneklerindendir.',
-    analysis: 'Yük merkezlerine yakın depolama yatırımlarının sistem değeri açısından iyi bir örnektir.',
-    turkeyLesson: 'Marmara, Ege ve büyük tüketim bölgelerine yakın adayların iletim sistemi etkisi ayrıca incelenmelidir.',
   },
   {
     id: 'guangdong-guangzhou',
@@ -141,10 +128,6 @@ export const WORLD_EXAMPLES: WorldExample[] = [
     wikiUrl: 'https://en.wikipedia.org/wiki/Guangdong_Pumped_Storage_Power_Station',
     sourceNote: 'Wikipedia listesinde Guangdong Pumped Storage Power Station adıyla 2.400 MW olarak verilir.',
     shortDescription: 'Guangzhou bölgesindeki büyük yük merkezini destekleyen önemli pompaj depolama tesisidir.',
-    wikiNote: 'Sitede "Guangzhou" olarak geçse de Wikipedia\'da çoğunlukla "Guangdong Pumped Storage Power Station" adı kullanılır.',
-    analysis: 'Büyük şehir ve sanayi yüklerinin dengelenmesinde PDHES\'in rolünü gösterir.',
-    turkeyLesson: 'Büyük tüketim merkezlerine yakın bağlantı noktaları PDHES ekonomik değerini artırabilir.',
-    correctionNote: 'Kartta alternatif ad olarak "Guangdong Pumped Storage Power Station" gösterilmelidir.',
   },
   {
     id: 'ludington',
@@ -159,13 +142,10 @@ export const WORLD_EXAMPLES: WorldExample[] = [
     status: 'operational',
     lat: 43.89361,
     lon: -86.44528,
-    wikiUrl: 'https://en.wikipedia.org/wiki/Ludington_Pumped_Storage_Power_Plant',
-    sourceNote: 'Modernizasyon sonrası kapasite yaklaşık 2.172 MW olarak verilir; eski kaynaklarda 1.872 MW değeri görülebilir.',
-    shortDescription: 'Michigan Gölü kıyısında düşük düşüye karşılık çok büyük su hacmiyle çalışan kıyı tipi pompaj depolama tesisidir.',
-    wikiNote: 'Eski kapasite ile modernizasyon sonrası kapasite ayrımı yapılmalıdır.',
-    analysis: 'Düşük düşülü sahalarda büyük hacim ve uygun rezervuar geometrisiyle yüksek güç elde edilebileceğini gösterir.',
-    turkeyLesson: 'Yalnızca yüksek düşüye odaklanmak yeterli değildir; hacim, topoğrafya ve şebeke konumu birlikte değerlendirilmelidir.',
-    correctionNote: 'Sitedeki 1.872 MW değeri eski kapasite olabilir; güncel kartta 2.172 MW ve eski kapasite notu birlikte verilmelidir.',
+    wikiUrl: "https://en.wikipedia.org/wiki/Ludington_Pumped_Storage_Power_Plant",
+    sourceNote: "Modernizasyon sonrası kapasite yaklaşık 2.172 MW olarak verilir; eski kaynaklarda 1.872 MW değeri görülebilir.",
+    shortDescription: "Michigan Gölü kıyısında düşük düşüye karşılık çok büyük su hacmiyle çalışan kıyı tipi pompaj depolama tesisidir.",
+    wikiNote: "Eski kapasite ile modernizasyon sonrası kapasite ayrımı yapılmalıdır.",
   },
   {
     id: 'okutataragi',
@@ -184,8 +164,6 @@ export const WORLD_EXAMPLES: WorldExample[] = [
     sourceNote: 'Wikipedia listesinde 1.932 MW olarak yer alır.',
     shortDescription: 'Japonya\'nın erken dönem büyük ölçekli pompaj depolama tesislerinden biridir.',
     wikiNote: 'Uzun işletme geçmişi, PDHES teknolojisinin olgunluğunu göstermesi açısından önemlidir.',
-    analysis: 'Eski tesislerin hâlâ sistem değeri üretebilmesi PDHES\'in uzun ömürlü altyapı karakterini gösterir.',
-    turkeyLesson: 'PDHES yatırımları kısa dönemli değil, uzun işletme ömrü olan altyapı yatırımı olarak ele alınmalıdır.',
   },
   {
     id: 'tianhuangping',
@@ -203,8 +181,6 @@ export const WORLD_EXAMPLES: WorldExample[] = [
     sourceNote: 'Wikipedia listesinde 1.836 MW olarak verilir.',
     shortDescription: 'Doğu Çin\'de yüksek düşülü ve büyük kapasiteli pompaj depolama tesisidir.',
     wikiNote: 'Şebeke merkezi ve büyük tüketim bölgelerine yakın konumlu PDHES örneklerindendir.',
-    analysis: 'Yüksek düşü ve büyük kurulu güç, pik yük ve sistem dengeleme için güçlü bir kombinasyon oluşturur.',
-    turkeyLesson: 'Tüketim merkezlerine yakın yüksek kot farkı bulunan adayların önceliklendirme skorunda ağırlığı artırılabilir.',
   },
   {
     id: 'grand-maison',
@@ -223,8 +199,6 @@ export const WORLD_EXAMPLES: WorldExample[] = [
     sourceNote: 'Wikipedia listesinde 1.800 MW ve yaklaşık 34.800 MWh kapasiteyle yer alır.',
     shortDescription: 'Alpler\'de yüksek düşüye sahip büyük ölçekli pompaj depolama tesisidir.',
     wikiNote: 'Çok yüksek düşü, daha sınırlı hacimlerle yüksek enerji değerine ulaşılmasına imkân verir.',
-    analysis: 'Dağlık coğrafyada yüksek düşülü PDHES tasarımının Avrupa\'daki güçlü örneklerinden biridir.',
-    turkeyLesson: 'Doğu Karadeniz, Doğu Anadolu ve Toroslar gibi yüksek kot farkı bulunan bölgelerde düşü-hacim dengesi incelenmelidir.',
   },
   {
     id: 'dinorwig',
@@ -243,8 +217,6 @@ export const WORLD_EXAMPLES: WorldExample[] = [
     sourceNote: 'Wikipedia listesinde 1.728 MW olarak yer alır.',
     shortDescription: '"Electric Mountain" olarak bilinen, hızlı tepki kabiliyetiyle öne çıkan yeraltı güç evli tesistir.',
     wikiNote: 'Ani talep değişimlerinde ve frekans desteğinde hızlı devreye girme kabiliyeti ile bilinir.',
-    analysis: 'PDHES\'in yalnızca enerji depolama değil, hızlı şebeke desteği aracı olduğunu gösterir.',
-    turkeyLesson: 'Türkiye\'de yan hizmet ve frekans kontrolü değeri PDHES ekonomik analizinde ayrıca ele alınmalıdır.',
   },
   {
     id: 'raccoon-mountain',
@@ -263,8 +235,6 @@ export const WORLD_EXAMPLES: WorldExample[] = [
     sourceNote: 'Wikipedia listesinde 1.652 MW olarak verilir.',
     shortDescription: 'TVA sisteminde büyük üst rezervuarıyla uzun süreli destek sağlayan önemli ABD tesisidir.',
     wikiNote: 'Büyük depolama hacmi sayesinde pik yük dışında uzun süreli işletme esnekliği de sağlar.',
-    analysis: 'Enerji kapasitesi ve güç kapasitesinin birlikte değerlendirilmesi gerektiğini gösterir.',
-    turkeyLesson: 'Sadece MW değil, MWh depolama süresi ve çevrim stratejisi de kartlarda gösterilmelidir.',
   },
   {
     id: 'kazunogawa',
@@ -279,12 +249,8 @@ export const WORLD_EXAMPLES: WorldExample[] = [
     lat: 35.71861,
     lon: 138.92972,
     wikiUrl: 'https://en.wikipedia.org/wiki/Kazunogawa_Hydroelectric_Power_Station',
-    sourceNote: 'Kaynaklarda 1.200 MW ve 1.600 MW değerleri görülebilir; nihai/planlanan kapasite ayrımı kontrol edilmelidir.',
+    sourceNote: 'Kaynaklarda 1.200 MW ve 1.600 MW değerleri görülebilir.',
     shortDescription: 'Çok yüksek düşülü Japon pompaj depolama tesisidir.',
-    wikiNote: 'Kapasite değeri kaynaklara göre farklılık gösterebildiği için kartta not düşülmelidir.',
-    analysis: 'Yüksek düşü, Japon dağlık topoğrafyasında PDHES tasarımının temel avantajıdır.',
-    turkeyLesson: 'Aday değerlendirmelerinde kaynak verinin kapsamı açık yazılmalı; planlanan ve işletmedeki kapasite ayrılmalıdır.',
-    correctionNote: 'Eski sitedeki 1.600 MW değeri korunabilir ancak kaynak notuyla açıklanmalıdır.',
   },
   {
     id: 'cortes-la-muela',
@@ -302,10 +268,6 @@ export const WORLD_EXAMPLES: WorldExample[] = [
     wikiUrl: 'https://en.wikipedia.org/wiki/Cortes-La_Muela',
     sourceNote: 'Kompleks toplamı yaklaşık 1.490 MW olarak verilir; La Muela II genişlemesi yaklaşık 850 MW mertebesindedir.',
     shortDescription: 'İspanya\'da mevcut hidro sistemin pompaj depolama genişlemesiyle büyütüldüğü önemli bir komplekstir.',
-    wikiNote: 'La Muela II değeri ile Cortes-La Muela kompleks toplamı karıştırılmamalıdır.',
-    analysis: 'Mevcut baraj/hidro altyapısına pompaj depolama eklenmesinin iyi bir Avrupa örneğidir.',
-    turkeyLesson: 'Türkiye\'de mevcut HES/baraj altyapılarına PDHES eklenmesi ayrı bir potansiyel sınıfı olarak modellenmelidir.',
-    correctionNote: 'Sitedeki 852 MW değeri La Muela II genişlemesini ifade eder; kartta kompleks toplamı ve La Muela II ayrımı yapılmalıdır.',
   },
   {
     id: 'linth-limmern',
@@ -322,10 +284,6 @@ export const WORLD_EXAMPLES: WorldExample[] = [
     wikiUrl: 'https://en.wikipedia.org/wiki/Linth%E2%80%93Limmern_Power_Stations',
     sourceNote: 'Kompleks kapasitesi yaklaşık 1.480 MW olarak verilir; Linthal 2015 projesi ek 1.000 MW pompaj depolama kapasitesiyle anılır.',
     shortDescription: 'İsviçre Alpleri\'nde mevcut hidro sistemin modern pompaj depolama kapasitesiyle genişletildiği örnektir.',
-    wikiNote: '"Linthal 2015" proje adı ile kompleks toplam kapasitesi ayrılmalıdır.',
-    analysis: 'Mevcut hidro varlıkların pompaj depolama işleviyle güçlendirilmesi açısından çok iyi bir referanstır.',
-    turkeyLesson: 'Türkiye\'de mevcut baraj havzaları yalnızca üretim değil depolama dönüşümü açısından da taranmalıdır.',
-    correctionNote: 'Eski sitedeki 1.000 MW değeri proje genişlemesini ifade eder; yeni kartta kompleks ve proje ayrımı açık verilmelidir.',
   },
   {
     id: 'vianden',
@@ -333,7 +291,7 @@ export const WORLD_EXAMPLES: WorldExample[] = [
     country: 'Lüksemburg',
     countryCode: 'LU',
     flag: '🇱🇺',
-    capacityMw: 1296,
+    capacityMw:  1224,
     headM: 280,
     storageMwh: 4917,
     commissioningYear: '1964+',
@@ -344,8 +302,6 @@ export const WORLD_EXAMPLES: WorldExample[] = [
     sourceNote: 'Wikipedia listesinde 1.296 MW olarak yer alır.',
     shortDescription: 'Avrupa enterkonnekte sistemi içinde uzun süredir çalışan klasik pompaj depolama tesisidir.',
     wikiNote: 'Kapasitesi yıllar içinde ek üniteler ve modernizasyonlarla artırılmıştır.',
-    analysis: 'Sınır ötesi elektrik ticareti ve Avrupa sistem dengelemesi açısından önemli bir örnektir.',
-    turkeyLesson: 'Enterkonnekte sistem içinde depolama değerinin sadece yerel değil bölgesel etkileri de olabilir.',
   },
   {
     id: 'hohhot',
@@ -362,10 +318,6 @@ export const WORLD_EXAMPLES: WorldExample[] = [
     wikiUrl: 'https://en.wikipedia.org/wiki/Hohhot_Pumped_Storage_Power_Station',
     sourceNote: 'Wikipedia listesinde 1.224 MW olarak verilir.',
     shortDescription: 'İç Moğolistan bölgesinde rüzgâr üretimi ve sistem dengelemesi açısından önemli bir PDHES örneğidir.',
-    wikiNote: 'Eski sitedeki 1.200 MW değeri yuvarlatılmış olabilir; güncel veri 1.224 MW olarak gösterilmelidir.',
-    analysis: 'Rüzgâr üretiminin yoğun olduğu bölgelerde depolama yatırımlarının sistem değerini gösterir.',
-    turkeyLesson: 'RES yoğun bölgelerde PDHES önceliklendirmesi yapılırken üretim profili ve iletim kısıtları birlikte analiz edilmelidir.',
-    correctionNote: 'Kapasite 1.224 MW olarak güncellenmelidir.',
   },
   {
     id: 'helms',
@@ -383,8 +335,6 @@ export const WORLD_EXAMPLES: WorldExample[] = [
     sourceNote: 'Kaynaklarda yaklaşık 1.200–1.212 MW olarak verilir.',
     shortDescription: 'Kaliforniya\'da yüksek düşülü ve yeraltı güç evli pompaj depolama tesisidir.',
     wikiNote: 'Kaliforniya\'da değişken yenilenebilir üretim artışıyla sistem esnekliği açısından değeri daha da artmıştır.',
-    analysis: 'Güneş üretimi yüksek olan sistemlerde PDHES\'in gündüz/gece veya puant saat kaydırma rolünü gösterir.',
-    turkeyLesson: 'Türkiye\'de GES yoğun bölgelerde depolama ihtiyacı saatlik üretim profiliyle birlikte incelenmelidir.',
   },
   {
     id: 'coo-trois-ponts',
@@ -403,8 +353,6 @@ export const WORLD_EXAMPLES: WorldExample[] = [
     sourceNote: 'Wikipedia listesinde 1.164 MW olarak yer alır.',
     shortDescription: 'Belçika\'da düşük/orta düşü ve yüksek güç kombinasyonuna sahip Avrupa pompaj depolama örneğidir.',
     wikiNote: 'Avrupa sisteminde uzun süredir çalışan dengeleme tesislerinden biridir.',
-    analysis: 'Çok yüksek düşü olmadan da uygun hacim ve konumla yüksek sistem değeri üretilebileceğini gösterir.',
-    turkeyLesson: 'PDHES aday skorlamasında düşü kadar rezervuar hacmi ve şebeke konumu da ağırlıklandırılmalıdır.',
   },
   {
     id: 'blenheim-gilboa',
@@ -423,8 +371,6 @@ export const WORLD_EXAMPLES: WorldExample[] = [
     sourceNote: 'Wikipedia listesinde 1.160 MW olarak yer alır.',
     shortDescription: 'New York eyaletinde uzun süredir işletilen büyük kapasiteli pompaj depolama tesisidir.',
     wikiNote: 'Eski tesislerin modern sistemde hâlâ esneklik değeri üretebildiğini gösterir.',
-    analysis: 'Uzun işletme ömrü ve modernizasyon potansiyeli açısından önemli bir ABD örneğidir.',
-    turkeyLesson: 'PDHES projeleri uzun ömürlü altyapı yatırımı olarak değerlendirilmelidir.',
   },
   {
     id: 'shintoyone',
@@ -442,8 +388,6 @@ export const WORLD_EXAMPLES: WorldExample[] = [
     sourceNote: 'Wikipedia listesinde 1.125 MW olarak yer alır.',
     shortDescription: 'Japonya\'da daha düşük düşüye rağmen yüksek kurulu güç sağlayan klasik pompaj depolama tesisidir.',
     wikiNote: 'Düşü diğer Japon örneklerine göre düşük olsa da sistem işletmesi açısından önemli kapasite sunar.',
-    analysis: 'Düşü tek başına belirleyici değildir; hacim, tasarım debisi ve türbin-pompa kapasitesi birlikte değerlendirilir.',
-    turkeyLesson: 'Türkiye adaylarında yalnızca kot farkına göre eleme yapılmamalı; hacim ve bağlantı da hesaba katılmalıdır.',
   },
   {
     id: 'goldisthal',
@@ -462,8 +406,6 @@ export const WORLD_EXAMPLES: WorldExample[] = [
     sourceNote: 'Wikipedia listesinde 1.060 MW olarak yer alır.',
     shortDescription: 'Almanya\'da yenilenebilir enerji artışıyla sistem esnekliği açısından önemli hale gelen büyük pompaj depolama tesisidir.',
     wikiNote: 'Almanya\'daki enerji dönüşümü bağlamında depolama ve sistem esnekliği rolüyle öne çıkar.',
-    analysis: 'Rüzgâr ve güneş üretimi arttıkça PDHES\'in sistem değeri yükselir.',
-    turkeyLesson: 'Türkiye\'de yenilenebilir kurulu güç artışı ile depolama ihtiyacı birlikte planlanmalıdır.',
   },
   {
     id: 'siah-bishe',
@@ -481,8 +423,6 @@ export const WORLD_EXAMPLES: WorldExample[] = [
     sourceNote: 'Wikipedia listesinde 1.040 MW olarak yer alır.',
     shortDescription: 'İran\'da bölgesel ölçekte önemli olan pompaj depolama tesisidir.',
     wikiNote: 'Türkiye\'ye coğrafi olarak yakın bölgesel PDHES örneklerinden biridir.',
-    analysis: 'Orta Doğu ve yakın coğrafyada PDHES uygulamalarının karşılaştırılması için değerlidir.',
-    turkeyLesson: 'Türkiye\'nin bölgesel enterkonneksiyon ve sistem esnekliği ihtiyaçları açısından yakın coğrafya örnekleri ayrıca incelenebilir.',
   },
   {
     id: 'drakensberg',
@@ -501,8 +441,6 @@ export const WORLD_EXAMPLES: WorldExample[] = [
     sourceNote: 'Wikipedia listesinde 1.000 MW olarak yer alır.',
     shortDescription: 'Hem enerji depolama hem de su aktarım sistemiyle ilişkili çok amaçlı bir projedir.',
     wikiNote: 'Su yönetimi ve enerji depolama işlevlerinin birlikte ele alındığı örneklerden biridir.',
-    analysis: 'Çok amaçlı projelerde enerji, su tahsisi ve çevresel işletme birlikte değerlendirilmelidir.',
-    turkeyLesson: 'Türkiye\'de baraj havzalarında PDHES potansiyeli incelenirken su kullanım hakları ve DSİ işletme rejimi dikkate alınmalıdır.',
   },
   {
     id: 'nant-de-drance',
@@ -520,8 +458,6 @@ export const WORLD_EXAMPLES: WorldExample[] = [
     sourceNote: 'Yaklaşık 900 MW kapasiteyle modern Avrupa PDHES örneklerinden biridir.',
     shortDescription: 'İsviçre\'de mevcut rezervuarların entegrasyonu ve yeraltı güç eviyle geliştirilen modern pompaj depolama tesisidir.',
     wikiNote: 'Yeni nesil Avrupa PDHES projeleri içinde teknik tasarım ve sistem esnekliği açısından öne çıkar.',
-    analysis: 'Mevcut hidro altyapıyı modern ekipmanla genişletme yaklaşımını temsil eder.',
-    turkeyLesson: 'Mevcut barajların yalnızca üretim tesisi değil, esneklik altyapısı olarak yeniden değerlendirilmesi mümkündür.',
   },
   {
     id: 'kopswerk-ii',
@@ -536,12 +472,9 @@ export const WORLD_EXAMPLES: WorldExample[] = [
     lat: 46.9756,
     lon: 10.043,
     wikiUrl: 'https://en.wikipedia.org/wiki/Kopswerk_II',
-    sourceNote: 'Kaynaklarda 450 MW ve 525 MW değerleri görülebilir; güncel referanslarda 525 MW değeri kullanılabilir.',
+    sourceNote: 'Kapasitesi güncel referanslarda 525 MW olarak geçmektedir.',
     shortDescription: 'Avusturya Alpleri\'nde yüksek düşülü ve esnek işletmeli modern pompaj depolama tesisidir.',
     wikiNote: 'Yüksek düşü, dağlık coğrafyada kompakt ama güçlü pompaj depolama tasarımını mümkün kılar.',
-    analysis: 'Yüksek düşü, tünel ve yeraltı santral tasarımı açısından iyi bir mühendislik örneğidir.',
-    turkeyLesson: 'Yüksek dağlık bölgelerde düşü avantajı yatırım maliyeti ve jeolojik risklerle birlikte değerlendirilmelidir.',
-    correctionNote: 'Eski sitedeki 450 MW değeri kontrol edilmeli; kartta 525 MW ve kaynak farkı notu verilmelidir.',
   },
   {
     id: 'limberg-ii',
@@ -559,8 +492,6 @@ export const WORLD_EXAMPLES: WorldExample[] = [
     sourceNote: 'Kaprun sisteminin pompaj depolama genişlemesi olarak yaklaşık 480 MW kapasiteyle anılır.',
     shortDescription: 'Mevcut hidro sistemin pompaj depolama kabiliyetiyle güçlendirilmesine örnektir.',
     wikiNote: 'Kaprun sistemi içindeki modern genişleme projelerinden biridir.',
-    analysis: 'Mevcut hidro varlıkların depolama esnekliği için güçlendirilmesini gösterir.',
-    turkeyLesson: 'Mevcut HES projelerine ek pompa-türbin ve ikinci rezervuar entegrasyonu incelenebilir.',
   },
   {
     id: 'cruachan',
@@ -578,8 +509,6 @@ export const WORLD_EXAMPLES: WorldExample[] = [
     sourceNote: 'Yaklaşık 440 MW kapasiteyle İskoçya\'da yeraltı güç evli klasik pompaj depolama tesisidir.',
     shortDescription: 'Ben Cruachan dağının içinde yer alan güç eviyle bilinen erken dönem PDHES örneklerindendir.',
     wikiNote: 'Hızlı devreye girme ve sistem toparlanmasına katkı açısından bilinen bir tesistir.',
-    analysis: 'Yeraltı santral tasarımı ve görsel/çevresel etkiyi azaltma açısından iyi bir örnektir.',
-    turkeyLesson: 'Görsel etki ve arazi kullanımı hassas alanlarda yeraltı güç evi çözümleri değerlendirilebilir.',
   },
   {
     id: 'ffestiniog',
@@ -597,8 +526,6 @@ export const WORLD_EXAMPLES: WorldExample[] = [
     sourceNote: 'Birleşik Krallık\'ın erken büyük pompaj depolama örneklerinden biridir.',
     shortDescription: 'Modern PDHES uygulamalarının Avrupa\'daki erken örneklerinden biridir.',
     wikiNote: '1960\'lardan bu yana işletmede olan uzun ömürlü PDHES örneğidir.',
-    analysis: 'PDHES teknolojisinin uzun dönemli işletme ve bakım tecrübesi açısından önemlidir.',
-    turkeyLesson: 'PDHES yatırımları onlarca yıllık planlama ufkuyla değerlendirilmelidir.',
   },
   {
     id: 'turlough-hill',
@@ -616,8 +543,6 @@ export const WORLD_EXAMPLES: WorldExample[] = [
     sourceNote: 'İrlanda\'nın tek pompaj depolama tesisi olarak yaklaşık 292 MW kapasiteyle anılır.',
     shortDescription: 'Ada şebekesi için stratejik dengeleme sağlayan orta ölçekli PDHES örneğidir.',
     wikiNote: 'Küçük güçte olsa da sistem esnekliği açısından yüksek değer taşıyabilir.',
-    analysis: 'Ada sistemlerinde veya sınırlı bağlantılı bölgelerde depolama daha stratejik hale gelir.',
-    turkeyLesson: 'Türkiye\'de izole veya kısıtlı bağlantılı bölgelerde küçük/orta ölçekli PDHES adayları ayrıca değerlendirilebilir.',
   },
   {
     id: 'okinawa-yanbaru',
@@ -635,8 +560,5 @@ export const WORLD_EXAMPLES: WorldExample[] = [
     sourceNote: 'Deniz suyunu alt rezervuar olarak kullanan pilot PDHES tesisidir; artık işletmede değildir.',
     shortDescription: 'Deniz suyu kullanan dünyadaki ilk PDHES pilot uygulaması olarak önemlidir.',
     wikiNote: 'Tesis 2016\'da sökülmüştür; aktif işletmede olan bir tesis gibi gösterilmemelidir.',
-    analysis: 'Korozyon, deniz suyu etkisi, malzeme seçimi ve çevresel izinler açısından önemli dersler sunar.',
-    turkeyLesson: 'Türkiye\'de deniz suyu PDHES adayları değerlendirilirken korozyon, deniz ekolojisi ve kıyı izinleri temel risk başlıklarıdır.',
-    correctionNote: 'Kartta "pilot tesis / sökülmüş" etiketi açıkça gösterilmelidir.',
   },
 ];
