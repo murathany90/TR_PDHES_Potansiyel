@@ -5,7 +5,6 @@ import { FabPopover } from '../components/FabPopover';
 import { ElevationProfile } from '../components/ElevationProfile';
 import { useSiteStore } from '../stores/useSiteStore';
 import { useSettingsStore } from '../stores/useSettingsStore';
-import { COMPONENTS } from '../utils/constants';
 import { WORLD_EXAMPLES } from '../data/worldExamples';
 import { num, moneyBn, moneyM } from '../utils/format';
 
