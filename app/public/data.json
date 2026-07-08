@@ -36,34 +36,34 @@
       "coordinateConfidence": "fallback-approximate",
       "coordinateNote": "Koordinatlar ön etüt çalışmasından uyarlanmıştır. 3D footprint odaklı revize edildi.",
       "mapAnchor": [
-        31.021,
-        40.035
+        31.0225,
+        40.0354
       ],
       "lowerReservoir": {
         "name": "Gökçekaya Baraj Gölü",
         "point": [
-          31.021,
-          40.035
+          31.0225,
+          40.0354
         ]
       },
       "upperReservoir": {
         "description": "Gökçekaya üst rezervuar",
         "point": [
-          30.9728,
-          40.0719
+          30.9737,
+          40.0717
         ]
       },
       "powerhouse": {
         "preferred3dType": "underground-cavern",
         "point": [
-          31.0056,
-          40.0256
+          31.0079,
+          40.028
         ]
       },
       "surgeTank": {
         "point": [
-          30.9888,
-          40.0511
+          30.9897,
+          40.0524
         ]
       },
       "penstockRoute": [
@@ -88,84 +88,200 @@
       },
       "switchyard": {
         "point": [
-          31.0252,
-          40.0302
+          31.0134,
+          40.0274
         ]
       },
       "gridConnection": {
         "voltageClassHint": "380 kV",
         "point": [
-          31.0252,
-          40.0302
+          31.0134,
+          40.0274
         ]
       },
       "intakeOutfall": null,
       "bbox": [
-        30.958,
-        40.02,
-        31.033,
-        40.079
+        30.956,
+        40.022,
+        31.042,
+        40.08
       ],
       "upperReservoirPolygon": [
         [
-          30.9652,
-          40.0737
+          30.9627,
+          40.0749
         ],
         [
-          30.9664,
-          40.0746
+          30.9662,
+          40.0766
         ],
         [
-          30.969,
-          40.075
+          30.9728,
+          40.0772
         ],
         [
-          30.9743,
-          40.0751
+          30.9796,
+          40.0764
         ],
         [
-          30.9788,
-          40.0745
+          30.9837,
+          40.074
         ],
         [
-          30.9805,
-          40.0732
+          30.9843,
+          40.0708
         ],
         [
-          30.9809,
-          40.0715
+          30.9826,
+          40.0681
         ],
         [
-          30.9801,
-          40.07
+          30.978,
+          40.0664
         ],
         [
-          30.9781,
-          40.0689
+          30.9715,
+          40.066
         ],
         [
-          30.9737,
-          40.0685
+          30.9658,
+          40.0668
         ],
         [
-          30.9688,
-          40.0685
+          30.9626,
+          40.069
         ],
         [
-          30.9661,
-          40.0691
+          30.9619,
+          40.072
+        ],
+        [
+          30.9627,
+          40.0749
+        ]
+      ],
+      "upperReservoirEmbankmentPolygon": [
+        [
+          30.9608,
+          40.0759
+        ],
+        [
+          30.9649,
+          40.0779
+        ],
+        [
+          30.9727,
+          40.0787
+        ],
+        [
+          30.9808,
+          40.0778
+        ],
+        [
+          30.9859,
+          40.0749
+        ],
+        [
+          30.9867,
+          40.0706
+        ],
+        [
+          30.9846,
+          40.0671
+        ],
+        [
+          30.9792,
+          40.0649
+        ],
+        [
+          30.9714,
+          40.0645
         ],
         [
           30.9648,
-          40.0701
+          40.0655
         ],
         [
-          30.9645,
-          40.0718
+          30.9609,
+          40.0681
         ],
         [
-          30.9652,
-          40.0737
+          30.96,
+          40.0719
+        ],
+        [
+          30.9608,
+          40.0759
+        ]
+      ],
+      "lowerReservoirPolygon": [
+        [
+          31.0098,
+          40.0424
+        ],
+        [
+          31.0132,
+          40.045
+        ],
+        [
+          31.0186,
+          40.0467
+        ],
+        [
+          31.0246,
+          40.047
+        ],
+        [
+          31.0308,
+          40.0458
+        ],
+        [
+          31.0357,
+          40.0432
+        ],
+        [
+          31.0388,
+          40.0393
+        ],
+        [
+          31.039,
+          40.0347
+        ],
+        [
+          31.0368,
+          40.0304
+        ],
+        [
+          31.0323,
+          40.0273
+        ],
+        [
+          31.027,
+          40.0255
+        ],
+        [
+          31.0216,
+          40.0249
+        ],
+        [
+          31.0166,
+          40.0255
+        ],
+        [
+          31.0129,
+          40.0274
+        ],
+        [
+          31.0104,
+          40.0307
+        ],
+        [
+          31.0097,
+          40.0351
+        ],
+        [
+          31.0098,
+          40.0424
         ]
       ]
     },
@@ -188,7 +304,7 @@
       "showUncertaintyOverlay": true
     },
     "thesis": "Gökçekaya PDHES, JICA/EİE aday listesinde 1600 MW kurulu güç, 962 m düşü ve 193 m³/s proje debisiyle verilen kavramsal PDHES adayıdır.",
-    "note": "Çizim geometrisi Gökçekaya ön etüt general layout görseline göre güncellendi. Üst rezervuar artık kare/square placeholder yerine polygon footprint ile temsil edilmelidir. Bileşen koordinatları mevcut uygulama yerleşimi korunarak 3D çizim odaklı revize edilmiştir.",
+    "note": "Geometri güncellemesi: Gökçekaya alt rezervuarı kare placeholder yerine yaklaşık gerçek shoreline polygonu ile, üst rezervuar ise hedef görseldeki yapay havuz formuna yakın polygon ve embankment footprint ile güncellenmiştir.",
     "timeline": [
       {
         "date": "JICA/EİE",
@@ -215,108 +331,100 @@
       "bearing": -32
     },
     "layout": {
-      "bearing": -32,
+      "bearing": -34,
       "upper": [
-        30.9728,
-        40.0719
+        30.9737,
+        40.0717
       ],
       "upperPolygon": [
         [
-          30.9652,
-          40.0737
+          30.9627,
+          40.0749
         ],
         [
-          30.9664,
-          40.0746
+          30.9662,
+          40.0766
         ],
         [
-          30.969,
-          40.075
+          30.9728,
+          40.0772
         ],
         [
-          30.9743,
-          40.0751
+          30.9796,
+          40.0764
         ],
         [
-          30.9788,
-          40.0745
+          30.9837,
+          40.074
         ],
         [
-          30.9805,
-          40.0732
+          30.9843,
+          40.0708
         ],
         [
-          30.9809,
-          40.0715
+          30.9826,
+          40.0681
         ],
         [
-          30.9801,
-          40.07
+          30.978,
+          40.0664
         ],
         [
-          30.9781,
-          40.0689
+          30.9715,
+          40.066
         ],
         [
-          30.9737,
-          40.0685
+          30.9658,
+          40.0668
         ],
         [
-          30.9688,
-          40.0685
+          30.9626,
+          40.069
         ],
         [
-          30.9661,
-          40.0691
+          30.9619,
+          40.072
         ],
         [
-          30.9648,
-          40.0701
-        ],
-        [
-          30.9645,
-          40.0718
-        ],
-        [
-          30.9652,
-          40.0737
+          30.9627,
+          40.0749
         ]
       ],
       "lower": [
-        31.021,
-        40.035
+        31.0225,
+        40.0354
       ],
       "power": [
-        31.0056,
-        40.0256
+        31.0079,
+        40.028
       ],
       "surge": [
-        30.9888,
-        40.0511
+        30.9897,
+        40.0524
       ],
       "servicePortal": [
-        30.9976,
-        40.0295
+        30.9987,
+        40.0339
       ],
       "switchyard": [
-        31.0252,
-        40.0302
+        31.0134,
+        40.0274
       ],
       "gridA": [
-        30.437708,
-        39.818699
+        31.0134,
+        40.0274
       ],
       "gridB": [
-        30.563097,
-        39.858431
+        31.0204,
+        40.0258
       ],
       "risk": [
-        31.021,
-        40.035
+        31.0225,
+        40.0354
       ],
       "gridTap": [
-        30.563097,
-        39.858431
+        31.0134,
+        40.0274
       ]
     },
     "components_detail": {
@@ -324,22 +432,24 @@
         "elevation_m": 801,
         "active_volume_mcm": 10.8,
         "dam_height_m": 38,
-        "lining": "kil çekirdekli set ve yerel geomembran alternatifi",
-        "geology_note": "İletim takviyesi",
-        "shape_note": "Ön etüt general layout planına uygun olarak uzatılmış-oval / beton çevrili üst rezervuar footprinti kullanılmalıdır.",
+        "lining": "asfalt / geomembran kaplamalı yapay üst rezervuar",
+        "geology_note": "Üst rezervuar polygonu ve set çevresi hedef görsele ve harita yorumuna göre güncellendi.",
+        "shape_note": "Kare placeholder yerine uzun-oval polygon footprint kullanılmalıdır.",
         "render_mode": "polygon_footprint"
       },
       "lower_reservoir": {
         "elevation_m": 421,
         "min_level_m": 413,
-        "note": "Gökçekaya Barajı / mevcut HES şaltı; DSİ işletme rejimi ve ekolojik akış doğrulanmalı."
+        "note": "Alt rezervuar artık kare alan olarak değil, Gökçekaya Baraj gölünün yaklaşık gerçek shoreline polygonu ile çizilmelidir.",
+        "render_mode": "polygon_footprint"
       },
       "penstock": {
-        "diameter_m": 8.2,
+        "diameter_m": 6.6,
         "length_m": 4050,
-        "material": "çelik kaplı basınç tüneli",
+        "material": "çelik cebri boru / yüksek basınçlı su yolu",
         "pressure_class": "~37 bar statik basınç sınıfı",
-        "count": 2
+        "count": 4,
+        "visualization_note": "3D sahnede dört paralel visible penstock olarak gösterilmelidir."
       },
       "powerhouse": {
         "cavern_width_m": 36,
@@ -365,15 +475,98 @@
       },
       "intake_outfall": null
     },
-    "verificationNotes": "Ön etüt general layout planı dikkate alınarak üst rezervuar, surge tank, servis/drenaj portalı, powerhouse ve şalt sahası için çizim koordinatları revize edildi. Teknik değerler değiştirilmedi; sadece görsel yerleşim ve 3D footprint güncellendi.",
+    "verificationNotes": "Çizim odaklı revizyon yapılmıştır. Alt rezervuar polygonu ve üst rezervuar set poligonları gerçek harita görüntüsüne görsel olarak yaklaşacak şekilde yaklaşık dijitalize edilmiştir.",
     "layout3D": {
       "scale": "macro",
-      "preferredBearing": -32,
-      "terrainExaggeration": 1.35,
+      "preferredBearing": -34,
+      "terrainExaggeration": 1.38,
       "reservoirSurfaceMode": "polygon",
       "useFootprintPolygons": true,
       "hideLegacySquareReservoir": true,
+      "renderLowerReservoirAsPolygon": true,
+      "renderUpperReservoirAsPolygon": true,
+      "renderPenstocksAsParallelArray": true,
       "componentFootprints": [
+        {
+          "id": "lowerReservoirWater",
+          "component": "lower_reservoir",
+          "kind": "polygon",
+          "material": "water",
+          "closed": true,
+          "coords": [
+            [
+              31.0098,
+              40.0424
+            ],
+            [
+              31.0132,
+              40.045
+            ],
+            [
+              31.0186,
+              40.0467
+            ],
+            [
+              31.0246,
+              40.047
+            ],
+            [
+              31.0308,
+              40.0458
+            ],
+            [
+              31.0357,
+              40.0432
+            ],
+            [
+              31.0388,
+              40.0393
+            ],
+            [
+              31.039,
+              40.0347
+            ],
+            [
+              31.0368,
+              40.0304
+            ],
+            [
+              31.0323,
+              40.0273
+            ],
+            [
+              31.027,
+              40.0255
+            ],
+            [
+              31.0216,
+              40.0249
+            ],
+            [
+              31.0166,
+              40.0255
+            ],
+            [
+              31.0129,
+              40.0274
+            ],
+            [
+              31.0104,
+              40.0307
+            ],
+            [
+              31.0097,
+              40.0351
+            ],
+            [
+              31.0098,
+              40.0424
+            ]
+          ],
+          "baseElevationM": 421,
+          "topElevationM": 421,
+          "extrudeM": 0
+        },
         {
           "id": "upperReservoirWater",
           "component": "upper_reservoir",
@@ -382,64 +575,56 @@
           "closed": true,
           "coords": [
             [
-              30.9652,
-              40.0737
+              30.9627,
+              40.0749
             ],
             [
-              30.9664,
-              40.0746
+              30.9662,
+              40.0766
             ],
             [
-              30.969,
-              40.075
+              30.9728,
+              40.0772
             ],
             [
-              30.9743,
-              40.0751
+              30.9796,
+              40.0764
             ],
             [
-              30.9788,
-              40.0745
+              30.9837,
+              40.074
             ],
             [
-              30.9805,
-              40.0732
+              30.9843,
+              40.0708
             ],
             [
-              30.9809,
-              40.0715
+              30.9826,
+              40.0681
             ],
             [
-              30.9801,
-              40.07
+              30.978,
+              40.0664
             ],
             [
-              30.9781,
-              40.0689
+              30.9715,
+              40.066
             ],
             [
-              30.9737,
-              40.0685
+              30.9658,
+              40.0668
             ],
             [
-              30.9688,
-              40.0685
+              30.9626,
+              40.069
             ],
             [
-              30.9661,
-              40.0691
+              30.9619,
+              40.072
             ],
             [
-              30.9648,
-              40.0701
-            ],
-            [
-              30.9645,
-              40.0718
-            ],
-            [
-              30.9652,
-              40.0737
+              30.9627,
+              40.0749
             ]
           ],
           "baseElevationM": 801,
@@ -454,64 +639,56 @@
           "closed": true,
           "coords": [
             [
-              30.9638,
-              40.0745
+              30.9608,
+              40.0759
             ],
             [
-              30.9657,
-              40.076
+              30.9649,
+              40.0779
             ],
             [
-              30.9691,
-              40.0767
+              30.9727,
+              40.0787
             ],
             [
-              30.9746,
-              40.0768
+              30.9808,
+              40.0778
             ],
             [
-              30.9798,
-              40.0761
+              30.9859,
+              40.0749
             ],
             [
-              30.9821,
-              40.0743
+              30.9867,
+              40.0706
             ],
             [
-              30.9828,
-              40.0715
-            ],
-            [
-              30.9818,
-              40.0688
+              30.9846,
+              40.0671
             ],
             [
               30.9792,
-              40.0673
+              40.0649
             ],
             [
-              30.974,
-              40.0667
+              30.9714,
+              40.0645
             ],
             [
-              30.9683,
-              40.0667
+              30.9648,
+              40.0655
             ],
             [
-              30.9655,
-              40.0674
+              30.9609,
+              40.0681
             ],
             [
-              30.9635,
-              40.0691
+              30.96,
+              40.0719
             ],
             [
-              30.963,
-              40.0716
-            ],
-            [
-              30.9638,
-              40.0745
+              30.9608,
+              40.0759
             ]
           ],
           "baseElevationM": 763,
@@ -519,136 +696,36 @@
           "extrudeM": 38
         },
         {
-          "id": "upperDamCrestRoad",
-          "component": "upper_reservoir",
-          "kind": "polyline",
-          "material": "crest_road",
-          "closed": true,
-          "coords": [
-            [
-              30.9642,
-              40.0742
-            ],
-            [
-              30.966,
-              40.0754
-            ],
-            [
-              30.9692,
-              40.076
-            ],
-            [
-              30.9745,
-              40.0761
-            ],
-            [
-              30.9793,
-              40.0755
-            ],
-            [
-              30.9812,
-              40.0738
-            ],
-            [
-              30.9817,
-              40.0715
-            ],
-            [
-              30.9808,
-              40.0692
-            ],
-            [
-              30.9785,
-              40.0678
-            ],
-            [
-              30.9739,
-              40.0673
-            ],
-            [
-              30.9686,
-              40.0673
-            ],
-            [
-              30.9658,
-              40.0681
-            ],
-            [
-              30.964,
-              40.0698
-            ],
-            [
-              30.9637,
-              40.0717
-            ],
-            [
-              30.9642,
-              40.0742
-            ]
-          ],
-          "elevationM": 801
-        },
-        {
-          "id": "upperIntake",
+          "id": "upperIntakeStructure",
           "component": "intake",
           "kind": "polygon",
           "material": "concrete",
           "closed": true,
           "coords": [
             [
-              30.9799,
-              40.0723
+              30.9816,
+              40.0709
             ],
             [
-              30.9805,
-              40.0723
+              30.9826,
+              40.0709
             ],
             [
-              30.9805,
-              40.0718
+              30.9826,
+              40.0701
             ],
             [
-              30.9799,
-              40.0718
+              30.9816,
+              40.0701
             ],
             [
-              30.9799,
-              40.0723
+              30.9816,
+              40.0709
             ]
           ],
           "baseElevationM": 798,
           "topElevationM": 801,
           "extrudeM": 3
-        },
-        {
-          "id": "headraceAlignment",
-          "component": "tunnel",
-          "kind": "polyline",
-          "material": "tunnel_axis",
-          "coords": [
-            [
-              30.9802,
-              40.072
-            ],
-            [
-              30.9888,
-              40.0511
-            ],
-            [
-              30.9976,
-              40.0295
-            ],
-            [
-              31.0056,
-              40.0256
-            ]
-          ],
-          "profileElevationM": [
-            801,
-            715,
-            555,
-            421
-          ]
         },
         {
           "id": "surgeTankFootprint",
@@ -658,44 +735,44 @@
           "closed": true,
           "coords": [
             [
-              30.9888,
-              40.0515
+              30.9897,
+              40.0528
             ],
             [
-              30.9891,
-              40.0514
+              30.9901,
+              40.0527
+            ],
+            [
+              30.9902,
+              40.0524
+            ],
+            [
+              30.9901,
+              40.0521
+            ],
+            [
+              30.9897,
+              40.052
             ],
             [
               30.9893,
-              40.0511
+              40.0521
             ],
             [
-              30.9891,
-              40.0508
+              30.9892,
+              40.0524
             ],
             [
-              30.9888,
-              40.0507
+              30.9893,
+              40.0527
             ],
             [
-              30.9885,
-              40.0508
-            ],
-            [
-              30.9883,
-              40.0511
-            ],
-            [
-              30.9885,
-              40.0514
-            ],
-            [
-              30.9888,
-              40.0515
+              30.9897,
+              40.0528
             ]
           ],
-          "baseElevationM": 689,
-          "topElevationM": 801,
+          "baseElevationM": 690,
+          "topElevationM": 802,
           "extrudeM": 112
         },
         {
@@ -706,28 +783,28 @@
           "closed": true,
           "coords": [
             [
-              30.997,
-              40.03
+              30.9981,
+              40.0343
             ],
             [
-              30.9982,
-              40.03
+              30.9992,
+              40.0343
             ],
             [
-              30.9982,
-              40.0291
+              30.9992,
+              40.0335
             ],
             [
-              30.997,
-              40.0291
+              30.9981,
+              40.0335
             ],
             [
-              30.997,
-              40.03
+              30.9981,
+              40.0343
             ]
           ],
-          "baseElevationM": 470,
-          "topElevationM": 476,
+          "baseElevationM": 468,
+          "topElevationM": 474,
           "extrudeM": 6
         },
         {
@@ -738,54 +815,29 @@
           "closed": true,
           "coords": [
             [
-              31.0048,
-              40.0262
+              31.0066,
+              40.0287
             ],
             [
-              31.0064,
-              40.0262
+              31.0093,
+              40.0287
             ],
             [
-              31.0064,
-              40.025
+              31.0093,
+              40.0273
             ],
             [
-              31.0048,
-              40.025
+              31.0066,
+              40.0273
             ],
             [
-              31.0048,
-              40.0262
+              31.0066,
+              40.0287
             ]
           ],
           "baseElevationM": 421,
-          "topElevationM": 433,
-          "extrudeM": 12
-        },
-        {
-          "id": "tailraceOutfall",
-          "component": "tailrace",
-          "kind": "polyline",
-          "material": "tailrace_channel",
-          "coords": [
-            [
-              31.0056,
-              40.0256
-            ],
-            [
-              31.0084,
-              40.0283
-            ],
-            [
-              31.011,
-              40.0308
-            ]
-          ],
-          "profileElevationM": [
-            421,
-            421,
-            421
-          ]
+          "topElevationM": 434,
+          "extrudeM": 13
         },
         {
           "id": "switchyardFootprint",
@@ -795,29 +847,200 @@
           "closed": true,
           "coords": [
             [
-              31.0239,
-              40.0309
+              31.012,
+              40.0279
             ],
             [
-              31.0265,
-              40.0309
+              31.0148,
+              40.0279
             ],
             [
-              31.0265,
-              40.0295
+              31.0148,
+              40.0268
             ],
             [
-              31.0239,
-              40.0295
+              31.012,
+              40.0268
             ],
             [
-              31.0239,
-              40.0309
+              31.012,
+              40.0279
             ]
           ],
-          "baseElevationM": 436,
-          "topElevationM": 444,
+          "baseElevationM": 430,
+          "topElevationM": 438,
           "extrudeM": 8
+        },
+        {
+          "id": "penstock01",
+          "component": "penstock",
+          "kind": "polyline",
+          "material": "tunnel_axis",
+          "coords": [
+            [
+              30.9817,
+              40.0706
+            ],
+            [
+              30.989,
+              40.0525
+            ],
+            [
+              30.9981,
+              40.0347
+            ],
+            [
+              31.0068,
+              40.0283
+            ]
+          ],
+          "profileElevationM": [
+            801,
+            690,
+            505,
+            421
+          ]
+        },
+        {
+          "id": "penstock02",
+          "component": "penstock",
+          "kind": "polyline",
+          "material": "tunnel_axis",
+          "coords": [
+            [
+              30.982,
+              40.0704
+            ],
+            [
+              30.9893,
+              40.0523
+            ],
+            [
+              30.9984,
+              40.0345
+            ],
+            [
+              31.0073,
+              40.0281
+            ]
+          ],
+          "profileElevationM": [
+            801,
+            690,
+            505,
+            421
+          ]
+        },
+        {
+          "id": "penstock03",
+          "component": "penstock",
+          "kind": "polyline",
+          "material": "tunnel_axis",
+          "coords": [
+            [
+              30.9823,
+              40.0702
+            ],
+            [
+              30.9896,
+              40.0521
+            ],
+            [
+              30.9987,
+              40.0343
+            ],
+            [
+              31.0078,
+              40.0279
+            ]
+          ],
+          "profileElevationM": [
+            801,
+            690,
+            505,
+            421
+          ]
+        },
+        {
+          "id": "penstock04",
+          "component": "penstock",
+          "kind": "polyline",
+          "material": "tunnel_axis",
+          "coords": [
+            [
+              30.9826,
+              40.07
+            ],
+            [
+              30.9899,
+              40.0519
+            ],
+            [
+              30.999,
+              40.0341
+            ],
+            [
+              31.0083,
+              40.0277
+            ]
+          ],
+          "profileElevationM": [
+            801,
+            690,
+            505,
+            421
+          ]
+        },
+        {
+          "id": "tailraceOutfall",
+          "component": "tailrace",
+          "kind": "polyline",
+          "material": "tailrace_channel",
+          "coords": [
+            [
+              31.0079,
+              40.028
+            ],
+            [
+              31.0114,
+              40.027
+            ],
+            [
+              31.0162,
+              40.0259
+            ],
+            [
+              31.02,
+              40.0253
+            ]
+          ],
+          "profileElevationM": [
+            421,
+            421,
+            421,
+            421
+          ]
+        },
+        {
+          "id": "lowerDamAxis",
+          "component": "dam",
+          "kind": "polyline",
+          "material": "concrete",
+          "coords": [
+            [
+              31.0166,
+              40.026
+            ],
+            [
+              31.0188,
+              40.0248
+            ],
+            [
+              31.0211,
+              40.0238
+            ]
+          ],
+          "elevationM": 421
         }
       ]
     },

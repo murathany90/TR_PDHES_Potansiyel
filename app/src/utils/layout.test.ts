@@ -13,17 +13,17 @@ describe('buildLayout footprint geometry', () => {
     const layout = buildLayout(gokcekaya, 1);
     const blockKeys = layout.blocks.features.map((feature) => String(feature.properties?.key));
     const upperWater = layout.blocks.features.find((feature) => feature.properties?.key === 'upperReservoirWater');
-    const headrace = layout.water.features.find((feature) => feature.properties?.key === 'headraceAlignment');
+    const headrace = layout.water.features.find((feature) => feature.properties?.key === 'penstock01');
 
     expect(blockKeys).toContain('upperReservoirWater');
     expect(blockKeys).toContain('upperReservoirEmbankment');
     expect(blockKeys).not.toContain('upper_reservoir');
     expect(upperWater?.geometry.coordinates[0]).toEqual(gokcekaya.coordinates.upperReservoirPolygon);
     expect(headrace?.geometry.coordinates).toEqual([
-      [30.9802, 40.072],
-      [30.9888, 40.0511],
-      [30.9976, 40.0295],
-      [31.0056, 40.0256],
+      [30.9817, 40.0706],
+      [30.989, 40.0525],
+      [30.9981, 40.0347],
+      [31.0068, 40.0283],
     ]);
   });
 });

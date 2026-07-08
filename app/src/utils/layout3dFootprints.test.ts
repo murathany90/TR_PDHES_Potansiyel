@@ -29,7 +29,7 @@ describe('layout3D footprint planning', () => {
     const plan = buildLayout3DFootprintPlan(gokcekaya);
     const upperWater = plan.items.find((item) => item.id === 'upperReservoirWater');
     const embankment = plan.items.find((item) => item.id === 'upperReservoirEmbankment');
-    const headrace = plan.items.find((item) => item.id === 'headraceAlignment');
+    const headrace = plan.items.find((item) => item.id === 'penstock01');
 
     expect(plan.enabled).toBe(true);
     expect(plan.hideLegacySquareReservoir).toBe(true);

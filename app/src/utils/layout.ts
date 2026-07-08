@@ -119,29 +119,24 @@ export function buildLayout(site: Site, hScale: number): LayoutBundle {
     addRect('portal', 'Servis + drenaj tüneli portalı', mid(layout.upper, layout.power, 0.58), 240, 125, 22, '#ff944d', bearing + 12);
   }
 
-  const headraceFootprint = footprintById.get('headraceAlignment');
-  const tailraceFootprint = footprintById.get('tailraceOutfall');
   const waterFeatures: Feature<LineString>[] = [];
-  if (headraceFootprint?.kind === 'polyline') {
-    waterFeatures.push({
-      type: 'Feature',
-      geometry: { type: 'LineString', coordinates: headraceFootprint.coords },
-      properties: { key: headraceFootprint.id, color: '#36d6ff', width: 4 },
-    });
+
+  if (footprintMode && site.layout3D) {
+    site.layout3D.componentFootprints
+      .filter((fp) => fp.kind === 'polyline' && (fp.id.includes('penstock') || fp.id.includes('headrace') || fp.id.includes('tailrace')))
+      .forEach((fp) => {
+        waterFeatures.push({
+          type: 'Feature',
+          geometry: { type: 'LineString', coordinates: fp.coords },
+          properties: { key: fp.id, color: fp.id.includes('tailrace') ? '#0891b2' : '#36d6ff', width: fp.id.includes('tailrace') ? 3 : 4 },
+        });
+      });
   } else {
     waterFeatures.push({
       type: 'Feature',
       geometry: { type: 'LineString', coordinates: site.coordinates.penstockRoute },
       properties: { color: '#36d6ff', width: 4 },
     });
-  }
-  if (tailraceFootprint?.kind === 'polyline') {
-    waterFeatures.push({
-      type: 'Feature',
-      geometry: { type: 'LineString', coordinates: tailraceFootprint.coords },
-      properties: { key: tailraceFootprint.id, color: '#0891b2', width: 3 },
-    });
-  } else {
     waterFeatures.push({
       type: 'Feature',
       geometry: { type: 'LineString', coordinates: [layout.power, layout.lower] },
