@@ -24,7 +24,7 @@ export function FabPopover({
   selectedSiteId, selectSite
 }: FabPopoverProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState<'candidates' | 'world' | 'settings'>('candidates');
+  const [activeTab, setActiveTab] = useState<'candidates' | 'world' | 'settings' | 'grid'>('candidates');
   const popoverRef = useRef<HTMLDivElement>(null);
   
   const sites = useSiteStore(state => state.sites);

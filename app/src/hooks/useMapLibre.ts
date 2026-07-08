@@ -85,7 +85,7 @@ export function useMapLibre({
   onSelectSite,
   interactiveCandidates = true,
 }: UseMapLibreOptions) {
-  const { showPowerGrid, powerGridFilters } = useSettingsStore();
+  const { showPowerGrid, powerGridConfig } = useSettingsStore();
   const mapRef = useRef<maplibregl.Map | null>(null);
   const mapStyleRef = useRef(mapStyle);
   const drawRequestRef = useRef(0);
@@ -246,7 +246,7 @@ export function useMapLibre({
       if (showPowerGrid) {
         map.addSource('osm-power-grid', { type: 'geojson', data: import.meta.env.BASE_URL.replace(/\/$/, '') + '/power-grid-filtered.geojson' });
         
-        const getVoltageProp = (prop: 'color' | 'width'): any[] => [
+        const getVoltageProp = (prop: 'color' | 'width'): any => [
           'case',
           ['>=', ['coalesce', ['get', 'voltage'], 0], 500], powerGridConfig.voltages.over500[prop],
           ['>=', ['coalesce', ['get', 'voltage'], 0], 400], powerGridConfig.voltages.v400[prop],

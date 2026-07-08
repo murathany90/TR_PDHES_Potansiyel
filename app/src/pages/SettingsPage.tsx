@@ -9,8 +9,8 @@ import { COORDINATE_CONFIDENCE_LABELS, SOURCE_GROUP_LABELS } from '../utils/site
 
 export default function SettingsPage() {
   const { 
-    theme, mapStyle, heightScale, showPowerGrid,
-    setTheme, setMapStyle, setHeightScale, setShowPowerGrid
+    theme, mapStyle, heightScale,
+    setTheme, setMapStyle, setHeightScale
   } = useSettingsStore();
   const { resetSites, sites, selectedId } = useSiteStore();
 
