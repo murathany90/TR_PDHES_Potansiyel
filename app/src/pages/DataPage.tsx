@@ -174,7 +174,7 @@ export default function DataPage({ site }: { site?: Site }) {
                               <p className="muted" style={{ marginBottom: 12 }}>{candidate.thesis}</p>
                               <div className="metric-row" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '12px' }}>
                                 <div className="metric info"><span>Debi / düşü</span><b>{candidate.projectFlowCms ? num(candidate.projectFlowCms) : '-'} m³/s / {candidate.headM ? num(candidate.headM) : '-'} m</b></div>
-                                <div className="metric"><span>Geri ödeme</span><b>{candidate.paybackYear ? `${candidate.paybackYear} yıl` : '-'}</b></div>
+                                <div className="metric"><span>Geri ödeme</span><b>{candidate.paybackYear ? `${candidate.paybackYear} yıl` : (metrics.investmentUsdBn && metrics.revenueUsdM ? `~${Math.round((metrics.investmentUsdBn * 1000) / metrics.revenueUsdM)} yıl` : '-')}</b></div>
                                 <div className="metric">
                                   <span>Yaklaşık depolama kapasitesi</span>
                                   <b>{candidate.activeVolumeHm3 ? `${candidate.activeVolumeHm3} hm³` : (candidate.projectFlowCms ? `~${(candidate.projectFlowCms * 7 * 3600 / 1000000).toFixed(1)} hm³` : '-')}</b>
