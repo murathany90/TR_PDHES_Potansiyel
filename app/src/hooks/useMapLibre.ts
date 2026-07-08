@@ -18,6 +18,7 @@ import {
 } from '../utils/siteDerived';
 import { num } from '../utils/format';
 import { useSettingsStore } from '../stores/useSettingsStore';
+import { useMapToolsStore } from '../stores/useMapToolsStore';
 
 function popupWaterwayText(site: Site): string {
   if (site.tunnelLengthKm !== null && site.tunnelLengthKm !== undefined) return `${num(site.tunnelLengthKm, 1)} km tünel`;
@@ -485,17 +486,31 @@ export function useMapLibre({
     map.addControl(new maplibregl.NavigationControl({ visualizePitch: true }), 'bottom-right');
     mapRef.current = map;
     mapStyleRef.current = mapStyle;
+    useMapToolsStore.getState().setMap(map);
     
     map.on('load', () => {
       queueDrawLayers();
     });
     
+    map.on('contextmenu', (e) => {
+      const { openContextMenu } = useMapToolsStore.getState();
+      openContextMenu(e.point.x, e.point.y, e.lngLat);
+    });
+
+    map.on('click', (e) => {
+      const { mode, addMeasurementPoint } = useMapToolsStore.getState();
+      if (mode === 'measure') {
+        addMeasurementPoint([e.lngLat.lng, e.lngLat.lat]);
+      }
+    });
+
     return () => {
       markersRef.current.forEach(m => m.remove());
       markersRef.current = [];
       if (map.getLayer('candidate-circles')) {
         map.off('click', 'candidate-circles', handleCandidateClick);
       }
+      useMapToolsStore.getState().setMap(null);
       map.remove();
       mapRef.current = null;
     };

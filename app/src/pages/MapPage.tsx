@@ -4,6 +4,8 @@ import { useMapLibre, type MapLayerVisibility } from '../hooks/useMapLibre';
 import { FabPopover } from '../components/FabPopover';
 import InfoAccordion from '../components/ui/InfoAccordion';
 import { ElevationProfile } from '../components/ElevationProfile';
+import MapContextMenu from '../components/MapContextMenu';
+import MeasurementUI from '../components/MeasurementUI';
 import { useSiteStore } from '../stores/useSiteStore';
 import { useSettingsStore } from '../stores/useSettingsStore';
 import { WORLD_EXAMPLES } from '../data/worldExamples';
@@ -99,6 +101,9 @@ export default function MapPage() {
 
         <div className="map-stage">
           <div ref={mapContainer} style={{ position: 'absolute', inset: 0 }} />
+
+          <MapContextMenu />
+          <MeasurementUI />
 
           <FabPopover 
             mapStyle={mapStyle} 
