@@ -11,10 +11,9 @@ import {
   SOURCE_GROUP_FILTERS,
   matchesCandidateFilters,
 } from '../utils/pdhesFilters';
-import WarningBanner from '../components/ui/WarningBanner';
+
 import {
   CONCEPT_TYPE_LABELS,
-  COORDINATE_CONFIDENCE_LABELS,
   CYCLE_TYPE_LABELS,
   GRID_SUPPLY_TYPE_LABELS,
   INFRASTRUCTURE_TYPE_LABELS,
@@ -112,7 +111,7 @@ export default function DataPage({ site }: { site?: Site }) {
                   <th>Gelir</th>
                   <th>Alt / üst rezervuar</th>
                   <th>Teknik sınıflandırma</th>
-                  <th>Skor (Kaynak/Senaryo)</th>
+                  <th>Skor (Senaryo)</th>
                 </tr>
               </thead>
               <tbody>
@@ -160,8 +159,12 @@ export default function DataPage({ site }: { site?: Site }) {
                           <span className="muted small">{INFRASTRUCTURE_TYPE_LABELS[candidate.technicalClassification.infrastructureType]}</span>
                         </td>
                         <td>
-                          <b>Kaynak: {metrics.sourceScore ?? '-'}</b>
-                          <br /><span className="muted small">Senaryo: {metrics.scenarioScore}</span>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                            <b style={{ minWidth: '24px' }}>{metrics.scenarioScore}</b>
+                            <div style={{ flex: 1, height: '6px', background: 'var(--line)', borderRadius: '3px', overflow: 'hidden' }}>
+                              <div style={{ height: '100%', width: `${metrics.scenarioScore}%`, background: 'var(--green)' }} />
+                            </div>
+                          </div>
                         </td>
                       </tr>
                       {candidate.id === selectedId && (
@@ -172,22 +175,16 @@ export default function DataPage({ site }: { site?: Site }) {
                               <div className="metric-row" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '12px' }}>
                                 <div className="metric info"><span>Debi / düşü</span><b>{candidate.projectFlowCms ? num(candidate.projectFlowCms) : '-'} m³/s / {candidate.headM ? num(candidate.headM) : '-'} m</b></div>
                                 <div className="metric"><span>Geri ödeme</span><b>{candidate.paybackYear ? `${candidate.paybackYear} yıl` : '-'}</b></div>
-                                <div className="metric"><span>Aktif hacim</span><b>{candidate.activeVolumeHm3 ? `${candidate.activeVolumeHm3} hm³` : 'Senaryo varsayımı'}</b></div>
-                                <div className="metric"><span>Koordinat güveni</span><b>{COORDINATE_CONFIDENCE_LABELS[candidate.coordinates.coordinateConfidence]}</b></div>
+                                <div className="metric">
+                                  <span>Yaklaşık depolama kapasitesi</span>
+                                  <b>{candidate.activeVolumeHm3 ? `${candidate.activeVolumeHm3} hm³` : (candidate.projectFlowCms ? `~${(candidate.projectFlowCms * 7 * 3600 / 1000000).toFixed(1)} hm³` : '-')}</b>
+                                </div>
                               </div>
                               <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginTop: 12 }}>
                                 <span className="tag">{CONCEPT_TYPE_LABELS[candidate.technicalClassification.conceptType]}</span>
                                 <span className="tag">{GRID_SUPPLY_TYPE_LABELS[candidate.technicalClassification.gridSupplyType]}</span>
                                 <span className="tag">{PRIMARY_PURPOSE_LABELS[candidate.technicalClassification.primaryPurpose]}</span>
                               </div>
-                              {candidate.risks && candidate.risks.length > 0 && (
-                                <div style={{ marginTop: 12 }}>{candidate.risks.map((risk) => <span key={risk} className="tag risk">{risk}</span>)}</div>
-                              )}
-                              {candidate.coordinates.coordinateNote && (
-                                <div style={{ marginTop: 12 }}>
-                                  <WarningBanner type="warning" message={candidate.coordinates.coordinateNote} />
-                                </div>
-                              )}
                             </div>
                           </td>
                         </tr>
