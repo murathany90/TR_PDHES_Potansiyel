@@ -17,6 +17,7 @@ import {
   isSeaLowerReservoir,
 } from '../utils/siteDerived';
 import { num } from '../utils/format';
+import { useSettingsStore } from '../stores/useSettingsStore';
 
 function popupWaterwayText(site: Site): string {
   if (site.tunnelLengthKm !== null && site.tunnelLengthKm !== undefined) return `${num(site.tunnelLengthKm, 1)} km tünel`;
@@ -84,6 +85,7 @@ export function useMapLibre({
   onSelectSite,
   interactiveCandidates = true,
 }: UseMapLibreOptions) {
+  const { showPowerGrid, powerGridFilters } = useSettingsStore();
   const mapRef = useRef<maplibregl.Map | null>(null);
   const mapStyleRef = useRef(mapStyle);
   const drawRequestRef = useRef(0);
@@ -239,6 +241,71 @@ export function useMapLibre({
           layout: { 'text-field': ['get', 'label'], 'text-size': 12, 'text-font': ['Noto Sans Bold'], 'text-variable-anchor': ['top', 'bottom', 'left', 'right'] },
           paint: { 'text-color': '#d9fff0', 'text-halo-color': '#06100d', 'text-halo-width': 1.5 },
         });
+      }
+
+      if (showPowerGrid) {
+        map.addSource('osm-power-grid', { type: 'geojson', data: import.meta.env.BASE_URL.replace(/\/$/, '') + '/power-grid-filtered.geojson' });
+        
+        if (powerGridFilters.showLines) {
+          map.addLayer({
+            id: 'osm-power-lines',
+            type: 'line',
+            source: 'osm-power-grid',
+            filter: [
+              'all',
+              ['in', ['get', 'type'], ['literal', ['line', 'minor_line', 'cable']]],
+              ['>=', ['coalesce', ['get', 'voltage'], 0], powerGridFilters.minVoltage]
+            ],
+            paint: {
+              'line-color': [
+                'case',
+                ['>=', ['coalesce', ['get', 'voltage'], 0], 380], '#ff3b30',
+                ['>=', ['coalesce', ['get', 'voltage'], 0], 154], '#34c759',
+                ['>=', ['coalesce', ['get', 'voltage'], 0], 34], '#007aff',
+                '#8e8e93'
+              ],
+              'line-width': [
+                'case',
+                ['>=', ['coalesce', ['get', 'voltage'], 0], 380], 2,
+                ['>=', ['coalesce', ['get', 'voltage'], 0], 154], 1.5,
+                1
+              ],
+              'line-opacity': 0.6
+            }
+          });
+        }
+        
+        if (powerGridFilters.showSubstations) {
+          map.addLayer({
+            id: 'osm-power-points',
+            type: 'circle',
+            source: 'osm-power-grid',
+            filter: [
+              'all',
+              ['in', ['get', 'type'], ['literal', ['substation', 'plant']]],
+              ['>=', ['coalesce', ['get', 'voltage'], 0], powerGridFilters.minVoltage]
+            ],
+            paint: {
+              'circle-color': [
+                'case',
+                ['==', ['get', 'type'], 'plant'], '#ff9500',
+                ['>=', ['coalesce', ['get', 'voltage'], 0], 380], '#ff3b30',
+                ['>=', ['coalesce', ['get', 'voltage'], 0], 154], '#34c759',
+                '#5ac8fa'
+              ],
+              'circle-radius': [
+                'case',
+                ['==', ['get', 'type'], 'plant'], 6,
+                ['>=', ['coalesce', ['get', 'voltage'], 0], 380], 5,
+                ['>=', ['coalesce', ['get', 'voltage'], 0], 154], 4,
+                3
+              ],
+              'circle-stroke-width': 1,
+              'circle-stroke-color': '#ffffff',
+              'circle-opacity': 0.8
+            }
+          });
+        }
       }
 
       if (layers.candidates) {

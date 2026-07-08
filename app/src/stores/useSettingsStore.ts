@@ -23,6 +23,14 @@ interface SettingsStore {
   setMapStyle: (s: 'dark' | 'light' | 'satellite') => void;
   setHeightScale: (v: number) => void;
   setWeight: (key: keyof SettingsStore['weights'], v: number) => void;
+  showPowerGrid: boolean;
+  powerGridFilters: {
+    showLines: boolean;
+    showSubstations: boolean;
+    minVoltage: number;
+  };
+  setShowPowerGrid: (v: boolean) => void;
+  setPowerGridFilter: (key: keyof SettingsStore['powerGridFilters'], v: boolean | number) => void;
 }
 
 function legacyTheme(): 'dark' | 'light' {
@@ -37,6 +45,12 @@ export const useSettingsStore = create<SettingsStore>()(
       mapStyle: 'satellite',
       heightScale: 1.3,
       weights: DEFAULT_SCORE_WEIGHTS,
+      showPowerGrid: false,
+      powerGridFilters: {
+        showLines: true,
+        showSubstations: true,
+        minVoltage: 0,
+      },
       setTheme: (theme) => {
         document.documentElement.setAttribute('data-theme', theme);
         localStorage.setItem('pspp-theme', theme);
@@ -51,16 +65,22 @@ export const useSettingsStore = create<SettingsStore>()(
       setWeight: (key, value) => set((state) => ({
         weights: { ...state.weights, [key]: value },
       })),
+      setShowPowerGrid: (showPowerGrid) => set({ showPowerGrid }),
+      setPowerGridFilter: (key, value) => set((state) => ({
+        powerGridFilters: { ...state.powerGridFilters, [key]: value },
+      })),
     }),
     {
       name: SETTINGS_STORAGE_KEY,
       version: 1,
       storage: createJSONStorage(() => localStorage),
-      partialize: ({ theme, mapStyle, heightScale, weights }) => ({
+      partialize: ({ theme, mapStyle, heightScale, weights, showPowerGrid, powerGridFilters }) => ({
         theme,
         mapStyle,
         heightScale,
         weights,
+        showPowerGrid,
+        powerGridFilters,
       }),
     },
   ),

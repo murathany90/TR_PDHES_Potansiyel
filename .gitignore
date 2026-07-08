@@ -8,3 +8,5 @@ dist/
 .DS_Store
 scratch/
 .worktrees/
+docs/OSM_maps/*.geojson
+docs/OSM_maps/*.kml

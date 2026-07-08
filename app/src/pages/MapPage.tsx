@@ -37,8 +37,8 @@ const LAYER_LABELS: Array<{ key: keyof MapLayerVisibility; label: string; Icon: 
 export default function MapPage() {
   const mapContainer = useRef<HTMLDivElement>(null);
   const { sites, selectedId, selectSite, gridAssets, fetchGridAssets, worldExampleFocusId, clearWorldExampleFocus } = useSiteStore();
-  const { mapStyle, setMapStyle, heightScale, setHeightScale } = useSettingsStore();
-    const [rightCollapsed, setRightCollapsed] = useState(false);
+  const { mapStyle, setMapStyle, heightScale, setHeightScale, showPowerGrid, setShowPowerGrid } = useSettingsStore();
+  const [rightCollapsed, setRightCollapsed] = useState(false);
   const [layers, setLayers] = useState<MapLayerVisibility>(DEFAULT_LAYERS);
   const site = sites.find((item) => item.id === selectedId) || sites[0];
   const worldExample = worldExampleFocusId ? WORLD_EXAMPLES.find((e) => e.id === worldExampleFocusId) : null;
@@ -139,6 +139,21 @@ export default function MapPage() {
           >
             <MapPin size={18} />
             <b>Tümü</b>
+          </button>
+
+          <button
+            type="button"
+            className="btn minimalist-3d-toggle"
+            style={{ 
+              top: '116px', 
+              background: showPowerGrid ? 'var(--bg-primary, #0f172a)' : undefined, 
+              color: showPowerGrid ? 'var(--text-inverted, #fff)' : undefined 
+            }}
+            onClick={() => setShowPowerGrid(!showPowerGrid)}
+            title={showPowerGrid ? "Elektrik Şebekesini Gizle" : "Elektrik Şebekesini Göster"}
+          >
+            <Zap size={18} />
+            <b>Şebeke</b>
           </button>
 
 
