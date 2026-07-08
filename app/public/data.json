@@ -10,10 +10,10 @@
     "capacityMW": 1600,
     "projectFlowCms": 193,
     "headM": 962,
-    "energyGWh": null,
+    "energyGWh": 11.2,
     "activeVolumeHm3": null,
     "tunnelLengthKm": null,
-    "capexUsdBn": null,
+    "capexUsdBn": 1.098,
     "annualRevenueUsdM": null,
     "paybackYear": null,
     "score": null,
@@ -820,7 +820,8 @@
           "extrudeM": 8
         }
       ]
-    }
+    },
+    "totalWaterwayLengthM": 4051
   },
   {
     "id": "jica-iznik-i-pspp",
@@ -833,7 +834,7 @@
     "capacityMW": 1500,
     "projectFlowCms": 687,
     "headM": 255,
-    "energyGWh": null,
+    "energyGWh": 10.5,
     "activeVolumeHm3": null,
     "tunnelLengthKm": null,
     "capexUsdBn": null,
@@ -969,7 +970,8 @@
     "evidence": [
       "JICA/EİE 16 aday teknik değer listesi",
       "Prompt fallback koordinat bloğu"
-    ]
+    ],
+    "totalWaterwayLengthM": null
   },
   {
     "id": "jica-sariyar-pspp",
@@ -982,7 +984,7 @@
     "capacityMW": 1000,
     "projectFlowCms": 270,
     "headM": 434,
-    "energyGWh": null,
+    "energyGWh": 7,
     "activeVolumeHm3": null,
     "tunnelLengthKm": 1.8,
     "capexUsdBn": null,
@@ -1118,7 +1120,8 @@
     "evidence": [
       "JICA/EİE 16 aday teknik değer listesi",
       "Prompt fallback koordinat bloğu"
-    ]
+    ],
+    "totalWaterwayLengthM": 1797
   },
   {
     "id": "jica-bayramhacili-pspp",
@@ -1131,7 +1134,7 @@
     "capacityMW": 1000,
     "projectFlowCms": 720,
     "headM": 161,
-    "energyGWh": null,
+    "energyGWh": 7,
     "activeVolumeHm3": null,
     "tunnelLengthKm": 0.47,
     "capexUsdBn": null,
@@ -1267,7 +1270,8 @@
     "evidence": [
       "JICA/EİE 16 aday teknik değer listesi",
       "Prompt fallback koordinat bloğu"
-    ]
+    ],
+    "totalWaterwayLengthM": 465
   },
   {
     "id": "jica-hasan-ugurlu-pspp",
@@ -1280,7 +1284,7 @@
     "capacityMW": 1000,
     "projectFlowCms": 204,
     "headM": 570,
-    "energyGWh": null,
+    "energyGWh": 7,
     "activeVolumeHm3": null,
     "tunnelLengthKm": 1.6,
     "capexUsdBn": null,
@@ -1460,7 +1464,8 @@
         36.349775,
         41.176556
       ]
-    }
+    },
+    "totalWaterwayLengthM": 1600
   },
   {
     "id": "jica-adiguzel-pspp",
@@ -1473,7 +1478,7 @@
     "capacityMW": 1000,
     "projectFlowCms": 484,
     "headM": 242,
-    "energyGWh": null,
+    "energyGWh": 7,
     "activeVolumeHm3": null,
     "tunnelLengthKm": 0.97,
     "capexUsdBn": null,
@@ -1609,7 +1614,8 @@
     "evidence": [
       "JICA/EİE 16 aday teknik değer listesi",
       "Prompt fallback koordinat bloğu"
-    ]
+    ],
+    "totalWaterwayLengthM": 966
   },
   {
     "id": "jica-burdur-pspp",
@@ -1622,10 +1628,10 @@
     "capacityMW": 1000,
     "projectFlowCms": 316,
     "headM": 370,
-    "energyGWh": null,
+    "energyGWh": 7,
     "activeVolumeHm3": null,
     "tunnelLengthKm": null,
-    "capexUsdBn": null,
+    "capexUsdBn": 0.94,
     "annualRevenueUsdM": null,
     "paybackYear": null,
     "score": null,
@@ -1758,7 +1764,8 @@
     "evidence": [
       "JICA/EİE 16 aday teknik değer listesi",
       "Prompt fallback koordinat bloğu"
-    ]
+    ],
+    "totalWaterwayLengthM": null
   },
   {
     "id": "jica-egirdir-pspp",
@@ -1771,7 +1778,7 @@
     "capacityMW": 1000,
     "projectFlowCms": 175,
     "headM": 672,
-    "energyGWh": null,
+    "energyGWh": 7,
     "activeVolumeHm3": null,
     "tunnelLengthKm": null,
     "capexUsdBn": null,
@@ -1907,7 +1914,8 @@
     "evidence": [
       "JICA/EİE 16 aday teknik değer listesi",
       "Prompt fallback koordinat bloğu"
-    ]
+    ],
+    "totalWaterwayLengthM": null
   },
   {
     "id": "jica-kargi-pspp",
@@ -1920,7 +1928,7 @@
     "capacityMW": 1000,
     "projectFlowCms": 238,
     "headM": 496,
-    "energyGWh": null,
+    "energyGWh": 7,
     "activeVolumeHm3": null,
     "tunnelLengthKm": 2.76,
     "capexUsdBn": null,
@@ -2056,7 +2064,8 @@
     "evidence": [
       "JICA/EİE 16 aday teknik değer listesi",
       "Prompt fallback koordinat bloğu"
-    ]
+    ],
+    "totalWaterwayLengthM": 2762
   },
   {
     "id": "jica-karacaoren-ii-pspp",
@@ -2069,7 +2078,7 @@
     "capacityMW": 1000,
     "projectFlowCms": 190,
     "headM": 615,
-    "energyGWh": null,
+    "energyGWh": 7,
     "activeVolumeHm3": null,
     "tunnelLengthKm": null,
     "capexUsdBn": null,
@@ -2205,7 +2214,8 @@
     "evidence": [
       "JICA/EİE 16 aday teknik değer listesi",
       "Prompt fallback koordinat bloğu"
-    ]
+    ],
+    "totalWaterwayLengthM": null
   },
   {
     "id": "jica-yalova-pspp",
@@ -2218,7 +2228,7 @@
     "capacityMW": 500,
     "projectFlowCms": 147,
     "headM": 400,
-    "energyGWh": null,
+    "energyGWh": 3.5,
     "activeVolumeHm3": null,
     "tunnelLengthKm": 1.1,
     "capexUsdBn": null,
@@ -2354,7 +2364,8 @@
     "evidence": [
       "JICA/EİE 16 aday teknik değer listesi",
       "Prompt fallback koordinat bloğu"
-    ]
+    ],
+    "totalWaterwayLengthM": 1100
   },
   {
     "id": "jica-yamula-pspp",
@@ -2367,7 +2378,7 @@
     "capacityMW": 500,
     "projectFlowCms": 228,
     "headM": 260,
-    "energyGWh": null,
+    "energyGWh": 3.5,
     "activeVolumeHm3": null,
     "tunnelLengthKm": 1.92,
     "capexUsdBn": null,
@@ -2503,7 +2514,8 @@
     "evidence": [
       "JICA/EİE 16 aday teknik değer listesi",
       "Prompt fallback koordinat bloğu"
-    ]
+    ],
+    "totalWaterwayLengthM": 1920
   },
   {
     "id": "jica-oymapinar-pspp",
@@ -2516,7 +2528,7 @@
     "capacityMW": 500,
     "projectFlowCms": 156,
     "headM": 372,
-    "energyGWh": null,
+    "energyGWh": 3.5,
     "activeVolumeHm3": null,
     "tunnelLengthKm": 0.92,
     "capexUsdBn": null,
@@ -2696,7 +2708,8 @@
         31.529798,
         36.907854
       ]
-    }
+    },
+    "totalWaterwayLengthM": 919
   },
   {
     "id": "jica-aslantas-pspp",
@@ -2709,7 +2722,7 @@
     "capacityMW": 500,
     "projectFlowCms": 379,
     "headM": 154,
-    "energyGWh": null,
+    "energyGWh": 3.5,
     "activeVolumeHm3": null,
     "tunnelLengthKm": 1.1,
     "capexUsdBn": null,
@@ -2845,7 +2858,8 @@
     "evidence": [
       "JICA/EİE 16 aday teknik değer listesi",
       "Prompt fallback koordinat bloğu"
-    ]
+    ],
+    "totalWaterwayLengthM": 1100
   },
   {
     "id": "jica-iznik-ii-pspp",
@@ -2858,7 +2872,7 @@
     "capacityMW": 500,
     "projectFlowCms": 221,
     "headM": 263,
-    "energyGWh": null,
+    "energyGWh": 3.5,
     "activeVolumeHm3": null,
     "tunnelLengthKm": null,
     "capexUsdBn": null,
@@ -2994,7 +3008,8 @@
     "evidence": [
       "JICA/EİE 16 aday teknik değer listesi",
       "Prompt fallback koordinat bloğu"
-    ]
+    ],
+    "totalWaterwayLengthM": null
   },
   {
     "id": "jica-demirkopru-pspp",
@@ -3007,7 +3022,7 @@
     "capacityMW": 300,
     "projectFlowCms": 166,
     "headM": 213,
-    "energyGWh": null,
+    "energyGWh": 2.1,
     "activeVolumeHm3": null,
     "tunnelLengthKm": 1.46,
     "capexUsdBn": null,
@@ -3143,7 +3158,8 @@
     "evidence": [
       "JICA/EİE 16 aday teknik değer listesi",
       "Prompt fallback koordinat bloğu"
-    ]
+    ],
+    "totalWaterwayLengthM": 1462
   },
   {
     "id": "tasucu",
@@ -3156,7 +3172,7 @@
     "capacityMW": 600,
     "projectFlowCms": null,
     "headM": 780,
-    "energyGWh": 4.8,
+    "energyGWh": 4.2,
     "activeVolumeHm3": 2.51,
     "tunnelLengthKm": 9.5,
     "capexUsdBn": 1.44,
@@ -3400,7 +3416,8 @@
         33.970828,
         36.361144
       ]
-    }
+    },
+    "totalWaterwayLengthM": null
   },
   {
     "id": "bozyazi_anamur",
@@ -3413,7 +3430,7 @@
     "capacityMW": 700,
     "projectFlowCms": null,
     "headM": 900,
-    "energyGWh": 5.6,
+    "energyGWh": 4.9,
     "activeVolumeHm3": 2.54,
     "tunnelLengthKm": 11,
     "capexUsdBn": 1.78,
@@ -3652,7 +3669,8 @@
         32.915296,
         36.098256
       ]
-    }
+    },
+    "totalWaterwayLengthM": null
   },
   {
     "id": "karaburun",
@@ -3665,7 +3683,7 @@
     "capacityMW": 500,
     "projectFlowCms": null,
     "headM": 620,
-    "energyGWh": 4,
+    "energyGWh": 3.5,
     "activeVolumeHm3": 2.63,
     "tunnelLengthKm": 6.5,
     "capexUsdBn": 1.25,
@@ -3899,7 +3917,8 @@
         26.441944,
         38.561944
       ]
-    }
+    },
+    "totalWaterwayLengthM": null
   },
   {
     "id": "finike_kumluca",
@@ -3912,7 +3931,7 @@
     "capacityMW": 520,
     "projectFlowCms": null,
     "headM": 720,
-    "energyGWh": 4,
+    "energyGWh": 3.64,
     "activeVolumeHm3": 2.35,
     "tunnelLengthKm": 8.6,
     "capexUsdBn": 1.32,
@@ -4115,6 +4134,7 @@
         30.28,
         36.36
       ]
-    }
+    },
+    "totalWaterwayLengthM": null
   }
 ]

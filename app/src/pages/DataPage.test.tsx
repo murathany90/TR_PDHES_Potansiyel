@@ -34,7 +34,7 @@ describe('DataPage', () => {
     expect(screen.getByRole('columnheader', { name: 'Düşü (head) / Su Yolu' })).toBeTruthy();
     expect(screen.getByRole('columnheader', { name: 'Yatırım' })).toBeTruthy();
     expect(screen.getByRole('columnheader', { name: 'Gelir' })).toBeTruthy();
-    expect(screen.getByRole('columnheader', { name: 'Kaynak / Senaryo Skoru' })).toBeTruthy();
+    expect(screen.getByRole('columnheader', { name: 'Skor (Kaynak/Senaryo)' })).toBeTruthy();
 
     expect(screen.queryByRole('columnheader', { name: 'Kurulu güç' })).toBeNull();
     expect(screen.queryByRole('columnheader', { name: 'Debi / düşü' })).toBeNull();

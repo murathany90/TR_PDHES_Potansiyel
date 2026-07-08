@@ -227,20 +227,28 @@ html[data-theme="light"] tbody tr.selected { background: rgba(14,165,233,.05); b
 .site-row-button:focus-visible {
   outline: 3px solid rgba(var(--focus-rgb),.35); outline-offset: 4px; border-radius: 4px;
 }
-.candidate-table-wrap { overflow: auto; }
-.candidate-table { min-width: 1240px; table-layout: fixed; }
-.candidate-table .col-order { width: 54px; }
-.candidate-table .col-site { width: 190px; }
-.candidate-table .col-source { width: 96px; }
-.candidate-table .col-power { width: 116px; }
-.candidate-table .col-waterway { width: 138px; }
-.candidate-table .col-money { width: 108px; }
+.candidate-table-wrap { overflow: auto; width: 100%; }
+.candidate-table { min-width: 100%; table-layout: fixed; }
+.candidate-table .col-order { width: 50px; }
+.candidate-table .col-site { width: 180px; }
+.candidate-table .col-source { width: 100px; }
+.candidate-table .col-power { width: 120px; }
+.candidate-table .col-waterway { width: 140px; }
+.candidate-table .col-money { width: 100px; }
+.candidate-table .col-reservoir { width: 200px; }
+.candidate-table .col-classification { width: 180px; }
 .candidate-table .col-score { width: 150px; }
-.candidate-table .col-reservoir { width: 230px; }
-.candidate-table .col-classification { width: 150px; }
 .candidate-table td { line-height: 1.35; }
 .candidate-table td > b,
 .candidate-table td > span { display: block; }
+
+.expanded-details-row { background: var(--panel2); }
+.expanded-details-row td { padding: 0 !important; border-bottom: 2px solid var(--line) !important; }
+.expanded-details-content { padding: 16px 20px; box-shadow: inset 0 6px 12px -8px rgba(0,0,0,0.1); }
+html[data-theme="light"] .expanded-details-content { box-shadow: inset 0 6px 12px -8px rgba(0,0,0,0.05); }
+.data-layout.full-width { display: block !important; grid-template-columns: none !important; }
+.data-layout.full-width .card { width: 100%; max-width: none; }
+.main-row { cursor: pointer; }
 .source-chip {
   display: inline-flex;
   align-items: center;

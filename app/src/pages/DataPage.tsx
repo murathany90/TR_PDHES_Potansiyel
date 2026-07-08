@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import type { CandidateFilters } from '../utils/pdhesFilters';
 import type { Site } from '../types/site';
 import { useSiteStore } from '../stores/useSiteStore';
@@ -23,10 +23,11 @@ import {
 } from '../utils/siteDerived';
 
 function waterwayText(site: Site): string {
-  if (site.tunnelLengthKm !== null && site.tunnelLengthKm !== undefined) return `${num(site.tunnelLengthKm, 1)} km tünel`;
-  if (site.penstockLengthM !== null && site.penstockLengthM !== undefined) return `${num(site.penstockLengthM)} m cebri boru`;
-  if (site.tailraceTunnelLengthM !== null && site.tailraceTunnelLengthM !== undefined) return `${num(site.tailraceTunnelLengthM)} m kuyruk suyu`;
-  return 'Su yolu belirtilmedi';
+  if (site.totalWaterwayLengthM != null) return `${num(site.totalWaterwayLengthM)} m toplam su yolu`;
+  if (site.tunnelLengthKm != null) return `${num(site.tunnelLengthKm, 1)} km tünel`;
+  if (site.penstockLengthM != null) return `${num(site.penstockLengthM)} m cebri boru`;
+  if (site.tailraceTunnelLengthM != null) return `${num(site.tailraceTunnelLengthM)} m kuyruk suyu`;
+  return '-';
 }
 
 function originLabel(origin: 'source' | 'scenario'): string {
@@ -49,8 +50,8 @@ export default function DataPage({ site }: { site?: Site }) {
 
   return (
     <section className="panel active">
-      <div className="grid data-layout">
-        <div className="card">
+      <div className="grid data-layout full-width">
+        <div className="card table-card">
           <h2>Aday saha tablosu</h2>
           <p className="muted small">Varsayılan sıra önce JICA/EİE 16 adayını, sonra skorla seçilen 4 deniz tipi prototipi gösterir.</p>
 
@@ -89,16 +90,16 @@ export default function DataPage({ site }: { site?: Site }) {
           <div className="candidate-table-wrap">
             <table className="candidate-table">
               <colgroup>
-                <col className="col-order" />
-                <col className="col-site" />
-                <col className="col-source" />
-                <col className="col-power" />
-                <col className="col-waterway" />
-                <col className="col-money" />
-                <col className="col-money" />
-                <col className="col-score" />
-                <col className="col-reservoir" />
-                <col className="col-classification" />
+                <col className="col-order" style={{ width: '40px' }} />
+                <col className="col-site" style={{ width: '180px' }} />
+                <col className="col-source" style={{ width: '100px' }} />
+                <col className="col-power" style={{ width: '120px' }} />
+                <col className="col-waterway" style={{ width: '140px' }} />
+                <col className="col-money" style={{ width: '100px' }} />
+                <col className="col-money" style={{ width: '100px' }} />
+                <col className="col-reservoir" style={{ width: '220px' }} />
+                <col className="col-classification" style={{ width: '180px' }} />
+                <col className="col-score" style={{ width: '120px' }} />
               </colgroup>
               <thead>
                 <tr>
@@ -109,94 +110,93 @@ export default function DataPage({ site }: { site?: Site }) {
                   <th>Düşü (head) / Su Yolu</th>
                   <th>Yatırım</th>
                   <th>Gelir</th>
-                  <th>Kaynak / Senaryo Skoru</th>
                   <th>Alt / üst rezervuar</th>
                   <th>Teknik sınıflandırma</th>
+                  <th>Skor (Kaynak/Senaryo)</th>
                 </tr>
               </thead>
               <tbody>
                 {filteredSites.map((candidate) => {
                   const metrics = getSiteTableMetrics(candidate);
                   return (
-                    <tr key={candidate.id} className={candidate.id === selectedId ? 'selected' : ''}>
-                      <td>{candidate.order}</td>
-                      <td>
-                        <button
-                          type="button"
-                          className="site-row-button"
-                          aria-current={candidate.id === selectedId ? 'true' : undefined}
-                          onClick={() => selectSite(candidate.id)}
-                        >
-                          <b>{candidate.name}</b>
-                          <span className="muted small">{candidate.province}</span>
-                        </button>
-                      </td>
-                      <td>
-                        <span className={`source-chip ${candidate.sourceGroup === 'SEA_WATER_PROTOTYPE_TOP4' ? 'sea' : 'jica'}`}>
-                          {SOURCE_GROUP_LABELS[candidate.sourceGroup]}
-                        </span>
-                      </td>
-                      <td>
-                        <b>{num(candidate.capacityMW)} MW</b>
-                        <span className="muted small">{candidate.energyGWh ? `${num(candidate.energyGWh)} GWh` : 'Enerji belirtilmedi'}</span>
-                      </td>
-                      <td>
-                        <b>{num(candidate.headM)} m</b>
-                        <span className="muted small">{waterwayText(candidate)}</span>
-                      </td>
-                      <td>
-                        <b>{moneyBn(metrics.investmentUsdBn)}</b>
-                        <span className="muted small">{originLabel(metrics.investmentOrigin)}</span>
-                      </td>
-                      <td>
-                        <b>{moneyM(metrics.revenueUsdM)}</b>
-                        <span className="muted small">{originLabel(metrics.revenueOrigin)}</span>
-                      </td>
-                      <td>
-                        <b>Kaynak: {metrics.sourceScore ?? 'Belirtilmedi'}</b>
-                        <span className="muted small">Senaryo: {metrics.scenarioScore}</span>
-                      </td>
-                      <td><b>{candidate.lowerReservoirName}</b><br /><span className="muted small">{candidate.upperReservoirDescription}</span></td>
-                      <td>
-                        {CYCLE_TYPE_LABELS[candidate.technicalClassification.cycleType]}<br />
-                        <span className="muted small">{INFRASTRUCTURE_TYPE_LABELS[candidate.technicalClassification.infrastructureType]}</span>
-                      </td>
-                    </tr>
+                    <React.Fragment key={candidate.id}>
+                      <tr className={`main-row ${candidate.id === selectedId ? 'selected' : ''}`} onClick={() => selectSite(candidate.id)}>
+                        <td>{candidate.order}</td>
+                        <td>
+                          <button
+                            type="button"
+                            className="site-row-button"
+                            aria-current={candidate.id === selectedId ? 'true' : undefined}
+                            onClick={(e) => { e.stopPropagation(); selectSite(candidate.id); }}
+                          >
+                            <b>{candidate.name}</b>
+                            <span className="muted small">{candidate.province}</span>
+                          </button>
+                        </td>
+                        <td>
+                          <span className={`source-chip ${candidate.sourceGroup === 'SEA_WATER_PROTOTYPE_TOP4' ? 'sea' : 'jica'}`}>
+                            {SOURCE_GROUP_LABELS[candidate.sourceGroup]}
+                          </span>
+                        </td>
+                        <td>
+                          <b>{num(candidate.capacityMW)} MW</b>
+                          <span className="muted small">{candidate.energyGWh ? `${num(candidate.energyGWh * 1000)} MWh` : '-'}</span>
+                        </td>
+                        <td>
+                          <b>{candidate.headM ? `${num(candidate.headM)} m` : '-'}</b>
+                          <span className="muted small">{waterwayText(candidate)}</span>
+                        </td>
+                        <td>
+                          <b>{metrics.investmentUsdBn ? moneyBn(metrics.investmentUsdBn) : '-'}</b>
+                          {metrics.investmentUsdBn != null && <span className="muted small">{originLabel(metrics.investmentOrigin)}</span>}
+                        </td>
+                        <td>
+                          <b>{metrics.revenueUsdM ? moneyM(metrics.revenueUsdM) : '-'}</b>
+                          {metrics.revenueUsdM != null && <span className="muted small">{originLabel(metrics.revenueOrigin)}</span>}
+                        </td>
+                        <td><b>{candidate.lowerReservoirName}</b><br /><span className="muted small">{candidate.upperReservoirDescription}</span></td>
+                        <td>
+                          {CYCLE_TYPE_LABELS[candidate.technicalClassification.cycleType]}<br />
+                          <span className="muted small">{INFRASTRUCTURE_TYPE_LABELS[candidate.technicalClassification.infrastructureType]}</span>
+                        </td>
+                        <td>
+                          <b>Kaynak: {metrics.sourceScore ?? '-'}</b>
+                          <br /><span className="muted small">Senaryo: {metrics.scenarioScore}</span>
+                        </td>
+                      </tr>
+                      {candidate.id === selectedId && (
+                        <tr className="expanded-details-row">
+                          <td colSpan={10}>
+                            <div className="expanded-details-content">
+                              <p className="muted" style={{ marginBottom: 12 }}>{candidate.thesis}</p>
+                              <div className="metric-row" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '12px' }}>
+                                <div className="metric info"><span>Debi / düşü</span><b>{candidate.projectFlowCms ? num(candidate.projectFlowCms) : '-'} m³/s / {candidate.headM ? num(candidate.headM) : '-'} m</b></div>
+                                <div className="metric"><span>Geri ödeme</span><b>{candidate.paybackYear ? `${candidate.paybackYear} yıl` : '-'}</b></div>
+                                <div className="metric"><span>Aktif hacim</span><b>{candidate.activeVolumeHm3 ? `${candidate.activeVolumeHm3} hm³` : 'Senaryo varsayımı'}</b></div>
+                                <div className="metric"><span>Koordinat güveni</span><b>{COORDINATE_CONFIDENCE_LABELS[candidate.coordinates.coordinateConfidence]}</b></div>
+                              </div>
+                              <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginTop: 12 }}>
+                                <span className="tag">{CONCEPT_TYPE_LABELS[candidate.technicalClassification.conceptType]}</span>
+                                <span className="tag">{GRID_SUPPLY_TYPE_LABELS[candidate.technicalClassification.gridSupplyType]}</span>
+                                <span className="tag">{PRIMARY_PURPOSE_LABELS[candidate.technicalClassification.primaryPurpose]}</span>
+                              </div>
+                              {candidate.risks && candidate.risks.length > 0 && (
+                                <div style={{ marginTop: 12 }}>{candidate.risks.map((risk) => <span key={risk} className="tag risk">{risk}</span>)}</div>
+                              )}
+                              {candidate.coordinates.coordinateNote && (
+                                <div style={{ marginTop: 12 }}>
+                                  <WarningBanner type="warning" message={candidate.coordinates.coordinateNote} />
+                                </div>
+                              )}
+                            </div>
+                          </td>
+                        </tr>
+                      )}
+                    </React.Fragment>
                   );
                 })}
               </tbody>
             </table>
-          </div>
-        </div>
-
-        <div className="card">
-          <h2>Seçili saha veri kartı</h2>
-          <h3>{site.name}</h3>
-          <p className="muted">{site.thesis}</p>
-          <div className="metric-row" style={{ gridTemplateColumns: '1fr 1fr', marginTop: 12 }}>
-            <div className="metric good"><span>Kaynak grubu</span><b>{SOURCE_GROUP_LABELS[site.sourceGroup]}</b></div>
-            <div className="metric info"><span>Kapasite</span><b>{num(site.capacityMW)} MW</b></div>
-            <div className="metric warn"><span>Debi / düşü</span><b>{num(site.projectFlowCms)} m³/s / {num(site.headM)} m</b></div>
-            <div className="metric"><span>Skor</span><b>{site.score ?? 'Belirtilmedi'}</b></div>
-            <div className="metric"><span>Yatırım / Gelir</span><b>{moneyBn(site.capexUsdBn)} / {moneyM(site.annualRevenueUsdM)}</b></div>
-            <div className="metric"><span>Geri ödeme</span><b>{site.paybackYear ? `${site.paybackYear} yıl` : 'Belirtilmedi'}</b></div>
-            <div className="metric"><span>Aktif hacim</span><b>{site.activeVolumeHm3 ? `${site.activeVolumeHm3} hm³` : 'Senaryo varsayımı'}</b></div>
-            <div className="metric"><span>Koordinat güveni</span><b>{COORDINATE_CONFIDENCE_LABELS[site.coordinates.coordinateConfidence]}</b></div>
-          </div>
-
-          <p className="small"><b>Alt rezervuar:</b> <span className="muted">{site.lowerReservoirName}</span></p>
-          <p className="small"><b>Üst rezervuar:</b> <span className="muted">{site.upperReservoirDescription}</span></p>
-          <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
-            <span className="tag">{CONCEPT_TYPE_LABELS[site.technicalClassification.conceptType]}</span>
-            <span className="tag">{GRID_SUPPLY_TYPE_LABELS[site.technicalClassification.gridSupplyType]}</span>
-            <span className="tag">{PRIMARY_PURPOSE_LABELS[site.technicalClassification.primaryPurpose]}</span>
-          </div>
-          <div style={{ marginTop: 12 }}>{site.risks.map((risk) => <span key={risk} className="tag risk">{risk}</span>)}</div>
-          <div style={{ marginTop: 12 }}>
-            <WarningBanner
-              type="warning"
-              message={site.coordinates.coordinateNote}
-            />
           </div>
         </div>
       </div>

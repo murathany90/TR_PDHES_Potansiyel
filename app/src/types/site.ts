@@ -182,6 +182,7 @@ export interface Site {
   shaftLengthM?: number | null;
   penstockLengthM?: number | null;
   tailraceTunnelLengthM?: number | null;
+  totalWaterwayLengthM?: number | null;
 
   technicalClassification: TechnicalClassification;
   coordinates: PdhCoordinateSet;
