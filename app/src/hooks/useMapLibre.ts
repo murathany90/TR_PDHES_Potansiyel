@@ -272,11 +272,11 @@ export function useMapLibre({
                 '*',
                 getVoltageProp('width'),
                 ['case',
-                  ['==', ['get', 'type'], 'cable'], powerGridConfig.elements.cables.size || 0.5,
-                  powerGridConfig.elements.lines.size || 0.5
+                  ['==', ['get', 'type'], 'cable'], ['*', powerGridConfig.elements.cables.size || 0.5, 1.5],
+                  ['*', powerGridConfig.elements.lines.size || 0.5, 1.5]
                 ]
               ],
-              'line-opacity': 0.7
+              'line-opacity': 0.85
             }
           });
         }
@@ -301,8 +301,8 @@ export function useMapLibre({
                 '*',
                 getVoltageProp('width'),
                 ['case',
-                  ['==', ['get', 'type'], 'plant'], (powerGridConfig.elements.plant.size || 0.6) * 5,
-                  (powerGridConfig.elements.substation.size || 0.8) * 5
+                  ['==', ['get', 'type'], 'plant'], ['*', powerGridConfig.elements.plant.size || 0.6, 8],
+                  ['*', powerGridConfig.elements.substation.size || 0.8, 8]
                 ]
               ],
               'text-allow-overlap': true,
@@ -311,7 +311,7 @@ export function useMapLibre({
             paint: {
               'text-color': getVoltageProp('color'),
               'text-halo-color': '#ffffff',
-              'text-halo-width': 1
+              'text-halo-width': 2
             }
           });
         }
