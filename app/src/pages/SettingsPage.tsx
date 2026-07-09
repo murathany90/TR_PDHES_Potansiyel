@@ -5,7 +5,7 @@ import WarningBanner from '../components/ui/WarningBanner';
 import { isLocalWorkspaceEnabled } from '../utils/workspaceMode';
 import { useCalcEngine } from '../hooks/useCalcEngine';
 import { moneyBn, moneyM, num } from '../utils/format';
-import { COORDINATE_CONFIDENCE_LABELS, SOURCE_GROUP_LABELS } from '../utils/siteDerived';
+import { COORDINATE_CONFIDENCE_LABELS, PDHES_TYPE_LABELS } from '../utils/siteDerived';
 import type { MapStyleKind } from '../utils/mapProviders';
 
 export default function SettingsPage() {
@@ -63,22 +63,11 @@ export default function SettingsPage() {
 
         <div className="card">
           <h2>Veri yönetimi</h2>
-          {selectedSite && (
-            <div className="scenario-score-preview" aria-live="polite">
-              <div>
-                <span>{SOURCE_GROUP_LABELS[selectedSite.sourceGroup]}</span>
-                <small>{selectedSite.name}</small>
-              </div>
-              <div>
-                <span>{COORDINATE_CONFIDENCE_LABELS[selectedSite.coordinates.coordinateConfidence]}</span>
-                <small>Koordinat güveni</small>
-              </div>
-            </div>
-          )}
+
           <div style={{ marginTop: 12 }}>
             <WarningBanner
               type="info"
-              message="Saha verisi JICA/EİE 16 aday + mevcut veri setinden skorla seçilen 4 deniz tipi prototip olarak okunur. Eski v1/v2 çalışma alanı yedekleri içe aktarılmaz."
+              message="Saha verisi kamu kurumlarının kavramsal tasarım çalışmalarına dayanan 11 karayüzeyli aday ve 4 deniz tipi prototip üzerinden oluşturulmuştur. Eski v1/v2 çalışma alanı yedekleri içe aktarılmaz."
             />
           </div>
           <button className="btn danger" style={{ marginTop: 14 }} onClick={() => { if (confirm('Kaydedilmiş saha düzenlemeleri sıfırlansın mı?')) resetSites(); }}>

@@ -1,5 +1,5 @@
 import type {
-  CandidateSourceGroup,
+  PdhesType,
   ComponentsDetail,
   ConceptType,
   CoordinateConfidence,
@@ -12,9 +12,12 @@ import type {
   SiteView,
 } from '../types/site';
 
-export const SOURCE_GROUP_LABELS: Record<CandidateSourceGroup, string> = {
-  JICA_EIE_16: 'JİCA/EİE',
-  SEA_WATER_PROTOTYPE_TOP4: 'Deniz Tipi',
+export const PDHES_TYPE_LABELS: Record<PdhesType, string> = {
+  OPEN_LOOP: 'Açık Çevrim PDHES',
+  CLOSED_LOOP: 'Kapalı Çevrim PDHES',
+  SEA_WATER: 'Deniz Suyu PDHES',
+  HYBRID: 'Hibrit (Şebeke Desteksiz) PDHES',
+  MIXED: 'Karışık PDHES',
 };
 
 export const CYCLE_TYPE_LABELS: Record<CycleType, string> = {
@@ -57,9 +60,12 @@ export const COORDINATE_CONFIDENCE_LABELS: Record<CoordinateConfidence, string> 
   'official-or-surveyed': 'Resmi / ölçülmüş',
 };
 
-export const SOURCE_GROUP_COLORS: Record<CandidateSourceGroup, string> = {
-  JICA_EIE_16: '#3d7dff',
-  SEA_WATER_PROTOTYPE_TOP4: '#36d6ff',
+export const PDHES_TYPE_COLORS: Record<PdhesType, string> = {
+  OPEN_LOOP: '#3d7dff',
+  CLOSED_LOOP: '#36d6ff',
+  SEA_WATER: '#36d6ff',
+  HYBRID: '#ff9800',
+  MIXED: '#48f49a',
 };
 
 export function isSeaLowerReservoir(site: Site): boolean {
@@ -67,9 +73,9 @@ export function isSeaLowerReservoir(site: Site): boolean {
 }
 
 export function getSiteColor(site: Site): string {
-  if (site.sourceGroup === 'SEA_WATER_PROTOTYPE_TOP4') return SOURCE_GROUP_COLORS.SEA_WATER_PROTOTYPE_TOP4;
+  if (site.pdhesType === 'SEA_WATER') return PDHES_TYPE_COLORS.SEA_WATER;
   if (site.technicalClassification.infrastructureType === 'PURE_NEW_BUILD') return '#48f49a';
-  return SOURCE_GROUP_COLORS.JICA_EIE_16;
+  return PDHES_TYPE_COLORS.OPEN_LOOP;
 }
 
 export function getSiteCenter(site: Site): [number, number] {
@@ -79,7 +85,7 @@ export function getSiteCenter(site: Site): [number, number] {
 export function getSiteView(site: Site): SiteView {
   return site.view ?? {
     center: getSiteCenter(site),
-    zoom: site.sourceGroup === 'SEA_WATER_PROTOTYPE_TOP4' ? 8 : 9,
+    zoom: site.pdhesType === 'SEA_WATER' ? 8 : 9,
     pitch: 55,
     bearing: 0,
   };

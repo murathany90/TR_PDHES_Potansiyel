@@ -10,7 +10,7 @@ import { WORLD_EXAMPLES } from '../data/worldExamples';
 import {
   COORDINATE_CONFIDENCE_LABELS,
   CYCLE_TYPE_LABELS,
-  SOURCE_GROUP_LABELS,
+  PDHES_TYPE_LABELS,
   getSiteCenter,
   getSiteColor,
   getSiteView,
@@ -370,7 +370,7 @@ export function useMapLibre({
           features: sites.map((candidate) => ({
             type: 'Feature',
             geometry: { type: 'Point', coordinates: getSiteCenter(candidate) },
-            properties: { id: candidate.id, name: candidate.name, sourceGroupLabel: SOURCE_GROUP_LABELS[candidate.sourceGroup], color: getSiteColor(candidate) },
+            properties: { id: candidate.id, name: candidate.name, sourceGroupLabel: PDHES_TYPE_LABELS[candidate.pdhesType], color: getSiteColor(candidate) },
           })),
         };
         map.addSource('candidates', { type: 'geojson', data: candidates });
@@ -400,7 +400,7 @@ export function useMapLibre({
                 .setLngLat(center)
                 .setHTML(`
                   <b>${escapeHtml(candidate.name)}</b><br>
-                  <span style="font-size:12px">${escapeHtml(SOURCE_GROUP_LABELS[candidate.sourceGroup])}</span>
+                  <span style="font-size:12px">${escapeHtml(PDHES_TYPE_LABELS[candidate.pdhesType])}</span>
                   <div style="font-size:12px;margin-top:6px">
                     <div><b>Güç / Enerji:</b> ${num(candidate.capacityMW)} MW${candidate.energyGWh ? ` / ${num(candidate.energyGWh)} GWh` : ''}</div>
                     <div><b>Düşü (head) / Su Yolu:</b> ${num(candidate.headM)} m / ${escapeHtml(popupWaterwayText(candidate))}</div>

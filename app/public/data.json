@@ -4,8 +4,7 @@
     "name": "Gökçekaya PDHES",
     "province": "Eskişehir",
     "country": "Türkiye",
-    "sourceGroup": "JICA_EIE_16",
-    "sourceNote": "JICA/EİE 16 aday çalışmasındaki teknik değerlerden ve prompttaki fallback koordinat bloğundan türetilmiştir.",
+    "sourceNote": "Kamu Kurumları 16 aday çalışmasındaki teknik değerlerden ve prompttaki fallback koordinat bloğundan türetilmiştir.",
     "order": 1,
     "capacityMW": 1400,
     "projectFlowCms": 193,
@@ -18,7 +17,7 @@
     "paybackYear": 14.6,
     "score": null,
     "lowerReservoirName": "Gökçekaya Barajı / mevcut baraj gölü",
-    "upperReservoirDescription": "Kavramsal üst rezervuar; JICA detayına göre yüksek düşülü yapı",
+    "upperReservoirDescription": "Kavramsal üst rezervuar; Kamu Kurumları detayına göre yüksek düşülü yapı",
     "shaftLengthM": null,
     "penstockLengthM": null,
     "tailraceTunnelLengthM": null,
@@ -28,7 +27,7 @@
       "conceptType": "CONVENTIONAL_LAND",
       "gridSupplyType": "GRID_SUPPORTED",
       "primaryPurpose": "PEAK_POWER",
-      "classificationNote": "Mevcut baraj gölüne entegre açık döngü JICA/EİE adayıdır. JICA/EİE çalışması pik güç optimizasyonu bağlamındadır; güncel sistemde aynı tesisler yenilenebilir enerji entegrasyonu ve uzun süreli enerji depolama için de değerlendirilebilir."
+      "classificationNote": "Mevcut baraj gölüne entegre açık döngü Kamu Kurumları adayıdır. Kamu Kurumları çalışması pik güç optimizasyonu bağlamındadır; güncel sistemde aynı tesisler yenilenebilir enerji entegrasyonu ve uzun süreli enerji depolama için de değerlendirilebilir."
     },
     "coordinates": {
       "coordinateSystem": "WGS84",
@@ -127,7 +126,7 @@
     "assumptions": [
       "Kaynak raporda enlem/boylam verilmediği için baraj/göl/regülatör adı ve açık harita/topografya ön kabulüyle öneri koordinat verilmiştir; DEM, uydu görüntüsü, mülkiyet, korunan alan ve saha etüdüyle doğrulanmadan kesin konum gibi kullanılmamalıdır.",
       "Aktif hacim kaynakta yok; hesaplama sekmesinde kullanıcı senaryo hacmi kullanılır.",
-      "JICA/EİE çalışması pik güç optimizasyonu bağlamındadır; güncel sistemde aynı tesisler yenilenebilir enerji entegrasyonu ve uzun süreli enerji depolama için de değerlendirilebilir."
+      "Kamu Kurumları çalışması pik güç optimizasyonu bağlamındadır; güncel sistemde aynı tesisler yenilenebilir enerji entegrasyonu ve uzun süreli enerji depolama için de değerlendirilebilir."
     ],
     "model3d": {
       "terrainMode": "real-dem-if-available-else-procedural",
@@ -137,11 +136,11 @@
       "penstockMode": "conceptual-waterway",
       "showUncertaintyOverlay": true
     },
-    "thesis": "Gökçekaya PDHES, JICA/EİE aday listesinde 1600 MW kurulu güç, 962 m düşü ve 193 m³/s proje debisiyle verilen kavramsal PDHES adayıdır.",
+    "thesis": "Gökçekaya PDHES, Kamu Kurumları aday listesinde 1600 MW kurulu güç, 962 m düşü ve 193 m³/s proje debisiyle verilen kavramsal PDHES adayıdır.",
     "note": "Geometri güncellemesi: Gökçekaya alt rezervuarı kare placeholder yerine yaklaşık gerçek shoreline polygonu ile, üst rezervuar ise hedef görseldeki yapay havuz formuna yakın polygon ve embankment footprint ile güncellenmiştir.",
     "timeline": [
       {
-        "date": "JICA/EİE",
+        "date": "Kamu Kurumları",
         "title": "Aday teknik değerleri",
         "text": "1600 MW, 193 m³/s, 962 m düşü."
       },
@@ -152,7 +151,7 @@
       }
     ],
     "evidence": [
-      "JICA/EİE 16 aday teknik değer listesi",
+      "Kamu Kurumları 16 aday teknik değer listesi",
       "Prompt fallback koordinat bloğu"
     ],
     "view": {
@@ -1176,15 +1175,15 @@
         }
       ]
     },
-    "totalWaterwayLengthM": 4051
+    "totalWaterwayLengthM": 4051,
+    "pdhesType": "OPEN_LOOP"
   },
   {
     "id": "jica-sariyar-pspp",
     "name": "Sarıyar PDHES",
     "province": "Ankara",
     "country": "Türkiye",
-    "sourceGroup": "JICA_EIE_16",
-    "sourceNote": "JICA/EİE 16 aday çalışmasındaki teknik değerlerden ve prompttaki fallback koordinat bloğundan türetilmiştir.",
+    "sourceNote": "Kamu Kurumları 16 aday çalışmasındaki teknik değerlerden ve prompttaki fallback koordinat bloğundan türetilmiştir.",
     "order": 2,
     "capacityMW": 1000,
     "projectFlowCms": 270,
@@ -1207,7 +1206,7 @@
       "conceptType": "CONVENTIONAL_LAND",
       "gridSupplyType": "GRID_SUPPORTED",
       "primaryPurpose": "PEAK_POWER",
-      "classificationNote": "Mevcut baraj gölüne entegre açık döngü JICA/EİE adayıdır. JICA/EİE çalışması pik güç optimizasyonu bağlamındadır; güncel sistemde aynı tesisler yenilenebilir enerji entegrasyonu ve uzun süreli enerji depolama için de değerlendirilebilir."
+      "classificationNote": "Mevcut baraj gölüne entegre açık döngü Kamu Kurumları adayıdır. Kamu Kurumları çalışması pik güç optimizasyonu bağlamındadır; güncel sistemde aynı tesisler yenilenebilir enerji entegrasyonu ve uzun süreli enerji depolama için de değerlendirilebilir."
     },
     "coordinates": {
       "coordinateSystem": "WGS84",
@@ -1298,7 +1297,7 @@
     "assumptions": [
       "Kaynak raporda enlem/boylam verilmediği için baraj/göl/regülatör adı ve açık harita/topografya ön kabulüyle öneri koordinat verilmiştir; DEM, uydu görüntüsü, mülkiyet, korunan alan ve saha etüdüyle doğrulanmadan kesin konum gibi kullanılmamalıdır.",
       "Aktif hacim kaynakta yok; hesaplama sekmesinde kullanıcı senaryo hacmi kullanılır.",
-      "JICA/EİE çalışması pik güç optimizasyonu bağlamındadır; güncel sistemde aynı tesisler yenilenebilir enerji entegrasyonu ve uzun süreli enerji depolama için de değerlendirilebilir."
+      "Kamu Kurumları çalışması pik güç optimizasyonu bağlamındadır; güncel sistemde aynı tesisler yenilenebilir enerji entegrasyonu ve uzun süreli enerji depolama için de değerlendirilebilir."
     ],
     "model3d": {
       "terrainMode": "real-dem-if-available-else-procedural",
@@ -1308,11 +1307,11 @@
       "penstockMode": "shaft-plus-pressure-tunnel",
       "showUncertaintyOverlay": true
     },
-    "thesis": "Sarıyar PDHES, JICA/EİE aday listesinde 1000 MW kurulu güç, 434 m düşü ve 270 m³/s proje debisiyle verilen kavramsal PDHES adayıdır.",
+    "thesis": "Sarıyar PDHES, Kamu Kurumları aday listesinde 1000 MW kurulu güç, 434 m düşü ve 270 m³/s proje debisiyle verilen kavramsal PDHES adayıdır.",
     "note": "Kaynak raporda enlem/boylam verilmediği için baraj/göl/regülatör adı ve açık harita/topografya ön kabulüyle öneri koordinat verilmiştir; DEM, uydu görüntüsü, mülkiyet, korunan alan ve saha etüdüyle doğrulanmadan kesin konum gibi kullanılmamalıdır.",
     "timeline": [
       {
-        "date": "JICA/EİE",
+        "date": "Kamu Kurumları",
         "title": "Aday teknik değerleri",
         "text": "1000 MW, 270 m³/s, 434 m düşü."
       },
@@ -1323,18 +1322,18 @@
       }
     ],
     "evidence": [
-      "JICA/EİE 16 aday teknik değer listesi",
+      "Kamu Kurumları 16 aday teknik değer listesi",
       "Prompt fallback koordinat bloğu"
     ],
-    "totalWaterwayLengthM": 1797
+    "totalWaterwayLengthM": 1797,
+    "pdhesType": "OPEN_LOOP"
   },
   {
     "id": "altinkaya",
     "name": "Altınkaya PDHES",
     "province": "Samsun",
     "country": "Türkiye",
-    "sourceGroup": "JICA_EIE_16",
-    "sourceNote": "JICA kavramsal tasarımı yapılmış öncelikli 5 adaydan biri; B/C oranı en yüksek proje (1.87).",
+    "sourceNote": "Kamu Kurumları kavramsal tasarımı yapılmış öncelikli 5 adaydan biri; B/C oranı en yüksek proje (1.87).",
     "order": 3,
     "capacityMW": 1800,
     "projectFlowCms": 350,
@@ -1363,7 +1362,7 @@
       "coordinateSystem": "WGS84",
       "coordinateOrder": "[lon, lat]",
       "coordinateConfidence": "fallback-approximate",
-      "coordinateNote": "JICA general layout ve waterway longitudinal section paftalarından türetilmiş kavramsal yerleşimdir; saha etüdüyle doğrulanmalıdır.",
+      "coordinateNote": "Kamu Kurumları general layout ve waterway longitudinal section paftalarından türetilmiş kavramsal yerleşimdir; saha etüdüyle doğrulanmalıdır.",
       "mapAnchor": [
         35.7138,
         41.3562
@@ -1507,7 +1506,7 @@
       "TEİAŞ sistem etüdü, kısa devre gücü ve N-1 uyumluluğu"
     ],
     "assumptions": [
-      "JICA'nın Türkiye için belirlediği ölçek ekonomisi kullanılmıştır."
+      "Kamu Kurumları'nın Türkiye için belirlediği ölçek ekonomisi kullanılmıştır."
     ],
     "model3d": {
       "terrainMode": "real-dem-if-available-else-procedural",
@@ -1524,7 +1523,7 @@
         "dam_height_m": 79,
         "lining": "beton ağırlıklı baraj ile oluşturulan yapay rezervuar",
         "reservoir_type": "new_concrete_gravity_dam_reservoir",
-        "geology_note": "JICA kavramsal tasarımında yapay üst rezervuar öngörülmüştür.",
+        "geology_note": "Kamu Kurumları kavramsal tasarımında yapay üst rezervuar öngörülmüştür.",
         "shape_note": "Genel yerleşim planına uygun olarak çokgen/oval footprint ile çizilmelidir.",
         "render_mode": "polygon_footprint"
       },
@@ -1537,14 +1536,14 @@
         "length_m": 2082,
         "count": 1,
         "material": "beton kaplı basınçsız/basınçlı iletim tüneli",
-        "section_note": "JICA su yolu kesit paftasına göre büyük kesitli ana iletim tüneli."
+        "section_note": "Kamu Kurumları su yolu kesit paftasına göre büyük kesitli ana iletim tüneli."
       },
       "penstock": {
         "length_m": 870,
         "material": "çelik kaplı eğimli cebri boru / penstock",
         "pressure_class": "yüksek basınçlı",
         "count": 2,
-        "section_note": "JICA paftasında iki branşmanlı eğimli şaft/penstock sistemi gösterilmiştir."
+        "section_note": "Kamu Kurumları paftasında iki branşmanlı eğimli şaft/penstock sistemi gösterilmiştir."
       },
       "powerhouse": {
         "type": "underground_powerhouse",
@@ -1552,7 +1551,7 @@
         "unitPowerMW": 450,
         "turbine_type": "single-stage Francis pump-turbine",
         "generator_type": "motor-generator",
-        "transformer_note": "Yeraltı ana trafo düzeni JICA kesit paftasında gösterilmiştir.",
+        "transformer_note": "Yeraltı ana trafo düzeni Kamu Kurumları kesit paftasında gösterilmiştir.",
         "station_length_note": "Kavramsal kesitte toplam yeraltı santral uzunluğu yaklaşık 213 m mertebesindedir."
       },
       "surge_tank": {
@@ -1567,7 +1566,7 @@
         "length_m": 1603,
         "count": 1,
         "material": "beton kaplı kuyruk suyu tüneli",
-        "note": "JICA su yolu kesit paftasında tailrace room/tunnel düzeni gösterilmiştir."
+        "note": "Kamu Kurumları su yolu kesit paftasında tailrace room/tunnel düzeni gösterilmiştir."
       },
       "switchyard": {
         "voltage_kv": 380,
@@ -2098,12 +2097,12 @@
         }
       ]
     },
-    "note": "Altınkaya PDHES, JICA ve Mülga EİE’nin kavramsal tasarım çalışmalarına dayalı olarak 17. aday şeklinde eklenmiştir. Koordinatlar ve 3D bileşen konumları ekteki general layout ve waterway longitudinal section paftalarından türetilmiş yaklaşık yerleşimdir.",
-    "verificationNotes": "Altınkaya Barajı ana konumu kamuya açık harita verilerinden, üst rezervuar ve yeraltı santral yerleşimi ise JICA general layout ve su yolu kesit paftasına göre yaklaşık olarak yerleştirilmiştir. Nihai mühendislik koordinatı değildir.",
+    "note": "Altınkaya PDHES, Kamu Kurumları ve Kamu Kurumları’nin kavramsal tasarım çalışmalarına dayalı olarak 17. aday şeklinde eklenmiştir. Koordinatlar ve 3D bileşen konumları ekteki general layout ve waterway longitudinal section paftalarından türetilmiş yaklaşık yerleşimdir.",
+    "verificationNotes": "Altınkaya Barajı ana konumu kamuya açık harita verilerinden, üst rezervuar ve yeraltı santral yerleşimi ise Kamu Kurumları general layout ve su yolu kesit paftasına göre yaklaşık olarak yerleştirilmiştir. Nihai mühendislik koordinatı değildir.",
     "timeline": [
       {
         "date": "2011",
-        "title": "JICA kavramsal tasarım",
+        "title": "Kamu Kurumları kavramsal tasarım",
         "text": "Altınkaya PDHES için 1.800 MW ölçekli kavramsal tasarım, su yolu kesitleri ve maliyet ön tahmini hazırlanmıştır."
       },
       {
@@ -2130,15 +2129,15 @@
       "zoom": 11.6,
       "pitch": 58,
       "bearing": 48
-    }
+    },
+    "pdhesType": "OPEN_LOOP"
   },
   {
     "id": "jica-bayramhacili-pspp",
     "name": "Bayramhacılı PDHES",
     "province": "Kayseri",
     "country": "Türkiye",
-    "sourceGroup": "JICA_EIE_16",
-    "sourceNote": "JICA/EİE 16 aday çalışmasındaki teknik değerlerden ve prompttaki fallback koordinat bloğundan türetilmiştir.",
+    "sourceNote": "Kamu Kurumları 16 aday çalışmasındaki teknik değerlerden ve prompttaki fallback koordinat bloğundan türetilmiştir.",
     "order": 4,
     "capacityMW": 1000,
     "projectFlowCms": 720,
@@ -2161,7 +2160,7 @@
       "conceptType": "CONVENTIONAL_LAND",
       "gridSupplyType": "GRID_SUPPORTED",
       "primaryPurpose": "PEAK_POWER",
-      "classificationNote": "Mevcut baraj gölüne entegre açık döngü JICA/EİE adayıdır. JICA/EİE çalışması pik güç optimizasyonu bağlamındadır; güncel sistemde aynı tesisler yenilenebilir enerji entegrasyonu ve uzun süreli enerji depolama için de değerlendirilebilir."
+      "classificationNote": "Mevcut baraj gölüne entegre açık döngü Kamu Kurumları adayıdır. Kamu Kurumları çalışması pik güç optimizasyonu bağlamındadır; güncel sistemde aynı tesisler yenilenebilir enerji entegrasyonu ve uzun süreli enerji depolama için de değerlendirilebilir."
     },
     "coordinates": {
       "coordinateSystem": "WGS84",
@@ -2252,7 +2251,7 @@
     "assumptions": [
       "Kaynak raporda enlem/boylam verilmediği için baraj/göl/regülatör adı ve açık harita/topografya ön kabulüyle öneri koordinat verilmiştir; DEM, uydu görüntüsü, mülkiyet, korunan alan ve saha etüdüyle doğrulanmadan kesin konum gibi kullanılmamalıdır.",
       "Aktif hacim kaynakta yok; hesaplama sekmesinde kullanıcı senaryo hacmi kullanılır.",
-      "JICA/EİE çalışması pik güç optimizasyonu bağlamındadır; güncel sistemde aynı tesisler yenilenebilir enerji entegrasyonu ve uzun süreli enerji depolama için de değerlendirilebilir."
+      "Kamu Kurumları çalışması pik güç optimizasyonu bağlamındadır; güncel sistemde aynı tesisler yenilenebilir enerji entegrasyonu ve uzun süreli enerji depolama için de değerlendirilebilir."
     ],
     "model3d": {
       "terrainMode": "real-dem-if-available-else-procedural",
@@ -2262,11 +2261,11 @@
       "penstockMode": "shaft-plus-pressure-tunnel",
       "showUncertaintyOverlay": true
     },
-    "thesis": "Bayramhacılı PDHES, JICA/EİE aday listesinde 1000 MW kurulu güç, 161 m düşü ve 720 m³/s proje debisiyle verilen kavramsal PDHES adayıdır.",
+    "thesis": "Bayramhacılı PDHES, Kamu Kurumları aday listesinde 1000 MW kurulu güç, 161 m düşü ve 720 m³/s proje debisiyle verilen kavramsal PDHES adayıdır.",
     "note": "Kaynak raporda enlem/boylam verilmediği için baraj/göl/regülatör adı ve açık harita/topografya ön kabulüyle öneri koordinat verilmiştir; DEM, uydu görüntüsü, mülkiyet, korunan alan ve saha etüdüyle doğrulanmadan kesin konum gibi kullanılmamalıdır.",
     "timeline": [
       {
-        "date": "JICA/EİE",
+        "date": "Kamu Kurumları",
         "title": "Aday teknik değerleri",
         "text": "1000 MW, 720 m³/s, 161 m düşü."
       },
@@ -2277,18 +2276,18 @@
       }
     ],
     "evidence": [
-      "JICA/EİE 16 aday teknik değer listesi",
+      "Kamu Kurumları 16 aday teknik değer listesi",
       "Prompt fallback koordinat bloğu"
     ],
-    "totalWaterwayLengthM": 465
+    "totalWaterwayLengthM": 465,
+    "pdhesType": "OPEN_LOOP"
   },
   {
     "id": "jica-hasan-ugurlu-pspp",
     "name": "Hasan Uğurlu PDHES",
     "province": "Samsun",
     "country": "Türkiye",
-    "sourceGroup": "JICA_EIE_16",
-    "sourceNote": "JICA/EİE 16 aday çalışmasındaki teknik değerlerden ve prompttaki fallback koordinat bloğundan türetilmiştir.",
+    "sourceNote": "Kamu Kurumları 16 aday çalışmasındaki teknik değerlerden ve prompttaki fallback koordinat bloğundan türetilmiştir.",
     "order": 5,
     "capacityMW": 1000,
     "projectFlowCms": 204,
@@ -2311,7 +2310,7 @@
       "conceptType": "CONVENTIONAL_LAND",
       "gridSupplyType": "GRID_SUPPORTED",
       "primaryPurpose": "PEAK_POWER",
-      "classificationNote": "Mevcut baraj gölüne entegre açık döngü JICA/EİE adayıdır. JICA/EİE çalışması pik güç optimizasyonu bağlamındadır; güncel sistemde aynı tesisler yenilenebilir enerji entegrasyonu ve uzun süreli enerji depolama için de değerlendirilebilir."
+      "classificationNote": "Mevcut baraj gölüne entegre açık döngü Kamu Kurumları adayıdır. Kamu Kurumları çalışması pik güç optimizasyonu bağlamındadır; güncel sistemde aynı tesisler yenilenebilir enerji entegrasyonu ve uzun süreli enerji depolama için de değerlendirilebilir."
     },
     "coordinates": {
       "coordinateSystem": "WGS84",
@@ -2398,7 +2397,7 @@
     "assumptions": [
       "Kaynak raporda enlem/boylam verilmediği için baraj/göl/regülatör adı ve açık harita/topografya ön kabulüyle öneri koordinat verilmiştir; DEM, uydu görüntüsü, mülkiyet, korunan alan ve saha etüdüyle doğrulanmadan kesin konum gibi kullanılmamalıdır.",
       "Aktif hacim kaynakta yok; hesaplama sekmesinde kullanıcı senaryo hacmi kullanılır.",
-      "JICA/EİE çalışması pik güç optimizasyonu bağlamındadır; güncel sistemde aynı tesisler yenilenebilir enerji entegrasyonu ve uzun süreli enerji depolama için de değerlendirilebilir."
+      "Kamu Kurumları çalışması pik güç optimizasyonu bağlamındadır; güncel sistemde aynı tesisler yenilenebilir enerji entegrasyonu ve uzun süreli enerji depolama için de değerlendirilebilir."
     ],
     "model3d": {
       "terrainMode": "real-dem-if-available-else-procedural",
@@ -2408,11 +2407,11 @@
       "penstockMode": "shaft-plus-pressure-tunnel",
       "showUncertaintyOverlay": true
     },
-    "thesis": "Hasan Uğurlu PDHES, JICA/EİE aday listesinde 1000 MW kurulu güç, 570 m düşü ve 204 m³/s proje debisiyle verilen kavramsal PDHES adayıdır.",
+    "thesis": "Hasan Uğurlu PDHES, Kamu Kurumları aday listesinde 1000 MW kurulu güç, 570 m düşü ve 204 m³/s proje debisiyle verilen kavramsal PDHES adayıdır.",
     "note": "Kaynak raporda enlem/boylam verilmediği için baraj/göl/regülatör adı ve açık harita/topografya ön kabulüyle öneri koordinat verilmiştir; DEM, uydu görüntüsü, mülkiyet, korunan alan ve saha etüdüyle doğrulanmadan kesin konum gibi kullanılmamalıdır.",
     "timeline": [
       {
-        "date": "JICA/EİE",
+        "date": "Kamu Kurumları",
         "title": "Aday teknik değerleri",
         "text": "1000 MW, 204 m³/s, 570 m düşü."
       },
@@ -2423,7 +2422,7 @@
       }
     ],
     "evidence": [
-      "JICA/EİE 16 aday teknik değer listesi",
+      "Kamu Kurumları 16 aday teknik değer listesi",
       "Prompt fallback koordinat bloğu"
     ],
     "view": {
@@ -2474,15 +2473,15 @@
         41.176556
       ]
     },
-    "totalWaterwayLengthM": 1600
+    "totalWaterwayLengthM": 1600,
+    "pdhesType": "OPEN_LOOP"
   },
   {
     "id": "jica-adiguzel-pspp",
     "name": "Adıgüzel PDHES",
     "province": "Denizli",
     "country": "Türkiye",
-    "sourceGroup": "JICA_EIE_16",
-    "sourceNote": "JICA/EİE 16 aday çalışmasındaki teknik değerlerden ve prompttaki fallback koordinat bloğundan türetilmiştir.",
+    "sourceNote": "Kamu Kurumları 16 aday çalışmasındaki teknik değerlerden ve prompttaki fallback koordinat bloğundan türetilmiştir.",
     "order": 6,
     "capacityMW": 1000,
     "projectFlowCms": 484,
@@ -2505,7 +2504,7 @@
       "conceptType": "CONVENTIONAL_LAND",
       "gridSupplyType": "GRID_SUPPORTED",
       "primaryPurpose": "PEAK_POWER",
-      "classificationNote": "Mevcut baraj gölüne entegre açık döngü JICA/EİE adayıdır. JICA/EİE çalışması pik güç optimizasyonu bağlamındadır; güncel sistemde aynı tesisler yenilenebilir enerji entegrasyonu ve uzun süreli enerji depolama için de değerlendirilebilir."
+      "classificationNote": "Mevcut baraj gölüne entegre açık döngü Kamu Kurumları adayıdır. Kamu Kurumları çalışması pik güç optimizasyonu bağlamındadır; güncel sistemde aynı tesisler yenilenebilir enerji entegrasyonu ve uzun süreli enerji depolama için de değerlendirilebilir."
     },
     "coordinates": {
       "coordinateSystem": "WGS84",
@@ -2596,7 +2595,7 @@
     "assumptions": [
       "Kaynak raporda enlem/boylam verilmediği için baraj/göl/regülatör adı ve açık harita/topografya ön kabulüyle öneri koordinat verilmiştir; DEM, uydu görüntüsü, mülkiyet, korunan alan ve saha etüdüyle doğrulanmadan kesin konum gibi kullanılmamalıdır.",
       "Aktif hacim kaynakta yok; hesaplama sekmesinde kullanıcı senaryo hacmi kullanılır.",
-      "JICA/EİE çalışması pik güç optimizasyonu bağlamındadır; güncel sistemde aynı tesisler yenilenebilir enerji entegrasyonu ve uzun süreli enerji depolama için de değerlendirilebilir."
+      "Kamu Kurumları çalışması pik güç optimizasyonu bağlamındadır; güncel sistemde aynı tesisler yenilenebilir enerji entegrasyonu ve uzun süreli enerji depolama için de değerlendirilebilir."
     ],
     "model3d": {
       "terrainMode": "real-dem-if-available-else-procedural",
@@ -2606,11 +2605,11 @@
       "penstockMode": "shaft-plus-pressure-tunnel",
       "showUncertaintyOverlay": true
     },
-    "thesis": "Adıgüzel PDHES, JICA/EİE aday listesinde 1000 MW kurulu güç, 242 m düşü ve 484 m³/s proje debisiyle verilen kavramsal PDHES adayıdır.",
+    "thesis": "Adıgüzel PDHES, Kamu Kurumları aday listesinde 1000 MW kurulu güç, 242 m düşü ve 484 m³/s proje debisiyle verilen kavramsal PDHES adayıdır.",
     "note": "Kaynak raporda enlem/boylam verilmediği için baraj/göl/regülatör adı ve açık harita/topografya ön kabulüyle öneri koordinat verilmiştir; DEM, uydu görüntüsü, mülkiyet, korunan alan ve saha etüdüyle doğrulanmadan kesin konum gibi kullanılmamalıdır.",
     "timeline": [
       {
-        "date": "JICA/EİE",
+        "date": "Kamu Kurumları",
         "title": "Aday teknik değerleri",
         "text": "1000 MW, 484 m³/s, 242 m düşü."
       },
@@ -2621,18 +2620,18 @@
       }
     ],
     "evidence": [
-      "JICA/EİE 16 aday teknik değer listesi",
+      "Kamu Kurumları 16 aday teknik değer listesi",
       "Prompt fallback koordinat bloğu"
     ],
-    "totalWaterwayLengthM": 966
+    "totalWaterwayLengthM": 966,
+    "pdhesType": "OPEN_LOOP"
   },
   {
     "id": "jica-kargi-pspp",
     "name": "Kargı PDHES",
     "province": "Ankara",
     "country": "Türkiye",
-    "sourceGroup": "JICA_EIE_16",
-    "sourceNote": "JICA/EİE 16 aday çalışmasındaki teknik değerlerden ve prompttaki fallback koordinat bloğundan türetilmiştir.",
+    "sourceNote": "Kamu Kurumları 16 aday çalışmasındaki teknik değerlerden ve prompttaki fallback koordinat bloğundan türetilmiştir.",
     "order": 7,
     "capacityMW": 1000,
     "projectFlowCms": 238,
@@ -2655,7 +2654,7 @@
       "conceptType": "CONVENTIONAL_LAND",
       "gridSupplyType": "GRID_SUPPORTED",
       "primaryPurpose": "PEAK_POWER",
-      "classificationNote": "Mevcut baraj gölüne entegre açık döngü JICA/EİE adayıdır. JICA/EİE çalışması pik güç optimizasyonu bağlamındadır; güncel sistemde aynı tesisler yenilenebilir enerji entegrasyonu ve uzun süreli enerji depolama için de değerlendirilebilir."
+      "classificationNote": "Mevcut baraj gölüne entegre açık döngü Kamu Kurumları adayıdır. Kamu Kurumları çalışması pik güç optimizasyonu bağlamındadır; güncel sistemde aynı tesisler yenilenebilir enerji entegrasyonu ve uzun süreli enerji depolama için de değerlendirilebilir."
     },
     "coordinates": {
       "coordinateSystem": "WGS84",
@@ -2746,7 +2745,7 @@
     "assumptions": [
       "Kaynak raporda enlem/boylam verilmediği için baraj/göl/regülatör adı ve açık harita/topografya ön kabulüyle öneri koordinat verilmiştir; DEM, uydu görüntüsü, mülkiyet, korunan alan ve saha etüdüyle doğrulanmadan kesin konum gibi kullanılmamalıdır.",
       "Aktif hacim kaynakta yok; hesaplama sekmesinde kullanıcı senaryo hacmi kullanılır.",
-      "JICA/EİE çalışması pik güç optimizasyonu bağlamındadır; güncel sistemde aynı tesisler yenilenebilir enerji entegrasyonu ve uzun süreli enerji depolama için de değerlendirilebilir."
+      "Kamu Kurumları çalışması pik güç optimizasyonu bağlamındadır; güncel sistemde aynı tesisler yenilenebilir enerji entegrasyonu ve uzun süreli enerji depolama için de değerlendirilebilir."
     ],
     "model3d": {
       "terrainMode": "real-dem-if-available-else-procedural",
@@ -2756,11 +2755,11 @@
       "penstockMode": "shaft-plus-pressure-tunnel",
       "showUncertaintyOverlay": true
     },
-    "thesis": "Kargı PDHES, JICA/EİE aday listesinde 1000 MW kurulu güç, 496 m düşü ve 238 m³/s proje debisiyle verilen kavramsal PDHES adayıdır.",
+    "thesis": "Kargı PDHES, Kamu Kurumları aday listesinde 1000 MW kurulu güç, 496 m düşü ve 238 m³/s proje debisiyle verilen kavramsal PDHES adayıdır.",
     "note": "Kaynak raporda enlem/boylam verilmediği için baraj/göl/regülatör adı ve açık harita/topografya ön kabulüyle öneri koordinat verilmiştir; DEM, uydu görüntüsü, mülkiyet, korunan alan ve saha etüdüyle doğrulanmadan kesin konum gibi kullanılmamalıdır.",
     "timeline": [
       {
-        "date": "JICA/EİE",
+        "date": "Kamu Kurumları",
         "title": "Aday teknik değerleri",
         "text": "1000 MW, 238 m³/s, 496 m düşü."
       },
@@ -2771,18 +2770,18 @@
       }
     ],
     "evidence": [
-      "JICA/EİE 16 aday teknik değer listesi",
+      "Kamu Kurumları 16 aday teknik değer listesi",
       "Prompt fallback koordinat bloğu"
     ],
-    "totalWaterwayLengthM": 2762
+    "totalWaterwayLengthM": 2762,
+    "pdhesType": "OPEN_LOOP"
   },
   {
     "id": "jica-karacaoren-ii-pspp",
     "name": "Karacaören II PDHES",
     "province": "Burdur",
     "country": "Türkiye",
-    "sourceGroup": "JICA_EIE_16",
-    "sourceNote": "JICA/EİE 16 aday çalışmasındaki teknik değerlerden ve prompttaki fallback koordinat bloğundan türetilmiştir.",
+    "sourceNote": "Kamu Kurumları 16 aday çalışmasındaki teknik değerlerden ve prompttaki fallback koordinat bloğundan türetilmiştir.",
     "order": 8,
     "capacityMW": 1000,
     "projectFlowCms": 190,
@@ -2805,7 +2804,7 @@
       "conceptType": "CONVENTIONAL_LAND",
       "gridSupplyType": "GRID_SUPPORTED",
       "primaryPurpose": "PEAK_POWER",
-      "classificationNote": "Mevcut baraj gölüne entegre açık döngü JICA/EİE adayıdır. JICA/EİE çalışması pik güç optimizasyonu bağlamındadır; güncel sistemde aynı tesisler yenilenebilir enerji entegrasyonu ve uzun süreli enerji depolama için de değerlendirilebilir."
+      "classificationNote": "Mevcut baraj gölüne entegre açık döngü Kamu Kurumları adayıdır. Kamu Kurumları çalışması pik güç optimizasyonu bağlamındadır; güncel sistemde aynı tesisler yenilenebilir enerji entegrasyonu ve uzun süreli enerji depolama için de değerlendirilebilir."
     },
     "coordinates": {
       "coordinateSystem": "WGS84",
@@ -2896,7 +2895,7 @@
     "assumptions": [
       "Kaynak raporda enlem/boylam verilmediği için baraj/göl/regülatör adı ve açık harita/topografya ön kabulüyle öneri koordinat verilmiştir; DEM, uydu görüntüsü, mülkiyet, korunan alan ve saha etüdüyle doğrulanmadan kesin konum gibi kullanılmamalıdır.",
       "Aktif hacim kaynakta yok; hesaplama sekmesinde kullanıcı senaryo hacmi kullanılır.",
-      "JICA/EİE çalışması pik güç optimizasyonu bağlamındadır; güncel sistemde aynı tesisler yenilenebilir enerji entegrasyonu ve uzun süreli enerji depolama için de değerlendirilebilir."
+      "Kamu Kurumları çalışması pik güç optimizasyonu bağlamındadır; güncel sistemde aynı tesisler yenilenebilir enerji entegrasyonu ve uzun süreli enerji depolama için de değerlendirilebilir."
     ],
     "model3d": {
       "terrainMode": "real-dem-if-available-else-procedural",
@@ -2906,11 +2905,11 @@
       "penstockMode": "conceptual-waterway",
       "showUncertaintyOverlay": true
     },
-    "thesis": "Karacaören II PDHES, JICA/EİE aday listesinde 1000 MW kurulu güç, 615 m düşü ve 190 m³/s proje debisiyle verilen kavramsal PDHES adayıdır.",
+    "thesis": "Karacaören II PDHES, Kamu Kurumları aday listesinde 1000 MW kurulu güç, 615 m düşü ve 190 m³/s proje debisiyle verilen kavramsal PDHES adayıdır.",
     "note": "Kaynak raporda enlem/boylam verilmediği için baraj/göl/regülatör adı ve açık harita/topografya ön kabulüyle öneri koordinat verilmiştir; DEM, uydu görüntüsü, mülkiyet, korunan alan ve saha etüdüyle doğrulanmadan kesin konum gibi kullanılmamalıdır.",
     "timeline": [
       {
-        "date": "JICA/EİE",
+        "date": "Kamu Kurumları",
         "title": "Aday teknik değerleri",
         "text": "1000 MW, 190 m³/s, 615 m düşü."
       },
@@ -2921,18 +2920,18 @@
       }
     ],
     "evidence": [
-      "JICA/EİE 16 aday teknik değer listesi",
+      "Kamu Kurumları 16 aday teknik değer listesi",
       "Prompt fallback koordinat bloğu"
     ],
-    "totalWaterwayLengthM": null
+    "totalWaterwayLengthM": null,
+    "pdhesType": "OPEN_LOOP"
   },
   {
     "id": "jica-yamula-pspp",
     "name": "Yamula PDHES",
     "province": "Kayseri",
     "country": "Türkiye",
-    "sourceGroup": "JICA_EIE_16",
-    "sourceNote": "JICA/EİE 16 aday çalışmasındaki teknik değerlerden ve prompttaki fallback koordinat bloğundan türetilmiştir.",
+    "sourceNote": "Kamu Kurumları 16 aday çalışmasındaki teknik değerlerden ve prompttaki fallback koordinat bloğundan türetilmiştir.",
     "order": 9,
     "capacityMW": 500,
     "projectFlowCms": 228,
@@ -2955,7 +2954,7 @@
       "conceptType": "CONVENTIONAL_LAND",
       "gridSupplyType": "GRID_SUPPORTED",
       "primaryPurpose": "PEAK_POWER",
-      "classificationNote": "Mevcut baraj gölüne entegre açık döngü JICA/EİE adayıdır. JICA/EİE çalışması pik güç optimizasyonu bağlamındadır; güncel sistemde aynı tesisler yenilenebilir enerji entegrasyonu ve uzun süreli enerji depolama için de değerlendirilebilir."
+      "classificationNote": "Mevcut baraj gölüne entegre açık döngü Kamu Kurumları adayıdır. Kamu Kurumları çalışması pik güç optimizasyonu bağlamındadır; güncel sistemde aynı tesisler yenilenebilir enerji entegrasyonu ve uzun süreli enerji depolama için de değerlendirilebilir."
     },
     "coordinates": {
       "coordinateSystem": "WGS84",
@@ -3046,7 +3045,7 @@
     "assumptions": [
       "Kaynak raporda enlem/boylam verilmediği için baraj/göl/regülatör adı ve açık harita/topografya ön kabulüyle öneri koordinat verilmiştir; DEM, uydu görüntüsü, mülkiyet, korunan alan ve saha etüdüyle doğrulanmadan kesin konum gibi kullanılmamalıdır.",
       "Aktif hacim kaynakta yok; hesaplama sekmesinde kullanıcı senaryo hacmi kullanılır.",
-      "JICA/EİE çalışması pik güç optimizasyonu bağlamındadır; güncel sistemde aynı tesisler yenilenebilir enerji entegrasyonu ve uzun süreli enerji depolama için de değerlendirilebilir."
+      "Kamu Kurumları çalışması pik güç optimizasyonu bağlamındadır; güncel sistemde aynı tesisler yenilenebilir enerji entegrasyonu ve uzun süreli enerji depolama için de değerlendirilebilir."
     ],
     "model3d": {
       "terrainMode": "real-dem-if-available-else-procedural",
@@ -3056,11 +3055,11 @@
       "penstockMode": "shaft-plus-pressure-tunnel",
       "showUncertaintyOverlay": true
     },
-    "thesis": "Yamula PDHES, JICA/EİE aday listesinde 500 MW kurulu güç, 260 m düşü ve 228 m³/s proje debisiyle verilen kavramsal PDHES adayıdır.",
+    "thesis": "Yamula PDHES, Kamu Kurumları aday listesinde 500 MW kurulu güç, 260 m düşü ve 228 m³/s proje debisiyle verilen kavramsal PDHES adayıdır.",
     "note": "Kaynak raporda enlem/boylam verilmediği için baraj/göl/regülatör adı ve açık harita/topografya ön kabulüyle öneri koordinat verilmiştir; DEM, uydu görüntüsü, mülkiyet, korunan alan ve saha etüdüyle doğrulanmadan kesin konum gibi kullanılmamalıdır.",
     "timeline": [
       {
-        "date": "JICA/EİE",
+        "date": "Kamu Kurumları",
         "title": "Aday teknik değerleri",
         "text": "500 MW, 228 m³/s, 260 m düşü."
       },
@@ -3071,18 +3070,18 @@
       }
     ],
     "evidence": [
-      "JICA/EİE 16 aday teknik değer listesi",
+      "Kamu Kurumları 16 aday teknik değer listesi",
       "Prompt fallback koordinat bloğu"
     ],
-    "totalWaterwayLengthM": 1920
+    "totalWaterwayLengthM": 1920,
+    "pdhesType": "OPEN_LOOP"
   },
   {
     "id": "jica-oymapinar-pspp",
     "name": "Oymapınar PDHES",
     "province": "Antalya",
     "country": "Türkiye",
-    "sourceGroup": "JICA_EIE_16",
-    "sourceNote": "JICA/EİE 16 aday çalışmasındaki teknik değerlerden ve prompttaki fallback koordinat bloğundan türetilmiştir.",
+    "sourceNote": "Kamu Kurumları 16 aday çalışmasındaki teknik değerlerden ve prompttaki fallback koordinat bloğundan türetilmiştir.",
     "order": 10,
     "capacityMW": 500,
     "projectFlowCms": 156,
@@ -3105,7 +3104,7 @@
       "conceptType": "CONVENTIONAL_LAND",
       "gridSupplyType": "GRID_SUPPORTED",
       "primaryPurpose": "PEAK_POWER",
-      "classificationNote": "Mevcut baraj gölüne entegre açık döngü JICA/EİE adayıdır. JICA/EİE çalışması pik güç optimizasyonu bağlamındadır; güncel sistemde aynı tesisler yenilenebilir enerji entegrasyonu ve uzun süreli enerji depolama için de değerlendirilebilir."
+      "classificationNote": "Mevcut baraj gölüne entegre açık döngü Kamu Kurumları adayıdır. Kamu Kurumları çalışması pik güç optimizasyonu bağlamındadır; güncel sistemde aynı tesisler yenilenebilir enerji entegrasyonu ve uzun süreli enerji depolama için de değerlendirilebilir."
     },
     "coordinates": {
       "coordinateSystem": "WGS84",
@@ -3192,7 +3191,7 @@
     "assumptions": [
       "Kaynak raporda enlem/boylam verilmediği için baraj/göl/regülatör adı ve açık harita/topografya ön kabulüyle öneri koordinat verilmiştir; DEM, uydu görüntüsü, mülkiyet, korunan alan ve saha etüdüyle doğrulanmadan kesin konum gibi kullanılmamalıdır.",
       "Aktif hacim kaynakta yok; hesaplama sekmesinde kullanıcı senaryo hacmi kullanılır.",
-      "JICA/EİE çalışması pik güç optimizasyonu bağlamındadır; güncel sistemde aynı tesisler yenilenebilir enerji entegrasyonu ve uzun süreli enerji depolama için de değerlendirilebilir."
+      "Kamu Kurumları çalışması pik güç optimizasyonu bağlamındadır; güncel sistemde aynı tesisler yenilenebilir enerji entegrasyonu ve uzun süreli enerji depolama için de değerlendirilebilir."
     ],
     "model3d": {
       "terrainMode": "real-dem-if-available-else-procedural",
@@ -3202,11 +3201,11 @@
       "penstockMode": "shaft-plus-pressure-tunnel",
       "showUncertaintyOverlay": true
     },
-    "thesis": "Oymapınar PDHES, JICA/EİE aday listesinde 500 MW kurulu güç, 372 m düşü ve 156 m³/s proje debisiyle verilen kavramsal PDHES adayıdır.",
+    "thesis": "Oymapınar PDHES, Kamu Kurumları aday listesinde 500 MW kurulu güç, 372 m düşü ve 156 m³/s proje debisiyle verilen kavramsal PDHES adayıdır.",
     "note": "Kaynak raporda enlem/boylam verilmediği için baraj/göl/regülatör adı ve açık harita/topografya ön kabulüyle öneri koordinat verilmiştir; DEM, uydu görüntüsü, mülkiyet, korunan alan ve saha etüdüyle doğrulanmadan kesin konum gibi kullanılmamalıdır.",
     "timeline": [
       {
-        "date": "JICA/EİE",
+        "date": "Kamu Kurumları",
         "title": "Aday teknik değerleri",
         "text": "500 MW, 156 m³/s, 372 m düşü."
       },
@@ -3217,7 +3216,7 @@
       }
     ],
     "evidence": [
-      "JICA/EİE 16 aday teknik değer listesi",
+      "Kamu Kurumları 16 aday teknik değer listesi",
       "Prompt fallback koordinat bloğu"
     ],
     "view": {
@@ -3268,15 +3267,15 @@
         36.907854
       ]
     },
-    "totalWaterwayLengthM": 919
+    "totalWaterwayLengthM": 919,
+    "pdhesType": "OPEN_LOOP"
   },
   {
     "id": "jica-aslantas-pspp",
     "name": "Aslantaş PDHES",
     "province": "Osmaniye",
     "country": "Türkiye",
-    "sourceGroup": "JICA_EIE_16",
-    "sourceNote": "JICA/EİE 16 aday çalışmasındaki teknik değerlerden ve prompttaki fallback koordinat bloğundan türetilmiştir.",
+    "sourceNote": "Kamu Kurumları 16 aday çalışmasındaki teknik değerlerden ve prompttaki fallback koordinat bloğundan türetilmiştir.",
     "order": 11,
     "capacityMW": 500,
     "projectFlowCms": 379,
@@ -3299,7 +3298,7 @@
       "conceptType": "CONVENTIONAL_LAND",
       "gridSupplyType": "GRID_SUPPORTED",
       "primaryPurpose": "PEAK_POWER",
-      "classificationNote": "Mevcut baraj gölüne entegre açık döngü JICA/EİE adayıdır. JICA/EİE çalışması pik güç optimizasyonu bağlamındadır; güncel sistemde aynı tesisler yenilenebilir enerji entegrasyonu ve uzun süreli enerji depolama için de değerlendirilebilir."
+      "classificationNote": "Mevcut baraj gölüne entegre açık döngü Kamu Kurumları adayıdır. Kamu Kurumları çalışması pik güç optimizasyonu bağlamındadır; güncel sistemde aynı tesisler yenilenebilir enerji entegrasyonu ve uzun süreli enerji depolama için de değerlendirilebilir."
     },
     "coordinates": {
       "coordinateSystem": "WGS84",
@@ -3390,7 +3389,7 @@
     "assumptions": [
       "Kaynak raporda enlem/boylam verilmediği için baraj/göl/regülatör adı ve açık harita/topografya ön kabulüyle öneri koordinat verilmiştir; DEM, uydu görüntüsü, mülkiyet, korunan alan ve saha etüdüyle doğrulanmadan kesin konum gibi kullanılmamalıdır.",
       "Aktif hacim kaynakta yok; hesaplama sekmesinde kullanıcı senaryo hacmi kullanılır.",
-      "JICA/EİE çalışması pik güç optimizasyonu bağlamındadır; güncel sistemde aynı tesisler yenilenebilir enerji entegrasyonu ve uzun süreli enerji depolama için de değerlendirilebilir."
+      "Kamu Kurumları çalışması pik güç optimizasyonu bağlamındadır; güncel sistemde aynı tesisler yenilenebilir enerji entegrasyonu ve uzun süreli enerji depolama için de değerlendirilebilir."
     ],
     "model3d": {
       "terrainMode": "real-dem-if-available-else-procedural",
@@ -3400,11 +3399,11 @@
       "penstockMode": "shaft-plus-pressure-tunnel",
       "showUncertaintyOverlay": true
     },
-    "thesis": "Aslantaş PDHES, JICA/EİE aday listesinde 500 MW kurulu güç, 154 m düşü ve 379 m³/s proje debisiyle verilen kavramsal PDHES adayıdır.",
+    "thesis": "Aslantaş PDHES, Kamu Kurumları aday listesinde 500 MW kurulu güç, 154 m düşü ve 379 m³/s proje debisiyle verilen kavramsal PDHES adayıdır.",
     "note": "Kaynak raporda enlem/boylam verilmediği için baraj/göl/regülatör adı ve açık harita/topografya ön kabulüyle öneri koordinat verilmiştir; DEM, uydu görüntüsü, mülkiyet, korunan alan ve saha etüdüyle doğrulanmadan kesin konum gibi kullanılmamalıdır.",
     "timeline": [
       {
-        "date": "JICA/EİE",
+        "date": "Kamu Kurumları",
         "title": "Aday teknik değerleri",
         "text": "500 MW, 379 m³/s, 154 m düşü."
       },
@@ -3415,18 +3414,18 @@
       }
     ],
     "evidence": [
-      "JICA/EİE 16 aday teknik değer listesi",
+      "Kamu Kurumları 16 aday teknik değer listesi",
       "Prompt fallback koordinat bloğu"
     ],
-    "totalWaterwayLengthM": 1100
+    "totalWaterwayLengthM": 1100,
+    "pdhesType": "OPEN_LOOP"
   },
   {
     "id": "jica-demirkopru-pspp",
     "name": "Demirköprü PDHES",
     "province": "Manisa",
     "country": "Türkiye",
-    "sourceGroup": "JICA_EIE_16",
-    "sourceNote": "JICA/EİE 16 aday çalışmasındaki teknik değerlerden ve prompttaki fallback koordinat bloğundan türetilmiştir.",
+    "sourceNote": "Kamu Kurumları 16 aday çalışmasındaki teknik değerlerden ve prompttaki fallback koordinat bloğundan türetilmiştir.",
     "order": 12,
     "capacityMW": 300,
     "projectFlowCms": 166,
@@ -3449,7 +3448,7 @@
       "conceptType": "CONVENTIONAL_LAND",
       "gridSupplyType": "GRID_SUPPORTED",
       "primaryPurpose": "PEAK_POWER",
-      "classificationNote": "Mevcut baraj gölüne entegre açık döngü JICA/EİE adayıdır. JICA/EİE çalışması pik güç optimizasyonu bağlamındadır; güncel sistemde aynı tesisler yenilenebilir enerji entegrasyonu ve uzun süreli enerji depolama için de değerlendirilebilir."
+      "classificationNote": "Mevcut baraj gölüne entegre açık döngü Kamu Kurumları adayıdır. Kamu Kurumları çalışması pik güç optimizasyonu bağlamındadır; güncel sistemde aynı tesisler yenilenebilir enerji entegrasyonu ve uzun süreli enerji depolama için de değerlendirilebilir."
     },
     "coordinates": {
       "coordinateSystem": "WGS84",
@@ -3540,7 +3539,7 @@
     "assumptions": [
       "Kaynak raporda enlem/boylam verilmediği için baraj/göl/regülatör adı ve açık harita/topografya ön kabulüyle öneri koordinat verilmiştir; DEM, uydu görüntüsü, mülkiyet, korunan alan ve saha etüdüyle doğrulanmadan kesin konum gibi kullanılmamalıdır.",
       "Aktif hacim kaynakta yok; hesaplama sekmesinde kullanıcı senaryo hacmi kullanılır.",
-      "JICA/EİE çalışması pik güç optimizasyonu bağlamındadır; güncel sistemde aynı tesisler yenilenebilir enerji entegrasyonu ve uzun süreli enerji depolama için de değerlendirilebilir."
+      "Kamu Kurumları çalışması pik güç optimizasyonu bağlamındadır; güncel sistemde aynı tesisler yenilenebilir enerji entegrasyonu ve uzun süreli enerji depolama için de değerlendirilebilir."
     ],
     "model3d": {
       "terrainMode": "real-dem-if-available-else-procedural",
@@ -3550,11 +3549,11 @@
       "penstockMode": "shaft-plus-pressure-tunnel",
       "showUncertaintyOverlay": true
     },
-    "thesis": "Demirköprü PDHES, JICA/EİE aday listesinde 300 MW kurulu güç, 213 m düşü ve 166 m³/s proje debisiyle verilen kavramsal PDHES adayıdır.",
+    "thesis": "Demirköprü PDHES, Kamu Kurumları aday listesinde 300 MW kurulu güç, 213 m düşü ve 166 m³/s proje debisiyle verilen kavramsal PDHES adayıdır.",
     "note": "Kaynak raporda enlem/boylam verilmediği için baraj/göl/regülatör adı ve açık harita/topografya ön kabulüyle öneri koordinat verilmiştir; DEM, uydu görüntüsü, mülkiyet, korunan alan ve saha etüdüyle doğrulanmadan kesin konum gibi kullanılmamalıdır.",
     "timeline": [
       {
-        "date": "JICA/EİE",
+        "date": "Kamu Kurumları",
         "title": "Aday teknik değerleri",
         "text": "300 MW, 166 m³/s, 213 m düşü."
       },
@@ -3565,17 +3564,17 @@
       }
     ],
     "evidence": [
-      "JICA/EİE 16 aday teknik değer listesi",
+      "Kamu Kurumları 16 aday teknik değer listesi",
       "Prompt fallback koordinat bloğu"
     ],
-    "totalWaterwayLengthM": 1462
+    "totalWaterwayLengthM": 1462,
+    "pdhesType": "OPEN_LOOP"
   },
   {
     "id": "tasucu",
     "name": "Taşucu-Gülnar Deniz Suyu PSPP",
     "province": "Mersin",
     "country": "Türkiye",
-    "sourceGroup": "SEA_WATER_PROTOTYPE_TOP4",
     "sourceNote": "Mevcut veri setindeki deniz tipi/offshore adaylar arasından gerçek score alanına göre seçilen top4 prototiptir.",
     "order": 13,
     "capacityMW": 600,
@@ -3826,14 +3825,14 @@
         36.361144
       ]
     },
-    "totalWaterwayLengthM": null
+    "totalWaterwayLengthM": null,
+    "pdhesType": "SEA_WATER"
   },
   {
     "id": "bozyazi_anamur",
     "name": "Bozyazı-Anamur Deniz Suyu PSPP",
     "province": "Mersin",
     "country": "Türkiye",
-    "sourceGroup": "SEA_WATER_PROTOTYPE_TOP4",
     "sourceNote": "Mevcut veri setindeki deniz tipi/offshore adaylar arasından gerçek score alanına göre seçilen top4 prototiptir.",
     "order": 14,
     "capacityMW": 700,
@@ -4079,14 +4078,14 @@
         36.098256
       ]
     },
-    "totalWaterwayLengthM": null
+    "totalWaterwayLengthM": null,
+    "pdhesType": "SEA_WATER"
   },
   {
     "id": "karaburun",
     "name": "Karaburun Sırtı Deniz Suyu PSPP",
     "province": "Izmir",
     "country": "Türkiye",
-    "sourceGroup": "SEA_WATER_PROTOTYPE_TOP4",
     "sourceNote": "Mevcut veri setindeki deniz tipi/offshore adaylar arasından gerçek score alanına göre seçilen top4 prototiptir.",
     "order": 15,
     "capacityMW": 500,
@@ -4327,6 +4326,7 @@
         38.561944
       ]
     },
-    "totalWaterwayLengthM": null
+    "totalWaterwayLengthM": null,
+    "pdhesType": "SEA_WATER"
   }
 ]

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useSiteStore } from '../stores/useSiteStore';
 import type {
-  CandidateSourceGroup,
+  PdhesType,
   ConceptType,
   CoordinateConfidence,
   CycleType,
@@ -19,7 +19,7 @@ import {
   GRID_SUPPLY_TYPE_LABELS,
   INFRASTRUCTURE_TYPE_LABELS,
   PRIMARY_PURPOSE_LABELS,
-  SOURCE_GROUP_LABELS,
+  PDHES_TYPE_LABELS,
 } from '../utils/siteDerived';
 
 interface SiteEditorPageProps {
@@ -206,9 +206,9 @@ export default function SiteEditorPage({ mode, templateSite, onDone }: SiteEdito
 
           <div className="form-row">
             <div className="form-group">
-              <label>Kaynak grubu</label>
-              <select className="select" value={draft.sourceGroup} onChange={(event) => updateDraft('sourceGroup', event.target.value as CandidateSourceGroup)}>
-                {entries(SOURCE_GROUP_LABELS).map(([value, label]) => <option key={value} value={value}>{label}</option>)}
+              <label>PDHES Türü</label>
+              <select className="select" value={draft.pdhesType} onChange={(event) => updateDraft('pdhesType', event.target.value as PdhesType)}>
+                {entries(PDHES_TYPE_LABELS).map(([value, label]) => <option key={value} value={value}>{label}</option>)}
               </select>
             </div>
             <div className="form-group">

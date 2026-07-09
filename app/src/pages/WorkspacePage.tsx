@@ -3,7 +3,7 @@ import { CONTENT_DEFAULTS } from '../utils/constants';
 import { useWorkspaceStore } from '../stores/useWorkspaceStore';
 import { useSiteStore } from '../stores/useSiteStore';
 import { moneyBn, moneyM, num } from '../utils/format';
-import { CYCLE_TYPE_LABELS, SOURCE_GROUP_LABELS } from '../utils/siteDerived';
+import { CYCLE_TYPE_LABELS, PDHES_TYPE_LABELS } from '../utils/siteDerived';
 
 interface WorkspacePageProps {
   onCreateSite: () => void;
@@ -104,7 +104,7 @@ export default function WorkspacePage({ onCreateSite, onEditSite, onEditLayout }
                 <tr key={site.id} className={site.id === selectedId ? 'selected' : ''} onClick={() => selectSite(site.id)}>
                   <td><b>{site.name}</b><br /><span className="muted small">{site.id}</span></td>
                   <td>
-                    <span className={`tag ${site.sourceGroup === 'SEA_WATER_PROTOTYPE_TOP4' ? 'sea' : 'classic'}`}>{SOURCE_GROUP_LABELS[site.sourceGroup]}</span>
+                    <span className={`tag ${site.pdhesType === 'SEA_WATER' ? 'sea' : 'classic'}`}>{PDHES_TYPE_LABELS[site.pdhesType]}</span>
                     <br />
                     <span className="muted small">{CYCLE_TYPE_LABELS[site.technicalClassification.cycleType]}</span>
                   </td>

@@ -15,8 +15,8 @@ describe('validateSites', () => {
     expect(result.sites).toHaveLength(15);
     expect(new Set(result.sites.map((site) => site.id)).size).toBe(15);
 
-    expect(result.sites.filter((site) => site.sourceGroup === 'JICA_EIE_16')).toHaveLength(12);
-    expect(result.sites.filter((site) => site.sourceGroup === 'SEA_WATER_PROTOTYPE_TOP4')).toHaveLength(3);
+    expect(result.sites.filter((site) => site.pdhesType === 'OPEN_LOOP')).toHaveLength(12);
+    expect(result.sites.filter((site) => site.pdhesType === 'SEA_WATER')).toHaveLength(3);
     expect(result.sites.some((site) => site.id === 'presenzano')).toBe(false);
     expect(result.sites.map((site) => site.id).slice(12)).toEqual([
       'tasucu',
@@ -40,7 +40,7 @@ describe('validateSites', () => {
       shaftLengthM: 387,
       penstockLengthM: 595,
       tailraceTunnelLengthM: 815,
-      sourceGroup: 'JICA_EIE_16',
+      pdhesType: 'OPEN_LOOP',
     });
     expect(sariyar?.coordinates.coordinateConfidence).toBe('fallback-approximate');
     expect(sariyar?.technicalClassification.primaryPurpose).toBe('PEAK_POWER');
@@ -102,7 +102,7 @@ describe('validateSites', () => {
     expect(result.ok).toBe(true);
     if (!result.ok) return;
 
-    const seaSites = result.sites.filter((site) => site.sourceGroup === 'SEA_WATER_PROTOTYPE_TOP4');
+    const seaSites = result.sites.filter((site) => site.pdhesType === 'SEA_WATER');
     expect(seaSites.map((site) => site.score)).toEqual([79, 76, 72]);
     expect(seaSites.every((site) =>
       site.technicalClassification.cycleType === 'SEA_LOWER_RESERVOIR'

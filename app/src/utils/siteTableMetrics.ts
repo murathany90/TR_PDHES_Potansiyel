@@ -40,7 +40,7 @@ function scenarioScore(site: Site): number {
   const headScore = clamp(((site.headM ?? 300) / 700) * 24, 6, 24);
   const flowScore = clamp(((site.projectFlowCms ?? 180) / 700) * 18, 5, 18);
   const coordinateScore = site.coordinates.coordinateConfidence === 'existing-data' ? 9 : 6;
-  const sourceBonus = site.sourceGroup === 'SEA_WATER_PROTOTYPE_TOP4' ? 7 : 5;
+  const sourceBonus = site.pdhesType === 'SEA_WATER' ? 7 : 5;
   const riskPenalty = clamp(site.risks.length * 1.2, 0, 8);
   return Math.round(clamp(24 + capacityScore + headScore + flowScore + coordinateScore + sourceBonus - riskPenalty, 0, 100));
 }

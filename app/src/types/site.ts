@@ -1,6 +1,9 @@
-export type CandidateSourceGroup =
-  | 'JICA_EIE_16'
-  | 'SEA_WATER_PROTOTYPE_TOP4';
+export type PdhesType =
+  | 'OPEN_LOOP'
+  | 'CLOSED_LOOP'
+  | 'SEA_WATER'
+  | 'HYBRID'
+  | 'MIXED';
 
 export type CycleType =
   | 'OPEN_LOOP'
@@ -164,7 +167,7 @@ export interface Site {
   name: string;
   province: string;
   country: 'Türkiye';
-  sourceGroup: CandidateSourceGroup;
+  pdhesType: PdhesType;
   sourceNote: string;
   order: number;
 

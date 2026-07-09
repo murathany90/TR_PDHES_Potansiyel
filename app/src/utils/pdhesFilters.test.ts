@@ -2,22 +2,28 @@ import { describe, expect, it } from 'vitest';
 import sites from '../../public/data.json';
 import {
   DEFAULT_DATA_FILTERS,
-  SOURCE_GROUP_FILTERS,
+  PDHES_TYPE_FILTERS,
   matchesCandidateFilters,
 } from './pdhesFilters';
 import type { Site } from '../types/site';
 
 describe('PDHES candidate filters', () => {
-  it('uses source-group filter identifiers from the new data contract', () => {
-    expect(SOURCE_GROUP_FILTERS.map((filter) => filter.id)).toEqual([
+  it('uses pdhesType filter identifiers from the new data contract', () => {
+    expect(PDHES_TYPE_FILTERS.map((filter: { id: string }) => filter.id)).toEqual([
       'ALL',
-      'JICA_EIE_16',
-      'SEA_WATER_PROTOTYPE_TOP4',
+      'OPEN_LOOP',
+      'CLOSED_LOOP',
+      'SEA_WATER',
+      'HYBRID',
+      'MIXED',
     ]);
-    expect(SOURCE_GROUP_FILTERS.map((filter) => filter.label)).toEqual([
+    expect(PDHES_TYPE_FILTERS.map((filter: { label: string }) => filter.label)).toEqual([
       'Tümü',
-      'JİCA/EİE',
-      'Deniz Tipi',
+      'Açık Çevrim PDHES',
+      'Kapalı Çevrim PDHES',
+      'Deniz Suyu PDHES',
+      'Hibrit (Şebeke Desteksiz) PDHES',
+      'Karışık PDHES',
     ]);
     expect(DEFAULT_DATA_FILTERS).not.toHaveProperty('province');
     expect(DEFAULT_DATA_FILTERS).not.toHaveProperty('coordinateConfidence');
@@ -33,15 +39,14 @@ describe('PDHES candidate filters', () => {
 
     expect(matchesCandidateFilters(tasucu, {
       ...DEFAULT_DATA_FILTERS,
-      sourceGroup: 'SEA_WATER_PROTOTYPE_TOP4',
-      conceptType: 'SEAWATER',
+      pdhesType: 'SEA_WATER',
       minCapacityMW: 500,
       minHeadM: 700,
     })).toBe(true);
 
     expect(matchesCandidateFilters(gokcekaya, {
       ...DEFAULT_DATA_FILTERS,
-      sourceGroup: 'SEA_WATER_PROTOTYPE_TOP4',
+      pdhesType: 'SEA_WATER',
     })).toBe(false);
   });
 });

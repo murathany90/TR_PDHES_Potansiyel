@@ -1,5 +1,5 @@
 import type {
-  CandidateSourceGroup,
+
   ConceptType,
   CoordinateConfidence,
   CycleType,
@@ -9,12 +9,6 @@ import type {
   PrimaryPurpose,
   Site,
 } from '../types/site';
-
-const SOURCE_GROUPS: readonly CandidateSourceGroup[] = [
-  'JICA_EIE_16',
-  'SEA_WATER_PROTOTYPE_TOP4',
-];
-
 const CYCLE_TYPES: readonly CycleType[] = [
   'OPEN_LOOP',
   'CLOSED_LOOP',
@@ -286,7 +280,8 @@ function validateSiteRecord(value: unknown, index: number): { site: Site | null;
   if (!isString(value.name)) errors.push(`sites[${index}].name boş olamaz.`);
   if (!isString(value.province)) errors.push(`sites[${index}].province boş olamaz.`);
   if (value.country !== 'Türkiye') errors.push(`sites[${index}].country Türkiye olmalıdır.`);
-  if (!isEnum(value.sourceGroup, SOURCE_GROUPS)) errors.push(`sites[${index}].sourceGroup geçersiz.`);
+  const PDHES_TYPES = ['OPEN_LOOP', 'CLOSED_LOOP', 'SEA_WATER', 'HYBRID', 'MIXED'];
+  if (!isEnum(value.pdhesType, PDHES_TYPES)) errors.push(`sites[${index}].pdhesType geçersiz.`);
   if (!isString(value.sourceNote)) errors.push(`sites[${index}].sourceNote boş olamaz.`);
   if (!Number.isInteger(value.order) || Number(value.order) < 1) errors.push(`sites[${index}].order pozitif tam sayı olmalıdır.`);
 

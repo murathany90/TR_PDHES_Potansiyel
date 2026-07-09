@@ -1,13 +1,9 @@
-import type { CandidateSourceGroup, ConceptType, InfrastructureType, Site } from '../types/site';
+import type { PdhesType, Site } from '../types/site';
 
-export type SourceGroupFilter = 'ALL' | CandidateSourceGroup;
-export type ConceptTypeFilter = 'ALL' | ConceptType;
-export type InfrastructureTypeFilter = 'ALL' | InfrastructureType;
+export type PdhesTypeFilter = 'ALL' | PdhesType;
 
 export interface CandidateFilters {
-  sourceGroup: SourceGroupFilter;
-  conceptType: ConceptTypeFilter;
-  infrastructureType: InfrastructureTypeFilter;
+  pdhesType: PdhesTypeFilter;
   minCapacityMW: number | null;
   maxCapacityMW: number | null;
   minHeadM: number | null;
@@ -17,9 +13,7 @@ export interface CandidateFilters {
 }
 
 export const DEFAULT_DATA_FILTERS: CandidateFilters = {
-  sourceGroup: 'ALL',
-  conceptType: 'ALL',
-  infrastructureType: 'ALL',
+  pdhesType: 'ALL',
   minCapacityMW: null,
   maxCapacityMW: null,
   minHeadM: null,
@@ -28,26 +22,13 @@ export const DEFAULT_DATA_FILTERS: CandidateFilters = {
   maxFlowCms: null,
 };
 
-export const SOURCE_GROUP_FILTERS: Array<{ id: SourceGroupFilter; label: string }> = [
+export const PDHES_TYPE_FILTERS: Array<{ id: PdhesTypeFilter; label: string }> = [
   { id: 'ALL', label: 'Tümü' },
-  { id: 'JICA_EIE_16', label: 'JİCA/EİE' },
-  { id: 'SEA_WATER_PROTOTYPE_TOP4', label: 'Deniz Tipi' },
-];
-
-export const CONCEPT_TYPE_FILTERS: Array<{ id: ConceptTypeFilter; label: string }> = [
-  { id: 'ALL', label: 'Tüm konseptler' },
-  { id: 'CONVENTIONAL_LAND', label: 'Geleneksel kara tipi' },
-  { id: 'SEAWATER', label: 'Deniz suyu' },
-  { id: 'VARIABLE_SPEED_OPTION', label: 'Değişken hızlı seçenek' },
-  { id: 'HYBRID_RENEWABLE_OPTION', label: 'Hibrit yenilenebilir seçenek' },
-];
-
-export const INFRASTRUCTURE_TYPE_FILTERS: Array<{ id: InfrastructureTypeFilter; label: string }> = [
-  { id: 'ALL', label: 'Tüm altyapılar' },
-  { id: 'EXISTING_RESERVOIR_INTEGRATED', label: 'Mevcut rezervuar entegre' },
-  { id: 'PURE_NEW_BUILD', label: 'Tamamen yeni / saf' },
-  { id: 'MIXED_EXISTING_HYDRO_CASCADE', label: 'Mevcut HES kaskadı' },
-  { id: 'SEAWATER_COASTAL', label: 'Kıyı / deniz suyu' },
+  { id: 'OPEN_LOOP', label: 'Açık Çevrim PDHES' },
+  { id: 'CLOSED_LOOP', label: 'Kapalı Çevrim PDHES' },
+  { id: 'SEA_WATER', label: 'Deniz Suyu PDHES' },
+  { id: 'HYBRID', label: 'Hibrit (Şebeke Desteksiz) PDHES' },
+  { id: 'MIXED', label: 'Karışık PDHES' },
 ];
 
 function inRange(value: number | null | undefined, min: number | null, max: number | null): boolean {
@@ -59,10 +40,7 @@ function inRange(value: number | null | undefined, min: number | null, max: numb
 }
 
 export function matchesCandidateFilters(site: Site, filters: CandidateFilters): boolean {
-  const classification = site.technicalClassification;
-  if (filters.sourceGroup !== 'ALL' && site.sourceGroup !== filters.sourceGroup) return false;
-  if (filters.conceptType !== 'ALL' && classification.conceptType !== filters.conceptType) return false;
-  if (filters.infrastructureType !== 'ALL' && classification.infrastructureType !== filters.infrastructureType) return false;
+  if (filters.pdhesType !== 'ALL' && site.pdhesType !== filters.pdhesType) return false;
   if (!inRange(site.capacityMW, filters.minCapacityMW, filters.maxCapacityMW)) return false;
   if (!inRange(site.headM, filters.minHeadM, filters.maxHeadM)) return false;
   if (!inRange(site.projectFlowCms, filters.minFlowCms, filters.maxFlowCms)) return false;

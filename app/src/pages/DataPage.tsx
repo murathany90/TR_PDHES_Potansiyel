@@ -5,17 +5,15 @@ import { useSiteStore } from '../stores/useSiteStore';
 import { moneyBn, moneyM, num } from '../utils/format';
 import { getSiteTableMetrics } from '../utils/siteTableMetrics';
 import {
-  CONCEPT_TYPE_FILTERS,
+  PDHES_TYPE_FILTERS,
   DEFAULT_DATA_FILTERS,
-  INFRASTRUCTURE_TYPE_FILTERS,
-  SOURCE_GROUP_FILTERS,
   matchesCandidateFilters,
 } from '../utils/pdhesFilters';
 
 import {
   CYCLE_TYPE_LABELS,
   INFRASTRUCTURE_TYPE_LABELS,
-  SOURCE_GROUP_LABELS,
+  PDHES_TYPE_LABELS,
 } from '../utils/siteDerived';
 
 function waterwayText(site: Site): string {
@@ -50,35 +48,14 @@ export default function DataPage({ site }: { site?: Site }) {
       <div className="grid data-layout full-width">
         <div className="card table-card">
           <h2>Aday saha tablosu</h2>
-          <p className="muted small">Varsayılan sıra önce JICA/EİE 16 adayını, sonra skorla seçilen 4 deniz tipi prototipi gösterir.</p>
+          <p className="muted small">Varsayılan sıra önce açık çevrim adayları, sonra skorla seçilen deniz suyu prototiplerini gösterir.</p>
 
-          <div style={{ display: 'flex', gap: 8, margin: '16px 0', flexWrap: 'wrap' }}>
-            {SOURCE_GROUP_FILTERS.map((filter) => (
-              <button
-                key={filter.id}
-                type="button"
-                aria-pressed={filters.sourceGroup === filter.id}
-                className={`btn ${filters.sourceGroup === filter.id ? 'primary' : 'ghost'}`}
-                style={{ minHeight: 32, padding: '6px 12px', fontSize: 13 }}
-                onClick={() => updateFilter('sourceGroup', filter.id)}
-              >
-                {filter.label}
-              </button>
-            ))}
-          </div>
-
-          <div className="editor-form" style={{ marginBottom: 14 }}>
+          <div className="editor-form" style={{ marginBottom: 14, marginTop: 16 }}>
             <div className="form-row">
               <label className="form-group">
-                Konsept
-                <select className="select" value={filters.conceptType} onChange={(event) => updateFilter('conceptType', event.target.value as CandidateFilters['conceptType'])}>
-                  {CONCEPT_TYPE_FILTERS.map((filter) => <option key={filter.id} value={filter.id}>{filter.label}</option>)}
-                </select>
-              </label>
-              <label className="form-group">
-                Altyapı
-                <select className="select" value={filters.infrastructureType} onChange={(event) => updateFilter('infrastructureType', event.target.value as CandidateFilters['infrastructureType'])}>
-                  {INFRASTRUCTURE_TYPE_FILTERS.map((filter) => <option key={filter.id} value={filter.id}>{filter.label}</option>)}
+                PDHES Türü
+                <select className="select" value={filters.pdhesType} onChange={(event) => updateFilter('pdhesType', event.target.value as CandidateFilters['pdhesType'])}>
+                  {PDHES_TYPE_FILTERS.map((filter) => <option key={filter.id} value={filter.id}>{filter.label}</option>)}
                 </select>
               </label>
             </div>
@@ -102,7 +79,7 @@ export default function DataPage({ site }: { site?: Site }) {
                 <tr>
                   <th>Sıra</th>
                   <th>Saha</th>
-                  <th>Kaynak grubu</th>
+                  <th>PDHES Türü</th>
                   <th>Güç / Enerji</th>
                   <th>Düşü (head) / Su Yolu</th>
                   <th>Yatırım</th>
@@ -131,8 +108,8 @@ export default function DataPage({ site }: { site?: Site }) {
                           </button>
                         </td>
                         <td>
-                          <span className={`source-chip ${candidate.sourceGroup === 'SEA_WATER_PROTOTYPE_TOP4' ? 'sea' : 'jica'}`}>
-                            {SOURCE_GROUP_LABELS[candidate.sourceGroup]}
+                          <span className={`source-chip ${candidate.pdhesType === 'SEA_WATER' ? 'sea' : 'generic'}`}>
+                            {PDHES_TYPE_LABELS[candidate.pdhesType]}
                           </span>
                         </td>
                         <td>

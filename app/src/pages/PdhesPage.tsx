@@ -68,12 +68,12 @@ export default function PdhesPage({ sectionId }: PdhesPageProps) {
             { id: 'sec-bilesenler', title: 'Ana Bileşenler' },
             { id: 'sec-enerji', title: 'Enerji Hesabı' },
             { id: 'sec-sebeke', title: 'Şebeke Değeri' },
-            { id: 'sec-olgunluk', title: 'Teknoloji Olgunluğu' },
+            { id: 'sec-olgunluk', title: 'Kanıtlanmış Teknoloji' },
             { id: 'sec-tipler', title: 'PDHES Tipleri' },
             { id: 'sec-turkiye', title: 'Türkiye Potansiyeli' },
             { id: 'sec-maliyet', title: 'Gelir Modeli' },
             { id: 'sec-riskler', title: 'Riskler' },
-            { id: 'sec-jica', title: 'JİCA/EİE + Deniz Tipi' },
+            { id: 'sec-veri', title: 'Türkiye Aday Veri Kurgusu' },
             { id: 'sec-ornekler', title: 'Dünya Örnekleri' },
             { id: 'sec-sozluk', title: 'Teknik Sözlük' },
             { id: 'sec-sss', title: 'Sık Sorulan Sorular' },
@@ -353,23 +353,22 @@ export default function PdhesPage({ sectionId }: PdhesPageProps) {
 
 
 
-          <article className="info-card" id="sec-jica">
+          <article className="info-card" id="sec-veri">
             <header className="card-head">
               <div className="number-pill">11</div>
               <div>
                 <span className="eyebrow">Veri kurgusu ve sınırlamalar</span>
-                <h2>JİCA/EİE ve 16+4 aday veri kurgusu</h2>
+                <h2>Türkiye Aday Veri Kurgusu</h2>
               </div>
             </header>
             <div className="card-body">
-              <p>Bu sürümde Türkiye adayları iki kaynak grubuyla sunulur: JİCA/EİE teknik listesine dayanan 16 kara tipi aday ve önceki uygulamadaki gerçek skor sırasına göre seçilen 4 deniz tipi prototip. Bu ayrım, eski kapalı/açık/deniz/prototip etiketleri yerine çevrim tipi, altyapı tipi, kavram tipi, şebeke besleme türü ve birincil amaç alanlarıyla okunur.</p>
-              <p>JİCA/EİE adaylarında kurulu güç, proje debisi ve düşü değerleri kaynak tablodaki teknik bilgiyi temsil eder. Koordinatlar ise raporda kesin nokta verilmediği için fallback yaklaşık veya eski uygulamadaki doğruluğu korunmuş çizim noktası olarak işaretlenir. Bu yüzden harita ve 3D görünüm bir mühendislik çizimi değil, kavramsal tesis yerleşimi ve ön inceleme görselidir.</p>
+              <p>Bu sürümde Türkiye adayları iki kaynak grubuyla sunulur: Açık Çevrim PDHES teknik listesine dayanan kara tipi adaylar ve gerçek skor sırasına göre seçilen 4 deniz tipi prototip. Bu ayrım, çevrim tipi, altyapı tipi, kavram tipi, şebeke besleme türü ve birincil amaç alanlarıyla okunur.</p>
+              <p>Karayüzeyli (Açık Çevrim) adaylarda kurulu güç, proje debisi ve düşü değerleri teknik çalışmalara dayanır. Koordinatlar kesin nokta verilmediği için yaklaşık saha yerleşimi olarak işaretlenir. Bu yüzden harita ve 3D görünüm bir mühendislik çizimi değil, kavramsal tesis yerleşimi ve ön inceleme görselidir.</p>
               <p>Deniz tipi adaylarda Taşucu, Bozyazı-Anamur, Karaburun ve Finike-Kumluca mevcut veri setindeki deniz göstergeli adaylardan seçilmiştir. Deniz suyu korozyonu, intake/outfall ekolojisi, biofouling, kıyı izinleri ve sızdırmazlık kaplaması bu adaylarda ayrıca izlenmesi gereken tasarım riskleridir.</p>
               <ul className="rich-list compact">
-                <li><strong>JİCA/EİE:</strong> teknik kapasite, debi ve düşü kaynak değerleriyle; koordinatlar kesin saha koordinatı gibi kullanılmadan gösterilir.</li>
-                <li><strong>Deniz Tipi:</strong> önceki veri setindeki skor ve kıyı yerleşim çizgisi korunarak, tuzlu suya özel risklerle birlikte sunulur.</li>
-                <li><strong>Ekonomi:</strong> kaynak CAPEX/gelir varsa aynen gösterilir; yoksa tablo açıkça senaryo varsayımı üretir.</li>
-                <li><strong>Harita:</strong> Gökçekaya ve eşleşen eski adaylarda eski uygulamadaki çizim koordinatları korunmuştur.</li>
+                <li><strong>Açık Çevrim:</strong> teknik kapasite, debi ve düşü kaynak değerleriyle; koordinatlar kesin saha koordinatı gibi kullanılmadan gösterilir.</li>
+                <li><strong>Deniz Suyu:</strong> skor ve kıyı yerleşim çizgisi korunarak, tuzlu suya özel risklerle birlikte sunulur.</li>
+                <li><strong>Ekonomi:</strong> hesaplanan CAPEX/gelir varsa gösterilir; yoksa senaryo varsayımı üretilir.</li>
               </ul>
             </div>
           </article>
