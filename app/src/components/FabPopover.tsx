@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useMemo } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Zap, X, Settings, Globe, List } from 'lucide-react';
 import { useSiteStore } from '../stores/useSiteStore';
 import { useSettingsStore, type VoltageGroup, type ElementGroup } from '../stores/useSettingsStore';
@@ -6,6 +6,7 @@ import { WORLD_EXAMPLES } from '../data/worldExamples';
 import { num } from '../utils/format';
 import type { MapStyleKind } from '../utils/mapProviders';
 import { MAP_PROVIDERS } from '../utils/mapProviders';
+import { getSiteTableMetrics } from '../utils/siteTableMetrics';
 
 interface FabPopoverProps {
   mapStyle: MapStyleKind;
@@ -44,18 +45,6 @@ export function FabPopover({
     }
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [isOpen]);
-
-  const sortedCandidates = useMemo(() => {
-    return [...sites].sort((a, b) => {
-      const aIsSea = a.name.toLowerCase().includes('deniz') || a.sourceGroup === 'SEA_WATER_PROTOTYPE_TOP4' || a.technicalClassification?.conceptType === 'SEAWATER';
-      const bIsSea = b.name.toLowerCase().includes('deniz') || b.sourceGroup === 'SEA_WATER_PROTOTYPE_TOP4' || b.technicalClassification?.conceptType === 'SEAWATER';
-      
-      if (aIsSea && !bIsSea) return 1;
-      if (!aIsSea && bIsSea) return -1;
-      
-      return (b.score || 0) - (a.score || 0);
-    });
-  }, [sites]);
 
   return (
     <div className="fab-container" ref={popoverRef}>
@@ -103,8 +92,8 @@ export function FabPopover({
                     </tr>
                   </thead>
                   <tbody>
-                    {sortedCandidates.slice(0, 20).map(site => {
-                      const isSea = site.name.toLowerCase().includes('deniz') || site.sourceGroup === 'SEA_WATER_PROTOTYPE_TOP4' || site.technicalClassification?.conceptType === 'SEAWATER';
+                    {[...sites].sort((a, b) => (a.order ?? 0) - (b.order ?? 0)).map(site => {
+                      const metrics = getSiteTableMetrics(site);
                       return (
                       <tr 
                         key={site.id} 
@@ -116,7 +105,7 @@ export function FabPopover({
                         <td>{site.name.replace(/PSPP/g, 'PDHES')}</td>
                         <td><div>{num(site.capacityMW)} MW</div><div style={{fontSize: '0.85em', color: 'var(--muted)'}}>{site.energyGWh ?? 'Belirtilmedi'} GWh</div></td>
                         <td><div>{num(site.headM, 1)} m</div><div style={{fontSize: '0.85em', color: 'var(--muted)'}}>{num(site.tunnelLengthKm, 1)} km</div></td>
-                        <td>{isSea ? '-' : (site.score === null || site.score === undefined ? '-' : site.score.toFixed(1))}</td>
+                        <td>{metrics.scenarioScore.toFixed(1)}</td>
                       </tr>
                     )})}
                   </tbody>

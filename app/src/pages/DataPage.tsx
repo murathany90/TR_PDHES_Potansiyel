@@ -13,11 +13,8 @@ import {
 } from '../utils/pdhesFilters';
 
 import {
-  CONCEPT_TYPE_LABELS,
   CYCLE_TYPE_LABELS,
-  GRID_SUPPLY_TYPE_LABELS,
   INFRASTRUCTURE_TYPE_LABELS,
-  PRIMARY_PURPOSE_LABELS,
   SOURCE_GROUP_LABELS,
 } from '../utils/siteDerived';
 
@@ -36,6 +33,7 @@ function originLabel(origin: 'source' | 'scenario'): string {
 export default function DataPage({ site }: { site?: Site }) {
   const { sites, selectedId, selectSite } = useSiteStore();
   const [filters, setFilters] = useState<CandidateFilters>(DEFAULT_DATA_FILTERS);
+  const [expandedId, setExpandedId] = useState<string | null>(null);
 
   if (!site) return <div className="panel active"><p className="muted">Veri yükleniyor...</p></div>;
 
@@ -119,14 +117,14 @@ export default function DataPage({ site }: { site?: Site }) {
                   const metrics = getSiteTableMetrics(candidate);
                   return (
                     <React.Fragment key={candidate.id}>
-                      <tr className={`main-row ${candidate.id === selectedId ? 'selected' : ''}`} onClick={() => selectSite(candidate.id)}>
+                      <tr className={`main-row ${candidate.id === selectedId ? 'selected' : ''}`} onClick={() => { selectSite(candidate.id); setExpandedId(expandedId === candidate.id ? null : candidate.id); }}>
                         <td>{candidate.order}</td>
                         <td>
                           <button
                             type="button"
                             className="site-row-button"
                             aria-current={candidate.id === selectedId ? 'true' : undefined}
-                            onClick={(e) => { e.stopPropagation(); selectSite(candidate.id); }}
+                            onClick={(e) => { e.stopPropagation(); selectSite(candidate.id); setExpandedId(expandedId === candidate.id ? null : candidate.id); }}
                           >
                             <b>{candidate.name}</b>
                             <span className="muted small">{candidate.province}</span>
@@ -167,7 +165,7 @@ export default function DataPage({ site }: { site?: Site }) {
                           </div>
                         </td>
                       </tr>
-                      {candidate.id === selectedId && (
+                      {candidate.id === expandedId && (
                         <tr className="expanded-details-row">
                           <td colSpan={10}>
                             <div className="expanded-details-content">
@@ -178,11 +176,6 @@ export default function DataPage({ site }: { site?: Site }) {
                                   <span>Yaklaşık depolama kapasitesi</span>
                                   <b>{candidate.activeVolumeHm3 ? `${candidate.activeVolumeHm3} hm³` : (candidate.projectFlowCms ? `~${(candidate.projectFlowCms * 7 * 3600 / 1000000).toFixed(1)} hm³` : '-')}</b>
                                 </div>
-                              </div>
-                              <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginTop: 12 }}>
-                                <span className="tag">{CONCEPT_TYPE_LABELS[candidate.technicalClassification.conceptType]}</span>
-                                <span className="tag">{GRID_SUPPLY_TYPE_LABELS[candidate.technicalClassification.gridSupplyType]}</span>
-                                <span className="tag">{PRIMARY_PURPOSE_LABELS[candidate.technicalClassification.primaryPurpose]}</span>
                               </div>
                             </div>
                           </td>
