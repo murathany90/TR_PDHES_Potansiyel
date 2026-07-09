@@ -66,6 +66,8 @@ const LAYOUT_3D_MATERIALS: readonly Layout3DMaterial[] = [
   'industrial',
   'tailrace_channel',
   'switchyard',
+  'switchyard_existing',
+  'switchyard_new',
 ];
 
 const LEGACY_FIELDS = ['pdhesType', 'concept', 'conceptLabel', 'lat', 'lon'];
@@ -173,6 +175,16 @@ function validateCoordinates(value: unknown, index: number): string[] {
   }
   if (!isRecord(value.tailraceOutlet) || !isCoordinate(value.tailraceOutlet.point)) errors.push(`sites[${index}].coordinates.tailraceOutlet geçersiz.`);
   if (!isRecord(value.switchyard) || !isCoordinate(value.switchyard.point)) errors.push(`sites[${index}].coordinates.switchyard geçersiz.`);
+  if (value.existingSwitchyard !== undefined) {
+    if (!isRecord(value.existingSwitchyard) || !isCoordinate(value.existingSwitchyard.point)) {
+      errors.push(`sites[${index}].coordinates.existingSwitchyard geçersiz.`);
+    }
+  }
+  if (value.newSwitchyard !== undefined) {
+    if (!isRecord(value.newSwitchyard) || !isCoordinate(value.newSwitchyard.point)) {
+      errors.push(`sites[${index}].coordinates.newSwitchyard geçersiz.`);
+    }
+  }
   if (!isRecord(value.gridConnection) || !isCoordinate(value.gridConnection.point) || !isString(value.gridConnection.voltageClassHint)) {
     errors.push(`sites[${index}].coordinates.gridConnection geçersiz.`);
   }

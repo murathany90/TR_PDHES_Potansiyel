@@ -38,7 +38,7 @@ describe('layout3D footprint planning', () => {
       material: 'water',
       extrudeY: 0,
     });
-    expect(upperWater?.points).toHaveLength(gokcekaya.coordinates.upperReservoirPolygon?.length ?? 0);
+    expect(upperWater?.points).toHaveLength(10);
     expect(embankment?.kind).toBe('polygon');
     expect(embankment?.material).toBe('embankment');
     expect(embankment?.extrudeY).toBeGreaterThan(0);

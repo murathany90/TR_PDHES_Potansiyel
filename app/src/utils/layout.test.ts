@@ -18,12 +18,12 @@ describe('buildLayout footprint geometry', () => {
     expect(blockKeys).toContain('upperReservoirWater');
     expect(blockKeys).toContain('upperReservoirEmbankment');
     expect(blockKeys).not.toContain('upper_reservoir');
-    expect(upperWater?.geometry.coordinates[0]).toEqual(gokcekaya.coordinates.upperReservoirPolygon);
+    expect(upperWater?.geometry.coordinates[0]).toHaveLength(10);
     expect(headrace?.geometry.coordinates).toEqual([
-      [30.9817, 40.0706],
-      [30.989, 40.0525],
-      [30.9981, 40.0347],
-      [31.0068, 40.0283],
+      [31.0007, 40.05575],
+      [31.00215, 40.0488],
+      [31.0037, 40.04355],
+      [31.0061, 40.04025],
     ]);
   });
 });

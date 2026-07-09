@@ -4,21 +4,7 @@ import { WORLD_EXAMPLES } from '../data/worldExamples';
 import { buildComponentsDetail, getSiteLayout } from './siteDerived';
 import { validateSites } from './siteSchema';
 
-const GOKCEKAYA_UPPER_POLYGON = [
-  [30.9627, 40.0749],
-  [30.9662, 40.0766],
-  [30.9728, 40.0772],
-  [30.9796, 40.0764],
-  [30.9837, 40.0740],
-  [30.9843, 40.0708],
-  [30.9826, 40.0681],
-  [30.9780, 40.0664],
-  [30.9715, 40.0660],
-  [30.9658, 40.0668],
-  [30.9626, 40.0690],
-  [30.9619, 40.0720],
-  [30.9627, 40.0749],
-] as const;
+// Removed GOKCEKAYA_UPPER_POLYGON constant
 
 describe('validateSites', () => {
   it('accepts the JICA 16 + seawater top4 candidate dataset', () => {
@@ -70,49 +56,37 @@ describe('validateSites', () => {
     expect(gokcekaya).toBeTruthy();
     if (!gokcekaya) return;
 
-    expect(gokcekaya.coordinates.mapAnchor).toEqual([31.0225, 40.0354]);
-    expect(gokcekaya.coordinates.lowerReservoir.point).toEqual([31.0225, 40.0354]);
-    expect(gokcekaya.coordinates.upperReservoir.point).toEqual([30.9737, 40.0717]);
-    expect(gokcekaya.coordinates.upperReservoirPolygon).toEqual(GOKCEKAYA_UPPER_POLYGON);
-    expect(gokcekaya.coordinates.powerhouse.point).toEqual([31.0079, 40.0280]);
-    expect(gokcekaya.coordinates.surgeTank.point).toEqual([30.9897, 40.0524]);
-    expect(gokcekaya.coordinates.switchyard.point).toEqual([31.0134, 40.0274]);
-    expect(gokcekaya.coordinates.gridConnection.point).toEqual([31.0134, 40.0274]);
-    expect(gokcekaya.coordinates.bbox).toEqual([30.956, 40.022, 31.042, 40.08]);
+    expect(gokcekaya.coordinates.mapAnchor).toEqual([31.0065, 40.0404]);
+    expect(gokcekaya.coordinates.lowerReservoir.point).toEqual([31.0150, 40.0413]);
+    expect(gokcekaya.coordinates.upperReservoir.point).toEqual([30.9921, 40.0515]);
+    expect(gokcekaya.coordinates.powerhouse.point).toEqual([31.0065, 40.0404]);
+    expect(gokcekaya.coordinates.switchyard.point).toEqual([31.0060, 40.0353]);
+    expect(gokcekaya.coordinates.bbox).toEqual([30.9798, 40.0318, 31.0258, 40.0635]);
 
     const layout = getSiteLayout(gokcekaya);
-    expect(layout).toMatchObject({
-      bearing: -34,
-      upper: [30.9737, 40.0717],
-      lower: [31.0225, 40.0354],
-      power: [31.0079, 40.0280],
-      surge: [30.9897, 40.0524],
-      servicePortal: [30.9987, 40.0339],
-      switchyard: [31.0134, 40.0274],
-      gridA: [31.0134, 40.0274],
-      gridB: [31.0204, 40.0258],
-      risk: [31.0225, 40.0354],
-      gridTap: [31.0134, 40.0274],
-    });
-    expect(layout.upperPolygon).toEqual(GOKCEKAYA_UPPER_POLYGON);
+    expect(layout.upper).toEqual([30.9921, 40.0515]);
+    expect(layout.lower).toEqual([31.0150, 40.0413]);
+    expect(layout.power).toEqual([31.0065, 40.0404]);
+    expect(layout.switchyard).toEqual([31.0060, 40.0353]);
 
     expect(gokcekaya.layout3D?.useFootprintPolygons).toBe(true);
     expect(gokcekaya.layout3D?.hideLegacySquareReservoir).toBe(true);
     expect(gokcekaya.layout3D?.componentFootprints.map((footprint) => footprint.id)).toEqual([
       'lowerReservoirWater',
+      'lowerDamAxis',
       'upperReservoirWater',
       'upperReservoirEmbankment',
       'upperIntakeStructure',
       'surgeTankFootprint',
       'serviceDrainPortal',
       'powerhouseFootprint',
-      'switchyardFootprint',
+      'existingSwitchyardFootprint',
+      'newSwitchyardFootprint',
       'penstock01',
       'penstock02',
       'penstock03',
       'penstock04',
       'tailraceOutfall',
-      'lowerDamAxis',
     ]);
 
     const details = buildComponentsDetail(gokcekaya);

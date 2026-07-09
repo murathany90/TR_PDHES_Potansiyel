@@ -60,6 +60,8 @@ export interface PdhCoordinateSet {
   penstockRoute: [number, number][];
   tailraceOutlet: { point: [number, number] };
   switchyard: { point: [number, number] };
+  existingSwitchyard?: { point: [number, number] };
+  newSwitchyard?: { point: [number, number] };
   gridConnection: { point: [number, number]; voltageClassHint: string };
   intakeOutfall?: { point: [number, number]; description: string } | null;
   bbox: [number, number, number, number];
@@ -237,7 +239,9 @@ export type Layout3DMaterial =
   | 'portal'
   | 'industrial'
   | 'tailrace_channel'
-  | 'switchyard';
+  | 'switchyard'
+  | 'switchyard_existing'
+  | 'switchyard_new';
 
 export interface Layout3DFootprint {
   id: string;
