@@ -72,6 +72,13 @@ Uygulamanın navigasyonu ekranın sol (veya mobil cihazlarda alt) kısmındaki `
   - Listeden bir adaya veya haritadaki bir ikona tıklandığında, sistem adayın koordinatlarına "Fly-to" animasyonu (süzülme hareketi) başlatır.
   - Kamera doğrudan dağ veya nehir kanyonunun üzerine yaklaşır (Zoom Level 11-13).
   - Seçili adayın teknik özet bilgileri, bir "Açılır Popup (Tooltip)" veya ekran altı paneli olarak kullanıcıya sunulur.
+- **Sağ Tık Menüsü (Context Menu) ve Harita Araçları:**
+  - Haritada herhangi bir noktaya sağ tıklandığında (mobil cihazlarda uzun basıldığında) `MapContextMenu` bileşeni devreye girer. Bu bileşen `zustand` tabanlı `useMapToolsStore` üzerinden yönetilir.
+  - **Rakım Sorgula:** Harita motorunun (MapLibre GL) `queryTerrainElevation` API'sini kullanarak tıklanan noktanın topoğrafik (DEM) katmanındaki gerçek deniz seviyesi yüksekliğini anlık olarak döndürür (Ayarlardaki yükseklik abartısı - exaggeration - katsayısına göre formülize edilerek gerçek değer hesaplanır).
+  - **Mesafe Ölç:** Noktalar arası kuş uçuşu mesafe ölçümü yapılmasını sağlar (Bu mod aktif edildiğinde `@turf/length` gibi geo-spatial hesaplama kütüphanelerinden faydalanılır).
+  - **Koordinatı Kopyala:** Tarayıcının `navigator.clipboard` API'si kullanılarak tıklanan noktanın enlem ve boylam (Lat, Lng) bilgisini panoya kopyalar.
+  - **Google Earth'te Aç:** Seçilen koordinatı doğrudan yeni bir sekmede Google Earth Web (`earth.google.com`) üzerinde 3D kamera açısıyla açar.
+  - *Kullanılan Kütüphaneler:* Arayüz ikonları için `lucide-react`, durum yönetimi için `zustand`, coğrafi hesaplamalar için `MapLibre GL` ve `@turf/length` araçları kullanılmıştır.
 
 ### Sekme 4: 3D Yerleşim (ThreeDPage - Mühendislik İncelemesi)
 - **Bileşen Yolu:** `src/pages/ThreeDPage.tsx`
