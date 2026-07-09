@@ -31,7 +31,7 @@ describe('PDHES candidate filters', () => {
 
   it('matches source group, sea classification and numeric ranges together', () => {
     const tasucu = (sites as Site[]).find((site) => site.id === 'tasucu');
-    const gokcekaya = (sites as Site[]).find((site) => site.id === 'jica-gokcekaya-pspp');
+    const gokcekaya = (sites as Site[]).find((site) => site.id === 'kamu-gokcekaya-pspp');
 
     expect(tasucu).toBeTruthy();
     expect(gokcekaya).toBeTruthy();

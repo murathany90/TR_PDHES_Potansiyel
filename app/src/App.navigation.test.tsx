@@ -42,7 +42,7 @@ describe('application navigation', () => {
   });
 
   it('keeps legacy section links compatible with the canonical PDHES route', async () => {
-    window.location.hash = '#sec-jica';
+    window.location.hash = '#sec-veri';
 
     render(
       <HashRouter>
@@ -51,12 +51,12 @@ describe('application navigation', () => {
     );
 
     await waitFor(() => {
-      expect(window.location.hash).toBe('#/pdhes/sec-jica');
+      expect(window.location.hash).toBe('#/pdhes/sec-veri');
     });
   });
 
   it('passes the nested content section encoded in the route to the PDHES page', async () => {
-    window.location.hash = '#/pdhes/sec-jica';
+    window.location.hash = '#/pdhes/sec-veri';
 
     render(
       <HashRouter>
@@ -65,7 +65,7 @@ describe('application navigation', () => {
     );
 
     await waitFor(() => {
-      expect(screen.getByTestId('pdhes-page').getAttribute('data-section-id')).toBe('sec-jica');
+      expect(screen.getByTestId('pdhes-page').getAttribute('data-section-id')).toBe('sec-veri');
     });
   });
 

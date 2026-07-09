@@ -475,17 +475,23 @@ export default function PdhesPage({ sectionId }: PdhesPageProps) {
               </div>
             </header>
             <div className="card-body">
-              <InfoAccordion title="Bu listedeki adaylar yatırım yapılabilir proje midir?">
-                <p>Hayır. Adaylar eğitim, ön inceleme ve karar destek amacıyla sunulur; fizibilite, ÇED, DSİ/TEİAŞ görüşü, arazi ölçümü ve finansal kapanış yerine geçmez.</p>
+              <InfoAccordion title="Bu listedeki adaylar yatırıma veya ihaleye hazır projeler midir?">
+                <p>Hayır. Platformdaki adaylar temel mühendislik eğitimi, ön inceleme, kapasite planlaması ve karar destek amacıyla sunulur. Bu sahaların hayata geçebilmesi için zemin etüdü, ÇED (Çevresel Etki Değerlendirmesi) raporu, EPDK lisans süreçleri, DSİ ve TEİAŞ bağlantı onayları, ayrıntılı fizibilite çalışmaları ve finansal kapanış aşamalarından geçmesi zorunludur.</p>
               </InfoAccordion>
-              <InfoAccordion title="JİCA/EİE koordinatları neden yaklaşık?">
-                <p>Kaynak teknik listede kesin tesis koordinatı verilmediği için koordinatlar fallback veya eski uygulamada doğruluğu korunmuş kavramsal çizim noktası olarak işaretlenir.</p>
+              <InfoAccordion title="Pompaj depolamalı HES'lerin (PDHES) lityum-iyon bataryalara göre avantajları nelerdir?">
+                <p>PDHES tesisleri tipik olarak çok daha uzun ömürlüdür (50-100 yıl) ve zamanla kapasite kaybı veya degradasyon (bozulma) yaşamazlar. Devreye girme süreleri birkaç dakikayı bulsa da, çok büyük ölçekli enerjiyi (GWh seviyesinde) saatlerce kesintisiz şebekeye sağlayabilirler. Lityum-iyon bataryalar ise saniyeler içinde devreye girmesine rağmen, daha çok kısa süreli (2-4 saat) frekans kontrolü ve dengeleme hizmetleri için idealdir.</p>
               </InfoAccordion>
-              <InfoAccordion title="Deniz tipi adaylarda ana belirsizlik nedir?">
-                <p>Tuzlu su korozyonu, deniz canlılarıyla etkileşim, intake/outfall tasarımı, kıyı izinleri, kaplama sızdırmazlığı ve şebeke bağlantısı birlikte doğrulanmalıdır.</p>
+              <InfoAccordion title="Kapalı çevrim PDHES projelerinin açık çevrim projelere göre öne çıkan yönleri nelerdir?">
+                <p>Kapalı çevrim (Closed-loop) PDHES projeleri doğal bir nehir veya göl yatağından bağımsız olarak inşa edildikleri için mevcut su ekosistemine müdahale etmezler. Bu durum, ÇED süreçlerini ve çevresel izinleri önemli ölçüde hızlandırabilir. Sadece sistemdeki buharlaşma kayıplarını telafi edecek küçük bir su kaynağına ihtiyaç duyarlar.</p>
               </InfoAccordion>
-              <InfoAccordion title="Tablodaki senaryo değerleri nasıl okunmalı?">
-                <p>Kaynakta yatırım, gelir veya skor yoksa uygulama eski sistem mantığını izleyerek görünür bir senaryo tahmini üretir ve bunu kaynak değerinden ayrı etiketler.</p>
+              <InfoAccordion title="Deniz suyu kullanan PDHES projelerinde mühendislik açısından ana zorluklar (belirsizlikler) nelerdir?">
+                <p>Tuzlu suyun yarattığı yoğun korozyon etkisi nedeniyle elektromekanik teçhizatın (pompa, türbin, vanalar) özel alaşımlardan üretilmesi gerekir. Ayrıca deniz canlılarıyla etkileşimi (midye ve yosun birikimi) engellemek için intake/outfall (su alma ve deşarj) yapılarının özel tasarlanması, kıyı kullanım izinlerinin alınması ve üst rezervuarda tuzlu suyun yeraltı suyuna sızmasını engelleyecek yüksek kaliteli membran/kaplama (liner) teknolojisinin kullanılması şarttır.</p>
+              </InfoAccordion>
+              <InfoAccordion title="Platformdaki aday listelerinde neden koordinatların bazıları sadece kavramsal bir noktayı gösteriyor?">
+                <p>İlgili kamu veya özel sektör raporlarında bazen projelerin kesin yerleşim planları (rezervuar aksı, santral binası konumu) ticari sırlar veya rapor kısıtlılıkları nedeniyle tam olarak paylaşılmaz. Bu durumlarda, analiz edilen havza veya bölge referans alınarak kavramsal (yaklaşık) bir koordinat oluşturulur ve uygulamada bu koordinatlar sistemin hesaplama bütünlüğünü sağlamak için bir referans noktası olarak işaretlenir.</p>
+              </InfoAccordion>
+              <InfoAccordion title="Tablodaki senaryo değerleri (gelir, yatırım tutarı) nasıl okunmalı?">
+                <p>Eğer bir kamu veya ön fizibilite raporunda net bir yatırım veya gelir tablosu belirtilmemişse, uygulama uluslararası güncel birim maliyetleri ve genel geçer pazar senaryolarını baz alarak yaklaşık tahminler (fallback algoritmaları) üretir. Bu tahminler, sahaların kendi aralarında karşılaştırılabilmesini sağlamak amacıyla oluşturulan jenerik değerlerdir ve piyasa koşullarına göre değişkenlik gösterebilir.</p>
               </InfoAccordion>
             </div>
           </article>

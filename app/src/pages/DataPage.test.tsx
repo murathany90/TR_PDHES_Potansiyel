@@ -6,7 +6,7 @@ import { useSiteStore } from '../stores/useSiteStore';
 import { makeTestSite } from '../test-utils/makeTestSite';
 import DataPage from './DataPage';
 
-const site = makeTestSite({ id: 'jica-test-site' });
+const site = makeTestSite({ id: 'kamu-test-site' });
 
 describe('DataPage', () => {
   beforeEach(() => {

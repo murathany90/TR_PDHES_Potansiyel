@@ -3,7 +3,7 @@ import sites from '../../public/data.json';
 import type { Site } from '../types/site';
 import { buildLayout } from './layout';
 
-const gokcekaya = (sites as Site[]).find((site) => site.id === 'jica-gokcekaya-pspp');
+const gokcekaya = (sites as Site[]).find((site) => site.id === 'kamu-gokcekaya-pspp');
 
 describe('buildLayout footprint geometry', () => {
   it('uses Gokcekaya polygon footprints instead of the legacy upper reservoir rectangle', () => {

@@ -121,7 +121,7 @@ export default function MapPage() {
                 </div>
               ) : (
                 <img 
-                  src={imageModalSiteId === 'jica-gokcekaya-pspp' ? 'pdhes_taslaklar/01-Gokcekaya_PDHES_taslak1.png' : `pdhes_taslaklar/${imageModalSiteId}.png`} 
+                  src={imageModalSiteId === 'kamu-gokcekaya-pspp' ? 'pdhes_taslaklar/01-Gokcekaya_PDHES_taslak1.png' : `pdhes_taslaklar/${imageModalSiteId}.png`} 
                   alt="3D Tesis Görseli" 
                   style={{ maxWidth: '100%', maxHeight: 'calc(90vh - 100px)', display: 'block', borderRadius: 4 }}
                   onError={() => setImageLoadError(true)} 

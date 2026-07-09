@@ -7,7 +7,7 @@ import { validateSites } from './siteSchema';
 // Removed GOKCEKAYA_UPPER_POLYGON constant
 
 describe('validateSites', () => {
-  it('accepts the JICA 16 + seawater top4 candidate dataset', () => {
+  it('accepts the Kamu Kurumları 16 + seawater top4 candidate dataset', () => {
     const result = validateSites(sites);
 
     expect(result.errors).toEqual([]);
@@ -25,12 +25,12 @@ describe('validateSites', () => {
     ]);
   });
 
-  it('keeps JICA technical values and approximate coordinate confidence explicit', () => {
+  it('keeps technical values and approximate coordinate confidence explicit', () => {
     const result = validateSites(sites);
     expect(result.ok).toBe(true);
     if (!result.ok) return;
 
-    const sariyar = result.sites.find((site) => site.id === 'jica-sariyar-pspp');
+    const sariyar = result.sites.find((site) => site.id === 'kamu-sariyar-pspp');
     expect(sariyar).toMatchObject({
       name: 'Sarıyar PDHES',
       province: 'Ankara',
@@ -51,7 +51,7 @@ describe('validateSites', () => {
     expect(result.ok).toBe(true);
     if (!result.ok) return;
 
-    const gokcekaya = result.sites.find((site) => site.id === 'jica-gokcekaya-pspp');
+    const gokcekaya = result.sites.find((site) => site.id === 'kamu-gokcekaya-pspp');
     expect(gokcekaya).toBeTruthy();
     if (!gokcekaya) return;
 

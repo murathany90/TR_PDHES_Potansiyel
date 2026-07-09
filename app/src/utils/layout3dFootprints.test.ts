@@ -3,7 +3,7 @@ import sites from '../../public/data.json';
 import type { Site } from '../types/site';
 import { buildLayout3DFootprintPlan, projectLngLatToScene } from './layout3dFootprints';
 
-const gokcekaya = (sites as Site[]).find((site) => site.id === 'jica-gokcekaya-pspp');
+const gokcekaya = (sites as Site[]).find((site) => site.id === 'kamu-gokcekaya-pspp');
 
 describe('layout3D footprint planning', () => {
   it('projects lon/lat coordinates around the bbox center into local scene space', () => {

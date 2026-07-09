@@ -1,6 +1,6 @@
 [
   {
-    "id": "jica-gokcekaya-pspp",
+    "id": "kamu-gokcekaya-pspp",
     "name": "Gökçekaya PDHES",
     "province": "Eskişehir",
     "country": "Türkiye",
@@ -1179,7 +1179,7 @@
     "pdhesType": "OPEN_LOOP"
   },
   {
-    "id": "jica-sariyar-pspp",
+    "id": "kamu-sariyar-pspp",
     "name": "Sarıyar PDHES",
     "province": "Ankara",
     "country": "Türkiye",
@@ -2133,7 +2133,7 @@
     "pdhesType": "OPEN_LOOP"
   },
   {
-    "id": "jica-bayramhacili-pspp",
+    "id": "kamu-bayramhacili-pspp",
     "name": "Bayramhacılı PDHES",
     "province": "Kayseri",
     "country": "Türkiye",
@@ -2283,7 +2283,7 @@
     "pdhesType": "OPEN_LOOP"
   },
   {
-    "id": "jica-hasan-ugurlu-pspp",
+    "id": "kamu-hasan-ugurlu-pspp",
     "name": "Hasan Uğurlu PDHES",
     "province": "Samsun",
     "country": "Türkiye",
@@ -2477,7 +2477,7 @@
     "pdhesType": "OPEN_LOOP"
   },
   {
-    "id": "jica-adiguzel-pspp",
+    "id": "kamu-adiguzel-pspp",
     "name": "Adıgüzel PDHES",
     "province": "Denizli",
     "country": "Türkiye",
@@ -2627,7 +2627,7 @@
     "pdhesType": "OPEN_LOOP"
   },
   {
-    "id": "jica-kargi-pspp",
+    "id": "kamu-kargi-pspp",
     "name": "Kargı PDHES",
     "province": "Ankara",
     "country": "Türkiye",
@@ -2777,7 +2777,7 @@
     "pdhesType": "OPEN_LOOP"
   },
   {
-    "id": "jica-karacaoren-ii-pspp",
+    "id": "kamu-karacaoren-ii-pspp",
     "name": "Karacaören II PDHES",
     "province": "Burdur",
     "country": "Türkiye",
@@ -2927,7 +2927,7 @@
     "pdhesType": "OPEN_LOOP"
   },
   {
-    "id": "jica-yamula-pspp",
+    "id": "kamu-yamula-pspp",
     "name": "Yamula PDHES",
     "province": "Kayseri",
     "country": "Türkiye",
@@ -3077,7 +3077,7 @@
     "pdhesType": "OPEN_LOOP"
   },
   {
-    "id": "jica-oymapinar-pspp",
+    "id": "kamu-oymapinar-pspp",
     "name": "Oymapınar PDHES",
     "province": "Antalya",
     "country": "Türkiye",
@@ -3271,7 +3271,7 @@
     "pdhesType": "OPEN_LOOP"
   },
   {
-    "id": "jica-aslantas-pspp",
+    "id": "kamu-aslantas-pspp",
     "name": "Aslantaş PDHES",
     "province": "Osmaniye",
     "country": "Türkiye",
@@ -3421,7 +3421,7 @@
     "pdhesType": "OPEN_LOOP"
   },
   {
-    "id": "jica-demirkopru-pspp",
+    "id": "kamu-demirkopru-pspp",
     "name": "Demirköprü PDHES",
     "province": "Manisa",
     "country": "Türkiye",
