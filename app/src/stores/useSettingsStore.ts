@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 import type { ScoreWeights } from '../utils/scoring';
+import type { MapStyleKind } from '../utils/mapProviders';
 
 export const SETTINGS_STORAGE_KEY = 'pspp-settings-v2';
 
@@ -49,12 +50,12 @@ export const DEFAULT_POWER_GRID_CONFIG: PowerGridConfig = {
 
 interface SettingsStore {
   theme: 'dark' | 'light';
-  mapStyle: 'dark' | 'light' | 'satellite';
+  mapStyle: MapStyleKind;
   heightScale: number;
   weights: ScoreWeights;
   setTheme: (t: 'dark' | 'light') => void;
   toggleTheme: () => void;
-  setMapStyle: (s: 'dark' | 'light' | 'satellite') => void;
+  setMapStyle: (s: MapStyleKind) => void;
   setHeightScale: (v: number) => void;
   setWeight: (key: keyof SettingsStore['weights'], v: number) => void;
   showPowerGrid: boolean;

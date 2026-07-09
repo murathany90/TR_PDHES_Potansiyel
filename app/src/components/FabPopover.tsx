@@ -5,6 +5,7 @@ import { useSettingsStore, type VoltageGroup, type ElementGroup } from '../store
 import { WORLD_EXAMPLES } from '../data/worldExamples';
 import { num } from '../utils/format';
 import type { MapStyleKind } from '../utils/mapProviders';
+import { MAP_PROVIDERS } from '../utils/mapProviders';
 
 interface FabPopoverProps {
   mapStyle: MapStyleKind;
@@ -136,16 +137,18 @@ export function FabPopover({
               <div className="fab-settings">
                 <div className="setting-group">
                   <h4>Harita Altlığı</h4>
-                  <div className="map-style-picker">
-                    {(['satellite', 'light', 'dark'] as MapStyleKind[]).map(style => (
-                      <button 
-                        key={style}
-                        className={`style-btn ${mapStyle === style ? 'active' : ''}`}
-                        onClick={() => setMapStyle(style)}
-                      >
-                        {style === 'satellite' ? 'Uydu' : style === 'light' ? 'Açık' : 'Koyu'}
-                      </button>
-                    ))}
+                  <div className="map-style-picker" style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                    <select 
+                      value={mapStyle} 
+                      onChange={(e) => setMapStyle(e.target.value as MapStyleKind)}
+                      style={{ padding: '8px', borderRadius: '6px', background: 'var(--panel2)', color: 'var(--text)', border: '1px solid var(--line2)', cursor: 'pointer' }}
+                    >
+                      {(Object.keys(MAP_PROVIDERS) as MapStyleKind[]).map(style => (
+                        <option key={style} value={style}>
+                          {MAP_PROVIDERS[style].name}
+                        </option>
+                      ))}
+                    </select>
                   </div>
                 </div>
 

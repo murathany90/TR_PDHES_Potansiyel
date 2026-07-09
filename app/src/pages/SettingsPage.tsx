@@ -6,6 +6,7 @@ import { isLocalWorkspaceEnabled } from '../utils/workspaceMode';
 import { useCalcEngine } from '../hooks/useCalcEngine';
 import { moneyBn, moneyM, num } from '../utils/format';
 import { COORDINATE_CONFIDENCE_LABELS, SOURCE_GROUP_LABELS } from '../utils/siteDerived';
+import type { MapStyleKind } from '../utils/mapProviders';
 
 export default function SettingsPage() {
   const { 
@@ -39,10 +40,13 @@ export default function SettingsPage() {
             </div>
             <div className="form-group">
               <label htmlFor="settings-map-style">Harita görünümü</label>
-              <select id="settings-map-style" className="select" value={mapStyle} onChange={(event) => setMapStyle(event.target.value as 'dark' | 'light' | 'satellite')}>
-                <option value="dark">Koyu</option>
-                <option value="light">Açık</option>
-                <option value="satellite">Uydu</option>
+              <select id="settings-map-style" className="select" value={mapStyle} onChange={(event) => setMapStyle(event.target.value as MapStyleKind)}>
+                <option value="osm">OSM Standart</option>
+                <option value="topo">OpenTopoMap</option>
+                <option value="light">CartoDB Light</option>
+                <option value="dark">CartoDB Dark</option>
+                <option value="gray">Esri World Gray</option>
+                <option value="satellite">Uydu - Esri World Imagery</option>
               </select>
             </div>
             <div className="range-row">

@@ -1,22 +1,41 @@
 import type { StyleSpecification } from 'maplibre-gl';
 
-export type MapStyleKind = 'dark' | 'light' | 'satellite';
+export type MapStyleKind = 'osm' | 'dark' | 'satellite' | 'light' | 'topo' | 'gray';
 
 export const MAP_PROVIDERS: Record<MapStyleKind, {
+  name: string;
   tileUrl: string;
   attribution: string;
 }> = {
-  light: {
+  osm: {
+    name: 'OSM Standart',
     tileUrl: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
     attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>',
   },
+  satellite: {
+    name: 'Uydu - Esri World Imagery',
+    tileUrl: 'https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+    attribution: 'Tiles © Esri — Source: Esri, Maxar, Earthstar Geographics and contributors',
+  },
+  topo: {
+    name: 'OpenTopoMap',
+    tileUrl: 'https://tile.opentopomap.org/{z}/{x}/{y}.png',
+    attribution: 'Map data: © OpenStreetMap contributors, SRTM | Map style: © OpenTopoMap (CC-BY-SA)',
+  },
+  light: {
+    name: 'CartoDB Light',
+    tileUrl: 'https://basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
+    attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a> © <a href="https://carto.com/attributions">CARTO</a>',
+  },
   dark: {
+    name: 'CartoDB Dark',
     tileUrl: 'https://basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
     attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a> © <a href="https://carto.com/attributions">CARTO</a>',
   },
-  satellite: {
-    tileUrl: 'https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-    attribution: 'Tiles © Esri — Source: Esri, Maxar, Earthstar Geographics and contributors',
+  gray: {
+    name: 'Esri World Gray',
+    tileUrl: 'https://services.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}',
+    attribution: 'Tiles © Esri — Esri, HERE, Garmin, NGA, USGS',
   },
 };
 
