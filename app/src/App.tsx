@@ -102,7 +102,14 @@ export default function App() {
   const controls = (
     <>
       <SiteSelector sites={sites} selectedId={selectedId} onChange={selectSite} />
-      <NavLink className="btn primary" to="/map">
+      <NavLink 
+        className="btn primary" 
+        to="/map"
+        onClick={() => {
+          // Navigating from TopNav should focus on the selected PDHES candidate
+          useSiteStore.getState().clearWorldExampleFocus();
+        }}
+      >
         <MapPinned size={16} aria-hidden="true" />
         Haritada incele
       </NavLink>

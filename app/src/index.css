@@ -838,7 +838,7 @@ html[data-theme="light"] .pdhes-rich-shell .toc { background: rgba(255,255,255,.
 .pdhes-rich-shell .toc-tools button, .pdhes-rich-shell .toc-tools a.download { width:100%; border:1px solid rgba(57,213,255,.28); background: rgba(57,213,255,.08); color:var(--text); border-radius:14px; padding:10px 12px; cursor:pointer; font-weight:700; text-align:center; text-decoration:none; }
 html[data-theme="light"] .pdhes-rich-shell .toc-tools button { border-color: var(--line); background: var(--panel2); }
 .pdhes-rich-shell .content { display:grid; gap: 22px; }
-.pdhes-rich-shell .info-card { border:1px solid var(--line); border-radius: var(--radius); background: linear-gradient(180deg, rgba(13, 31, 55, .92), rgba(8, 22, 42, .88)); box-shadow: var(--shadow); padding: 22px; scroll-margin-top: 80px; }
+.pdhes-rich-shell .info-card { border:1px solid var(--line); border-radius: var(--radius); background: linear-gradient(180deg, rgba(13, 31, 55, .92), rgba(8, 22, 42, .88)); box-shadow: var(--shadow); padding: 22px; scroll-margin-top: 140px; }
 html[data-theme="light"] .pdhes-rich-shell .info-card { background: var(--panel); }
 .pdhes-rich-shell .card-head { display:flex; gap: 14px; align-items:flex-start; margin-bottom: 18px; }
 .pdhes-rich-shell .number-pill { width: 54px; height:54px; border-radius:18px; display:grid; place-items:center; background: linear-gradient(135deg, var(--cyan), var(--green)); color:#04101f; font-size: 22px; font-weight: 900; box-shadow: 0 12px 30px rgba(57,213,255,.25); }

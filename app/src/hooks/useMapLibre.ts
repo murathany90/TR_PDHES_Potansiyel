@@ -409,16 +409,21 @@ export function useMapLibre({
                     <div><b>Koordinat:</b> ${escapeHtml(COORDINATE_CONFIDENCE_LABELS[candidate.coordinates.coordinateConfidence])}</div>
                     <div style="display:flex; gap:8px; margin-top:10px;">
                       <a href="#/3d" style="flex:1; padding:6px 12px; background:#3b82f6; color:white; border-radius:4px; text-decoration:none; font-weight:bold; font-size:12px; text-align:center;">3D Çizimi Gör</a>
-                      <button class="show-3d-btn" style="flex:1; padding:6px 12px; background:#10b981; color:white; border:none; border-radius:4px; cursor:pointer; font-weight:bold; font-size:12px; text-align:center;">3D Görsel</button>
+                      ${candidate.id === 'kamu-gokcekaya-pspp' 
+                        ? `<button class="show-3d-btn" style="flex:1; padding:6px 12px; background:#10b981; color:white; border:none; border-radius:4px; cursor:pointer; font-weight:bold; font-size:12px; text-align:center;">3D Görsel</button>`
+                        : `<button class="show-3d-btn" disabled style="flex:1; padding:6px 12px; background:#64748b; color:#94a3b8; border:none; border-radius:4px; cursor:not-allowed; font-weight:bold; font-size:12px; text-align:center;">3D Görsel Yok</button>`
+                      }
                     </div>
                   </div>
               `;
 
-              const btn = popupContent.querySelector('.show-3d-btn');
-              if (btn) {
-                btn.addEventListener('click', () => {
-                  window.dispatchEvent(new CustomEvent('show-3d-image', { detail: candidate.id }));
-                });
+              if (candidate.id === 'kamu-gokcekaya-pspp') {
+                const btn = popupContent.querySelector('.show-3d-btn');
+                if (btn) {
+                  btn.addEventListener('click', () => {
+                    window.dispatchEvent(new CustomEvent('show-3d-image', { detail: candidate.id }));
+                  });
+                }
               }
 
               new maplibregl.Popup({ closeButton: false, offset: 25 })

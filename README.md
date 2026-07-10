@@ -12,25 +12,14 @@ Uygulamanın temel amacı; hem Mülga Elektrik İşleri Etüt İdaresi (EİE) he
 
 Bu proje, modern web geliştirme standartlarına uygun olarak inşa edilmiş ve performans odaklı bir yığın (stack) kullanılmıştır:
 
-### 1.1. Core Framework ve Dil
-- **React 18:** Fonksiyonel bileşenler ve hook (kanca) mimarisi ile inşa edilmiştir. React'ın Concurrent Mode avantajlarından faydalanmak üzere optimize edilmiştir.
-- **TypeScript:** Tip güvenliği (type-safety) sağlar. Uygulama içerisindeki santral verileri (Site), koordinatlar, 3D malzeme tipleri gibi tüm karmaşık nesneler TS Interface ve Enum yapılarıyla korunmaktadır. Tip hataları (runtime errors) derleme aşamasında yakalanır.
-- **Vite:** Geleneksel Webpack yerine kullanılan, son derece hızlı geliştirme ortamı ve derleme aracıdır. ES modules (ESM) altyapısını kullanarak anında Hot-Module-Replacement (HMR) sunar.
-
-### 1.2. State Management (Durum Yönetimi)
-- **Zustand:** Redux'ın hantal yapısı yerine, React uygulamaları için minimalist ve çok hızlı bir global state (durum) yönetim kütüphanesi olan Zustand kullanılmıştır. 
-- Proje içinde farklı işlevlere sahip 3 ana store bulunur:
-  1. `useAppDataStore`: Asenkron veri çekme, hata (error) durumu ve yüklenme (loading) animasyonlarını yönetir. Uygulama açılışında veritabanını `fetch` eder.
-  2. `useWorkspaceStore`: Kullanıcının tarayıcı hafızasına (Local Storage) kaydedilen, Markdown formatındaki özel ayarları ve içerik değişikliklerini tutar. "PDHES Nedir?" sayfasındaki canlı düzenlemeler burada depolanır.
-  3. `useSettingsStore`: Karanlık mod (Dark Theme), hareketleri azaltma (Reduced Motion) gibi kullanıcı UI tercihlerini tutar.
-
-### 1.3. Haritalama (GIS) ve 3D Modelleme
-- **Mapbox GL JS:** Vektör harita teknolojisi. Topoğrafik yükseklik verisini (DEM - Digital Elevation Model) kullanarak 3D dağ ve vadi çizimlerini gerçekleştirir.
-- **react-map-gl:** Mapbox GL'in React sarmalayıcısıdır. Harita katmanlarını (Layers), kaynakları (Sources) ve kamera açılarını React hook'larıyla deklaratif olarak yönetir.
-
-### 1.4. Validasyon ve Testler
-- **Özel Şema Doğrulaması:** Çalışma zamanında (runtime) veri şema doğrulaması (Schema Validation) yapar. JSON formatındaki santral verileri uygulamaya girmeden önce `siteSchema.ts` tarafından denetlenir ve eksik/hatalı veri varsa engellenir.
-- **Vitest:** Vite üzerine kurulu süper hızlı Unit Test aracı. Projede 60'tan fazla birim test ve entegrasyon testi vardır.
+- **React 19 + TypeScript:** Tip güvenliği, fonksiyonel bileşenler ve modern hook mimarisi ile inşa edilmiştir.
+- **Vite:** Geleneksel Webpack yerine kullanılan, anında Hot-Module-Replacement (HMR) sunan son derece hızlı geliştirme ve derleme aracıdır.
+- **Zustand:** Redux'ın hantal yapısı yerine kullanılan minimalist, performanslı ve hızlı bir global durum (state) yönetim kütüphanesi.
+- **MapLibre GL:** Vektör harita teknolojisi. Mapbox yerine tam açık kaynak alternatif olan MapLibre tercih edilmiştir (Harita altlıkları için MapTiler, ESRI veya OSM gibi sağlayıcılar kullanılır).
+- **Three.js / React Three Fiber / Drei:** 3 boyutlu tesis modellerini, interaktif yerleşimleri ve CAD çizimlerini web ortamında yüksek performansla render etmek için kullanılır.
+- **Recharts:** Veri görselleştirme ve grafik çizimleri için.
+- **React Markdown:** Dinamik markdown içeriklerini oluşturmak ve düzenlemek için.
+- **Vitest + Testing Library:** Vite üzerine kurulu süper hızlı Unit Test ve entegrasyon test altyapısı.
 
 ---
 

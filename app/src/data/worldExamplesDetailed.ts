@@ -136,11 +136,11 @@ export const WORLD_EXAMPLES_DETAILED: WorldExampleDetailed[] = [
     "investmentCostUsd": "$1.350.000.000",
     "costPerKwh": "$91,8",
     "shortAnalysis": "Guangdong bölgesinin büyük ölçekli şebeke dengeleme varlıklarından biridir. Enerji kapasitesi açık kaynaklarda doğrudan verilmediği için 6 saatlik tam yük varsayımıyla tahminlenmiştir. Not: Maliyet USD’ye çevrilmiş/tahmini nominal değerdir. Verimlilik mühendislik varsayımıdır.",
-    "lat": null,
-    "lon": null,
-    "wikiUrl": null,
-    "flag": null,
-    "countryCode": null
+    "lat": 23.268611,
+    "lon": 114.313889,
+    "wikiUrl": "https://en.wikipedia.org/wiki/Huizhou_Pumped_Storage_Power_Station",
+    "flag": "🇨🇳",
+    "countryCode": "CN"
   },
   {
     "id": "guangdong-guangzhou",

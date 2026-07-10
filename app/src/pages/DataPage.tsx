@@ -31,7 +31,7 @@ function originLabel(origin: 'source' | 'scenario'): string {
 }
 
 export default function DataPage({ site }: { site?: Site }) {
-  const { sites, selectedId, selectSite } = useSiteStore();
+  const { sites, selectedId, selectSite, clearWorldExampleFocus } = useSiteStore();
   const [filters, setFilters] = useState<CandidateFilters>(DEFAULT_DATA_FILTERS);
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const navigate = useNavigate();
@@ -163,12 +163,13 @@ export default function DataPage({ site }: { site?: Site }) {
                                   className="btn primary"
                                   onClick={(e) => {
                                     e.stopPropagation();
+                                    clearWorldExampleFocus();
                                     selectSite(candidate.id);
                                     navigate('/map');
                                   }}
                                 >
                                   <MapPin size={16} />
-                                  Konum Göster
+                                  Haritada İncele
                                 </button>
                               </div>
                             </div>
