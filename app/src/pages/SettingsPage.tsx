@@ -106,10 +106,17 @@ export default function SettingsPage() {
                 : "Gelişmiş düzenleme araçları varsayılan olarak kapalıdır. İhtiyacınız olduğunda buradan etkinleştirebilirsiniz."}
             />
           </div>
-          <a className="btn primary" href={workspaceHref}>
-            <ShieldCheck size={16} aria-hidden="true" />
-            {workspaceEnabled ? "Yerel çalışma alanını aç" : "Yerel çalışma alanını etkinleştir"}
-          </a>
+          <div style={{ display: "flex", gap: "8px" }}>
+            <a className="btn primary" href={workspaceHref}>
+              <ShieldCheck size={16} aria-hidden="true" />
+              {workspaceEnabled ? "Çalışma alanına git" : "Yerel çalışma alanını etkinleştir"}
+            </a>
+            {workspaceEnabled && (
+              <a className="btn danger" href={`${window.location.pathname || "/"}#/settings`}>
+                Yerel çalışma alanını kapat
+              </a>
+            )}
+          </div>
         </div>
       </div>
     </section>

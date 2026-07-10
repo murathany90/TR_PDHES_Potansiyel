@@ -31,9 +31,9 @@ const LAYER_LABELS: Array<{ key: keyof MapLayerVisibility; label: string; Icon: 
   { key: 'upperReservoir', label: 'Üst Rezervuar', Icon: Waves, title: 'Üst rezervuar gövde ve havuz yapısını göster/gizle' },
   { key: 'lowerReservoir', label: 'Alt Rezervuar', Icon: Waves, title: 'Alt rezervuar yapısını göster/gizle' },
   { key: 'powerhouse', label: 'Türbin Odası', Icon: Factory, title: 'Yeraltı santral binası bloklarını göster/gizle' },
-  { key: 'surgeTank', label: 'Denge Bacası', Icon: Database, title: 'Denge bacası bloklarını göster/gizle' },
-  { key: 'switchyard3d', label: 'Şalt Sahası (3D)', Icon: Zap, title: 'Şalt ve trafo alanının 3D yerleşimini göster/gizle' },
-  { key: 'portal', label: 'Tünel Portalı', Icon: DoorOpen, title: 'Servis ve ulaşım tüneli portallarını göster/gizle' },
+  { key: 'surgeTank', label: 'Su Yolu', Icon: Database, title: 'Denge bacası, su yolu ve cebri boru hatlarını göster/gizle' },
+  { key: 'switchyard3d', label: 'Şalt Sahası (3D)', Icon: Zap, title: 'Şalt, trafo alanı ve enerji nakil hatlarını göster/gizle' },
+  { key: 'portal', label: 'Diğer', Icon: DoorOpen, title: 'Tünel portalları ve proje yerleşimi ana hatlarını göster/gizle' },
 ];
 
 export default function MapPage() {
@@ -317,7 +317,17 @@ export default function MapPage() {
                 type="button"
                 key={key}
                 className={`layer-btn ${layers[key] ? 'active' : ''}`}
-                onClick={() => setLayers((current) => ({ ...current, [key]: !current[key] }))}
+                onClick={() => setLayers((current) => {
+                  const newState = { ...current, [key]: !current[key] };
+                  if (key === 'surgeTank') {
+                    newState.waterPath = newState.surgeTank;
+                  } else if (key === 'switchyard3d') {
+                    newState.powerGrid = newState.switchyard3d;
+                  } else if (key === 'portal') {
+                    newState.projectLayout = newState.portal;
+                  }
+                  return newState;
+                })}
                 aria-label={label}
                 aria-pressed={layers[key]}
                 title={title}
