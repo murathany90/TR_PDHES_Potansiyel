@@ -75,8 +75,8 @@ export function buildLayout(site: Site, hScale: number): LayoutBundle {
 
   function addFootprintBlocks() {
     site.layout3D?.componentFootprints
-      .filter((footprint) => footprint.kind === 'polygon')
-      .forEach((footprint) => {
+      ?.filter((footprint) => footprint.kind === 'polygon')
+      ?.forEach((footprint) => {
         const extrude = footprint.extrudeM
           ?? (footprint.baseElevationM !== undefined && footprint.topElevationM !== undefined
             ? Math.max(0, footprint.topElevationM - footprint.baseElevationM)
@@ -124,8 +124,8 @@ export function buildLayout(site: Site, hScale: number): LayoutBundle {
 
   if (footprintMode && site.layout3D) {
     site.layout3D.componentFootprints
-      .filter((fp) => fp.kind === 'polyline' && (fp.id.includes('penstock') || fp.id.includes('headrace') || fp.id.includes('tailrace')))
-      .forEach((fp) => {
+      ?.filter((fp) => fp.kind === 'polyline' && (fp.id.includes('penstock') || fp.id.includes('headrace') || fp.id.includes('tailrace')))
+      ?.forEach((fp) => {
         waterFeatures.push({
           type: 'Feature',
           geometry: { type: 'LineString', coordinates: fp.coords },

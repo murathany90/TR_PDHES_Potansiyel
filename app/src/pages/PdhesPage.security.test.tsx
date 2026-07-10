@@ -1,10 +1,9 @@
 // @vitest-environment jsdom
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { HashRouter } from 'react-router-dom';
 import PdhesPage from './PdhesPage';
 import { useWorkspaceStore } from '../stores/useWorkspaceStore';
-import React from 'react';
 
 vi.mock('../stores/useWorkspaceStore', () => ({
   useWorkspaceStore: vi.fn(),

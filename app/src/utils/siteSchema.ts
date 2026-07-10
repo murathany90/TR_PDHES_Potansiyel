@@ -297,10 +297,10 @@ function validateSiteRecord(value: unknown, index: number): { site: Site | null;
     if (!isRecord(value.source) || !isFiniteNumber(value.source.capacityMW) || !isNullableNumber(value.source.headM)) {
       errors.push(`sites[${index}].source geçersiz.`);
     }
-    if (value.source.sourceNote !== undefined && !isString(value.source.sourceNote)) {
+    if ((value.source as any).sourceNote !== undefined && !isString((value.source as any).sourceNote)) {
       errors.push(`sites[${index}].source.sourceNote geçersiz.`);
     }
-    if (value.source.confidence !== undefined && !isString(value.source.confidence)) {
+    if ((value.source as any).confidence !== undefined && !isString((value.source as any).confidence)) {
       errors.push(`sites[${index}].source.confidence geçersiz.`);
     }
   }
