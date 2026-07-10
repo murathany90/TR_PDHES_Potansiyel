@@ -30,10 +30,7 @@ const EDITOR_LAYERS: MapLayerVisibility = {
   projectLayout: true,
   risk: true,
   waterPath: true,
-  gridConnection: true,
-  grid400: false,
-  grid154: false,
-  substations: false,
+  powerGrid: true,
   terrain3d: true,
 };
 

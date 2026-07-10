@@ -32,10 +32,7 @@ export interface MapLayerVisibility {
   projectLayout: boolean;
   risk: boolean;
   waterPath: boolean;
-  gridConnection: boolean;
-  grid400: boolean;
-  grid154: boolean;
-  substations: boolean;
+  powerGrid: boolean;
   terrain3d: boolean;
 }
 
@@ -163,7 +160,7 @@ export function useMapLibre({
 
       const layout = buildLayout(site, heightScale);
 
-      if (layers.grid400) {
+      if (layers.powerGrid) {
         map.addSource('grid400', { type: 'geojson', data: filterGrid(gridAssets, 'LineString', ['400']) });
         map.addLayer({
           id: 'grid-400-line',
@@ -171,9 +168,7 @@ export function useMapLibre({
           source: 'grid400',
           paint: { 'line-color': '#ffd75a', 'line-width': 1.1, 'line-opacity': 0.28 },
         });
-      }
 
-      if (layers.grid154) {
         map.addSource('grid154', { type: 'geojson', data: filterGrid(gridAssets, 'LineString', ['154']) });
         map.addLayer({
           id: 'grid-154-line',
@@ -181,9 +176,7 @@ export function useMapLibre({
           source: 'grid154',
           paint: { 'line-color': '#48f49a', 'line-width': 0.8, 'line-opacity': 0.2 },
         });
-      }
 
-      if (layers.substations) {
         map.addSource('substations', { type: 'geojson', data: filterGrid(gridAssets, 'Point', ['400', '154']) });
         map.addLayer({
           id: 'substation-circles',
@@ -197,15 +190,7 @@ export function useMapLibre({
             'circle-stroke-color': '#07110e',
           },
         });
-      }
 
-      if (layers.risk) {
-        map.addSource('risk', { type: 'geojson', data: layout.risk });
-        map.addLayer({ id: 'risk-fill', type: 'fill', source: 'risk', paint: { 'fill-color': '#ff5c73', 'fill-opacity': 0.13 } });
-        map.addLayer({ id: 'risk-line', type: 'line', source: 'risk', paint: { 'line-color': '#ff5c73', 'line-width': 1.5, 'line-dasharray': [2, 2] } });
-      }
-
-      if (layers.gridConnection) {
         map.addSource('projectGrid', { type: 'geojson', data: layout.grid });
         map.addLayer({
           id: 'project-grid-line',
@@ -213,6 +198,12 @@ export function useMapLibre({
           source: 'projectGrid',
           paint: { 'line-color': ['get', 'color'], 'line-width': ['get', 'width'], 'line-opacity': 0.82 },
         });
+      }
+
+      if (layers.risk) {
+        map.addSource('risk', { type: 'geojson', data: layout.risk });
+        map.addLayer({ id: 'risk-fill', type: 'fill', source: 'risk', paint: { 'fill-color': '#ff5c73', 'fill-opacity': 0.13 } });
+        map.addLayer({ id: 'risk-line', type: 'line', source: 'risk', paint: { 'line-color': '#ff5c73', 'line-width': 1.5, 'line-dasharray': [2, 2] } });
       }
 
       if (layers.waterPath) {

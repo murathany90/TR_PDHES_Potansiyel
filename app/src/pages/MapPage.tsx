@@ -1,8 +1,8 @@
 import { useRef, useState, useEffect } from 'react';
-import { MapPin, Mountain, AlertTriangle, Droplets, Zap, Activity, Waypoints, Box, Layers } from 'lucide-react';
+import { MapPin, Mountain, AlertTriangle, Droplets, Zap, Layers } from 'lucide-react';
 import { useMapLibre, type MapLayerVisibility } from '../hooks/useMapLibre';
 import { FabPopover } from '../components/FabPopover';
-import InfoAccordion from '../components/ui/InfoAccordion';
+
 import { ElevationProfile } from '../components/ElevationProfile';
 import MapContextMenu from '../components/MapContextMenu';
 import MeasurementUI from '../components/MeasurementUI';
@@ -10,30 +10,23 @@ import ManualGeometryLayer from '../components/ManualGeometryLayer';
 import { useSiteStore } from '../stores/useSiteStore';
 import { useSettingsStore } from '../stores/useSettingsStore';
 import { WORLD_EXAMPLES_DETAILED } from '../data/worldExamplesDetailed';
-import { num, moneyBn, moneyM } from '../utils/format';
+import { num, moneyBn } from '../utils/format';
 
 const DEFAULT_LAYERS: MapLayerVisibility = {
   candidates: true,
   projectLayout: true,
   risk: true,
   waterPath: true,
-  gridConnection: true,
-  grid400: true,
-  grid154: false,
-  substations: true,
+  powerGrid: true,
   terrain3d: true,
 };
 
-const LAYER_LABELS: Array<{ key: keyof MapLayerVisibility; label: string; Icon: any }> = [
-  { key: 'candidates', label: 'Sahalar', Icon: MapPin },
-  { key: 'projectLayout', label: 'Yerleşim', Icon: Mountain },
-  { key: 'terrain3d', label: '3D Arazi', Icon: Layers },
-  { key: 'risk', label: 'Risk Alanı', Icon: AlertTriangle },
-  { key: 'waterPath', label: 'Su Yolu', Icon: Droplets },
-  { key: 'gridConnection', label: 'Bağlantı', Icon: Waypoints },
-  { key: 'grid400', label: '400 kV', Icon: Zap },
-  { key: 'grid154', label: '154 kV', Icon: Activity },
-  { key: 'substations', label: 'Trafolar', Icon: Box },
+const LAYER_LABELS: Array<{ key: keyof MapLayerVisibility; label: string; Icon: any; title: string }> = [
+  { key: 'candidates', label: 'Sahalar', Icon: MapPin, title: 'PDHES Aday sahalarını haritada göster/gizle' },
+  { key: 'projectLayout', label: 'Tesis 3D', Icon: Mountain, title: 'Tesis bileşenlerinin (rezervuarlar, binalar) 3D bloklarını göster/gizle' },
+  { key: 'waterPath', label: 'Su Yolu', Icon: Droplets, title: 'İletim tünelleri ve cebri boru hatlarını göster/gizle' },
+  { key: 'powerGrid', label: 'Şebeke & Şalt', Icon: Zap, title: 'Şalt sahası, trafo merkezleri ve enerji iletim hatlarını göster/gizle' },
+  { key: 'risk', label: 'Risk Alanı', Icon: AlertTriangle, title: 'Çevresel veya sosyal risk alanlarını göster/gizle' },
 ];
 
 export default function MapPage() {
@@ -249,11 +242,11 @@ export default function MapPage() {
             </div>
           ) : (
             <>
-              <div className="grid" style={{ gap: 6 }}>
-                <div className="metric good"><span>Kapasite</span><b>{num(site.capacityMW)} MW</b></div>
-                <div className="metric info"><span>Debi / düşü</span><b>{num(site.projectFlowCms)} m³/s / {num(site.headM)} m</b></div>
-                <div className="metric"><span>Yatırım gideri</span><b>{moneyBn(site.capexUsdBn)}</b></div>
-                <div className="metric"><span>Gelir / geri ödeme</span><b>{moneyM(site.annualRevenueUsdM)} / {site.paybackYear ? `${site.paybackYear} yıl` : 'Belirtilmedi'}</b></div>
+              <div className="grid" style={{ gap: 6, display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
+                <div className="metric good"><span>Aday Adı & Türü</span><b>{site.id.replace(/_/g, ' ').toUpperCase()} / {site.pdhesType === 'OPEN_LOOP' ? 'Açık Çevrim' : (site.pdhesType === 'CLOSED_LOOP' ? 'Kapalı Çevrim' : 'Deniz')}</b></div>
+                <div className="metric info"><span>Güç / Enerji</span><b>{num(site.capacityMW)} MW / {num((site.energyGWh ? site.energyGWh * 1000 : (site.capacityMW ?? 0) * 7))} MWh</b></div>
+                <div className="metric"><span>Düşü / Su Yolu</span><b>{num(site.headM)} m / {site.tunnelLengthKm ? `${num(site.tunnelLengthKm, 1)} km` : (site.penstockLengthM ? `${num(site.penstockLengthM)} m` : 'Bilinmiyor')}</b></div>
+                <div className="metric warn"><span>Yatırım / Amortisman</span><b>{moneyBn(site.capexUsdBn)} / {site.paybackYear ? `${site.paybackYear} yıl` : 'Bilinmiyor'}</b></div>
               </div>
               <ElevationProfile site={site} />
             </>
@@ -261,7 +254,7 @@ export default function MapPage() {
 
           <h3 style={{ marginTop: 16 }}>Harita katmanları</h3>
           <div className="layer-grid">
-            {LAYER_LABELS.map(({ key, label, Icon }) => (
+            {LAYER_LABELS.map(({ key, label, Icon, title }) => (
               <button
                 type="button"
                 key={key}
@@ -269,28 +262,13 @@ export default function MapPage() {
                 onClick={() => setLayers((current) => ({ ...current, [key]: !current[key] }))}
                 aria-label={label}
                 aria-pressed={layers[key]}
+                title={title}
               >
                 <Icon size={14} aria-hidden="true" />
                 <span>{label}</span>
               </button>
             ))}
           </div>
-
-          {!worldExample && (
-            <div style={{ marginTop: 16 }}>
-              <InfoAccordion title="Proje zaman çizelgesi" defaultOpen={false}>
-                <div className="timeline">
-                  {(site.timeline ?? []).map((event, index) => (
-                    <div className="tl" key={`${event.date}-${index}`}>
-                      <time>{event.date}</time>
-                      <b style={{ display: 'block', marginTop: 3 }}>{event.title}</b>
-                      <p>{event.text}</p>
-                    </div>
-                  ))}
-                </div>
-              </InfoAccordion>
-            </div>
-          )}
 
           </aside>
       </div>

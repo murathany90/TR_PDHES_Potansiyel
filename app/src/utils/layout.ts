@@ -172,11 +172,16 @@ export function buildLayout(site: Site, hScale: number): LayoutBundle {
 
   const labels: FeatureCollection<Point> = {
     type: 'FeatureCollection',
-    features: blocks.map((feature) => ({
-      type: 'Feature',
-      geometry: { type: 'Point', coordinates: centroid(feature.geometry.coordinates[0] as [number, number][]) },
-      properties: { label: feature.properties?.label },
-    })),
+    features: blocks
+      .filter((feature) => {
+        const k = feature.properties?.key || '';
+        return ['upper_reservoir', 'lower_reservoir', 'upperReservoirWater', 'lowerReservoirFootprint'].includes(k);
+      })
+      .map((feature) => ({
+        type: 'Feature',
+        geometry: { type: 'Point', coordinates: centroid(feature.geometry.coordinates[0] as [number, number][]) },
+        properties: { label: feature.properties?.label },
+      })),
   };
 
   const grid: FeatureCollection<LineString> = {
