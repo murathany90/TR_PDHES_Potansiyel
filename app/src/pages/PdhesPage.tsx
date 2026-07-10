@@ -94,7 +94,7 @@ export default function PdhesPage({ sectionId }: PdhesPageProps) {
             <figure className="figure-frame">
               <img src="pdhes-nedir/img-1.webp" alt="PDHES nedir? Şebeke ölçeğinde “su bataryası” mantığı görseli" loading="lazy" />
               <button className="fullscreen-btn" type="button" onClick={() => openModal('pdhes-nedir/img-2.webp', 'PDHES nedir ve temel çalışma mantığı nasıldır?')}>⛶ Tam ekran oku</button>
-              <figcaption><b>Görsel:</b> PDHES’in gece/gündüz, pompalama/üretim ve üst-alt rezervuar ilişkisini özetleyen kavramsal kesit. <span>The Water Battery, s.1</span></figcaption>
+              <figcaption><b>Görsel:</b> PDHES’in gece/gündüz, pompalama/üretim ve üst-alt rezervuar ilişkisini özetleyen kavramsal kesit.</figcaption>
             </figure>
             <div className="card-body">
               <p>Pompa depolamalı hidroelektrik santral, farklı kotlarda bulunan iki su rezervuarı arasında çalışan büyük ölçekli bir enerji depolama sistemidir. Elektrik talebinin düşük, üretim fazlasının veya elektrik fiyatının düşük olduğu saatlerde alt rezervuardaki su pompalarla üst rezervuara basılır. Böylece elektrik enerjisi, suyun yüksek kotta sahip olduğu potansiyel enerji olarak depolanır.</p>
@@ -119,7 +119,7 @@ export default function PdhesPage({ sectionId }: PdhesPageProps) {
             <figure className="figure-frame">
               <img src="pdhes-nedir/img-3.webp" alt="İki yönlü çevrim: Pompalama modu ve üretim modu görseli" loading="lazy" />
               <button className="fullscreen-btn" type="button" onClick={() => openModal('pdhes-nedir/img-4.webp', 'PDHES hangi saatlerde su pompalar, hangi saatlerde elektrik üretir?')}>⛶ Tam ekran oku</button>
-              <figcaption><b>Görsel:</b> Şarj/pompalama ve deşarj/üretim yönlerinin aynı hidrolik makine üzerinden tersinir çalışması. <span>Turkey Water Battery Blueprint, s.3</span></figcaption>
+              <figcaption><b>Görsel:</b> Şarj/pompalama ve deşarj/üretim yönlerinin aynı hidrolik makine üzerinden tersinir çalışması.</figcaption>
             </figure>
             <div className="card-body">
               <p>PDHES iki ana işletme moduyla çalışır: pompalama modu ve üretim modu.</p>
@@ -144,7 +144,7 @@ export default function PdhesPage({ sectionId }: PdhesPageProps) {
             <figure className="figure-frame">
               <img src="pdhes-nedir/img-5.webp" alt="Sistem anatomisi: rezervuar, cebri boru, türbin odası ve şalt sahası görseli" loading="lazy" />
               <button className="fullscreen-btn" type="button" onClick={() => openModal('pdhes-nedir/img-6.webp', 'Bir PDHES tesisinde hangi ana yapılar bulunur?')}>⛶ Tam ekran oku</button>
-              <figcaption><b>Görsel:</b> Üst rezervuar, cebri boru, motor-jeneratör ve tersinir Francis pompa-türbin yapısının kesit anlatımı. <span>The Water Battery, s.2</span></figcaption>
+              <figcaption><b>Görsel:</b> Üst rezervuar, cebri boru, motor-jeneratör ve tersinir Francis pompa-türbin yapısının kesit anlatımı.</figcaption>
             </figure>
             <div className="card-body">
               <p>Bir PDHES tesisinin temel bileşenleri üst rezervuar, alt rezervuar, su iletim sistemi, pompa-türbin grubu, motor-jeneratör, santral binası, şalt sahası ve iletim bağlantısından oluşur.</p>
@@ -173,7 +173,7 @@ export default function PdhesPage({ sectionId }: PdhesPageProps) {
             <figure className="figure-frame">
               <img src="pdhes-nedir/img-7.webp" alt="Enerji hesabının özü: düşü, hacim ve çevrim verimi görseli" loading="lazy" />
               <button className="fullscreen-btn" type="button" onClick={() => openModal('pdhes-nedir/img-8.webp', 'Bir PDHES’in depolayabileceği enerji miktarı nasıl belirlenir?')}>⛶ Tam ekran oku</button>
-              <figcaption><b>Görsel:</b> PDHES’in hızlı rezerv yükleme ve frekans kontrolü sağlayan esnek şebeke kaynağı olarak konumlandırılması. <span>Turkey Strategic Hydro Battery, s.3</span></figcaption>
+              <figcaption><b>Görsel:</b> PDHES’in hızlı rezerv yükleme ve frekans kontrolü sağlayan esnek şebeke kaynağı olarak konumlandırılması.</figcaption>
             </figure>
             <div className="card-body">
               <p>PDHES’te depolanabilecek enerji miktarı temel olarak üç ana değişkene bağlıdır: kullanılabilir su hacmi, üst ve alt rezervuar arasındaki net düşü, sistem verimi.</p>
@@ -202,7 +202,7 @@ export default function PdhesPage({ sectionId }: PdhesPageProps) {
             <figure className="figure-frame">
               <img src="pdhes-nedir/img-9.webp" alt="Şebeke kararlılığı: yenilenebilir üretim artarken neden kritik? görseli" loading="lazy" />
               <button className="fullscreen-btn" type="button" onClick={() => openModal('pdhes-nedir/img-10.webp', 'PDHES elektrik şebekesine hangi katkıları sağlayabilir?')}>⛶ Tam ekran oku</button>
-              <figcaption><b>Görsel:</b> Yenilenebilir üretim ile tüketim eğrileri arasındaki saatlik uyumsuzluk ve “şebeke kararlılık boşluğu”. <span>Turkey Energy Balance Blueprint, s.2</span></figcaption>
+              <figcaption><b>Görsel:</b> Yenilenebilir üretim ile tüketim eğrileri arasındaki saatlik uyumsuzluk ve “şebeke kararlılık boşluğu”.</figcaption>
             </figure>
             <div className="card-body">
               <p>PDHES yalnızca enerji depolama amacıyla değil, şebeke işletme güvenliğini desteklemek amacıyla da kullanılabilir. Büyük güçlü ve hızlı tepki verebilen bir santral olduğu için arz-talep dengesinin korunmasına katkı sağlar.</p>
@@ -230,7 +230,7 @@ export default function PdhesPage({ sectionId }: PdhesPageProps) {
             <figure className="figure-frame">
               <img src="pdhes-nedir/img-11.webp" alt="Neden stratejik? Olgun teknoloji, uzun ömür ve düşük kapasite kaybı görseli" loading="lazy" />
               <button className="fullscreen-btn" type="button" onClick={() => openModal('pdhes-nedir/img-12.webp', 'PDHES neden olgun ve uzun ömürlü bir depolama teknolojisi olarak görülür?')}>⛶ Tam ekran oku</button>
-              <figcaption><b>Görsel:</b> PDHES’in kanıtlanmış olgunluk, şebeke atalet katkısı, RES entegrasyonu ve düşük döngüsel bozulma avantajları. <span>Türkiye Energy Battery Roadmap, s.2</span></figcaption>
+              <figcaption><b>Görsel:</b> PDHES’in kanıtlanmış olgunluk, şebeke atalet katkısı, RES entegrasyonu ve düşük döngüsel bozulma avantajları.</figcaption>
             </figure>
             <div className="card-body">
               <p>PDHES, dünyada uzun süredir kullanılan ve büyük ölçekli enerji depolama için teknik olarak kanıtlanmış bir teknolojidir. Temel bileşenleri hidroelektrik mühendisliği, pompa-türbin teknolojisi, büyük elektrik makineleri ve yüksek gerilim bağlantı sistemlerine dayanır. Bu nedenle teknoloji riski birçok yeni depolama seçeneğine göre daha düşüktür.</p>
@@ -254,7 +254,7 @@ export default function PdhesPage({ sectionId }: PdhesPageProps) {
             <figure className="figure-frame">
               <img src="pdhes-nedir/img-13.webp" alt="Topoloji seçimi: kapalı çevrim, mevcut HES entegrasyonu ve deniz suyu modeli görseli" loading="lazy" />
               <button className="fullscreen-btn" type="button" onClick={() => openModal('pdhes-nedir/img-14.webp', 'PDHES tesis tipleri nelerdir ve aralarındaki farklar nelerdir?')}>⛶ Tam ekran oku</button>
-              <figcaption><b>Görsel:</b> Mevcut HES ile bütünleşik model ve yeni yatırım/greenfield modelinin mühendislik yaklaşımı açısından karşılaştırılması. <span>Turkey Strategic Hydro Battery, s.6</span></figcaption>
+              <figcaption><b>Görsel:</b> Mevcut HES ile bütünleşik model ve yeni yatırım/greenfield modelinin mühendislik yaklaşımı açısından karşılaştırılması.</figcaption>
             </figure>
             <div className="card-body">
               <p>PDHES tesisleri genel olarak kapalı çevrim, açık çevrim ve deniz suyu kullanan sistemler olarak sınıflandırılabilir.</p>
@@ -281,7 +281,7 @@ export default function PdhesPage({ sectionId }: PdhesPageProps) {
             <figure className="figure-frame">
               <img src="pdhes-nedir/img-15.webp" alt="Türkiye açısından fırsat: topografya, hidro miras ve yenilenebilir dönüşüm görseli" loading="lazy" />
               <button className="fullscreen-btn" type="button" onClick={() => openModal('pdhes-nedir/img-16.webp', 'Türkiye’de PDHES neden değerlendirilmelidir?')}>⛶ Tam ekran oku</button>
-              <figcaption><b>Görsel:</b> NotebookLM görselinde Türkiye için vurgulanan 19,6 TWh gerçekleştirilebilir potansiyel iddiası ve Avrupa karşılaştırması. <span>Turkey Strategic Hydro Battery, s.7</span></figcaption>
+              <figcaption><b>Görsel:</b> Türkiye için vurgulanan 19,6 TWh gerçekleştirilebilir potansiyel iddiası ve Avrupa karşılaştırması.</figcaption>
             </figure>
             <div className="card-body">
               <p>Türkiye’de elektrik üretim yapısı giderek daha fazla yenilenebilir kaynağa dayanmaktadır. Rüzgâr ve güneş üretimi arttıkça üretim saatleri ile tüketim saatleri her zaman aynı zamana denk gelmeyebilir. Bu durum bazı saatlerde üretim fazlası, bazı saatlerde ise esneklik ihtiyacı oluşturabilir.</p>
@@ -303,7 +303,7 @@ export default function PdhesPage({ sectionId }: PdhesPageProps) {
             <figure className="figure-frame">
               <img src="pdhes-nedir/img-17.webp" alt="Gelir modeli: arbitraj tek başına yeterli mi? görseli" loading="lazy" />
               <button className="fullscreen-btn" type="button" onClick={() => openModal('pdhes-nedir/img-18.webp', 'PDHES yatırımlarında gelir modeli nasıl oluşur?')}>⛶ Tam ekran oku</button>
-              <figcaption><b>Görsel:</b> Gece depolama, puant üretim, fiyat farkı ve yıllık net kâr yaklaşımını özetleyen finansal akış şeması. <span>Turkey Strategic Hydro Battery, s.13</span></figcaption>
+              <figcaption><b>Görsel:</b> Gece depolama, puant üretim, fiyat farkı ve yıllık net kâr yaklaşımını özetleyen finansal akış şeması.</figcaption>
             </figure>
             <div className="card-body">
               <p>PDHES’in gelir modeli yalnızca ucuz saatte elektrik alıp pahalı saatte elektrik satma mantığına dayanmaz. Bu arbitraj geliri önemli olabilir; ancak çoğu projede tek başına yeterli olmayabilir. Çünkü pompalama ve üretim çevriminde verim kaybı vardır, ayrıca yatırım maliyeti yüksektir.</p>
@@ -331,7 +331,7 @@ export default function PdhesPage({ sectionId }: PdhesPageProps) {
             <figure className="figure-frame">
               <img src="pdhes-nedir/img-19.webp" alt="Riskler, çevresel uyum ve ön etüt yol haritası görseli" loading="lazy" />
               <button className="fullscreen-btn" type="button" onClick={() => openModal('pdhes-nedir/img-20.webp', 'Bir PDHES sahası değerlendirilirken hangi riskler incelenmelidir?')}>⛶ Tam ekran oku</button>
-              <figcaption><b>Görsel:</b> Çevresel etki değerlendirmesi, sosyal kabul, su/ekosistem ve proje geliştirme boyutlarını birlikte gösteren uyum şeması. <span>Turkey Strategic Hydro Battery, s.14</span></figcaption>
+              <figcaption><b>Görsel:</b> Çevresel etki değerlendirmesi, sosyal kabul, su/ekosistem ve proje geliştirme boyutlarını birlikte gösteren uyum şeması.</figcaption>
             </figure>
             <div className="card-body">
               <p>PDHES projeleri büyük altyapı yatırımlarıdır. Bu nedenle ön değerlendirme aşamasında teknik, çevresel, ekonomik ve hukuki riskler birlikte incelenmelidir.</p>

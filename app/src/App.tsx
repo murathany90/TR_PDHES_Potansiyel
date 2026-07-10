@@ -148,7 +148,7 @@ export default function App() {
       topNav={
         <TopNav
           title="Türkiye Pompaj Depolama HES (PDHES) Potansiyeli"
-          subtitle="PDHES Eğitim ve Ön İnceleme"
+          subtitle="PDHES Eğitimi ve Ön İnceleme Uygulaması"
           controls={controls}
           homeHref="/pdhes"
         />
