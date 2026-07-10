@@ -85,25 +85,38 @@ describe("DataPage", () => {
 
   afterEach(cleanup);
 
-  it("renders the Excel-derived candidate columns and summary cards", () => {
+  it("renders the compact Excel-derived candidate table without removed cards and columns", () => {
     render(
       <MemoryRouter>
         <DataPage site={gokcekaya} />
       </MemoryRouter>,
     );
 
+    expect(screen.getByRole("heading", { name: "PDHES Adayları Tablosu" })).toBeTruthy();
     expect(screen.getByRole("columnheader", { name: "No" })).toBeTruthy();
     expect(screen.getByRole("columnheader", { name: "Aday Adı" })).toBeTruthy();
+    expect(screen.getByRole("columnheader", { name: "Tip" })).toBeTruthy();
     expect(screen.getByRole("columnheader", { name: "Kapasite (MW)" })).toBeTruthy();
     expect(screen.getByRole("columnheader", { name: "Enerji (MWh)" })).toBeTruthy();
     expect(screen.getByRole("columnheader", { name: "Net Düşü (m)" })).toBeTruthy();
+    expect(screen.getByRole("columnheader", { name: "Konum" })).toBeTruthy();
     expect(screen.getByRole("button", { name: /Toplam Skor/i })).toBeTruthy();
     expect(screen.getByRole("button", { name: /Geri Ödeme/i })).toBeTruthy();
+    expect(screen.queryByRole("columnheader", { name: "İl/Bölge" })).toBeNull();
+    expect(screen.queryByRole("columnheader", { name: "Alt Rezervuar Adı" })).toBeNull();
 
     expect(screen.getByText("Toplam Kurulu Güç")).toBeTruthy();
     expect(screen.getByText("2.600 MW")).toBeTruthy();
     expect(screen.getByText("Toplam Depolama Enerjisi")).toBeTruthy();
     expect(screen.getByText("17.000 MWh")).toBeTruthy();
+    expect(screen.queryByText("Ortalama Toplam Skor")).toBeNull();
+    expect(screen.queryByText("Toplam Yıllık Gelir")).toBeNull();
+    expect(screen.queryByText("Toplam CAPEX")).toBeNull();
+    expect(screen.queryByText(/Tablo ve hesap değerleri Excel kaynağından gelir/i)).toBeNull();
+    expect(screen.queryByText("ORTA")).toBeNull();
+    expect(screen.queryByText("YÜKSEK")).toBeNull();
+    expect(screen.queryByText("KABUL EDİLEBİLİR")).toBeNull();
+    expect(screen.getAllByRole("button", { name: "Konum" })).toHaveLength(2);
   });
 
   it("sorts score and payback columns with null-safe Excel values", () => {
@@ -137,6 +150,8 @@ describe("DataPage", () => {
     expect(screen.getByText("430,2 m³/s")).toBeTruthy();
     expect(screen.getByText("258,8 M USD")).toBeTruthy();
     expect(screen.getByText("2.380 M USD")).toBeTruthy();
+    expect(screen.queryByText("PDHES_Aday_Verileri_Koordinatli_Dinamik_Hesap.xlsx")).toBeNull();
+    expect(screen.queryByRole("button", { name: /Haritada İncele/i })).toBeNull();
 
     fireEvent.click(screen.getByRole("button", { name: /Gökçekaya PDHES/i }));
     expect(screen.queryByText("Teknik Parametreler")).toBeNull();
@@ -156,6 +171,6 @@ describe("DataPage", () => {
     const emptyCell = document.querySelector('[data-empty-state="candidate-filter"]');
     expect(emptyCell).toBeTruthy();
     expect(emptyCell?.textContent).toContain("filtreyle");
-    expect(emptyCell?.getAttribute("colspan")).toBe("14");
+    expect(emptyCell?.getAttribute("colspan")).toBe("13");
   });
 });

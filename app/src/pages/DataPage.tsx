@@ -1,6 +1,5 @@
 import React, { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { MapPin } from "lucide-react";
 import type { CandidateFilters } from "../utils/pdhesFilters";
 import type { Site } from "../types/site";
 import type { PdhesCandidateExcelCalculatedData } from "../utils/pdhes/types";
@@ -27,7 +26,7 @@ import {
   formatYears,
 } from "../utils/pdhes/formatters";
 
-const TABLE_COLUMN_COUNT = 14;
+const TABLE_COLUMN_COUNT = 13;
 
 type SortKey = "score" | "payback";
 type SortState = {
@@ -69,23 +68,23 @@ function compareNullable(a: number | undefined, b: number | undefined, direction
   return direction === "asc" ? a - b : b - a;
 }
 
-function scoreCategory(score: number | undefined) {
+function scoreClass(score: number | undefined) {
   if (typeof score !== "number" || !Number.isFinite(score)) {
-    return { label: "Hesaplanamadı", className: "neutral" };
+    return "neutral";
   }
-  if (score >= 85) return { label: "Çok yüksek", className: "strong" };
-  if (score >= 70) return { label: "Yüksek", className: "good" };
-  if (score >= 55) return { label: "Orta", className: "medium" };
-  return { label: "Düşük", className: "low" };
+  if (score >= 85) return "strong";
+  if (score >= 70) return "good";
+  if (score >= 55) return "medium";
+  return "low";
 }
 
-function paybackCategory(paybackYears: number | undefined) {
+function paybackClass(paybackYears: number | undefined) {
   if (typeof paybackYears !== "number" || !Number.isFinite(paybackYears)) {
-    return { label: "Hesaplanamadı", className: "neutral" };
+    return "neutral";
   }
-  if (paybackYears <= 7) return { label: "Çok iyi", className: "strong" };
-  if (paybackYears <= 12) return { label: "Kabul edilebilir", className: "good" };
-  return { label: "Uzun", className: "low" };
+  if (paybackYears <= 7) return "strong";
+  if (paybackYears <= 12) return "good";
+  return "low";
 }
 
 function SortHeader({
@@ -123,10 +122,7 @@ function SummaryCards({ sites }: { sites: Site[] }) {
     candidateCount: excelRows.length,
     totalCapacityMw: sum(excelRows.map((excel) => excel.capacityMw)),
     totalEnergyMwh: sum(excelRows.map((excel) => excel.energyMwh)),
-    averageScore: average(excelRows.map((excel) => excel.totalScore)),
     averagePayback: average(excelRows.map((excel) => excel.paybackYears)),
-    totalAnnualRevenueMUsd: sum(excelRows.map((excel) => excel.annualTotalRevenueMUsd)),
-    totalCapexMUsd: sum(excelRows.map((excel) => excel.capexMUsd)),
   };
 
   return (
@@ -134,10 +130,7 @@ function SummaryCards({ sites }: { sites: Site[] }) {
       <div className="metric info"><span>Toplam Aday Sayısı</span><b>{summary.candidateCount}</b></div>
       <div className="metric good"><span>Toplam Kurulu Güç</span><b>{formatMw(summary.totalCapacityMw)}</b></div>
       <div className="metric info"><span>Toplam Depolama Enerjisi</span><b>{formatMwh(summary.totalEnergyMwh)}</b></div>
-      <div className="metric"><span>Ortalama Toplam Skor</span><b>{formatScore(summary.averageScore)}</b></div>
       <div className="metric"><span>Ortalama Geri Ödeme</span><b>{formatYears(summary.averagePayback)}</b></div>
-      <div className="metric good"><span>Toplam Yıllık Gelir</span><b>{formatCurrencyMUsd(summary.totalAnnualRevenueMUsd)}</b></div>
-      <div className="metric warn"><span>Toplam CAPEX</span><b>{formatCurrencyMUsd(summary.totalCapexMUsd)}</b></div>
     </div>
   );
 }
@@ -207,7 +200,6 @@ function CandidateDetailPanel({ candidate }: { candidate: Site }) {
           <span className="muted small">Seçili Aday</span>
           <h3>{excel.candidateName}</h3>
         </div>
-        <span className="source-chip generic">{excel.dataSource}</span>
       </div>
       <div className="excel-detail-groups">
         {groups.map((group) => (
@@ -268,10 +260,7 @@ export default function DataPage({ site }: { site?: Site }) {
     <section className="panel active">
       <div className="grid data-layout full-width">
         <div className="card table-card">
-          <h2>Aday saha tablosu</h2>
-          <p className="muted small">
-            Tablo ve hesap değerleri Excel kaynağından gelir; harita ve 3D geometri mevcut veri setinden korunur.
-          </p>
+          <h2>PDHES Adayları Tablosu</h2>
 
           <SummaryCards sites={sites} />
 
@@ -296,34 +285,32 @@ export default function DataPage({ site }: { site?: Site }) {
                 <col className="col-order" />
                 <col className="col-site" />
                 <col className="col-type" />
-                <col className="col-region" />
                 <col className="col-power" />
                 <col className="col-hours" />
                 <col className="col-energy" />
-                <col className="col-reservoir" />
                 <col className="col-elevation" />
                 <col className="col-elevation" />
                 <col className="col-head" />
                 <col className="col-head" />
                 <col className="col-score" />
                 <col className="col-payback" />
+                <col className="col-action" />
               </colgroup>
               <thead>
                 <tr>
                   <th>No</th>
                   <th>Aday Adı</th>
                   <th>Tip</th>
-                  <th>İl/Bölge</th>
                   <th>Kapasite (MW)</th>
                   <th>Depolama Süresi (saat)</th>
                   <th>Enerji (MWh)</th>
-                  <th>Alt Rezervuar Adı</th>
                   <th>Alt Rezervuar Kotu (m)</th>
                   <th>Üst Rezervuar Kotu (m)</th>
                   <th>Brüt Düşü (m)</th>
                   <th>Net Düşü (m)</th>
                   <th><SortHeader label="Toplam Skor" sortKey="score" sort={sort} onSort={updateSort} /></th>
                   <th><SortHeader label="Geri Ödeme (yıl)" sortKey="payback" sort={sort} onSort={updateSort} /></th>
+                  <th>Konum</th>
                 </tr>
               </thead>
               <tbody>
@@ -336,8 +323,8 @@ export default function DataPage({ site }: { site?: Site }) {
                   </tr>
                 ) : filteredSites.map((candidate) => {
                   const excel = excelFor(candidate);
-                  const score = scoreCategory(excel?.totalScore);
-                  const payback = paybackCategory(excel?.paybackYears);
+                  const score = scoreClass(excel?.totalScore);
+                  const payback = paybackClass(excel?.paybackYears);
                   return (
                     <React.Fragment key={candidate.id}>
                       <tr
@@ -360,47 +347,42 @@ export default function DataPage({ site }: { site?: Site }) {
                           </button>
                         </td>
                         <td><span className={`source-chip ${candidate.pdhesType === "SEA_WATER" ? "sea" : "generic"}`}>{excel?.type ?? candidate.pdhesType}</span></td>
-                        <td>{excel?.region ?? candidate.province}</td>
                         <td><b>{formatMw(excel?.capacityMw ?? candidate.capacityMW)}</b></td>
                         <td>{formatHours(excel?.storageHours)}</td>
                         <td><b>{formatMwh(excel?.energyMwh ?? (candidate.energyGWh ? candidate.energyGWh * 1000 : undefined))}</b></td>
-                        <td>{excel?.lowerReservoirName ?? candidate.lowerReservoirName}</td>
                         <td>{formatMeters(excel?.lowerReservoirElevationM)}</td>
                         <td>{formatMeters(excel?.upperReservoirElevationM)}</td>
                         <td>{formatMeters(excel?.grossHeadM)}</td>
                         <td>{formatMeters(excel?.netHeadM ?? candidate.headM)}</td>
                         <td>
-                          <span className={`score-badge ${score.className}`}>
+                          <span className={`score-badge ${score}`}>
                             <b>{formatScore(excel?.totalScore)}</b>
-                            <span>{score.label}</span>
                           </span>
                         </td>
                         <td>
-                          <span className={`score-badge ${payback.className}`}>
+                          <span className={`score-badge ${payback}`}>
                             <b>{formatYears(excel?.paybackYears)}</b>
-                            <span>{payback.label}</span>
                           </span>
+                        </td>
+                        <td className="location-cell">
+                          <button
+                            type="button"
+                            className="btn compact location-btn"
+                            onClick={(event) => {
+                              event.stopPropagation();
+                              clearWorldExampleFocus();
+                              selectSite(candidate.id);
+                              navigate("/map");
+                            }}
+                          >
+                            Konum
+                          </button>
                         </td>
                       </tr>
                       {candidate.id === expandedId && (
                         <tr className="expanded-details-row">
                           <td colSpan={TABLE_COLUMN_COUNT}>
                             <CandidateDetailPanel candidate={candidate} />
-                            <div className="detail-actions">
-                              <button
-                                type="button"
-                                className="btn primary"
-                                onClick={(event) => {
-                                  event.stopPropagation();
-                                  clearWorldExampleFocus();
-                                  selectSite(candidate.id);
-                                  navigate("/map");
-                                }}
-                              >
-                                <MapPin size={16} />
-                                Haritada İncele
-                              </button>
-                            </div>
                           </td>
                         </tr>
                       )}

@@ -268,7 +268,12 @@ html[data-theme="light"] tbody tr.selected { background: rgba(14,165,233,.05); b
 html[data-theme="light"] .expanded-details-content { box-shadow: inset 0 6px 12px -8px rgba(0,0,0,0.05); }
 .data-layout.full-width { display: block !important; grid-template-columns: none !important; }
 .data-layout.full-width .card { width: 100%; max-width: none; min-width: 0; }
-.table-card { max-width: 100%; min-width: 0; }
+.table-card {
+  max-width: 100%;
+  min-width: 0;
+  padding: 18px;
+}
+.table-card h2 { margin-bottom: 6px; }
 .empty-table-cell {
   text-align: center;
   padding: 34px 18px;
@@ -301,27 +306,53 @@ html[data-theme="light"] .expanded-details-content { box-shadow: inset 0 6px 12p
 html[data-theme="light"] .source-chip.jica { color: #1d4ed8; border-color: rgba(29,78,216,.35); background: #eff6ff; }
 html[data-theme="light"] .source-chip.sea { color: #075985; border-color: rgba(7,89,133,.32); background: #ecfeff; }
 
-.candidate-filter-form { margin-bottom: 14px; margin-top: 16px; }
+.candidate-filter-form {
+  width: min(100%, 320px);
+  margin: 10px 0 12px;
+}
+.candidate-filter-form .form-row { grid-template-columns: 1fr; gap: 0; }
 .candidate-summary-grid {
   display: grid;
-  grid-template-columns: repeat(7, minmax(130px, 1fr));
-  gap: 10px;
-  margin: 16px 0 4px;
+  grid-template-columns: repeat(4, minmax(120px, 1fr));
+  gap: 8px;
+  margin: 10px 0 6px;
 }
-.candidate-summary-grid .metric { min-height: 82px; }
-.excel-candidate-table { min-width: 1540px; }
-.excel-candidate-table .col-order { width: 56px; }
-.excel-candidate-table .col-site { width: 190px; }
-.excel-candidate-table .col-type { width: 150px; }
-.excel-candidate-table .col-region { width: 130px; }
-.excel-candidate-table .col-power,
-.excel-candidate-table .col-hours,
-.excel-candidate-table .col-energy,
-.excel-candidate-table .col-elevation,
-.excel-candidate-table .col-head { width: 116px; }
-.excel-candidate-table .col-reservoir { width: 170px; }
-.excel-candidate-table .col-score,
-.excel-candidate-table .col-payback { width: 140px; }
+.candidate-summary-grid .metric {
+  min-height: 66px;
+  padding: 10px 12px;
+}
+.excel-candidate-table {
+  min-width: 0;
+  width: 100%;
+  table-layout: fixed;
+  font-size: 12.5px;
+}
+.excel-candidate-table th,
+.excel-candidate-table td {
+  padding: 8px 7px;
+}
+.excel-candidate-table th {
+  font-size: 11px;
+  letter-spacing: .35px;
+}
+.excel-candidate-table .col-order { width: 3.2%; }
+.excel-candidate-table .col-site { width: 14.4%; }
+.excel-candidate-table .col-type { width: 8.2%; }
+.excel-candidate-table .col-power { width: 7.4%; }
+.excel-candidate-table .col-hours { width: 7.6%; }
+.excel-candidate-table .col-energy { width: 8%; }
+.excel-candidate-table .col-elevation { width: 7.3%; }
+.excel-candidate-table .col-head { width: 6.8%; }
+.excel-candidate-table .col-score { width: 7.7%; }
+.excel-candidate-table .col-payback { width: 8.4%; }
+.excel-candidate-table .col-action { width: 5.3%; }
+.excel-candidate-table .site-row-button { gap: 1px; }
+.excel-candidate-table .source-chip {
+  width: min(100%, 104px);
+  padding: 2px 5px;
+  font-size: 10px;
+  line-height: 1.12;
+}
 .table-sort-button {
   width: 100%;
   border: 0;
@@ -347,16 +378,15 @@ html[data-theme="light"] .source-chip.sea { color: #075985; border-color: rgba(7
 }
 .score-badge {
   display: inline-flex;
-  flex-direction: column;
-  gap: 2px;
-  min-width: 104px;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
   border: 1px solid var(--line2);
-  border-radius: 8px;
-  padding: 6px 8px;
+  border-radius: 7px;
+  padding: 5px 7px;
   background: var(--panel2);
 }
 .score-badge b { font-size: 13px; }
-.score-badge span { color: var(--muted); font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .3px; }
 .score-badge.strong { border-color: rgba(16,185,129,.45); background: rgba(16,185,129,.12); }
 .score-badge.good { border-color: rgba(14,165,233,.45); background: rgba(14,165,233,.12); }
 .score-badge.medium { border-color: rgba(251,191,36,.45); background: rgba(251,191,36,.12); }
@@ -398,6 +428,15 @@ html[data-theme="light"] .source-chip.sea { color: #075985; border-color: rgba(7
 .detail-actions {
   padding: 0 18px 18px;
   background: var(--panel);
+}
+.location-cell { text-align: right; }
+.location-btn {
+  min-height: 30px;
+  padding: 5px 8px;
+  border-radius: 7px;
+  font-size: 12px;
+  font-weight: 800;
+  white-space: nowrap;
 }
 
 .pdhes-calculation-engine { display: grid; gap: 16px; }
