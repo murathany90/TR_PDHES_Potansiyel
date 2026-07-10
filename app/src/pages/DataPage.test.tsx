@@ -1,75 +1,161 @@
 // @vitest-environment jsdom
 
-import { cleanup, fireEvent, render, screen } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
-import { afterEach, beforeEach, describe, expect, it } from 'vitest';
-import { useSiteStore } from '../stores/useSiteStore';
-import { makeTestSite } from '../test-utils/makeTestSite';
-import DataPage from './DataPage';
+import { cleanup, fireEvent, render, screen, within } from "@testing-library/react";
+import { MemoryRouter } from "react-router-dom";
+import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { useSiteStore } from "../stores/useSiteStore";
+import { makeTestSite } from "../test-utils/makeTestSite";
+import DataPage from "./DataPage";
 
-const site = makeTestSite({ id: 'kamu-test-site' });
+const gokcekaya = makeTestSite({
+  id: "kamu-gokcekaya-pspp",
+  name: "Gökçekaya PDHES",
+  province: "Eskişehir",
+  order: 1,
+  excelCalculated: {
+    no: 1,
+    candidateName: "Gökçekaya PDHES",
+    normalizedName: "gokcekayapdhes",
+    type: "Açık Çevrim PDHES",
+    region: "Eskişehir",
+    capacityMw: 1400,
+    storageHours: 7,
+    energyMwh: 9800,
+    lowerReservoirName: "Gökçekaya Barajı",
+    lowerReservoirElevationM: 389,
+    upperReservoirElevationM: 769,
+    grossHeadM: 380,
+    netHeadM: 368.6,
+    totalScore: 58.9169702956853,
+    paybackYears: 10.668597634564327,
+    designFlowCms: 430.19086892840136,
+    upperActiveVolumeHm3: 10.840809896995713,
+    roundTripEfficiencyPct: 78,
+    pumpPowerMw: 1794.871794871795,
+    pumpingEnergyPerCycleMwh: 12564.102564102564,
+    annualCycles: 300,
+    annualGenerationGwh: 2940,
+    peakPriceUsdMwh: 110,
+    offPeakPriceUsdMwh: 45,
+    grossGenerationRevenueMUsd: 323.4,
+    pumpingEnergyCostMUsd: 169.61538461538464,
+    netArbitrageRevenueMUsd: 153.78461538461534,
+    ancillaryServiceRevenueMUsd: 63,
+    capacityMechanismRevenueMUsd: 42,
+    annualTotalRevenueMUsd: 258.78461538461534,
+    capexIntensityUsdKw: 1700,
+    capexMUsd: 2380,
+    omMUsdPerYear: 35.7,
+    netCashFlowMUsdPerYear: 223.08461538461535,
+    dataSource: "PDHES_Aday_Verileri_Koordinatli_Dinamik_Hesap.xlsx",
+  },
+} as any);
 
-describe('DataPage', () => {
+const altinkaya = makeTestSite({
+  id: "altinkaya",
+  name: "Altınkaya PDHES",
+  province: "Samsun",
+  order: 2,
+  excelCalculated: {
+    no: 3,
+    candidateName: "Altınkaya PDHES",
+    normalizedName: "altinkayapdhes",
+    type: "Açık Çevrim PDHES",
+    region: "Samsun",
+    capacityMw: 1200,
+    storageHours: 6,
+    energyMwh: 7200,
+    lowerReservoirName: "Altınkaya Barajı",
+    lowerReservoirElevationM: 188,
+    upperReservoirElevationM: 520,
+    grossHeadM: 332,
+    netHeadM: 322,
+    totalScore: 76.2,
+    paybackYears: 8.4,
+    annualTotalRevenueMUsd: 220,
+    capexMUsd: 1900,
+    dataSource: "PDHES_Aday_Verileri_Koordinatli_Dinamik_Hesap.xlsx",
+  },
+} as any);
+
+describe("DataPage", () => {
   beforeEach(() => {
-    useSiteStore.setState({ sites: [site], selectedId: site.id });
+    useSiteStore.setState({ sites: [gokcekaya, altinkaya], selectedId: gokcekaya.id });
   });
 
   afterEach(cleanup);
 
-  it('makes filters and site selection keyboard accessible', () => {
+  it("renders the Excel-derived candidate columns and summary cards", () => {
     render(
       <MemoryRouter>
-        <DataPage site={site} />
-      </MemoryRouter>
+        <DataPage site={gokcekaya} />
+      </MemoryRouter>,
     );
 
-    expect((screen.getByRole('option', { name: 'Tümü' }) as HTMLOptionElement).selected).toBe(true);
-    const siteButton = screen.getByRole('button', { name: /test pdhes/i });
-    fireEvent.click(siteButton);
-    expect(useSiteStore.getState().selectedId).toBe(site.id);
-    expect(screen.getAllByText(/Açık Çevrim PDHES/i).length).toBeGreaterThan(0);
-    expect(screen.getByText(/Açık döngü/i)).toBeTruthy();
-    expect(document.body.textContent).not.toMatch(/undefined|NaN|null/i);
+    expect(screen.getByRole("columnheader", { name: "No" })).toBeTruthy();
+    expect(screen.getByRole("columnheader", { name: "Aday Adı" })).toBeTruthy();
+    expect(screen.getByRole("columnheader", { name: "Kapasite (MW)" })).toBeTruthy();
+    expect(screen.getByRole("columnheader", { name: "Enerji (MWh)" })).toBeTruthy();
+    expect(screen.getByRole("columnheader", { name: "Net Düşü (m)" })).toBeTruthy();
+    expect(screen.getByRole("button", { name: /Toplam Skor/i })).toBeTruthy();
+    expect(screen.getByRole("button", { name: /Geri Ödeme/i })).toBeTruthy();
+
+    expect(screen.getByText("Toplam Kurulu Güç")).toBeTruthy();
+    expect(screen.getByText("2.600 MW")).toBeTruthy();
+    expect(screen.getByText("Toplam Depolama Enerjisi")).toBeTruthy();
+    expect(screen.getByText("17.000 MWh")).toBeTruthy();
   });
 
-  it('uses compact 16+4 table columns without province or coordinate filters', () => {
+  it("sorts score and payback columns with null-safe Excel values", () => {
     render(
       <MemoryRouter>
-        <DataPage site={site} />
-      </MemoryRouter>
+        <DataPage site={gokcekaya} />
+      </MemoryRouter>,
     );
 
-    expect(screen.getByRole('columnheader', { name: 'Güç / Enerji' })).toBeTruthy();
-    expect(screen.getByRole('columnheader', { name: 'Düşü (head) / Su Yolu' })).toBeTruthy();
-    expect(screen.getByRole('columnheader', { name: 'Yatırım' })).toBeTruthy();
-    expect(screen.getByRole('columnheader', { name: 'Gelir' })).toBeTruthy();
-    expect(screen.getByRole('columnheader', { name: 'Skor (Senaryo)' })).toBeTruthy();
+    fireEvent.click(screen.getByRole("button", { name: /Toplam Skor/i }));
+    const firstDataRowAfterScoreSort = screen.getAllByRole("row")[1];
+    expect(within(firstDataRowAfterScoreSort).getByText("Altınkaya PDHES")).toBeTruthy();
 
-    expect(screen.queryByRole('columnheader', { name: 'Kurulu güç' })).toBeNull();
-    expect(screen.queryByRole('columnheader', { name: 'Debi / düşü' })).toBeNull();
-    expect(screen.queryByRole('columnheader', { name: 'Skor' })).toBeNull();
-    expect(screen.queryByRole('columnheader', { name: 'Koordinat' })).toBeNull();
-    expect(screen.queryByLabelText('İl')).toBeNull();
-    expect(screen.queryByLabelText('Koordinat güveni')).toBeNull();
-
-    expect(screen.getByRole('option', { name: 'Açık Çevrim PDHES' })).toBeTruthy();
-    expect(screen.getByRole('option', { name: 'Deniz Suyu PDHES' })).toBeTruthy();
+    fireEvent.click(screen.getByRole("button", { name: /Geri Ödeme/i }));
+    const firstDataRowAfterPaybackSort = screen.getAllByRole("row")[1];
+    expect(within(firstDataRowAfterPaybackSort).getByText("Altınkaya PDHES")).toBeTruthy();
   });
 
-  it('shows a helpful empty state when the selected filter has no matches', () => {
+  it("opens the grouped Excel detail panel from a candidate row", () => {
     render(
       <MemoryRouter>
-        <DataPage site={site} />
-      </MemoryRouter>
+        <DataPage site={gokcekaya} />
+      </MemoryRouter>,
     );
 
-    fireEvent.change(screen.getByRole('combobox'), {
-      target: { value: 'CLOSED_LOOP' },
+    fireEvent.click(screen.getByRole("button", { name: /Gökçekaya PDHES/i }));
+
+    expect(screen.getByText("Teknik Parametreler")).toBeTruthy();
+    expect(screen.getByText("Piyasa ve Gelir Parametreleri")).toBeTruthy();
+    expect(screen.getByText("Yatırım ve Geri Ödeme")).toBeTruthy();
+    expect(screen.getByText("430,2 m³/s")).toBeTruthy();
+    expect(screen.getByText("258,8 M USD")).toBeTruthy();
+    expect(screen.getByText("2.380 M USD")).toBeTruthy();
+
+    fireEvent.click(screen.getByRole("button", { name: /Gökçekaya PDHES/i }));
+    expect(screen.queryByText("Teknik Parametreler")).toBeNull();
+  });
+
+  it("shows a helpful empty state when the selected filter has no matches", () => {
+    render(
+      <MemoryRouter>
+        <DataPage site={gokcekaya} />
+      </MemoryRouter>,
+    );
+
+    fireEvent.change(screen.getByRole("combobox"), {
+      target: { value: "CLOSED_LOOP" },
     });
 
     const emptyCell = document.querySelector('[data-empty-state="candidate-filter"]');
     expect(emptyCell).toBeTruthy();
-    expect(emptyCell?.textContent).toContain('filtreyle');
-    expect(emptyCell?.getAttribute('colspan')).toBe('10');
+    expect(emptyCell?.textContent).toContain("filtreyle");
+    expect(emptyCell?.getAttribute("colspan")).toBe("14");
   });
 });

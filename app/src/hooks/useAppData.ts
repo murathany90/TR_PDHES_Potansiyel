@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getLegacyCustomSites, getPersistedSites, useSiteStore } from '../stores/useSiteStore';
 import { publicAssetUrl } from '../utils/publicUrl';
+import { attachExcelCalculatedData } from '../utils/pdhes/excelDataMapper';
 import { validateSites } from '../utils/siteSchema';
 
 type FetchLike = (input: RequestInfo | URL, init?: RequestInit) => Promise<Response>;
@@ -27,7 +28,7 @@ export async function loadAppData(
     throw new Error(`Aday veri sözleşmesi geçersiz: ${validation.errors.slice(0, 3).join(' ')}`);
   }
 
-  return { sites: validation.sites };
+  return { sites: attachExcelCalculatedData(validation.sites) };
 }
 
 export function useAppData() {
@@ -50,7 +51,7 @@ export function useAppData() {
           ...baseSites.filter((base) => !localSites.some((local) => local.id === base.id)),
         ];
         setBaseSites(baseSites);
-        setSites(mergedSites);
+        setSites(attachExcelCalculatedData(mergedSites));
         setError(null);
       })
       .catch((reason: unknown) => {

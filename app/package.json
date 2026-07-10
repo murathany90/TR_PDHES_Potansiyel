@@ -5,12 +5,13 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "typecheck": "tsc --noEmit",
+    "generate:pdhes-data": "node scripts/generate-pdhes-candidate-data.mjs",
+    "typecheck": "npm run generate:pdhes-data && tsc --noEmit",
     "test": "vitest",
     "test:run": "vitest run",
     "check:data": "node scripts/check-data.mjs && vitest run src/utils/siteSchema.test.ts",
     "check": "npm run typecheck && npm run test:run && npm run check:data && npm run build",
-    "build": "tsc && vite build",
+    "build": "npm run generate:pdhes-data && tsc && vite build",
     "preview": "vite preview"
   },
   "devDependencies": {
@@ -24,7 +25,8 @@
     "jsdom": "^29.1.1",
     "typescript": "~6.0.2",
     "vite": "^8.0.12",
-    "vitest": "^4.1.9"
+    "vitest": "^4.1.9",
+    "xlsx": "^0.18.5"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.7",

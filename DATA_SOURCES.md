@@ -4,6 +4,8 @@
 
 Canonical public dosya `app/public/data.json` dosyasıdır. Kayıtlar; kaynak bazlı bilgiler, GIS/DEM çıkarımları ve kavramsal demo varsayımlarının birleşimidir.
 
+`docs/pdhes_adayları_excel/PDHES_Aday_Verileri_Koordinatli_Dinamik_Hesap.xlsx` dosyası build-time tablo ve hesaplama kaynağıdır. `Aday_Verileri`, `Skor_Hesap` ve `Input_Parametreleri` sayfaları `app/scripts/generate-pdhes-candidate-data.mjs` ile `app/src/data/generated/pdhesCandidateExcelData.ts` çıktısına dönüştürülür. Bu Excel dosyasındaki koordinat, Google Earth veya link kolonları uygulamadaki marker konumu, harita odağı, 3D layout, reservoir polygon, penstock/tunnel/powerhouse geometrisi ya da `componentFootprints` için kullanılmaz; geometri tarafında `app/public/data.json` authoritative kalır.
+
 Başlıca referans alanları:
 
 - JICA rapor sayfaları: `openjicareport.jica.go.jp`, `jica.go.jp`

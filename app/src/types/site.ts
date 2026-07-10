@@ -1,3 +1,5 @@
+import type { PdhesCandidateExcelCalculatedData } from '../utils/pdhes/types';
+
 export type PdhesType =
   | 'OPEN_LOOP'
   | 'CLOSED_LOOP'
@@ -191,6 +193,7 @@ export interface Site {
   annualRevenueUsdM?: number | null;
   paybackYear?: number | null;
   score?: number | null;
+  excelCalculated?: PdhesCandidateExcelCalculatedData;
 
   lowerReservoirName: string;
   upperReservoirDescription: string;

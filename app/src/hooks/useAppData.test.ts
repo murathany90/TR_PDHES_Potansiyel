@@ -12,6 +12,8 @@ describe('loadAppData', () => {
 
     expect(fetcher).toHaveBeenCalledTimes(1);
     expect(result.sites).toHaveLength(15);
+    expect(result.sites.find((site) => site.name === 'Gökçekaya PDHES')?.excelCalculated?.totalScore)
+      .toBeCloseTo(58.9169702956853, 10);
   });
 
   it('returns an actionable error for failed requests', async () => {
