@@ -32,6 +32,12 @@ const EDITOR_LAYERS: MapLayerVisibility = {
   waterPath: true,
   powerGrid: true,
   terrain3d: true,
+  upperReservoir: true,
+  lowerReservoir: true,
+  powerhouse: true,
+  surgeTank: true,
+  switchyard3d: true,
+  portal: true,
 };
 
 function cloneLayout(layout: SiteLayout): SiteLayout {

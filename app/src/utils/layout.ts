@@ -180,7 +180,7 @@ export function buildLayout(site: Site, hScale: number): LayoutBundle {
       .map((feature) => ({
         type: 'Feature',
         geometry: { type: 'Point', coordinates: centroid(feature.geometry.coordinates[0] as [number, number][]) },
-        properties: { label: feature.properties?.label },
+        properties: { label: feature.properties?.label, key: feature.properties?.key },
       })),
   };
 

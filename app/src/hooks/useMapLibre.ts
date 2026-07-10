@@ -34,6 +34,12 @@ export interface MapLayerVisibility {
   waterPath: boolean;
   powerGrid: boolean;
   terrain3d: boolean;
+  upperReservoir: boolean;
+  lowerReservoir: boolean;
+  powerhouse: boolean;
+  surgeTank: boolean;
+  switchyard3d: boolean;
+  portal: boolean;
 }
 
 interface UseMapLibreOptions {
@@ -217,7 +223,28 @@ export function useMapLibre({
       }
 
       if (layers.projectLayout) {
-        map.addSource('blocks', { type: 'geojson', data: layout.blocks });
+        const activeBlocks: string[] = [];
+        if (layers.upperReservoir) activeBlocks.push('upper_reservoir', 'upperReservoirWater', 'upperReservoirEmbankment', 'upperIntake');
+        if (layers.lowerReservoir) activeBlocks.push('lower_reservoir', 'lowerReservoirFootprint');
+        if (layers.powerhouse) activeBlocks.push('powerhouse', 'powerhouseFootprint');
+        if (layers.surgeTank) activeBlocks.push('surge_tank', 'surgeTankFootprint');
+        if (layers.switchyard3d) activeBlocks.push('switchyard', 'switchyardFootprint');
+        if (layers.portal) activeBlocks.push('portal', 'serviceDrainPortal');
+
+        const filteredBlocks = {
+          type: 'FeatureCollection',
+          features: layout.blocks.features.filter(f => {
+            const comp = f.properties?.component || f.properties?.key;
+            return activeBlocks.includes(comp);
+          })
+        } as any;
+
+        const filteredLabels = {
+          type: 'FeatureCollection',
+          features: layout.labels.features.filter(f => activeBlocks.includes(f.properties?.key))
+        } as any;
+
+        map.addSource('blocks', { type: 'geojson', data: filteredBlocks });
         map.addLayer({
           id: 'blocks-extrusion',
           type: 'fill-extrusion',
@@ -229,7 +256,7 @@ export function useMapLibre({
             'fill-extrusion-opacity': 0.85,
           },
         });
-        map.addSource('blockLabels', { type: 'geojson', data: layout.labels });
+        map.addSource('blockLabels', { type: 'geojson', data: filteredLabels });
         map.addLayer({
           id: 'block-labels',
           type: 'symbol',

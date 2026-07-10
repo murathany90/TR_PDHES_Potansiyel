@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect } from 'react';
-import { MapPin, Mountain, AlertTriangle, Droplets, Zap, Layers } from 'lucide-react';
+import { MapPin, Mountain, Zap, Layers, Waves, Factory, Database, DoorOpen } from 'lucide-react';
 import { useMapLibre, type MapLayerVisibility } from '../hooks/useMapLibre';
 import { FabPopover } from '../components/FabPopover';
 
@@ -19,14 +19,21 @@ const DEFAULT_LAYERS: MapLayerVisibility = {
   waterPath: true,
   powerGrid: true,
   terrain3d: true,
+  upperReservoir: true,
+  lowerReservoir: true,
+  powerhouse: true,
+  surgeTank: true,
+  switchyard3d: true,
+  portal: true,
 };
 
 const LAYER_LABELS: Array<{ key: keyof MapLayerVisibility; label: string; Icon: any; title: string }> = [
-  { key: 'candidates', label: 'Sahalar', Icon: MapPin, title: 'PDHES Aday sahalarını haritada göster/gizle' },
-  { key: 'projectLayout', label: 'Tesis 3D', Icon: Mountain, title: 'Tesis bileşenlerinin (rezervuarlar, binalar) 3D bloklarını göster/gizle' },
-  { key: 'waterPath', label: 'Su Yolu', Icon: Droplets, title: 'İletim tünelleri ve cebri boru hatlarını göster/gizle' },
-  { key: 'powerGrid', label: 'Şebeke & Şalt', Icon: Zap, title: 'Şalt sahası, trafo merkezleri ve enerji iletim hatlarını göster/gizle' },
-  { key: 'risk', label: 'Risk Alanı', Icon: AlertTriangle, title: 'Çevresel veya sosyal risk alanlarını göster/gizle' },
+  { key: 'upperReservoir', label: 'Üst Rezervuar', Icon: Waves, title: 'Üst rezervuar gövde ve havuz yapısını göster/gizle' },
+  { key: 'lowerReservoir', label: 'Alt Rezervuar', Icon: Waves, title: 'Alt rezervuar yapısını göster/gizle' },
+  { key: 'powerhouse', label: 'Türbin Odası', Icon: Factory, title: 'Yeraltı santral binası bloklarını göster/gizle' },
+  { key: 'surgeTank', label: 'Denge Bacası', Icon: Database, title: 'Denge bacası bloklarını göster/gizle' },
+  { key: 'switchyard3d', label: 'Şalt Sahası (3D)', Icon: Zap, title: 'Şalt ve trafo alanının 3D yerleşimini göster/gizle' },
+  { key: 'portal', label: 'Tünel Portalı', Icon: DoorOpen, title: 'Servis ve ulaşım tüneli portallarını göster/gizle' },
 ];
 
 export default function MapPage() {
@@ -142,50 +149,79 @@ export default function MapPage() {
             selectSite={selectSite} 
           />
 
-          <button
-            type="button"
-            className="btn minimalist-3d-toggle"
-            onClick={() => setLayers(c => ({...c, terrain3d: !c.terrain3d}))}
-            title={layers.terrain3d ? "2D Görünüme Geç" : "3D Araziye Geç"}
-          >
-            <Layers size={18} />
-            <b>{layers.terrain3d ? "3D" : "2D"}</b>
-          </button>
-          <button
-            type="button"
-            className="btn minimalist-3d-toggle"
-            style={{ top: '74px' }}
-            onClick={() => {
-              if (mapRef.current) {
-                mapRef.current.flyTo({
-                  center: [35, 39],
-                  zoom: 5,
-                  pitch: 0,
-                  bearing: 0,
-                  duration: 1500
-                });
-              }
-            }}
-            title="Tümünü Göster"
-          >
-            <MapPin size={18} />
-            <b>Tümü</b>
-          </button>
+          <div className="map-overlay-controls">
+            <button
+              type="button"
+              className="btn minimalist-3d-toggle"
+              onClick={() => {
+                if (mapRef.current) {
+                  mapRef.current.flyTo({
+                    center: [35, 39],
+                    zoom: 5,
+                    pitch: 0,
+                    bearing: 0,
+                    duration: 1500
+                  });
+                }
+              }}
+              title="Tümünü Göster"
+            >
+              <MapPin size={18} />
+              <b>Tümü</b>
+            </button>
 
-          <button
-            type="button"
-            className="btn minimalist-3d-toggle"
-            style={{ 
-              top: '116px', 
-              background: showPowerGrid ? 'var(--bg-primary, #0f172a)' : undefined, 
-              color: showPowerGrid ? 'var(--text-inverted, #fff)' : undefined 
-            }}
-            onClick={() => setShowPowerGrid(!showPowerGrid)}
-            title={showPowerGrid ? "Elektrik Şebekesini Gizle" : "Elektrik Şebekesini Göster"}
-          >
-            <Zap size={18} />
-            <b>Şebeke</b>
-          </button>
+            <button
+              type="button"
+              className="btn minimalist-3d-toggle"
+              onClick={() => setLayers(c => ({...c, terrain3d: !c.terrain3d}))}
+              title={layers.terrain3d ? "2D Görünüme Geç" : "3D Araziye Geç"}
+            >
+              <Layers size={18} />
+              <b>{layers.terrain3d ? "3D" : "2D"}</b>
+            </button>
+
+            <button
+              type="button"
+              className="btn minimalist-3d-toggle"
+              style={{ 
+                background: showPowerGrid ? 'var(--bg-primary, #0f172a)' : undefined, 
+                color: showPowerGrid ? 'var(--text-inverted, #fff)' : undefined 
+              }}
+              onClick={() => setShowPowerGrid(!showPowerGrid)}
+              title={showPowerGrid ? "Elektrik Şebekesini Gizle" : "Elektrik Şebekesini Göster"}
+            >
+              <Zap size={18} />
+              <b>Şebeke</b>
+            </button>
+
+            <button
+              type="button"
+              className="btn minimalist-3d-toggle"
+              style={{ 
+                background: layers.candidates ? 'var(--bg-primary, #0f172a)' : undefined, 
+                color: layers.candidates ? 'var(--text-inverted, #fff)' : undefined 
+              }}
+              onClick={() => setLayers(c => ({...c, candidates: !c.candidates}))}
+              title={layers.candidates ? "Sahaları Gizle" : "Sahaları Göster"}
+            >
+              <MapPin size={18} />
+              <b>Sahalar</b>
+            </button>
+
+            <button
+              type="button"
+              className="btn minimalist-3d-toggle"
+              style={{ 
+                background: layers.projectLayout ? 'var(--bg-primary, #0f172a)' : undefined, 
+                color: layers.projectLayout ? 'var(--text-inverted, #fff)' : undefined 
+              }}
+              onClick={() => setLayers(c => ({...c, projectLayout: !c.projectLayout}))}
+              title={layers.projectLayout ? "Tesis 3D Gizle" : "Tesis 3D Göster"}
+            >
+              <Mountain size={18} />
+              <b>Tesis 3D</b>
+            </button>
+          </div>
 
 
           {rightCollapsed && (
@@ -252,7 +288,7 @@ export default function MapPage() {
             </>
           )}
 
-          <h3 style={{ marginTop: 16 }}>Harita katmanları</h3>
+          <h3 style={{ marginTop: 16 }}>3D Çizim Katmanları</h3>
           <div className="layer-grid">
             {LAYER_LABELS.map(({ key, label, Icon, title }) => (
               <button

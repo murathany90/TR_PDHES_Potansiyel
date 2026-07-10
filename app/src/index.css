@@ -1097,11 +1097,17 @@ html[data-theme="light"] .pdhes-rich-shell .source-footer { background: var(--pa
   color: var(--blue);
 }
 
-.minimalist-3d-toggle {
+.map-overlay-controls {
   position: absolute;
-  top: 24px;
-  right: 24px;
+  top: 16px;
+  right: 16px;
   z-index: 100;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.minimalist-3d-toggle {
   background: var(--panel);
   border: 1px solid var(--line);
   border-radius: 8px;
