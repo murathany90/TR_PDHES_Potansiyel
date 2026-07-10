@@ -318,15 +318,18 @@ export default function ThreeDEditorPage({ site, onDone }: ThreeDEditorPageProps
     }
   };
 
-  const calculatePolyStats = (polygonCoords: [number, number][] | undefined, baseVolume: number | null, elevation: number | null) => {
+  const calculatePolyStats = (polygonCoords: [number, number][] | undefined, baseVolume: number | null, fallbackElevation: number | null) => {
     let area_m2 = 0;
+    let centroid: [number, number] | null = null;
     if (polygonCoords && polygonCoords.length > 2) {
       const closed = [...polygonCoords];
       if (closed[0][0] !== closed[closed.length - 1][0] || closed[0][1] !== closed[closed.length - 1][1]) {
         closed.push(closed[0]);
       }
       try {
-        area_m2 = turf.area(turf.polygon([closed]));
+        const poly = turf.polygon([closed]);
+        area_m2 = turf.area(poly);
+        centroid = turf.center(poly).geometry.coordinates as [number, number];
       } catch (e) {
         // ignore invalid poly
       }
@@ -334,7 +337,16 @@ export default function ThreeDEditorPage({ site, onDone }: ThreeDEditorPageProps
     
     // Varsayılan derinlik ~25m kabul edilerek hacim tahmini (eğer sıfırdan çizildiyse)
     const volume_m3 = area_m2 > 0 ? area_m2 * 25 : (baseVolume ? baseVolume * 1000000 : 0);
-    return { area: area_m2, volume: volume_m3, elevation: elevation || 0 };
+
+    let actualElevation = fallbackElevation || 0;
+    if (centroid && mapRef.current && mapRef.current.getTerrain()) {
+      const ele = mapRef.current.queryTerrainElevation(centroid);
+      if (ele !== null) {
+        actualElevation = Math.round(ele / (heightScale * 1.3));
+      }
+    }
+
+    return { area: area_m2, volume: volume_m3, elevation: actualElevation };
   };
 
   const currentUpperPoly = drawingMode === 'upperReservoir' ? draftCoords : previewSite?.coordinates.upperReservoirPolygon;
