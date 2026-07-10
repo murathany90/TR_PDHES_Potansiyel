@@ -647,8 +647,8 @@ html[data-theme="light"] .kbd { color: #0f1c18; }
   }
   .global-controls {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) repeat(2, minmax(44px, auto));
-    gap: 8px;
+    grid-template-columns: 1fr auto auto;
+    gap: 12px;
   }
   .global-controls .pill,
   .global-controls .select,
@@ -672,11 +672,16 @@ html[data-theme="light"] .kbd { color: #0f1c18; }
   .brand p { font-size: 11px; line-height: 1.25; max-width: 100%; }
   .big-title { font-size: 24px; }
   .panel { padding: 12px; overflow-x: hidden; }
-  .card:has(table) {
+  .card:has(table), .candidate-table-wrap, .panel, .modal-content {
     overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
   }
   table {
-    min-width: 100%;
+    min-width: 600px;
+  }
+  th, td {
+    white-space: normal;
+    word-break: break-word;
   }
   .map-layout { grid-template-columns: 1fr; height: auto; max-height: none; width: 100%; max-width: 100%; padding: 12px; }
   .map-stage { height: 560px; width: 100%; }
@@ -933,7 +938,7 @@ html[data-theme="light"] .pdhes-rich-shell .source-footer { background: var(--pa
 .modal-title { font-weight:800; } .modal-actions { display:flex; gap:8px; } .modal-actions button { border:1px solid rgba(255,255,255,.24); background:rgba(255,255,255,.08); color:white; border-radius:12px; padding:9px 12px; cursor:pointer; font-weight:800; }
 .modal-body { overflow:auto; display:grid; place-items:center; padding:24px; } .modal-body img { max-width: min(1600px, 96vw); width:100%; height:auto; transform-origin:center center; transition: transform .15s ease; box-shadow:0 24px 90px rgba(0,0,0,.65); }
 
-@media (max-width: 1050px) { .pdhes-rich-shell .hero, .pdhes-rich-shell .layout { grid-template-columns: 1fr; } .pdhes-rich-shell .toc { position:relative; top:auto; max-height:none; } .pdhes-rich-shell .hero-stats, .pdhes-rich-shell .note-grid, .pdhes-rich-shell .note-grid.four, .pdhes-rich-shell .split-box, .pdhes-rich-shell .comparison-mini, .pdhes-rich-shell .check-flow { grid-template-columns: 1fr; } .pdhes-rich-shell .rich-list.compact, .pdhes-rich-shell .type-grid { grid-template-columns:1fr; } .pdhes-rich-shell .fullscreen-btn { position:static; display:block; width:calc(100% - 24px); margin:12px; } }
+@media (max-width: 1050px) { .pdhes-rich-shell .hero, .pdhes-rich-shell .layout { grid-template-columns: 1fr; } .pdhes-rich-shell .toc { position:relative; top:auto; max-height:none; } .pdhes-rich-shell .hero-stats, .pdhes-rich-shell .note-grid, .pdhes-rich-shell .note-grid.four, .pdhes-rich-shell .split-box, .pdhes-rich-shell .comparison-mini, .pdhes-rich-shell .check-flow { grid-template-columns: 1fr; } .pdhes-rich-shell .rich-list.compact, .pdhes-rich-shell .type-grid { grid-template-columns:1fr; } }
 @media (max-width: 700px) { .pdhes-rich-shell { padding: 14px; } .pdhes-rich-shell .hero-card, .pdhes-rich-shell .info-card { padding:18px; border-radius:22px; } }
 
 .section-nav-list a.sub { padding-left: 1.5rem; font-size: 0.85rem; opacity: 0.85; font-weight: 400; }
