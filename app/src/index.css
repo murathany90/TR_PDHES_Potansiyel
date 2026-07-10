@@ -321,17 +321,23 @@ html[data-theme="light"] .source-chip.sea { color: #075985; border-color: rgba(7
   min-height: 66px;
   padding: 10px 12px;
 }
-.excel-candidate-table {
+.excel-candidate-table,
+.world-candidate-table {
   min-width: 0;
   width: 100%;
-  table-layout: fixed;
   font-size: 12.5px;
 }
+.excel-candidate-table { table-layout: fixed; }
+.world-candidate-table { table-layout: auto; }
+
 .excel-candidate-table th,
-.excel-candidate-table td {
+.excel-candidate-table td,
+.world-candidate-table th,
+.world-candidate-table td {
   padding: 8px 7px;
 }
-.excel-candidate-table th {
+.excel-candidate-table th,
+.world-candidate-table th {
   font-size: 11px;
   letter-spacing: .35px;
 }

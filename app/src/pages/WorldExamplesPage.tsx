@@ -1,10 +1,33 @@
 import React, { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { MapPin, ExternalLink, ChevronDown, ChevronUp } from 'lucide-react';
+import { ExternalLink, ChevronDown, ChevronUp } from 'lucide-react';
 import { WORLD_EXAMPLES_DETAILED } from '../data/worldExamplesDetailed';
 import { useSiteStore } from '../stores/useSiteStore';
 
 type SortConfig = { key: keyof typeof WORLD_EXAMPLES_DETAILED[0]; direction: 'asc' | 'desc' } | null;
+
+function SummaryCards({ examples }: { examples: typeof WORLD_EXAMPLES_DETAILED }) {
+  const count = examples.length;
+  const parseNum = (str: string) => {
+    if (!str || str === '-') return 0;
+    const clean = str.replace(/\./g, '').replace(/,/g, '.').replace(/[^0-9.-]/g, '');
+    const num = parseFloat(clean);
+    return isNaN(num) ? 0 : num;
+  };
+
+  const totalMw = examples.reduce((sum, item) => sum + parseNum(item.capacityMw), 0);
+  const totalMwh = examples.reduce((sum, item) => sum + parseNum(item.storageMwh), 0);
+  const uniqueCountries = new Set(examples.map(e => e.country)).size;
+
+  return (
+    <div className="candidate-summary-grid" aria-label="Dünya örnekleri özeti">
+      <div className="metric info"><span>İncelenen Tesis</span><b>{count}</b></div>
+      <div className="metric good"><span>Toplam Kurulu Güç</span><b>{totalMw.toLocaleString('tr-TR')} MW</b></div>
+      <div className="metric info"><span>Toplam Depolama Enerjisi</span><b>{totalMwh.toLocaleString('tr-TR')} MWh</b></div>
+      <div className="metric"><span>Ülke Sayısı</span><b>{uniqueCountries}</b></div>
+    </div>
+  );
+}
 
 export default function WorldExamplesPage() {
   const navigate = useNavigate();
@@ -70,13 +93,14 @@ export default function WorldExamplesPage() {
   return (
     <section className="panel active">
       <div className="grid data-layout full-width">
-        <div className="card table-card" style={{ padding: '24px' }}>
+        <div className="card table-card">
           <header style={{ marginBottom: '24px' }}>
             <h2>Dünya Örnekleri İncelemesi</h2>
-            <p className="muted small">Dünya genelindeki seçilmiş 31 büyük PDHES tesisine ait kapsamlı veri seti.</p>
           </header>
 
-          <div className="editor-form" style={{ marginBottom: 16 }}>
+          <SummaryCards examples={WORLD_EXAMPLES_DETAILED} />
+
+          <div className="editor-form" style={{ marginBottom: 16, marginTop: 16 }}>
             <div className="form-row">
               <label className="form-group" style={{ maxWidth: '300px' }}>
                 <span className="sr-only">Tesis veya ülke ara</span>
@@ -91,8 +115,8 @@ export default function WorldExamplesPage() {
             </div>
           </div>
 
-          <div className="candidate-table-wrap" style={{ overflowX: 'auto', borderRadius: '8px', border: '1px solid var(--line)' }}>
-            <table className="candidate-table" style={{ width: '100%', minWidth: '1400px' }}>
+          <div className="candidate-table-wrap">
+            <table className="candidate-table world-candidate-table">
               <thead>
                 <tr>
                   <th onClick={() => requestSort('name')} style={{ cursor: 'pointer' }}>Adı {getSortIcon('name')}</th>
@@ -107,8 +131,9 @@ export default function WorldExamplesPage() {
                   <th onClick={() => requestSort('headM')} style={{ cursor: 'pointer' }}>Düşü(m) {getSortIcon('headM')}</th>
                   <th onClick={() => requestSort('lowerResVolume')} style={{ cursor: 'pointer' }}>Alt Hacim {getSortIcon('lowerResVolume')}</th>
                   <th onClick={() => requestSort('upperResVolume')} style={{ cursor: 'pointer' }}>Üst Hacim {getSortIcon('upperResVolume')}</th>
-                  <th onClick={() => requestSort('investmentCostUsd')} style={{ cursor: 'pointer' }}>Yatırım {getSortIcon('investmentCostUsd')}</th>
+                  <th onClick={() => requestSort('investmentCostUsd')} style={{ cursor: 'pointer', paddingRight: '16px' }}>Yatırım {getSortIcon('investmentCostUsd')}</th>
                   <th onClick={() => requestSort('costPerKwh')} style={{ cursor: 'pointer' }}>$/kWh {getSortIcon('costPerKwh')}</th>
+                  <th>Konum</th>
                 </tr>
               </thead>
               <tbody>
@@ -120,7 +145,7 @@ export default function WorldExamplesPage() {
                     >
                       <td><b style={{ fontSize: '13px' }}>{example.name}</b></td>
                       <td>{example.country}</td>
-                      <td><span className="muted small">{example.type.split('/')[0]?.trim() || example.type}</span></td>
+                      <td><span className="source-chip generic">{example.type.split('/')[0]?.trim() || example.type}</span></td>
                       <td>{example.commissioningYear}</td>
                       <td><span className="muted small">{example.constructionPeriod}</span></td>
                       <td><b>{example.capacityMw}</b></td>
@@ -130,8 +155,25 @@ export default function WorldExamplesPage() {
                       <td>{example.headM}</td>
                       <td><span className="muted small" title={example.lowerResVolume}>{example.lowerResVolume}</span></td>
                       <td><span className="muted small" title={example.upperResVolume}>{example.upperResVolume}</span></td>
-                      <td>{example.investmentCostUsd}</td>
+                      <td style={{ paddingRight: '16px' }}>{example.investmentCostUsd}</td>
                       <td>{example.costPerKwh}</td>
+                      <td className="location-cell">
+                        {example.lat && example.lon ? (
+                          <button
+                            type="button"
+                            className="btn compact location-btn"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setWorldExampleFocus(example.id);
+                              navigate('/map');
+                            }}
+                          >
+                            Konum
+                          </button>
+                        ) : (
+                          <span className="muted small">-</span>
+                        )}
+                      </td>
                     </tr>
                     {example.id === expandedId && (
                       <tr className="expanded-details-row">
@@ -152,26 +194,6 @@ export default function WorldExamplesPage() {
                               </div>
 
                               <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', justifyContent: 'flex-start' }}>
-                                {example.lat && example.lon ? (
-                                  <button
-                                    type="button"
-                                    className="btn primary"
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      setWorldExampleFocus(example.id);
-                                      navigate('/map');
-                                    }}
-                                  >
-                                    <MapPin size={16} />
-                                    Konum Göster
-                                  </button>
-                                ) : (
-                                  <button type="button" className="btn primary" disabled>
-                                    <MapPin size={16} />
-                                    Konum Bulunamadı
-                                  </button>
-                                )}
-                                
                                 {example.wikiUrl ? (
                                   <a 
                                     href={example.wikiUrl} 
@@ -181,7 +203,7 @@ export default function WorldExamplesPage() {
                                     onClick={(e) => e.stopPropagation()}
                                   >
                                     <ExternalLink size={16} />
-                                    Wiki Sayfası
+                                    Vikipedi'de Oku
                                   </a>
                                 ) : (
                                   <span className="btn ghost" aria-disabled="true">Wiki Linki Yok</span>
