@@ -113,15 +113,20 @@ export function getSiteLayout(site: Site): SiteLayout {
 export function buildComponentsDetail(site: Site): ComponentsDetail {
   if (site.components_detail) return site.components_detail;
 
+  const hasExcel = !!site.excelCalculated;
   const isSea = isSeaLowerReservoir(site);
-  const activeMcm = site.activeVolumeHm3 ?? 10;
-  const head = site.headM ?? 300;
+  const activeMcm = site.activeVolumeHm3 ?? (hasExcel ? site.excelCalculated!.upperActiveVolumeHm3 : null) ?? 10;
+  const head = site.excelCalculated?.netHeadM ?? site.headM ?? 300;
+  
+  const lowerElevation = site.excelCalculated?.lowerReservoirElevationM ?? 150;
+  const upperElevation = site.excelCalculated?.upperReservoirElevationM ?? Math.round(lowerElevation + head);
+
   const lengthM = site.penstockLengthM ?? Math.round((site.tunnelLengthKm ?? 1.5) * 1000);
   const units = site.capacityMW >= 1000 ? 4 : site.capacityMW >= 500 ? 2 : 1;
   const voltage = site.capacityMW >= 1000 ? 380 : 154;
   return {
     upper_reservoir: {
-      elevation_m: Math.round(head + 150),
+      elevation_m: upperElevation,
       active_volume_mcm: activeMcm,
       dam_height_m: Math.max(18, Math.round(Math.min(80, head / 10))),
       lining: site.model3d.upperReservoirMode === 'compacted-clay-pool'
@@ -132,8 +137,8 @@ export function buildComponentsDetail(site: Site): ComponentsDetail {
       geology_note: 'Jeoloji ve sızdırmazlık saha etüdüyle doğrulanmalıdır.',
     },
     lower_reservoir: {
-      elevation_m: 150,
-      min_level_m: isSea ? 0 : 140,
+      elevation_m: lowerElevation,
+      min_level_m: isSea ? 0 : Math.max(0, lowerElevation - 10),
       note: site.lowerReservoirName,
     },
     penstock: {

@@ -15,9 +15,9 @@ export function ElevationProfile({ site }: ElevationProfileProps) {
   }
 
   const detail = buildComponentsDetail(site);
-  const upper = detail.upper_reservoir.elevation_m;
-  const lower = detail.lower_reservoir.elevation_m;
-  const head = site.headM || (upper - lower);
+  const upper = site.excelCalculated?.upperReservoirElevationM ?? detail.upper_reservoir.elevation_m;
+  const lower = site.excelCalculated?.lowerReservoirElevationM ?? detail.lower_reservoir.elevation_m;
+  const head = site.excelCalculated?.netHeadM ?? site.headM ?? (upper - lower);
 
   // Fallbacks if data is missing
   if (!upper || !lower) {
