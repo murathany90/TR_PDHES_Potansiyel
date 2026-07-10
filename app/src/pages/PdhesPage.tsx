@@ -213,7 +213,7 @@ export default function PdhesPage({ sectionId }: PdhesPageProps) {
                 <li><strong>Frekans kontrolü:</strong> Ani üretim/tüketim dengesizliklerinde hızlı aktif güç tepkisi verebilir.</li>
                 <li><strong>Senkron atalet:</strong> Büyük dönen makineler frekans değişimini doğal olarak yavaşlatabilir.</li>
                 <li><strong>Gerilim desteği:</strong> Reaktif güç ve gerilim kontrolüyle iletim sistemi kararlılığına katkı sağlar.</li>
-                <li><strong>Kara başlatma:</strong> Uygun tasarımlarda sistem toparlama senaryolarında değerli olabilir.</li>
+                <li><strong>Oturan Sistemin Toparlanması - black start:</strong> Uygun tasarımlarda sistem toparlama senaryolarında değerli olabilir.</li>
                 <li><strong>Kısıntı azaltımı:</strong> RES/GES üretim fazlasının boşa gitmesini azaltabilir.</li>
               </ul>
             </div>
@@ -313,7 +313,7 @@ export default function PdhesPage({ sectionId }: PdhesPageProps) {
               <ul className="rich-list compact">
                 <li><strong>Enerji arbitrajı:</strong> Düşük fiyatlı saatlerde tüketim, yüksek fiyatlı saatlerde üretim.</li>
                 <li><strong>Dengeleme piyasası:</strong> Gerçek zamanlı sistem dengesizliklerinde hızlı yük alma/yük atma kabiliyeti.</li>
-                <li><strong>Yan hizmetler:</strong> Frekans kontrolü, reaktif güç, gerilim desteği, yedek kapasite ve kara başlatma değeri.</li>
+                <li><strong>Yan hizmetler:</strong> Frekans kontrolü, reaktif güç, gerilim desteği, yedek kapasite ve Oturan Sistemin Toparlanması - black start değeri.</li>
                 <li><strong>Kapasite değeri:</strong> Emre amade ve güvenilir esnek kapasitenin sistem planlamasındaki katkısı.</li>
                 <li><strong>Kısıntı azaltımı:</strong> Yenilenebilir üretimin sistem kısıtı nedeniyle azaltılmasını önleyerek dolaylı ekonomik değer yaratması.</li>
               </ul>

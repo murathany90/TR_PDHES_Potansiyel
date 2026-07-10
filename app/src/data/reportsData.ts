@@ -153,7 +153,7 @@ Bu nedenle Türkiye için en rasyonel politika çerçevesi, PDHES’i yalnızca 
 
 Uluslararası literatürde **PSH** olarak geçen pompaj depolamalı hidroelektrik santraller, bugün hâlâ şebeke ölçeğinde en büyük ve en olgun uzun süreli enerji depolama teknolojisidir. IHA’nın 2025 görünümüne göre küresel pompaj depolama kurulu gücü 2024 sonunda **189 GW** seviyesine ulaşmıştır; IHA ayrıca bu teknolojinin dünya uzun süreli enerji depolama kapasitesinin **%94’ünden fazlasını** temsil ettiğini belirtir. GEM’in Global Hydropower Tracker veri seti ise yaklaşık **200 GW işletmede** ve yaklaşık **700 GW prospektif** pompaj depolama projesi izlediğini bildirir. Aynı IHA görünümü, küresel pompaj depolama geliştirme hattının yaklaşık **600 GW** olduğunu vurgular. 
 
-Bu ölçek, PDHES’i yalnızca bir enerji arbitraj varlığı olmaktan çıkarır; teknoloji aynı zamanda **frekans kontrolü, voltaj regülasyonu, sistem ataleti, yedek güç ve black start** gibi hizmetlerin taşıyıcısıdır. IHA ve IRENA, özellikle değişken yenilenebilir üretim payı arttıkça PDHES’in hızlı mod değişimi, yüksek güç kapasitesi ve çok-saatli deşarj özelliği nedeniyle sistem esnekliğinin temel araçlarından biri hâline geldiğini açık biçimde ortaya koymaktadır. 
+Bu ölçek, PDHES’i yalnızca bir enerji arbitraj varlığı olmaktan çıkarır; teknoloji aynı zamanda **frekans kontrolü, voltaj regülasyonu, sistem ataleti, yedek güç ve Oturan Sistemin Toparlanması - black start** gibi hizmetlerin taşıyıcısıdır. IHA ve IRENA, özellikle değişken yenilenebilir üretim payı arttıkça PDHES’in hızlı mod değişimi, yüksek güç kapasitesi ve çok-saatli deşarj özelliği nedeniyle sistem esnekliğinin temel araçlarından biri hâline geldiğini açık biçimde ortaya koymaktadır. 
 
 Mühendislik açısından PDHES’in ana denklemleri basittir, fakat şebeke değeri bu denklemlerin işletme pratiğine çevrilmesinden doğar. Türbin modunda yaklaşık aktif güç
 \[
@@ -215,7 +215,7 @@ Aşağıdaki tablo bu karşılaştırmayı özetler:
 
 ## Yan hizmetler ve sistem restorasyonu
 
-PDHES’in yan hizmet portföyü, yalnızca aktif güçle sınırlı değildir. IHA ve IRENA, pompaj depolamanın **reaktif güç kontrolü, voltaj regülasyonu, operating reserve, black start ve inertia** sağlama kabiliyetini temel avantajlar arasında sayar. J-POWER’ın işletme açıklaması da pompaj depolamanın güç çıkışı, sistem frekansı ve sistem voltajı ayarına elverişli olduğunu belirtir. 
+PDHES’in yan hizmet portföyü, yalnızca aktif güçle sınırlı değildir. IHA ve IRENA, pompaj depolamanın **reaktif güç kontrolü, voltaj regülasyonu, operating reserve, Oturan Sistemin Toparlanması - black start ve inertia** sağlama kabiliyetini temel avantajlar arasında sayar. J-POWER’ın işletme açıklaması da pompaj depolamanın güç çıkışı, sistem frekansı ve sistem voltajı ayarına elverişli olduğunu belirtir. 
 
 Reaktif güç ve voltaj kontrolü tarafında modern değişken devirli ünitelerin üstünlüğü belirgindir. Argonne, ayarlanabilir devirli ünitelerin aktif ve reaktif gücü frekans dönüştürücü üzerinden **elektronik olarak ayrıştırılmış** biçimde kontrol edebildiğini, bunun da daha esnek voltaj desteği sunduğunu belirtir. NREL’in elektrik sistemleri raporunda da hem full-converter hem DFIM tabanlı ayarlanabilir hızlı pompaj sistemlerinde reaktif güç kontrolünün mümkün olduğu; normal işletmede generatörün bir **PV bus** olarak voltajı, ya da bir **PQ bus** olarak reaktif gücü düzenleyebildiği belirtilir. Arıza anlarında ise dönüştürücü akımları çoğu durumda şebeke voltajına destek için reaktif bileşen yönünde komuta edilir. 
 
@@ -229,9 +229,9 @@ Bu bölümün temel denklemi swing denklemidir:
 \]
 Sistemde ani üretim kaybı olduğunda \(P_e>P_m\) olur, rotorlar yavaşlar ve frekans düşer. PDHES’in döner kütlesi ile türbin-governor/dönüştürücü kontrolü, bu ilk frekans düşüş eğimini yumuşatır. Özellikle düşük ataletli, yüksek inverter penetrasyonlu şebekelerde bu katkı yalnızca “enerji sağlama” değil, **RoCoF azaltma** açısından da değerlidir. Bu ikinci cümle, yukarıdaki kaynaklardan türetilmiş mühendislik çıkarımıdır. 
 
-Black start kabiliyeti açısından hidro tesisler çok güçlü adaylardır ve PDHES bu üstünlüğün büyük kısmını paylaşır. DOE’nin black start raporuna göre hidro tesisler **küçük istasyon yardımcı güç ihtiyacı**, **hızlı yeniden başlatma**, **frekans salınımlarına dayanıklılık**, **yüksek rampa yeteneği** ve çoğu durumda diğer santralleri ayağa kaldırmaya yetecek gerçek ve reaktif güç kapasitesi nedeniyle black start için son derece uygundur. Aynı kaynak, hidro santrallerin **10 dakikaya kadar inebilen** başlatma süresine sahip olabildiğini ve ABD’de black start için tutulan/test edilen birimlerin yaklaşık **%40’ının hidro türbin** olduğunu, oysa hidro kurulu gücünün toplamın yalnızca yaklaşık **%10’u** olduğunu bildirir. 
+Oturan Sistemin Toparlanması - black start kabiliyeti açısından hidro tesisler çok güçlü adaylardır ve PDHES bu üstünlüğün büyük kısmını paylaşır. DOE’nin black start raporuna göre hidro tesisler **küçük istasyon yardımcı güç ihtiyacı**, **hızlı yeniden başlatma**, **frekans salınımlarına dayanıklılık**, **yüksek rampa yeteneği** ve çoğu durumda diğer santralleri ayağa kaldırmaya yetecek gerçek ve reaktif güç kapasitesi nedeniyle Oturan Sistemin Toparlanması - black start için son derece uygundur. Aynı kaynak, hidro santrallerin **10 dakikaya kadar inebilen** başlatma süresine sahip olabildiğini ve ABD’de Oturan Sistemin Toparlanması - black start için tutulan/test edilen birimlerin yaklaşık **%40’ının hidro türbin** olduğunu, oysa hidro kurulu gücünün toplamın yalnızca yaklaşık **%10’u** olduğunu bildirir. 
 
-PDHES için tek kritik çekince, DOE’nin de belirttiği gibi, ekonomik dispatch nedeniyle üst rezervuarın boşalmış olabilmesidir. Bu yüzden bir pompaj depolama tesisinin black start kaynağı olarak güvenilir kabul edilmesi için işletme planında **üst haznede ayrılmış su rezervi** tutulması gerekir. Yani black start kabiliyeti “teknolojiye içkin” olsa da, bunun şebeke düzeyinde güvenilir hizmete dönüşmesi **hidrolik stok yönetimine** bağlıdır. 
+PDHES için tek kritik çekince, DOE’nin de belirttiği gibi, ekonomik dispatch nedeniyle üst rezervuarın boşalmış olabilmesidir. Bu yüzden bir pompaj depolama tesisinin Oturan Sistemin Toparlanması - black start kaynağı olarak güvenilir kabul edilmesi için işletme planında **üst haznede ayrılmış su rezervi** tutulması gerekir. Yani Oturan Sistemin Toparlanması - black start kabiliyeti “teknolojiye içkin” olsa da, bunun şebeke düzeyinde güvenilir hizmete dönüşmesi **hidrolik stok yönetimine** bağlıdır. 
 
 ## Gelecek teknolojiler ve tasarım ufku
 
@@ -255,7 +255,7 @@ Son olarak, gelecek perspektifinde deniz suyu ve yeraltı rezervuarlı uygulamal
 
 ## Başlıca kaynaklar
 
-Bu rapor ağırlıklı olarak **U.S. DOE, ANL, NREL, ORNL, PNNL, ENTSO-E, ACER, IHA, IRENA ve GEM** kaynaklarına dayandırılmıştır. Özellikle teknoloji karşılaştırmaları için ANL ve NREL raporları; frekans kontrol zamanları için ENTSO-E/ACER belgeleri; black start analizi için DOE hidro raporu; küresel bağlam için IHA ve GEM kaynakları kullanılmıştır. `
+Bu rapor ağırlıklı olarak **U.S. DOE, ANL, NREL, ORNL, PNNL, ENTSO-E, ACER, IHA, IRENA ve GEM** kaynaklarına dayandırılmıştır. Özellikle teknoloji karşılaştırmaları için ANL ve NREL raporları; frekans kontrol zamanları için ENTSO-E/ACER belgeleri; Oturan Sistemin Toparlanması - black start analizi için DOE hidro raporu; küresel bağlam için IHA ve GEM kaynakları kullanılmıştır. `
   },
   {
     id: 'tr-pdhes-gelecegi',
@@ -592,9 +592,9 @@ Türkiye gibi mevcut baraj stoku güçlü ülkelerde açık devre veya mevcut HE
 
 ![Görsel](/pdhes_site_gorselleri_webp/direncli_sebeke_mimarisi/direncli_sebeke_mimarisi_06.webp)
 
-Görsel 5 - PDHES değer katmanları: enerji kaydırma, frekans, gerilim, kara başlatma ve yedek kapasite.
+Görsel 5 - PDHES değer katmanları: enerji kaydırma, frekans, gerilim, Oturan Sistemin Toparlanması - black start ve yedek kapasite.
 
-Bir PDHES’in gelir ve sistem değeri yalnızca elektrik fiyat farkından oluşmaz. Büyük senkron makineler sisteme ataletsel davranış, gerilim desteği ve kısa devre gücü katkısı sağlayabilir. İyi tasarlanmış bir tesis, işletme stratejisine bağlı olarak yan hizmetler pazarında frekans kontrolü, hızlı devreye girme, rezerv kapasite ve kara başlatma gibi kritik hizmetler sunabilir.
+Bir PDHES’in gelir ve sistem değeri yalnızca elektrik fiyat farkından oluşmaz. Büyük senkron makineler sisteme ataletsel davranış, gerilim desteği ve kısa devre gücü katkısı sağlayabilir. İyi tasarlanmış bir tesis, işletme stratejisine bağlı olarak yan hizmetler pazarında frekans kontrolü, hızlı devreye girme, rezerv kapasite ve Oturan Sistemin Toparlanması - black start gibi kritik hizmetler sunabilir.
 
 ![Görsel](/pdhes_site_gorselleri_webp/direncli_sebeke_mimarisi/direncli_sebeke_mimarisi_07.webp)
 

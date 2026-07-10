@@ -56,7 +56,7 @@ export const GLOSSARY: { term: string; definition: string }[] = [
   { term: 'Primer frekans kontrolü (primary frequency control)', definition: 'Şebeke frekansındaki ani sapmalara saniyeler içinde otomatik tepki veren hizmet.' },
   { term: 'Sekonder frekans kontrolü (secondary frequency control)', definition: 'Primer tepki sonrası frekansı hedef değere yaklaştıran daha yavaş dengeleme hizmeti.' },
   { term: 'Reaktif güç desteği (reactive power support)', definition: 'Gerilim kararlılığı için şebekeye verilen veya şebekeden çekilen reaktif güç hizmeti.' },
-  { term: 'Kara başlatma (black-start)', definition: 'Şebeke enerjisiz kaldığında santralin dış kaynak olmadan devreye girip sistemi canlandırabilme yeteneği.' },
+  { term: 'Oturan Sistemin Toparlanması - black start', definition: 'Şebeke enerjisiz kaldığında santralin dış kaynak olmadan devreye girip sistemi canlandırabilme yeteneği.' },
   { term: 'Senkron atalet (synchronous inertia)', definition: 'Dönen makinelerin kinetik enerjisiyle frekans değişimlerini doğal olarak yavaşlatması.' },
   { term: 'Enerji arbitrajı (energy arbitrage)', definition: 'Düşük fiyatlı saatlerde pompalayıp yüksek fiyatlı saatlerde üretim yaparak gelir elde etme yaklaşımı.' },
   { term: 'Yenilenebilir kısıntı (renewable curtailment)', definition: 'Şebeke veya talep kısıtı nedeniyle güneş ve rüzgar üretiminin azaltılması.' },
