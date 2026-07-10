@@ -254,20 +254,20 @@ export function useMapLibre({
           type: 'fill-extrusion',
           source: 'blocks',
           paint: {
-            'fill-extrusion-color': [
+            'fill-extrusion-color': draftingMode ? [
               'case',
-              ['==', ['get', 'component'], draftingMode || ''],
+              ['==', ['get', 'component'], draftingMode],
               '#aaaaaa',
               ['get', 'color']
-            ],
+            ] : ['get', 'color'],
             'fill-extrusion-height': ['get', 'height'],
             'fill-extrusion-base': ['get', 'base'],
-            'fill-extrusion-opacity': [
+            'fill-extrusion-opacity': draftingMode ? [
               'case',
-              ['==', ['get', 'component'], draftingMode || ''],
+              ['==', ['get', 'component'], draftingMode],
               0.4,
               0.85
-            ],
+            ] : 0.85,
           },
         });
         map.addSource('blockLabels', { type: 'geojson', data: filteredLabels });
