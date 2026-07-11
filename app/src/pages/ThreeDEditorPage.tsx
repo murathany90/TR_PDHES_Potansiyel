@@ -393,12 +393,12 @@ export default function ThreeDEditorPage({ site, onDone }: ThreeDEditorPageProps
     const portalPt = previewSite.coordinates.servicePortal?.point || (turf.along(upperToPower, distUP * 0.55, { units: 'kilometers' }).geometry.coordinates as [number, number]);
     
     // Su yolu: Üst Rezervuar -> Denge Bacası -> Türbin Odası -> Portal -> Alt Rezervuar
-    const penstock = previewSite.coordinates.penstockRoute?.length >= 2 
+    const penstock = previewSite.coordinates.penstockRoute && previewSite.coordinates.penstockRoute.length >= 2 
       ? previewSite.coordinates.penstockRoute 
       : [upper, surgeTankPt, powerhousePt, portalPt, lower];
     
     // İletim Hattı: Şalt Sahası -> Şebeke
-    const transmission = previewSite.coordinates.transmissionLineRoute?.length >= 1
+    const transmission = previewSite.coordinates.transmissionLineRoute && previewSite.coordinates.transmissionLineRoute.length >= 1
       ? previewSite.coordinates.transmissionLineRoute
       : [previewSite.coordinates.gridConnection?.point || [switchyardPt[0] + 0.02, switchyardPt[1] + 0.02]];
       
