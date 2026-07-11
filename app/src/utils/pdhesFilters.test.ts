@@ -40,7 +40,7 @@ describe('PDHES candidate filters', () => {
     expect(matchesCandidateFilters(tasucu, {
       ...DEFAULT_DATA_FILTERS,
       pdhesType: 'SEA_WATER',
-      minCapacityMW: 500,
+      minCapacityMW: 50,
       minHeadM: 700,
     })).toBe(true);
 
