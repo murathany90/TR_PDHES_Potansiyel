@@ -203,117 +203,640 @@ Bu nedenle Türkiye için en rasyonel politika çerçevesi, PDHES’i yalnızca 
     readTime: 18,
     coverImage: '/pdhes-nedir/img-9.webp',
     summary: 'PDHES\'lerin şebeke ölçeğinde enerji depolama rolü, değişken devirli pompalar, bataryalarla (BESS) karşılaştırma ve şebeke entegrasyonuna detaylı bir bakış.',
-    content: `# Pompaj Depolamalı HES'lerin Şebeke Entegrasyonu ve Teknolojisi
+    content: `# Pompaj Depolamalı Hidroelektrik Santraller: Güç Sisteminin Uzun Süreli Esneklik Altyapısı
 
+## 1. PDHES neden yeniden stratejik önem kazandı?
 
+Rüzgâr ve güneş enerjisinin elektrik üretimindeki payı arttıkça güç sisteminin ihtiyaç duyduğu esnekliğin niteliği değişmektedir. Geleneksel elektrik sistemlerinde üretim programı büyük ölçüde talebe göre ayarlanırken, yüksek yenilenebilir enerji payına sahip sistemlerde üretim ile tüketim arasındaki denge artık yalnızca santral yüklerinin artırılıp azaltılmasıyla sağlanamamaktadır.
 
-## Kapsam ve küresel bağlam
+Gün içinde güneş üretiminin hızla yükselmesi, akşam saatlerinde aynı hızla düşmesi, rüzgâr üretiminin tahminlerden sapması ve büyük üretim birimlerinin beklenmedik biçimde devreden çıkması; şebekede hem hızlı güç desteği hem de saatler boyunca sürdürülebilen enerji desteği gerektirir.
 
-Uluslararası literatürde **PSH** olarak geçen pompaj depolamalı hidroelektrik santraller, bugün hâlâ şebeke ölçeğinde en büyük ve en olgun uzun süreli enerji depolama teknolojisidir. IHA’nın 2025 görünümüne göre küresel pompaj depolama kurulu gücü 2024 sonunda **189 GW** seviyesine ulaşmıştır; IHA ayrıca bu teknolojinin dünya uzun süreli enerji depolama kapasitesinin **%94’ünden fazlasını** temsil ettiğini belirtir. GEM’in Global Hydropower Tracker veri seti ise yaklaşık **200 GW işletmede** ve yaklaşık **700 GW prospektif** pompaj depolama projesi izlediğini bildirir. Aynı IHA görünümü, küresel pompaj depolama geliştirme hattının yaklaşık **600 GW** olduğunu vurgular. 
+**Pompaj Depolamalı Hidroelektrik Santral (PDHES)**, bu iki ihtiyacı aynı altyapıda birleştirebilen az sayıdaki teknolojiden biridir.
 
-Bu ölçek, PDHES’i yalnızca bir enerji arbitraj varlığı olmaktan çıkarır; teknoloji aynı zamanda **frekans kontrolü, voltaj regülasyonu, sistem ataleti, yedek güç ve Oturan Sistemin Toparlanması - black start** gibi hizmetlerin taşıyıcısıdır. IHA ve IRENA, özellikle değişken yenilenebilir üretim payı arttıkça PDHES’in hızlı mod değişimi, yüksek güç kapasitesi ve çok-saatli deşarj özelliği nedeniyle sistem esnekliğinin temel araçlarından biri hâline geldiğini açık biçimde ortaya koymaktadır. 
+PDHES’in çalışma ilkesi basittir:
 
-Mühendislik açısından PDHES’in ana denklemleri basittir, fakat şebeke değeri bu denklemlerin işletme pratiğine çevrilmesinden doğar. Türbin modunda yaklaşık aktif güç
-\[
-P \approx \rho g Q H \eta
-\]
-ilişkisiyle, depolanan potansiyel enerji ise yaklaşık
-\[
-E \approx \rho g H V \eta
-\]
-ilişkisiyle ifade edilir. Burada belirleyici iki parametre **net düşü** \(H\) ile **rezervuar hacmi** \(V\)’dir. Şebeke işletmecisi açısından ise asıl kritik nokta, bu enerjinin **hangi hızda**, **hangi doğrulukta** ve **hangi modda** sisteme verilip çekilebildiğidir. Bu nedenle “değişken devirli mi, sabit devirli mi, yoksa ternary mi?” sorusu yalnızca makine seçimi değil, doğrudan bir **yan hizmet stratejisi** sorusudur. 
+* Elektrik üretiminin fazla veya fiyatın düşük olduğu saatlerde su, alt rezervuardan üst rezervuara pompalanır.
+* Elektrik ihtiyacının veya sistem stresinin arttığı saatlerde üst rezervuardaki su türbinlerden geçirilerek yeniden elektrik üretilir.
+* Böylece elektrik enerjisi, suyun yükseltiye bağlı potansiyel enerjisi olarak depolanır.
 
-## Türbin ve jeneratör teknolojileri
+Ancak modern bir PDHES yalnızca “ucuz saatte pompalayan, pahalı saatte üreten” bir tesis değildir. Doğru makine, güç elektroniği ve kontrol sistemiyle tasarlandığında aynı tesis:
 
-Sabit devirli pompaj sistemleri, klasik olarak **reversible pump-turbine + senkron motor/jeneratör** mimarisiyle kurulur. Bu yapı özellikle generasyon modunda esnek ve olgun bir çözümdür. Ancak pompa modunda güç çekişi pratik olarak sabittir; bu nedenle pompa modunda primer regülasyon veya sürekli yük takibi sağlayamaz. DOE/Argonne incelemesine göre gelişmiş sabit devirli tesisler daha hızlı rampa ve daha kısa mod değişim süreleriyle iyileşmiş olsa da, değişken devirli mimariler hâlâ belirgin operasyonel üstünlükler sunmaktadır. 
+* Frekans kontrolü,
+* Gerilim ve reaktif güç desteği,
+* Dönen yedek,
+* Hızlı yük alma ve yük atma,
+* Fiziksel veya denetim tabanlı atalet desteği,
+* Otomatik üretim kontrolü,
+* Oturan sistemin toparlanması,
+* Yenilenebilir enerji kısıntısının azaltılması,
+* İletim şebekesindeki sıkışıklığın yönetilmesi
 
-Değişken devirli PDHES’lerin temel farkı, pompa-türbinin dönme hızının hidrolik koşullara göre ayarlanabilmesidir. Bu, özellikle kısmi yüklerde verim optimizasyonu, daha düşük teknik minimum yük, daha dar “rough zone” ve en önemlisi **pompa modunda aktif güç modülasyonu** anlamına gelir. Argonne raporuna göre değişken devirli üniteler pompa modunda tipik olarak **anma pompalama gücünün %70–100’ü** aralığında çalışabilir; teknik minimum yük de **anma gücünün %20–30’u** kadar düşük seviyelere inebilir. Aynı kaynak, değişken devirli dönüşümlerin toplam çevrim verimini tipik olarak **%1–2** artırabildiğini vurgular. 
+gibi çok sayıda hizmeti birlikte sunabilir.
 
-Elektrik makinesi tarafında iki ana değişken devir ailesi vardır. Birincisi **DFIM/DFIG** temelli çözümdür; burada wound-rotor asenkron makine kullanılır ve rotor, kısmi güçlü bir frekans dönüştürücüyle kontrol edilir. İkincisi ise **CFSM / full-converter** çözümleridir; burada tam güçlü dönüştürücü ile senkron makine veya benzeri yapı kullanılır. DFIM yaklaşımında dönüştürücü yalnızca hız ayarı için gereken kayma gücünü işler; bu yüzden dönüştürücü boyutu tam güce eşit olmak zorunda değildir. NREL, pratikte kurulu değişken devir aralığı **%0–20** ise DFIM dönüştürücüsünün çoğu durumda **stator anma gücünün yaklaşık %10’u** mertebesinde olabildiğini, daha geniş kayma aralıklarında ise bu ihtiyacın arttığını belirtir. Argonne da DFIM’in nominale göre yaklaşık **±%7** dar hız ayar bandında çalışabildiğini vurgular. 
+Bu nedenle PDHES değerlendirmesi yalnızca depolama kapasitesi üzerinden değil, **enerji, güç, hız, esneklik ve şebeke hizmetleri** birlikte ele alınarak yapılmalıdır.
 
-Bu noktada kullanıcının özellikle sorduğu **asenkron motor/jeneratör kullanımının avantajları** nettir: DFIM temelli çözüm, tam güçlü dönüştürücüye kıyasla daha küçük güç elektroniği hacmi gerektirir; bu da genellikle daha düşük ekipman boyutu ve maliyet baskısı demektir. Ayrıca endüstride çok uzun süredir kullanılan indüksiyon makinesi ailesine dayanır. Buna karşılık bedeli, statorun şebekeye doğrudan bağlı olmasıdır. NREL’in karşılaştırmasına göre DFIM yapısı, full-converter mimariye göre **elektriksel ve elektromanyetik olarak şebekeye daha fazla bağlıdır**; dolayısıyla yakın arızalarda crowbar koruması ve fault ride-through koordinasyonu daha kritik hâle gelir. Başka deyişle DFIM, maliyet ve olgunluk lehine; full-converter ise şebekeden ayrışmış kontrol kabiliyeti lehine güçlüdür. 
+## 2. Güç, enerji ve depolama süresi nasıl belirlenir?
 
-Ternary sistemler ise ayrı bir sınıftır. Bunlarda **ayrı pompa, ayrı türbin ve ortak bir motor-jeneratör** bulunur. Modern ternary tesislerin ayırt edici özelliği, **hydraulic short-circuit** modudur. Argonne verilerine göre bu yapı sayesinde ünite gücü yaklaşık **-%100 ile +%100** arasında neredeyse sürekli bir aralıkta ayarlanabilir; ayrıca pompadan türbine geçişte dönme yönünü tersine çevirmeye gerek kalmadığı için mod geçişleri çok daha kısa olabilir. Aynı çalışmanın tablo verilerine göre sabit ve klasik değişken devirli reversible ünitelerde generasyondan pompalamaya geçiş **240–420 saniye** bandında iken, hydraulic short-circuit özellikli ternary birimlerde bu süre yaklaşık **25 saniye** düzeyine inebilir. Bu, özellikle sık mod değişimi ve yüksek frekanslı dengeleme gerektiren sistemlerde çok önemli bir üstünlüktür. 
+Bir PDHES’in anlık üretim gücü yaklaşık olarak aşağıdaki ilişkiyle ifade edilir:
 
-Aşağıdaki tablo, bu üç ana teknoloji ailesini şebeke mühendisliği açısından özetler:
+**P = ρ × g × Q × Hnet × η**
 
-| Teknoloji | Elektromekanik yapı | Pompa modunda aktif güç regülasyonu | Teknik minimum / işletme aralığı | Şebeke açısından güçlü yanı | Başlıca trade-off | Kaynak |
-|---|---|---:|---:|---|---|---|
-| Sabit devirli | Reversible pump-turbine + senkron makine | Hayır | Generasyonda yaklaşık %30–100; pompa modunda sabit çekiş | Olgun teknoloji, güçlü generasyon modu esnekliği | Pompa modunda regülasyon yok |  |
-| Değişken devirli DFIM/CFSM | Reversible pump-turbine + DFIM/CFSM + frekans dönüştürücü | Evet | Pompa modunda tipik %70–100; minimum yük yaklaşık %20–30 | Pompa modunda FCR/aFRR katkısı, daha iyi kısmi yük verimi, daha esnek Q-V kontrolü | İlave güç elektroniği, daha yüksek CAPEX |  |
-| Ternary | Ayrı türbin, ayrı pompa, ortak motor-jeneratör, hydraulic short-circuit | Evet | Yaklaşık 0–100% net güç ayarı mümkün | Çok hızlı mod değişimi, pompa modunda tam regülasyon esnekliği | En karmaşık ve en pahalı mimarilerden biri |  |
+Burada:
 
-## Sistem frekansı ve dengeleme performansı
+* **ρ**, suyun yoğunluğunu,
+* **g**, yerçekimi ivmesini,
+* **Q**, türbinden geçen su debisini,
+* **Hnet**, net düşüyü,
+* **η**, türbin, jeneratör ve ilgili ekipmanların toplam verimini
 
-PDHES’in frekans kontrolündeki gerçek değeri, yalnızca büyük enerji hacmine sahip olması değil, **frekans olayının zaman ölçeğiyle uyumlu cevap bandı** sunabilmesidir. Avrupa çerçevesinde ENTSO-E belgeleri FCR’nin saniyeler ölçeğinde devreye girdiğini; bazı resmi FCR özellik dokümanlarında tam aktivasyon için **30 saniye** referansını verdiğini göstermektedir. aFRR tarafında ise ENTSO-E/ACER çerçevesi, standart aFRR ürününün **18 Aralık 2024’ten itibaren 5 dakikalık full activation time** ile tanımlandığını belirtmektedir. Bu, 2026 itibarıyla Avrupa tipi sekonder dengeleme için pratik referans değerdir. 
+ifade eder.
 
-PDHES’in bu gereklilikleri teknik olarak karşılayıp karşılamadığına bakıldığında tablo nettir. DOE/PNNL karakterizasyonuna göre çevrimiçi generasyon modundaki bir PDHES ünitesi **5–15 saniye** içinde tam yüke çıkabilir; shutdown’dan generasyon online durumuna geçiş **60–90 saniye**, shutdown’dan tam generasyona geçiş ise yaklaşık **120 saniye** olabilir. Sabit devirli reversible ünitelerde normal pompaj moduna geçiş daha yavaştır; DOE aynı kaynakta bunu yaklaşık **6 dakika** olarak verir. Bu veriler, **senkronize bekleme** durumundaki PDHES’in FCR için, **quick-start** veya AGC altında işletilen PDHES’in ise aFRR için fazlasıyla uygun olduğunu gösterir. 
+Bu bağıntının mühendislik anlamı şudur:
 
-Asıl kritik ayrım şu noktada ortaya çıkar: **sabit devirli pompa modunda primer/sekonder frekans desteği yoktur**; çünkü güç çekişi regüle edilemez. Değişken devirli ünite ise pompa modunda çektiği gücü artırıp azaltabildiği için, sistem frekansı düştüğünde pompa yükünü azaltarak şebekeye fiilen destek verir. Argonne’nun teknoloji incelemesi, sabit devirli pompa modunda “frequency regulation: no”, değişken devirli ve ternary pompa modunda ise “frequency regulation: yes” sonucunu açık biçimde verir. Bu fark, özellikle güneş üretiminin öğlen saatlerinde çok yükseldiği ve pompaj modunun uzun sürdüğü sistemlerde **operasyonel olarak oyunu değiştiren** farktır. 
+> Aynı debide daha yüksek net düşü, aynı düşüde ise daha yüksek debi daha fazla güç üretir.
 
-Frekans cevabının kontrol yasası en basit biçimiyle bir **droop** ilişkisiyle yazılabilir:
-\[
-\frac{\Delta P}{P_r} \approx -\frac{1}{R}\frac{\Delta f}{f_n}
-\]
-Burada \(R\) droop katsayısı, \(P_r\) anma güç, \(f_n\) nominal frekanstır. Frekans düştüğünde \(\Delta f<0\) olur ve ünite aktif gücünü yukarı yönlü artırır ya da pompa modundaysa çektiği aktif gücü azaltır. ENTSO-E’nin load-frequency reserve belgeleri, FCR’nin frekans sapmasına **orantılı** çalıştığını açıkça tanımlar; kıtasal Avrupa için örnek metodolojide 0.2 Hz’lik quasi-steady-state frekans sapmasına karşı **3000 MW FCR** değeri kullanılır. Bu, sistem seviyesinde yaklaşık **15000 MW/Hz**’lik oransal tepki sabitine karşılık gelir. 
+Depolanabilecek toplam enerji ise yaklaşık olarak kullanılabilir su hacmi ile net düşüye bağlıdır:
 
-Batarya enerji depolama sistemleriyle karşılaştırmada ise sonuç iki eksende ayrılır: **hız** ve **derinlik**. DOE/NREL çalışmalarına göre bataryaların DC tarafındaki tepki süresi tipik olarak **1 saniyenin altında** kabul edilir; AC tarafta ise performans power conversion system seçimine bağlıdır ve rated power’a ulaşma süresi yaklaşık **1 saniye** düzeyinde varsayılmakla birlikte bazı PCS tasarımlarında daha uzun olabilir. Aynı NREL FAQ belgesi, bataryaların frekans regülasyonunda konvansiyonel kaynaklardan **daha hızlı ve daha hassas** hizmet verebildiğini vurgular. Buna karşılık NREL’in 2023 uzun süre raporu, yeni kurulan depolama kapasitesinin **%90’dan fazlasının 4 saat veya daha kısa süreli** olduğunu ve son yıllarda yeni kapasitenin yaklaşık **%99’unun Li-ion** olduğunu belirtir. 
+**E ≈ ρ × g × V × Hnet × η**
 
-Bu nedenle pratiğe dökülmüş teknik yargı şudur: **BESS ilk saniyelerde kazanır, PDHES olay uzadıkça kazanır**. Batarya, FCR ve çok hızlı AGC düzeltmelerinde daha çeviktir; PDHES ise 30 saniyeyi aşan dengesizliklerde, özellikle 15 dakikadan birkaç saate uzanan enerji açığı pencerelerinde, daha büyük enerji rezervi ve düşük marjinal çevrim baskısıyla daha kuvvetli hale gelir. Bu sonuç doğrudan kaynaklardan türetilmiş bir sistem çıkarımıdır. 
+Buradaki **V**, üretimde kullanılabilecek etkin su hacmidir.
 
-Aşağıdaki tablo bu karşılaştırmayı özetler:
+Bir tesisin depolama süresi ise kullanılabilir enerji kapasitesinin anma gücüne oranıyla değerlendirilir:
 
-| Karşılaştırma başlığı | PDHES | BESS | Mühendislik yorumu | Kaynak |
-|---|---|---|---|---|
-| FCR / primer cevap | Çevrimiçi ise saniyeler mertebesinde; çevrimiçi tam yüke çıkış 5–15 s | Genellikle sub-second ila ~1 s sınıfı | İlk tepkide BESS üstün; senkronize PDHES yine de FCR penceresine rahat girer |  |
-| aFRR / sekonder cevap | 5 dakikalık standardı rahat karşılar; cold/standby start ile de uygundur | Teknik olarak rahat karşılar | Her iki teknoloji de aFRR için uygundur; fark daha çok enerji hacminde ortaya çıkar |  |
-| Pompa modunda regülasyon | Sabit devirlide yok; değişken devirli ve ternary’de var | Şarj/deşarj yönünde çift yönlü regülasyon doğal | Yüksek güneşli sistemlerde değişken devirli PDHES çok değerli |  |
-| Baskın piyasa süresi | Çok-saatli / uzun süreli | Piyasada baskın kurulumlar ≤4 saat | BESS güç elektroniği odaklı; PDHES enerji hacmi odaklı |  |
-| Çevrim verimi | Tipik yaklaşık %80 bandı | Uygulamaya göre yüksek; hizmete bağlı | Verim tek başına karar kriteri değildir; hizmet süresi ve ekipman ömrü de belirleyicidir |  |
+**Depolama süresi = Kullanılabilir enerji / Anma gücü**
 
-## Yan hizmetler ve sistem restorasyonu
+Örneğin 1.000 MW güce ve 8.000 MWh kullanılabilir enerjiye sahip bir tesis, teorik olarak tam güçte yaklaşık sekiz saat üretim yapabilir.
 
-PDHES’in yan hizmet portföyü, yalnızca aktif güçle sınırlı değildir. IHA ve IRENA, pompaj depolamanın **reaktif güç kontrolü, voltaj regülasyonu, operating reserve, Oturan Sistemin Toparlanması - black start ve inertia** sağlama kabiliyetini temel avantajlar arasında sayar. J-POWER’ın işletme açıklaması da pompaj depolamanın güç çıkışı, sistem frekansı ve sistem voltajı ayarına elverişli olduğunu belirtir. 
+Ancak gerçek işletmede bu süre sabit değildir. Aşağıdaki etkenlere göre değişir:
 
-Reaktif güç ve voltaj kontrolü tarafında modern değişken devirli ünitelerin üstünlüğü belirgindir. Argonne, ayarlanabilir devirli ünitelerin aktif ve reaktif gücü frekans dönüştürücü üzerinden **elektronik olarak ayrıştırılmış** biçimde kontrol edebildiğini, bunun da daha esnek voltaj desteği sunduğunu belirtir. NREL’in elektrik sistemleri raporunda da hem full-converter hem DFIM tabanlı ayarlanabilir hızlı pompaj sistemlerinde reaktif güç kontrolünün mümkün olduğu; normal işletmede generatörün bir **PV bus** olarak voltajı, ya da bir **PQ bus** olarak reaktif gücü düzenleyebildiği belirtilir. Arıza anlarında ise dönüştürücü akımları çoğu durumda şebeke voltajına destek için reaktif bileşen yönünde komuta edilir. 
+* Üst ve alt rezervuar seviyeleri,
+* Değişen brüt ve net düşü,
+* Su yollarındaki sürtünme kayıpları,
+* Türbinin kısmi yük verimi,
+* Reaktif güç işletmesi,
+* Çevresel veya hidrolojik kısıtlar,
+* İşletme için ayrılması gereken asgari su rezervi.
 
-Burada önemli bir ayrıntı vardır: **DFIM ile full-converter aynı şey değildir**. NREL karşılaştırması, full-converter temelli çözümlerde statorun şebekeden **tam ayrıştığını**, bu nedenle güç sistemi salınımlarının rotor ve hidrolik tarafta daha iyi tamponlanabildiğini söyler. DFIM’de ise stator şebekeye bağlı kaldığından, özellikle yakın arızalarda crowbar ve koruma koordinasyonu devreye girer. Başka bir deyişle full-converter çözüm, zayıf şebeke ve fault ride-through gereksinimleri ağırlaştıkça daha “grid-forming’e yakın” bir davranış alanı açar; DFIM ise maliyet ve olgunluk açısından daha çekici kalır. 
+Bu nedenle yalnızca rezervuar hacmi üzerinden yapılan enerji hesabı yeterli değildir. Fizibilite çalışmalarında **dinamik rezervuar seviyesi, hidrolik kayıplar ve makine verim haritaları** birlikte kullanılmalıdır.
 
-Atalet boyutunda PDHES’in değeri daha da stratejiktir. IHA, pompaj depolamanın **system inertia** sağladığını açık biçimde belirtir. NREL de yenilenebilir üretim arttıkça klasik senkron makine parkının azalmasıyla sistemdeki döner kütle seviyesinin düştüğünü ve özellikle ayarlanabilir devirli PDHES’in hızlı ve esnek cevapla sistem kararlılığına katkı verdiğini vurgular. Klasik senkron generatörlü PDHES burada “gerçek fiziksel atalet” sunar; değişken devirli ve güç elektroniği destekli çözümler ise buna ek olarak **hızlı frekans yanıtı** ve bazı uygulamalarda **virtual inertia benzeri kontrol** sağlayabilir. 
+## 3. Brüt düşü ile net düşü arasındaki fark
 
-Bu bölümün temel denklemi swing denklemidir:
-\[
-\frac{2H}{\omega_s}\frac{d\omega}{dt} = P_m - P_e
-\]
-Sistemde ani üretim kaybı olduğunda \(P_e>P_m\) olur, rotorlar yavaşlar ve frekans düşer. PDHES’in döner kütlesi ile türbin-governor/dönüştürücü kontrolü, bu ilk frekans düşüş eğimini yumuşatır. Özellikle düşük ataletli, yüksek inverter penetrasyonlu şebekelerde bu katkı yalnızca “enerji sağlama” değil, **RoCoF azaltma** açısından da değerlidir. Bu ikinci cümle, yukarıdaki kaynaklardan türetilmiş mühendislik çıkarımıdır. 
+Üst ve alt rezervuar su seviyeleri arasındaki geometrik fark **brüt düşü** olarak adlandırılır. Türbinin gerçekten kullanabildiği yükseklik ise su iletim sistemindeki kayıplar çıkarıldıktan sonra kalan **net düşüdür**.
 
-Oturan Sistemin Toparlanması - black start kabiliyeti açısından hidro tesisler çok güçlü adaylardır ve PDHES bu üstünlüğün büyük kısmını paylaşır. DOE’nin black start raporuna göre hidro tesisler **küçük istasyon yardımcı güç ihtiyacı**, **hızlı yeniden başlatma**, **frekans salınımlarına dayanıklılık**, **yüksek rampa yeteneği** ve çoğu durumda diğer santralleri ayağa kaldırmaya yetecek gerçek ve reaktif güç kapasitesi nedeniyle Oturan Sistemin Toparlanması - black start için son derece uygundur. Aynı kaynak, hidro santrallerin **10 dakikaya kadar inebilen** başlatma süresine sahip olabildiğini ve ABD’de Oturan Sistemin Toparlanması - black start için tutulan/test edilen birimlerin yaklaşık **%40’ının hidro türbin** olduğunu, oysa hidro kurulu gücünün toplamın yalnızca yaklaşık **%10’u** olduğunu bildirir. 
+Başlıca kayıp kaynakları şunlardır:
 
-PDHES için tek kritik çekince, DOE’nin de belirttiği gibi, ekonomik dispatch nedeniyle üst rezervuarın boşalmış olabilmesidir. Bu yüzden bir pompaj depolama tesisinin Oturan Sistemin Toparlanması - black start kaynağı olarak güvenilir kabul edilmesi için işletme planında **üst haznede ayrılmış su rezervi** tutulması gerekir. Yani Oturan Sistemin Toparlanması - black start kabiliyeti “teknolojiye içkin” olsa da, bunun şebeke düzeyinde güvenilir hizmete dönüşmesi **hidrolik stok yönetimine** bağlıdır. 
+* Su alma yapıları,
+* Izgaralar ve giriş geometrisi,
+* Tünel ve cebri borulardaki sürtünme,
+* Dirsekler, çatallar ve çap değişimleri,
+* Vana ve kapaklar,
+* Kuyruk suyu kanalı,
+* Geçici rejimde oluşan ilave basınç kayıpları.
 
-## Gelecek teknolojiler ve tasarım ufku
+Su yolu kayıpları debinin yaklaşık karesiyle arttığından, tesis tam güce yaklaştıkça net düşüdeki azalma belirginleşebilir. Bu nedenle türbin gücü yalnızca sabit bir düşü değeriyle hesaplanmamalıdır.
 
-Deniz suyu kullanan PDHES, kıyısal ve ada sistemleri açısından uzun süredir güçlü bir mühendislik vizyonu sunmaktadır. J-POWER’ın Okinawa Yanbaru açıklaması, deniz suyu kullanımının temel cazibesini çok açık koyar: **alt rezervuar oluşturmaya gerek kalmaz** ve deniz suyu arzı fiilen sınırsızdır. Aynı açıklama, fakat aynı netlikte, ana sorun alanlarını da sayar: **tuz kaynaklı korozyon**, **denizel organizmalar üzerindeki etki** ve **üst rezervuarlardan bırakılan deniz suyunun çevresel etkileri**. Bu, deniz suyu PDHES’te asıl zorluğun hidrolikten ziyade malzeme, kaplama, biyolojik kirlenme ve çevresel uyum tasarımı olduğunu gösterir. 
+Ayrıca uzun tünel ve cebri boru sistemlerinde ani yük değişimleri **su darbesi** ve basınç salınımlarına yol açabilir. Denge bacası, hava yastıklı denge odası, vana kapanma süreleri ve türbin denetim sistemi bu geçici olaylara göre tasarlanmalıdır.
 
-Okinawa deneyimine ilişkin teknik yayınlar ve sonraki derlemeler de bu sonucu destekler. Açık erişimli değerlendirmeler, Yanbaru örneğinde **paslanmaz çelik su geçiş yüzeyleri**, **kaplama sistemleri** ve bazı hatlarda **FRP benzeri kompozit çözümler** kullanıldığını; deniz suyu uygulamalarında korozyon ve fouling önlemlerinin tasarımın ayrılmaz parçası hâline geldiğini bildirir. Başka deyişle deniz suyu PDHES’in önündeki ana bariyer “çalışır mı?” sorusundan çok “ömrü, bakım rejimi ve çevresel izinleri nasıl optimize edilir?” sorusudur. 
+## 4. PDHES makine teknolojileri
 
-Yeraltı maden boşluklarını alt rezervuar olarak kullanan konseptler ise, topoğrafyası sınırlı bölgeler için belki de daha radikal bir açılım sunar. Açık erişimli 2023 derlemesi, terk edilmiş kömür madenlerinin alt rezervuar olarak yeniden kullanımının arazi edinim ihtiyacını düşürebileceğini, mevcut altyapıdan yararlanabileceğini ve bazı bölgelerde ekonomik fizibilite yaratabileceğini; fakat asıl zorluğun madenlerin güncel durumuna ilişkin sınırlı bilgi, jeomekanik bozulma, çözünme, şişme, boşluk geometrisi, gaz ve su kimyası gibi çok katmanlı riskler olduğunu vurgular. ORNL’nin 2025 ve 2026 yayınları da yeraltı pompaj depolamada özellikle **water quality, mineral chemistry ve subsurface topology integrity** başlıklarını ana teknik engeller olarak tanımlar ve bu yüzden hidrodinamik ve kimyasal modellemenin kritik olduğunu söyler. 
+PDHES’in şebekeye sağlayabileceği hizmetlerin büyük bölümü seçilen makine yapısına bağlıdır. Günümüzde dört temel çözüm öne çıkmaktadır:
 
-Bu konseptlerin en önemli avantajı, geleneksel yüzey rezervuarlarına kıyasla daha düşük yüzey ayak izi ve düz/az eğimli bölgelerde de pompaj depolama kurulabilmesidir. Ancak hidrojeoloji burada merkezi role sahiptir. 2017 tarihli uygulamalı enerji çalışması, açık ocak veya yeraltı rezervuarıyla çevre akifer arasındaki **groundwater exchange** miktarının verimi etkileyebildiğini, fakat verimi yükselten aynı hidrolik etkileşimlerin çevresel etkiyi de büyütebildiğini göstermektedir. Dolayısıyla yeraltı çözümlerinde “maksimum verim” her zaman “minimum risk” anlamına gelmez; optimum tasarım, hidrolik verim ile hidrojeolojik güvenlik arasında bir denge problemidir. 
+1. Sabit devirli tersinir pompa-türbin,
+2. Çift beslemeli değişken devirli makine,
+3. Tam güçlü dönüştürücüye bağlı değişken devirli makine,
+4. Üç makineli düzen.
 
-## Mühendislik sonuçları
+### 4.1. Sabit devirli tersinir pompa-türbin
 
-Teknik sonuç nettir: **sabit devirli PDHES artık yalnızca enerji arbitraj tesisi olarak düşünülmemelidir**. Eğer hedef sadece düşük fiyat saatlerinde pompalayıp yüksek fiyat saatlerinde üretmek olsaydı sabit devirli sistemler birçok durumda yeterli kalabilirdi. Fakat modern şebekelerde ihtiyaç duyulan şey, pompa modunda da aktif güç ayarlayabilen, şebeke zayıfken Q-V desteğini kuvvetli verebilen, düşük atalet dönemlerinde daha iyi dinamik davranış sergileyen ve AGC sinyallerini daha ince çözünürlükle takip edebilen tesislerdir. Bu tanım doğrudan değişken devirli veya hydraulic short-circuit özellikli ternary yapılara işaret eder. 
+Bu yapıda aynı hidrolik makine pompa ve türbin olarak kullanılır. Makine genellikle senkron motor-jeneratöre mekanik olarak bağlıdır.
 
-Bu yüzden yatırım kararını şu şekilde çerçevelemek en rasyonel yaklaşımdır. **Sert, güçlü ve geleneksel olarak senkron bir şebekede**, ana gelir kalemi pik üretim ve enerji arbitrajı ise sabit devirli çözüm hâlâ ekonomik olabilir. **Yüksek güneş ve rüzgâr penetrasyonlu, gün içi sık yön değiştiren, AGC gereksinimi yüksek bir sistemde** değişken devirli mimari ciddi üstünlük sağlar. **Ada sistemi, zayıf enterkonneksiyon veya sık mod değişimli özel dengeleme uygulamalarında** ise ternary ve benzeri çok esnek mimariler daha doğru teknoloji olur. Bu paragraftaki son cümleler, ANL ve NREL’in teknik karşılaştırmalarından türetilmiş mühendislik yorumudur. 
+Başlıca avantajları:
 
-BESS ile PDHES’i birbirinin rakibi olarak görmek de çoğu zaman eksik bir çerçevedir. Kaynakların birlikte okunmasından çıkan daha doğru sonuç, **hibrit zaman ölçekli bir hizmet paylaşımıdır**: BESS, ilk saniyelerde FCR/FFR benzeri çok hızlı cevabı verir; PDHES ise dakikalar ve saatler ölçeğinde enerjiyi taşır, rezervi derinleştirir ve şebekenin termal ya da kimyasal depolama yerine hidrolik depolamayla dengelenmesini sağlar. Bu, özellikle düşük ataletli ve güneş ağırlıklı sistemlerde teknik olarak çok kuvvetli bir portföy mimarisidir. Bu paragraf, NREL/DOE’nin BESS hız verileri ile PDHES’in uzun süreli deşarj ve yan hizmet kabiliyetlerine dair kaynaklardan türetilmiş bir tasarım çıkarımıdır. 
+* Teknolojinin olgun ve yaygın olması,
+* Görece sade elektriksel yapı,
+* Büyük güçlerde kanıtlanmış işletme deneyimi,
+* Üretim modunda güçlü frekans ve gerilim desteği,
+* Senkron makine nedeniyle doğal fiziksel atalet sağlamasıdır.
 
-Son olarak, gelecek perspektifinde deniz suyu ve yeraltı rezervuarlı uygulamalar birer “niş” fikir değil, **coğrafi kısıtları aşmak için gerçek mühendislik yolları** olarak görülmelidir. Ancak bu iki alanın da başarısı türbin veriminden çok **malzeme dayanımı, su kimyası, hidrojeoloji, çevresel izin ve dijital izleme** paketinin kalitesine bağlı olacaktır. Dolayısıyla geleceğin en başarılı PDHES projeleri, yalnızca daha büyük rezervuar kuran değil; aynı zamanda makine, güç elektroniği, hidrojeoloji ve piyasa tasarımını birlikte optimize eden projeler olacaktır. 
+Temel sınırlaması pompalama modunda ortaya çıkar. Sabit devirli pompa-türbinin çektiği güç, su seviyesi ve sistem koşullarına bağlı olarak değişse de işletmeci tarafından geniş ve sürekli bir aralıkta ayarlanamaz.
 
-## Başlıca kaynaklar
+Bu nedenle sabit devirli bir ünite:
 
-Bu rapor ağırlıklı olarak **U.S. DOE, ANL, NREL, ORNL, PNNL, ENTSO-E, ACER, IHA, IRENA ve GEM** kaynaklarına dayandırılmıştır. Özellikle teknoloji karşılaştırmaları için ANL ve NREL raporları; frekans kontrol zamanları için ENTSO-E/ACER belgeleri; Oturan Sistemin Toparlanması - black start analizi için DOE hidro raporu; küresel bağlam için IHA ve GEM kaynakları kullanılmıştır. `
+* Üretim sırasında etkin güç ayarı yapabilir,
+* Pompalama sırasında ise çoğunlukla belirli bir çalışma noktasına bağlı kalır.
+
+Frekans düşüşü sırasında pompalama tüketimini kademeli olarak azaltma kabiliyeti sınırlıdır. Gerekirse pompa tamamen devreden çıkarılabilir; ancak bu işlem sürekli ve hassas bir dengeleme hizmeti değildir.
+
+### 4.2. Çift beslemeli değişken devirli sistem
+
+Değişken devirli sistemlerde makinenin dönüş hızı, şebeke frekansına tam olarak kilitli değildir. Bu özellik özellikle pompalama modunda güç ayarı yapılmasını sağlar.
+
+Yaygın çözümlerden biri **çift beslemeli asenkron makine** yapısıdır. Bu sistemde stator doğrudan şebekeye, rotor ise güç elektroniği dönüştürücüsüne bağlanır.
+
+Dönüştürücü yalnızca rotor gücünü işlediği için toplam ünite gücüne göre daha düşük güçlü seçilebilir. Bu durum çok büyük güçlerde tam güçlü dönüştürücüye kıyasla maliyet avantajı sağlayabilir.
+
+Değişken devirli işletmenin başlıca yararları:
+
+* Pompalama gücünün belirli bir aralıkta ayarlanabilmesi,
+* Kısmi yük veriminin iyileştirilmesi,
+* Değişken rezervuar seviyelerine daha iyi uyum,
+* Pompalama sırasında frekans kontrolüne katılım,
+* Üretim modunda daha geniş ve kararlı çalışma alanı,
+* Türbin ve pompanın en verimli çalışma bölgelerine daha yakın tutulmasıdır.
+
+Bununla birlikte statorun şebekeye doğrudan bağlı olması, yakın şebeke arızalarında yüksek akım ve elektromanyetik geçici olaylara neden olabilir. Bu nedenle:
+
+* Arıza sırasında şebekede kalma,
+* Rotor aşırı akım koruması,
+* Dönüştürücü koruması,
+* Geçici gerilim davranışı
+
+ayrıntılı olarak incelenmelidir.
+
+### 4.3. Tam güçlü dönüştürücüye bağlı değişken devirli sistem
+
+Bu yapıda motor-jeneratör, şebekeye tam güçlü bir güç elektroniği dönüştürücüsü üzerinden bağlanır. Dönüştürücü, ünitenin toplam aktif ve reaktif gücünü işler.
+
+Başlıca avantajları:
+
+* Makine hızının daha geniş aralıkta ayarlanabilmesi,
+* Aktif ve reaktif gücün büyük ölçüde bağımsız kontrolü,
+* Şebekedeki kısa süreli gerilim ve frekans değişimlerinden makinenin daha fazla ayrılması,
+* Zayıf şebekelerde daha gelişmiş denetim olanağı,
+* Şebeke oluşturan denetim yöntemlerine uyarlanabilme potansiyelidir.
+
+Bu çözüm özellikle:
+
+* Kısa devre gücü düşük bağlantı noktalarında,
+* Yenilenebilir enerji oranı yüksek bölgelerde,
+* Güç salınımlarının belirgin olduğu sistemlerde,
+* Arıza sırasında şebekede kalma şartlarının ağır olduğu projelerde
+
+avantaj sağlayabilir.
+
+Dezavantajları ise:
+
+* Daha yüksek dönüştürücü maliyeti,
+* İlave elektriksel kayıplar,
+* Soğutma ve harmonik filtreleme ihtiyacı,
+* Güç elektroniği bileşenlerinin yenileme ve yedek parça gereksinimidir.
+
+### 4.4. Üç makineli düzen
+
+Üç makineli sistemde pompa ve türbin ayrı hidrolik makineler olarak tasarlanır. Her ikisi ortak bir motor-jeneratörle aynı mil hattına bağlanabilir.
+
+Bu düzenin en önemli özelliği, pompa ve türbinin aynı anda çalıştırılabildiği **hidrolik kısa devre** işletmesidir.
+
+Bu çalışma biçiminde:
+
+* Pompa belirli bir güç çeker,
+* Türbin aynı anda belirli bir güç üretir,
+* Şebekenin gördüğü net güç bu iki değer arasındaki farktır.
+
+Böylece ünite, pompa ve türbinin tek başına sağlayamayacağı kadar geniş bir net güç ayar aralığına ulaşabilir.
+
+Üç makineli düzenin başlıca üstünlükleri:
+
+* Pompalama ile üretim arasında çok hızlı geçiş,
+* Geniş ve kesintisiz güç ayar alanı,
+* Pompalama modunda etkin frekans kontrolü,
+* Türbin ve pompanın kendi en uygun hidrolik tasarımlarında çalıştırılabilmesi,
+* Ada veya zayıf bağlantılı sistemlerde yüksek işletme esnekliğidir.
+
+Buna karşılık:
+
+* İlk yatırım maliyeti yüksektir,
+* Yeraltı santral hacmi büyür,
+* Mekanik ve hidrolik sistem karmaşıklaşır,
+* Vana ve geçiş düzenleri daha ayrıntılı hâle gelir,
+* Bakım planlaması zorlaşır.
+
+Bu nedenle üç makineli sistem, yalnızca enerji arbitrajı hedeflenen projelerde değil, şebeke hizmetlerinin ekonomik değerinin yüksek olduğu projelerde daha anlamlıdır.
+
+## 5. Teknoloji karşılaştırması
+
+| Ölçüt                      | Sabit devirli | Çift beslemeli değişken devirli | Tam dönüştürücülü değişken devirli       | Üç makineli      |
+| -------------------------- | ------------- | ------------------------------- | ---------------------------------------- | ---------------- |
+| Pompalama gücü ayarı       | Çok sınırlı   | Orta-geniş aralık               | Geniş aralık                             | Çok geniş aralık |
+| Üretimde güç ayarı         | İyi           | Çok iyi                         | Çok iyi                                  | Çok iyi          |
+| Doğal fiziksel atalet      | Yüksek        | Mevcut, denetimle değişebilir   | Şebekeye dönüştürücü üzerinden aktarılır | Yüksek           |
+| Reaktif güç kontrolü       | Güçlü         | Güçlü                           | Çok esnek                                | Güçlü            |
+| Zayıf şebeke uygunluğu     | Orta          | İyi                             | Çok iyi                                  | İyi              |
+| Elektriksel karmaşıklık    | Düşük         | Orta-yüksek                     | Yüksek                                   | Orta             |
+| Mekanik karmaşıklık        | Orta          | Orta                            | Orta                                     | Çok yüksek       |
+| İlk yatırım maliyeti       | Görece düşük  | Yüksek                          | Daha yüksek                              | Çok yüksek       |
+| Pompadan türbine geçiş     | Görece yavaş  | Orta                            | Orta-hızlı                               | Çok hızlı        |
+| Şebeke hizmeti potansiyeli | Orta-yüksek   | Yüksek                          | Çok yüksek                               | Çok yüksek       |
+
+Teknoloji seçimi yalnızca yatırım maliyetine göre yapılmamalıdır. Aşağıdaki sorular birlikte değerlendirilmelidir:
+
+* Tesis pompalama sırasında dengeleme hizmeti verecek mi?
+* Bağlantı noktasının kısa devre gücü yeterli mi?
+* Frekans kontrolü için hangi tepki süresi isteniyor?
+* Ünite yılda kaç kez devreye girip çıkacak?
+* Çalışma biçimi değişimi ne kadar sık olacak?
+* Gerilim ve reaktif güç hizmetlerinden gelir elde edilebilecek mi?
+* Şebeke oluşturan denetim gelecekte gerekli olacak mı?
+* Düşü değişimi hangi sınırlar içinde gerçekleşecek?
+
+## 6. Frekans kontrolü ve dengeleme hizmetleri
+
+Elektrik sisteminin frekansı, üretim ile tüketim arasındaki anlık dengenin göstergesidir. Büyük bir üretim biriminin devreden çıkması veya tüketimin hızla artması durumunda frekans düşer.
+
+PDHES’in frekans kontrolündeki etkisi üç farklı zaman ölçeğinde değerlendirilmelidir.
+
+### 6.1. İlk saniyeler: atalet ve hızlı frekans tepkisi
+
+Senkron makineye sahip bir PDHES ünitesinin dönen kütlesi, frekanstaki ani değişime fiziksel olarak karşı koyar. Bu etki, büyük bir arıza sonrasında frekans değişim hızının sınırlandırılmasına yardımcı olur.
+
+Ancak atalet ile frekans kontrolü aynı kavram değildir:
+
+* **Atalet tepkisi**, ilk anda fiziksel olarak ve ölçüm beklemeden ortaya çıkar.
+* **Birincil frekans kontrolü**, hız regülatörü veya dönüştürücü denetiminin ölçülen frekans değişimine karşı güç ayarlamasıyla gerçekleşir.
+
+Değişken devirli ve dönüştürücü bağlantılı ünitelerde dönen kütlenin enerjisi, denetim sistemi tarafından şebekeye kontrollü biçimde aktarılabilir. Bu işlev doğal ataletle aynı değildir; denetim algoritmasına, dönüştürücü akım sınırlarına ve kullanılabilir enerji payına bağlıdır.
+
+### 6.2. İlk saniyeler ve dakikalar: frekans tutma rezervi
+
+**Frekans Tutma Rezervi**, üretim-tüketim dengesizliği sonrasında frekans sapmasını sınırlamak amacıyla otomatik olarak etkinleşir.
+
+Üretim modundaki bir PDHES ünitesi:
+
+* Kılavuz kanat açıklığını değiştirerek,
+* Türbin debisini artırıp azaltarak,
+* Belirli bir eğim ayarına göre aktif gücünü düzenleyerek
+
+bu hizmete katılabilir.
+
+Ancak türbin tepkisi yalnızca elektriksel komuta bağlı değildir. Su sütununun ataleti, tünel uzunluğu, denge bacası davranışı ve basınç sınırları rampalama hızını etkiler.
+
+Çok hızlı güç artışı talep edildiğinde:
+
+* Su darbesi,
+* Cebri boruda aşırı basınç,
+* Kuyruk suyu salınımları,
+* Türbin kararsız çalışma bölgeleri
+
+oluşabilir.
+
+Bu nedenle frekans kontrol parametreleri, hidrolik geçici rejim çalışmalarıyla uyumlu belirlenmelidir.
+
+### 6.3. Dakikalar ölçeği: otomatik ve elle etkinleştirilen rezervler
+
+PDHES üniteleri, otomatik üretim kontrolü üzerinden ikincil dengeleme hizmetlerine katılabilir.
+
+Ünitenin uygunluğu şu ölçütlerle değerlendirilir:
+
+* En düşük kararlı üretim seviyesi,
+* Yukarı ve aşağı yönlü kullanılabilir rezerv,
+* Güç değişim hızı,
+* Başlatma süresi,
+* Komut izleme doğruluğu,
+* Ölü bant,
+* Gecikme,
+* Rezervuar enerji durumu.
+
+Pompalama modundaki değişken devirli bir ünite de tüketimini azaltarak yukarı yönlü dengeleme etkisi oluşturabilir.
+
+Örneğin 300 MW güç çeken bir pompa tüketimini 220 MW’a düşürürse, sistem dengesi açısından 80 MW ilave üretime eşdeğer bir katkı sağlar. Bu özellik, yüksek güneş üretimi nedeniyle gündüz saatlerinde uzun süre pompalama yapılan sistemlerde önemli bir değerdir.
+
+## 7. Gerilim ve reaktif güç desteği
+
+PDHES üniteleri, bağlantı noktasındaki gerilimin düzenlenmesine reaktif güç üreterek veya tüketerek katkı sağlar.
+
+Senkron motor-jeneratörlü bir ünite:
+
+* Üretim modunda,
+* Pompalama modunda,
+* Uygun tasarım varsa senkron kompanzatör modunda
+
+reaktif güç sağlayabilir.
+
+Senkron kompanzatör işletmesinde hidrolik makine devre dışı bırakılır veya sudan ayrılır; motor-jeneratör şebekeye bağlı kalarak gerilim desteği ve fiziksel atalet sağlar.
+
+Bu işletme biçimi özellikle:
+
+* Uzun iletim koridorlarında,
+* Kısa devre gücü düşük bölgelerde,
+* Yüksek yenilenebilir enerji bağlantısına sahip düğüm noktalarında,
+* Büyük yük merkezlerine yakın tesislerde
+
+önemli olabilir.
+
+Değişken devirli dönüştürücü sistemlerinde aktif ve reaktif güç daha bağımsız kontrol edilebilir. Ancak gerçek reaktif güç sınırı:
+
+* Dönüştürücü akım kapasitesi,
+* Stator ve rotor ısıl sınırları,
+* Uç gerilim seviyesi,
+* Aktif güç işletme noktası
+
+tarafından belirlenir.
+
+Bu nedenle yalnızca “reaktif güç verebilir” ifadesi yeterli değildir. Fizibilite ve bağlantı çalışmalarında ünitenin **P-Q yetenek eğrisi** farklı gerilim ve güç seviyeleri için incelenmelidir.
+
+## 8. Arıza sırasında şebekede kalma ve zayıf şebeke davranışı
+
+Modern santrallerden gerilim çökmesi veya kısa devre sırasında hemen devreden çıkmaması, belirli süre boyunca şebekeye bağlı kalması beklenir.
+
+PDHES’in arıza davranışı makine tipine göre değişir.
+
+### Sabit devirli senkron makine
+
+Senkron makine kısa devre akımına katkı sağlar ve gerilim toparlanmasına destek olabilir. Ancak arıza sonrasında rotor açısı kararlılığı incelenmelidir.
+
+### Çift beslemeli asenkron makine
+
+Stator şebekeye doğrudan bağlı olduğu için gerilim çökmesi rotorda yüksek gerilim ve akım oluşturabilir. Koruma ve dönüştürücü düzeninin arıza süresince kontrolü sürdürebilmesi gerekir.
+
+### Tam dönüştürücülü makine
+
+Makine ile şebeke daha fazla ayrıştırılır. Arıza akımı dönüştürücü tarafından sınırlandırılır. Bu durum ekipman korunması açısından avantajlı, şebekeye yüksek kısa devre akımı sağlanması açısından ise sınırlayıcı olabilir.
+
+Gelecekte kısa devre gücünün düşük olduğu sistemlerde yalnızca akım izleyen klasik dönüştürücü denetimi yeterli olmayabilir. Gerilim ve frekans referansı oluşturabilen **şebeke oluşturan denetim** yöntemleri, büyük değişken devirli PDHES projelerinde daha önemli hâle gelebilir.
+
+## 9. PDHES ve batarya sistemleri rakip değil, tamamlayıcıdır
+
+Batarya enerji depolama sistemleri ile PDHES’in yalnızca çevrim verimi veya ilk yatırım maliyeti üzerinden karşılaştırılması eksik bir değerlendirmedir.
+
+Bataryaların güçlü olduğu alanlar:
+
+* Milisaniye ve saniye ölçeğinde hızlı tepki,
+* Çok hassas güç kontrolü,
+* Modüler kurulum,
+* Kısa inşaat süresi,
+* Şebekeye yakın noktalarda uygulanabilme.
+
+PDHES’in güçlü olduğu alanlar:
+
+* Çok büyük enerji kapasitesi,
+* Sekiz saatten günler ölçeğine uzanabilen depolama,
+* Uzun ekonomik ömür,
+* Çok yüksek çevrim sayısında daha düşük kapasite kaybı,
+* Büyük güçlerde ölçek ekonomisi,
+* Fiziksel atalet,
+* Yüksek kısa devre katkısı,
+* Oturan sistemin toparlanması.
+
+En uygun sistem mimarisi çoğu zaman iki teknolojinin birlikte kullanılmasıdır.
+
+Örnek görev paylaşımı:
+
+* Batarya, olayın ilk saniyelerinde çok hızlı tepki verir.
+* PDHES, saniyeler ve dakikalar içinde yükü devralır.
+* PDHES, enerji açığını saatler boyunca taşır.
+* Batarya, PDHES’in başlatma ve geçiş süreçlerini yumuşatır.
+* Her iki sistem birlikte frekans, gerilim ve enerji dengelemesi sağlar.
+
+Bu yapı, bataryanın yalnızca hızlı tepki için kullanılması sayesinde enerji kapasitesinin gereksiz büyütülmesini; PDHES’in ise çok sık küçük güç salınımlarına maruz kalmasını azaltabilir.
+
+## 10. Oturan sistemin toparlanması
+
+Büyük bir sistem çökmesi sonrasında şebekenin dış kaynaktan enerji almadan yeniden kurulması, sistem işletmecileri açısından kritik bir yetenektir.
+
+PDHES bu hizmet için aşağıdaki avantajlara sahiptir:
+
+* Hızlı başlatılabilir.
+* Yardımcı güç ihtiyacı termik santrallere göre düşüktür.
+* Frekans ve gerilim oluşturabilir.
+* Diğer santrallerin yardımcı sistemlerini besleyebilir.
+* Yük alma hızı yüksektir.
+* Reaktif güç sağlayabilir.
+* Büyük iletim koridorlarının enerjilendirilmesine katkı verebilir.
+
+Ancak PDHES’in bu görevi yerine getirebilmesi için üst rezervuarda yeterli su bulunması gerekir.
+
+Bu nedenle işletme planında:
+
+* Oturan sistemin toparlanması için ayrılacak asgari enerji,
+* Bu enerjinin piyasa işletmesinde kullanılmaması,
+* Yardımcı dizel veya batarya sistemleri,
+* Başlatma sırası,
+* Enerjilendirilecek hat ve trafolar,
+* Aşırı gerilim ve öz uyartım riskleri,
+* Ada işletmesi sırasında frekans kontrolü
+
+önceden tanımlanmalıdır.
+
+Bir PDHES’in teknik olarak başlatılabilir olması, tek başına oturan sistemin toparlanmasına hazır olduğu anlamına gelmez. Su stoku, haberleşme, koruma, yardımcı sistemler ve işletme prosedürleri birlikte doğrulanmalıdır.
+
+## 11. Deniz suyu kullanan PDHES uygulamaları
+
+Deniz kıyısındaki projelerde deniz, alt rezervuar olarak kullanılabilir. Bu yaklaşım özellikle dik kıyı topoğrafyasına sahip bölgelerde yüksek düşü ve kısa su yolu oluşturma potansiyeli taşır.
+
+Başlıca avantajları:
+
+* Yeni bir alt rezervuar ihtiyacını azaltması,
+* Çok büyük alt su hacmine erişim sağlaması,
+* Tatlı su kullanımını sınırlaması,
+* Ada sistemlerinde enerji güvenliğini artırabilmesi,
+* Kıyıya yakın yenilenebilir üretimle bütünleştirilebilmesidir.
+
+Bununla birlikte deniz suyu aşağıdaki teknik sorunları büyütür:
+
+* Klorür kaynaklı korozyon,
+* Galvanik korozyon,
+* Deniz canlılarının yüzeylere tutunması,
+* Izgara ve su alma yapılarında biyolojik kirlenme,
+* Pompa-türbin yüzeylerinde aşınma,
+* Üst rezervuardan tuzlu su sızıntısı,
+* Yeraltı suyu ve toprakta tuzlanma,
+* Deniz ekosistemi üzerindeki emme ve deşarj etkileri.
+
+Malzeme seçimi ve koruma sistemleri proje ekonomisini doğrudan etkiler. Paslanmaz çelik, özel kaplama, katodik koruma ve bileşik malzemeler kullanılabilir; ancak bütün ekipmanın korozyona dayanıklı yapılması yatırım maliyetini önemli ölçüde yükseltebilir.
+
+Bu nedenle deniz suyu PDHES fizibilitesinde yalnızca inşaat maliyeti değil:
+
+* Yaşam döngüsü bakım maliyeti,
+* Kaplama yenileme aralığı,
+* Korozyon izleme sistemi,
+* Su alma yapısının ekolojik etkileri,
+* Sızıntı algılama ve toplama sistemi
+
+de değerlendirilmelidir.
+
+## 12. Terk edilmiş madenler ve yeraltı rezervuarları
+
+Terk edilmiş açık ocaklar, maden galerileri veya özel olarak açılmış yeraltı boşlukları PDHES rezervuarı olarak değerlendirilebilir.
+
+Bu yaklaşımın potansiyel yararları:
+
+* Yüzey alanı ihtiyacını azaltması,
+* Mevcut maden altyapısından yararlanılması,
+* Dağlık olmayan bölgelerde yapay düşü oluşturulabilmesi,
+* Eski maden bölgelerine yeni ekonomik işlev kazandırılmasıdır.
+
+Ancak yeraltı projelerinde belirsizlik genellikle yüzey projelerine göre daha yüksektir.
+
+İncelenmesi gereken başlıca konular:
+
+* Kaya kütlesinin süreksizlik yapısı,
+* Eski galeri ve şaftların gerçek geometrisi,
+* Tavan ve yan duvar kararlılığı,
+* Döngüsel basınç değişimlerinin kaya üzerindeki etkisi,
+* Yeraltı suyu girişleri,
+* Maden suyu kimyası,
+* Asit maden drenajı,
+* Gaz birikimi,
+* Kirleticilerin çevredeki akiferlere taşınması,
+* Pompa ve ekipmanlara erişim,
+* Acil boşaltma ve tahliye düzeni.
+
+Yeraltı rezervuarının çevredeki akiferle yüksek hidrolik bağlantısı, kullanılabilir su hacmini artırabilir; ancak çevresel kontrolü zorlaştırabilir. Bu nedenle enerji kapasitesinin büyümesi her zaman proje kalitesinin yükseldiği anlamına gelmez.
+
+## 13. Yatırım değerlendirmesinde kritik ölçütler
+
+PDHES projelerinde toplam yatırım maliyetinin önemli bölümü elektromekanik ekipmandan değil, sahaya özgü inşaat ve jeolojik koşullardan kaynaklanır.
+
+Başlıca maliyet bileşenleri:
+
+* Üst ve alt rezervuar,
+* Baraj ve sızdırmazlık yapıları,
+* Tünel ve cebri borular,
+* Yeraltı santral boşluğu,
+* Şaftlar ve erişim tünelleri,
+* Pompa-türbin ve motor-jeneratör,
+* Güç elektroniği,
+* Şalt sahası ve iletim bağlantısı,
+* Kazı destekleri ve zemin iyileştirmesi,
+* Çevresel önlemler,
+* Kamulaştırma ve izin süreçleridir.
+
+Yatırımcı açısından yalnızca toplam yatırım tutarı değil, aşağıdaki göstergeler birlikte değerlendirilmelidir:
+
+* Birim güç başına yatırım maliyeti,
+* Birim enerji kapasitesi başına yatırım maliyeti,
+* Depolama süresi,
+* Çevrim verimi,
+* Yıllık çevrim sayısı,
+* Beklenen kullanılabilirlik,
+* Başlatma ve durdurma sayısı,
+* Bakım aralıkları,
+* Yenileme yatırımları,
+* Piyasa fiyat farkı,
+* Dengeleme ve yan hizmet gelirleri,
+* Kapasite mekanizması geliri,
+* Yenilenebilir enerji kısıntısının önlenmesinden doğan değer,
+* Şebeke yatırımlarının ertelenmesiyle oluşan sistem faydası.
+
+Yalnızca günlük enerji fiyat farkına dayanan gelir modeli, modern bir PDHES’in gerçek sistem değerini eksik gösterebilir. Proje ekonomisinde enerji arbitrajına ek olarak kapasite, rezerv, gerilim desteği, sistem toparlama ve şebeke esnekliği gelirleri de modellenmelidir.
+
+## 14. Tasarım seçiminde karar çerçevesi
+
+### Sabit devirli çözüm daha uygun olabilir:
+
+* Şebeke güçlü ve kısa devre gücü yüksekse,
+* Pompalama sırasında sürekli güç ayarı gerekmiyorsa,
+* Tesisin temel görevi uzun süreli enerji depolamaysa,
+* Düşü değişimi sınırlıysa,
+* Daha düşük teknik karmaşıklık hedefleniyorsa.
+
+### Çift beslemeli değişken devirli çözüm daha uygun olabilir:
+
+* Pompalama sırasında frekans kontrolü isteniyorsa,
+* Yenilenebilir enerji oranı yüksekse,
+* Rezervuar seviyeleri geniş aralıkta değişiyorsa,
+* Kısmi yük verimi önemliyse,
+* Çok büyük güçte tam dönüştürücü maliyeti sınırlandırılmak isteniyorsa.
+
+### Tam dönüştürücülü çözüm daha uygun olabilir:
+
+* Bağlantı noktası zayıfsa,
+* Aktif ve reaktif gücün bağımsız kontrolü öncelikliyse,
+* Şebeke oluşturan denetim hedefleniyorsa,
+* Arıza davranışının dönüştürücü üzerinden yönetilmesi isteniyorsa,
+* Geniş hız aralığına ihtiyaç duyuluyorsa.
+
+### Üç makineli düzen daha uygun olabilir:
+
+* Pompa ve türbin modları arasında çok sık geçiş yapılacaksa,
+* Çok geniş net güç ayarı gerekiyorsa,
+* Ada sistemi veya zayıf bağlantılı şebeke söz konusuysa,
+* Yan hizmet gelirlerinin proje ekonomisindeki payı yüksekse,
+* Mekanik karmaşıklık ve yüksek yatırım maliyeti kabul edilebiliyorsa.
+
+## 15. Sonuç
+
+PDHES, elektrik enerjisinin yalnızca depolandığı bir tesis değil; güç sisteminin dinamik davranışını etkileyen çok işlevli bir altyapıdır.
+
+Modern bir PDHES aynı anda:
+
+* Büyük enerji hacmi depolayabilir,
+* Hızlı aktif güç desteği sağlayabilir,
+* Pompalama sırasında tüketimini ayarlayabilir,
+* Frekans tutma ve yenileme rezervlerine katılabilir,
+* Reaktif güç ve gerilim desteği verebilir,
+* Fiziksel veya denetim tabanlı atalet sağlayabilir,
+* Şebeke arızaları sırasında sistem kararlılığına katkıda bulunabilir,
+* Oturan sistemin toparlanmasında başlangıç kaynağı olabilir,
+* Rüzgâr ve güneş üretimindeki kısıntıyı azaltabilir.
+
+Bununla birlikte her PDHES aynı teknik değere sahip değildir. Üst ve alt rezervuar arasındaki yükseklik farkı kadar:
+
+* Makine türü,
+* Pompalama esnekliği,
+* Su yolu geometrisi,
+* Geçici hidrolik davranış,
+* Bağlantı noktasının şebeke gücü,
+* Kontrol sistemi,
+* Rezervuar enerji yönetimi,
+* Jeolojik ve çevresel riskler
+
+de projenin başarısını belirler.
+
+Batarya sistemleri çok hızlı tepki ve modüler kurulumda; PDHES ise uzun süreli enerji, büyük güç, fiziksel sistem desteği ve uzun ekonomik ömürde öne çıkar. Yüksek yenilenebilir enerji oranına sahip geleceğin elektrik sistemi, büyük olasılıkla bu iki teknolojinin rekabetinden değil, doğru görev paylaşımıyla birlikte çalışmasından güç alacaktır.
+
+PDHES yatırımlarında temel soru yalnızca “Kaç megavatlık santral kurulabilir?” olmamalıdır.
+
+Daha doğru soru şudur:
+
+> Bu tesis, enerji piyasasına, sistem işletmecisine ve şebeke güvenliğine hangi zaman ölçeklerinde, hangi teknik sınırlar içinde ve hangi ekonomik değerle hizmet verebilir?
+
+# Teknik Terimler ve Kısaltmalar Sözlüğü
+
+**aFRR – Otomatik Frekans Yenileme Rezervi:** Sistem frekansını ve kontrol bölgeleri arasındaki güç alışverişini hedef değerlerine geri döndürmek amacıyla otomatik üretim kontrolü üzerinden etkinleştirilen dengeleme rezervi.
+
+**AGC – Otomatik Üretim Kontrolü:** Üretim veya tüketim birimlerinin aktif güçlerini sistem işletmecisinin gönderdiği sürekli kontrol sinyaline göre ayarlayan merkezi denetim yapısı.
+
+**BESS – Batarya Enerji Depolama Sistemi:** Elektrokimyasal hücreler, güç dönüştürücüleri ve enerji yönetim sistemi aracılığıyla elektrik enerjisini depolayan tesis.
+
+**Black Start – Oturan Sistemin Toparlanması:** Tam veya geniş çaplı sistem çökmesi sonrasında bir üretim biriminin dış şebeke beslemesi olmadan başlatılması ve şebekenin kontrollü adımlarla yeniden enerjilendirilmesi.
+
+**DFIM – Çift Beslemeli Asenkron Makine:** Statoru doğrudan şebekeye, rotoru ise kısmi güçlü dönüştürücüye bağlı olan ve değişken devirli motor-jeneratör işletmesine imkân veren makine yapısı.
+
+**DFIG – Çift Beslemeli Asenkron Jeneratör:** Çift beslemeli asenkron makinenin jeneratör işletmesini vurgulayan kullanım biçimi.
+
+**FCR – Frekans Tutma Rezervi:** Bir güç dengesizliği sonrasında frekans sapmasını sınırlamak için yerel frekans ölçümüne bağlı olarak otomatik etkinleşen birincil rezerv.
+
+**FRT – Arıza Sırasında Şebekede Kalma Yeteneği:** Üretim veya depolama tesisinin kısa süreli gerilim düşümü, yükselmesi veya frekans sapması sırasında bağlantısını koruması ve bağlantı şartlarında tanımlanan desteği sürdürmesi.
+
+**GFL – Şebeke İzleyen Dönüştürücü Denetimi:** Gerilim açısı ve frekans referansını mevcut şebekeden alan, akım kontrollü güç elektroniği yaklaşımı.
+
+**GFM – Şebeke Oluşturan Dönüştürücü Denetimi:** Zayıf veya enerjisiz bir şebekede gerilim ve frekans referansı oluşturabilen, gerilim kaynağı benzeri davranış sağlayan dönüştürücü denetimi.
+
+**H Atalet Sabiti:** Senkron makinenin anma gücüne göre depoladığı dönme enerjisini saniye cinsinden ifade eden parametre.
+
+**Hidrolik Kısa Devre:** Ayrı pompa ve türbinin aynı anda çalıştırılmasıyla şebekeden görülen net gücün iki makinenin güç farkı üzerinden ayarlanması.
+
+**LCOS – Seviyelendirilmiş Depolama Maliyeti:** Bir depolama tesisinin yatırım, işletme, bakım, kayıp ve yenileme giderlerinin ömrü boyunca şebekeye verdiği toplam enerjiye indirgenmesiyle hesaplanan birim maliyet göstergesi.
+
+**mFRR – Elle Etkinleştirilen Frekans Yenileme Rezervi:** Sistem işletmecisinin talimatıyla devreye alınan ve otomatik rezervlerin ardından frekans ile güç dengesinin yeniden kurulmasına yardımcı olan rezerv.
+
+**NPSH – Net Pozitif Emme Yüksekliği:** Pompa girişinde kavitasyon oluşmadan güvenli işletme için gerekli ve mevcut basınç koşullarını ifade eden hidrolik ölçüt.
+
+**P-Q Yetenek Eğrisi:** Bir motor-jeneratör veya dönüştürücünün farklı aktif güç seviyelerinde güvenli olarak üretebileceği veya tüketebileceği reaktif güç sınırlarını gösteren çalışma bölgesi.
+
+**RoCoF – Frekans Değişim Hızı:** Bir güç dengesizliği sonrasında sistem frekansının zamana göre değişim oranı. Düşük ataletli sistemlerde koruma ve kararlılık açısından kritik bir göstergedir.
+
+**Senkron Kompanzatör Modu:** Hidrolik güç alışverişi olmadan motor-jeneratörün şebekeye bağlı tutularak reaktif güç, kısa devre katkısı ve atalet sağlaması.
+
+**Su Darbesi:** Su hızının hızlı değişmesi sonucunda boru ve tünel sistemlerinde oluşan geçici basınç dalgası.
+
+**Tam Güçlü Dönüştürücü:** Makinenin toplam aktif ve reaktif gücünü işleyen, makine ile şebeke arasındaki elektriksel ilişkiyi büyük ölçüde denetleyen güç elektroniği sistemi.
+
+**Ünite Taahhüt ve Sevk Optimizasyonu:** Üretim ve depolama birimlerinin başlatma, durdurma, üretim ve pompalama programlarının maliyet, teknik sınır ve sistem güvenliği birlikte dikkate alınarak belirlenmesi.
+
+**Çevrim Verimi:** Pompalamada tüketilen elektrik enerjisine karşılık üretim sırasında şebekeye geri verilen elektrik enerjisinin oranı. Yardımcı tüketimler ve hidrolik-elektriksel kayıplar bu değere dâhildir.
+`
   },
   {
     id: 'tr-pdhes-gelecegi',

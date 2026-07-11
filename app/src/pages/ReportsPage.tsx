@@ -124,7 +124,9 @@ export default function ReportsPage() {
                   remarkPlugins={[remarkGfm, remarkMath]} 
                   rehypePlugins={[rehypeKatex]}
                   components={{
-                    img: ({node, ...props}) => <img {...props} src={publicAssetUrl(props.src || '')} loading="lazy" style={{maxWidth: '100%', height: 'auto', borderRadius: 8}} />
+                    img: ({node, ...props}) => <img {...props} src={publicAssetUrl(props.src || '')} loading="lazy" style={{maxWidth: '100%', height: 'auto', borderRadius: 8}} />,
+                    table: ({node, ...props}) => <div style={{overflowX: 'auto', width: '100%', marginBottom: '1rem'}}><table {...props} /></div>,
+                    pre: ({node, ...props}) => <div style={{overflowX: 'auto', width: '100%', marginBottom: '1rem'}}><pre {...props} /></div>
                   }}
                 >
                   {activeReport.content}
