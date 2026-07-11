@@ -100,7 +100,7 @@ Geleceğin şebekesini, sadece en çok yenilenebilir enerji kaynağına sahip ol
     author: 'Sistem Araştırma Modülü',
     publishDate: '2026-07-07',
     readTime: 15,
-    coverImage: '/pdhes-nedir/img-13.webp',
+    coverImage: '/pdhes-nedir/kapak5.png',
     summary: 'Pompaj depolamalı HES projelerinin yüksek başlangıç maliyetleri, gelir mekanizmaları, risk faktörleri ve kamu/özel sektör finansman modellerinin detaylı analizi.',
     content: `## Yönetici özeti
 
@@ -197,7 +197,7 @@ Bu nedenle Türkiye için en rasyonel politika çerçevesi, PDHES’i yalnızca 
     author: 'Sistem Araştırma Modülü',
     publishDate: '2026-07-07',
     readTime: 18,
-    coverImage: '/pdhes-nedir/img-9.webp',
+    coverImage: '/pdhes-nedir/kapak4.png',
     summary: 'PDHES\'lerin şebeke ölçeğinde enerji depolama rolü, değişken devirli pompalar, bataryalarla (BESS) karşılaştırma ve şebeke entegrasyonuna detaylı bir bakış.',
     content: `## 1. PDHES neden yeniden stratejik önem kazandı?
 
@@ -839,7 +839,7 @@ Daha doğru soru şudur:
     author: 'M. Yeniceli',
     publishDate: '2026-06-15',
     readTime: 5,
-    coverImage: '/pdhes-nedir/img-17.webp',
+    coverImage: '/pdhes-nedir/kapak3.png',
     summary: 'Rüzgar ve güneş enerjisindeki dalgalanmaları dengelemek için Türkiye\'nin kapalı çevrim (closed-loop) pompaj depolama hidroelektrik santral ihtiyacının kavramsal analizi.',
     content: `
 # Türkiye'nin PDHES Stratejisi
