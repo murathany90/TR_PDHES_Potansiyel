@@ -1721,13 +1721,13 @@ PDHES’i yalnızca “barajdan elektrik üretmek” gibi okumak eksik kalır. B
     author: 'Murathan Yeniceli',
     publishDate: '2026-07-07',
     readTime: 8,
-    coverImage: '/pdhes_site_gorselleri_webp/birlesik_enerji_depolama_stratejisi/birlesik_enerji_depolama_stratejisi_01.webp',
+    coverImage: '/pdhes-nedir/2/00.webp',
     summary: 'Dünya hidroelektrik yatırımlarında ağırlık noktası değişiyor: pompaj depolama artık yalnızca eski bir depolama teknolojisi değil, yenilenebilir çağın ana şebeke esnekliği altyapılarından biri.',
     content: `Küresel elektrik sistemi üç baskı altında dönüşüyor: değişken yenilenebilir üretim artıyor, fosil yakıtlara bağımlılık azaltılmak isteniyor ve şebekelerin aynı anda hem daha esnek hem daha güvenilir çalışması bekleniyor. Bu üç baskının kesiştiği yerde pompaj depolamalı hidroelektrik santraller yeniden stratejik teknoloji haline geliyor.
 
 GEM, IHA ve DOE/ORNL kaynakları üzerinden hazırlanan derin araştırma dosyaları, pompaj depolamanın küresel envanterde artık ayrı bir yatırım sınıfı olarak izlenmesi gerektiğini gösteriyor. İşletmedeki tesisler yanında inşaat, ön inşaat ve duyuru aşamasındaki kapasite de dikkat çekici büyüklüğe ulaşmış durumda.
 
-![Görsel](/pdhes_site_gorselleri_webp/direncli_sebeke_mimarisi/direncli_sebeke_mimarisi_09.webp)
+![Görsel](/pdhes-nedir/2/1.png)
 
 Görsel 1 - Küresel PDHES kapasite boru hattı: işletme, inşaat, ön inşaat ve anons edilmiş kapasite.
 
@@ -1739,7 +1739,7 @@ Boru hattının ölçeği önemlidir; çünkü PDHES projeleri büyük inşaat i
 
 # 2\\. Liderlik tablosu: Çin, Japonya ve ABD
 
-![Görsel](/pdhes_site_gorselleri_webp/direncli_sebeke_mimarisi/direncli_sebeke_mimarisi_10.webp)
+![Görsel](/pdhes-nedir/2/2.png)
 
 Görsel 2 - İşletmedeki PDHES kapasitesinde ilk 15 ülke.
 
@@ -1749,13 +1749,13 @@ Avrupa’da İtalya, İspanya, Avusturya, Almanya, Fransa, İsviçre, Portekiz v
 
 # 3\\. Toplam HES gücü ile PDHES uzmanlaşması aynı şey değil
 
-![Görsel](/pdhes_site_gorselleri_webp/direncli_sebeke_mimarisi/direncli_sebeke_mimarisi_01.webp)
+![Görsel](/pdhes-nedir/2/3.png)
 
 Görsel 3 - Seçilmiş ülkelerde geleneksel HES ve PDHES güç dengesi. Kapsam farkları veri setlerine göre değişebilir.
 
 Hidroelektrik bakımından zengin olmak, otomatik olarak pompaj depolama lideri olmak anlamına gelmez. Brezilya ve Kanada gibi büyük doğal hidro rezervuar sistemlerine sahip ülkeler, uzun süre doğal depolama ve barajlı HES esnekliğiyle sistemlerini dengeleyebilmiştir. Buna karşılık Japonya gibi ülkelerde PDHES, büyük doğal su depolamasının eksik kaldığı alanlarda şebeke esnekliği çözümü olarak erken dönemde gelişmiştir.
 
-![Görsel](/pdhes_site_gorselleri_webp/direncli_sebeke_mimarisi/direncli_sebeke_mimarisi_02.webp)
+![Görsel](/pdhes-nedir/2/4.png)
 
 Görsel 4 - Toplam hidro portföyü içinde PDHES yoğunluğu. Türkiye’nin farkı: HES gücü güçlü, PDHES sıfır çizgisinde.
 
@@ -1770,7 +1770,7 @@ Bu ayrım Türkiye açısından çok önemlidir. Türkiye hidroelektrik kurulu g
 *   Yenilenebilir entegrasyon projeleri: Hindistan Tehri, Endonezya Upper Cisokan ve Fas Abdelmoumen gibi projeler, yeni enerji dönüşümü bağlamında depolama ihtiyacına cevap verir.
     
 
-![Görsel](/pdhes_site_gorselleri_webp/direncli_sebeke_mimarisi/direncli_sebeke_mimarisi_03.webp)
+![Görsel](/pdhes-nedir/2/5.png)
 
 Görsel 5 - Küresel kapasite gösterge paneli infografiği.
 
@@ -1780,7 +1780,7 @@ Derin araştırma dosyaları bir başka önemli noktayı da ortaya koyuyor: kür
 
 Bu nedenle iyi bir PDHES veri tabanı, yalnızca santral listesinden ibaret olmamalıdır. Her kayıt için durum, güç, enerji kapasitesi, düşü, rezervuar tipi, çevrim tipi, teknoloji, şebeke bağlantısı, sahiplik, lisans aşaması ve kaynak güven düzeyi ayrı ayrı tutulmalıdır. “N/A” bırakılan alanlar zayıflık değil; tahminle doldurulmaması gereken veri kalitesi uyarılarıdır.
 
-![Görsel](/pdhes_site_gorselleri_webp/direncli_sebeke_mimarisi/direncli_sebeke_mimarisi_04.webp)
+![Görsel](/pdhes-nedir/2/6.png)
 
 Görsel 6 - Hidrolik kurulu güç ve PDHES mukayese tablosundan sayfa görüntüsü. Kaynak: Küresel PDHES Envanter Analizi.pdf, s.3.
 
