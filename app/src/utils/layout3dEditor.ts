@@ -193,7 +193,10 @@ function mergeFootprints(existing: Layout3DFootprint[] | undefined, generated: L
   return [...preserved, ...generated];
 }
 
-export function applyEditorDerivedLayout(site: Site): Site {
+export function applyEditorDerivedLayout(
+  site: Site,
+  upperStats?: { area: number; volume: number; elevation: number }
+): Site {
   const upperReservoirPolygon = validRing(site.coordinates.upperReservoirPolygon) ?? undefined;
   const lowerReservoirPolygon = validRing(site.coordinates.lowerReservoirPolygon) ?? undefined;
   const coordinates: PdhCoordinateSet = { ...site.coordinates };
@@ -217,8 +220,31 @@ export function applyEditorDerivedLayout(site: Site): Site {
     ...(site.layout3D ?? {}),
   };
 
+  let updatedHeadM = site.headM;
+  let updatedActiveVolumeHm3 = site.activeVolumeHm3;
+  let updatedComponentsDetail = site.components_detail;
+
+  if (upperStats) {
+    updatedActiveVolumeHm3 = upperStats.volume / 1_000_000;
+    const lowerElevation = site.components_detail?.lower_reservoir?.elevation_m || 0;
+    updatedHeadM = upperStats.elevation - lowerElevation;
+    if (updatedComponentsDetail) {
+      updatedComponentsDetail = {
+        ...updatedComponentsDetail,
+        upper_reservoir: {
+          ...updatedComponentsDetail.upper_reservoir,
+          elevation_m: upperStats.elevation,
+          active_volume_mcm: updatedActiveVolumeHm3,
+        }
+      };
+    }
+  }
+
   return {
     ...site,
+    headM: updatedHeadM,
+    activeVolumeHm3: updatedActiveVolumeHm3,
+    components_detail: updatedComponentsDetail,
     coordinates,
     layout,
     layout3D: {

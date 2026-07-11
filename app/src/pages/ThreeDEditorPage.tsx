@@ -320,6 +320,47 @@ export default function ThreeDEditorPage({ site, onDone }: ThreeDEditorPageProps
     return <section className="panel active"><p className="muted">Düzenlenecek 3D yerleşim bulunamadı.</p></section>;
   }
 
+  const calculatePolyStats = (polygonCoords: [number, number][] | undefined, baseVolume: number | null, fallbackElevation: number | null, queryTerrain: boolean = true) => {
+    let area_m2 = 0;
+    let centroid: [number, number] | null = null;
+    if (polygonCoords && polygonCoords.length > 2) {
+      const closed = [...polygonCoords];
+      if (closed[0][0] !== closed[closed.length - 1][0] || closed[0][1] !== closed[closed.length - 1][1]) {
+        closed.push(closed[0]);
+      }
+      try {
+        const poly = turf.polygon([closed]);
+        area_m2 = turf.area(poly);
+        centroid = turf.center(poly).geometry.coordinates as [number, number];
+      } catch (e) {
+        // ignore invalid poly
+      }
+    }
+    
+    // Varsayılan derinlik ~25m kabul edilerek hacim tahmini (eğer sıfırdan çizildiyse)
+    const volume_m3 = area_m2 > 0 ? area_m2 * 25 : (baseVolume ? baseVolume * 1000000 : 0);
+
+    let actualElevation = fallbackElevation || 0;
+    if (queryTerrain && centroid && mapRef.current && mapRef.current.getTerrain()) {
+      const ele = mapRef.current.queryTerrainElevation(centroid);
+      if (ele !== null) {
+        // MapLibre returns the exaggerated elevation, so we divide by heightScale to get the real elevation
+        actualElevation = Math.round(ele / heightScale);
+      }
+    }
+
+    return { area: area_m2, volume: volume_m3, elevation: actualElevation };
+  };
+
+  const currentUpperPoly = drawingMode === 'upperReservoir' ? draftCoords : previewSite?.coordinates.upperReservoirPolygon;
+  const rawOldStats = calculatePolyStats(site.coordinates.upperReservoirPolygon, site.activeVolumeHm3 || 0, site.components_detail?.upper_reservoir?.elevation_m || site.headM || 0, false);
+  const upperOldStats = {
+    area: rawOldStats.area,
+    volume: site.components_detail?.upper_reservoir?.active_volume_mcm ? site.components_detail.upper_reservoir.active_volume_mcm * 1000000 : rawOldStats.volume,
+    elevation: rawOldStats.elevation
+  };
+  const upperNewStats = calculatePolyStats(currentUpperPoly, previewSite?.activeVolumeHm3 || 0, previewSite?.components_detail?.upper_reservoir?.elevation_m || previewSite?.headM || 0, true);
+
   const handleFinishDrawing = () => {
     if (draftCoords.length === 0) {
       setDrawingMode('none');
@@ -354,7 +395,7 @@ export default function ThreeDEditorPage({ site, onDone }: ThreeDEditorPageProps
       } else if (drawingMode === 'portal') {
         newSite.coordinates.servicePortal = { point: draftCoords[0] };
       }
-      return applyEditorDerivedLayout(newSite);
+      return applyEditorDerivedLayout(newSite, upperNewStats);
     });
 
     setDraftCoords([]);
@@ -417,14 +458,14 @@ export default function ThreeDEditorPage({ site, onDone }: ThreeDEditorPageProps
           penstockRoute: penstock,
           transmissionLineRoute: transmission,
         }
-      });
+      }, upperNewStats);
     });
     setMessage("Kalan bileşenler eksikse otomatik yerleştirildi, su yolu çizildi!");
   };
 
   const handleSave = () => {
     if (previewSite) {
-      const siteToSave = hasEditorChanges ? applyEditorDerivedLayout(previewSite) : previewSite;
+      const siteToSave = hasEditorChanges ? applyEditorDerivedLayout(previewSite, upperNewStats) : previewSite;
       updateSite(site.id, siteToSave);
       setPreviewSite(siteToSave);
       setHasEditorChanges(false);
@@ -442,46 +483,6 @@ export default function ThreeDEditorPage({ site, onDone }: ThreeDEditorPageProps
       setMessage('Varsayılan veriler yüklendi.');
     }
   };
-
-  const calculatePolyStats = (polygonCoords: [number, number][] | undefined, baseVolume: number | null, fallbackElevation: number | null, queryTerrain: boolean = true) => {
-    let area_m2 = 0;
-    let centroid: [number, number] | null = null;
-    if (polygonCoords && polygonCoords.length > 2) {
-      const closed = [...polygonCoords];
-      if (closed[0][0] !== closed[closed.length - 1][0] || closed[0][1] !== closed[closed.length - 1][1]) {
-        closed.push(closed[0]);
-      }
-      try {
-        const poly = turf.polygon([closed]);
-        area_m2 = turf.area(poly);
-        centroid = turf.center(poly).geometry.coordinates as [number, number];
-      } catch (e) {
-        // ignore invalid poly
-      }
-    }
-    
-    // Varsayılan derinlik ~25m kabul edilerek hacim tahmini (eğer sıfırdan çizildiyse)
-    const volume_m3 = area_m2 > 0 ? area_m2 * 25 : (baseVolume ? baseVolume * 1000000 : 0);
-
-    let actualElevation = fallbackElevation || 0;
-    if (queryTerrain && centroid && mapRef.current && mapRef.current.getTerrain()) {
-      const ele = mapRef.current.queryTerrainElevation(centroid);
-      if (ele !== null) {
-        actualElevation = Math.round(ele);
-      }
-    }
-
-    return { area: area_m2, volume: volume_m3, elevation: actualElevation };
-  };
-
-  const currentUpperPoly = drawingMode === 'upperReservoir' ? draftCoords : previewSite?.coordinates.upperReservoirPolygon;
-  const rawOldStats = calculatePolyStats(site.coordinates.upperReservoirPolygon, site.activeVolumeHm3 || 0, site.components_detail?.upper_reservoir?.elevation_m || site.headM || 0, false);
-  const upperOldStats = {
-    area: rawOldStats.area,
-    volume: site.components_detail?.upper_reservoir?.active_volume_mcm ? site.components_detail.upper_reservoir.active_volume_mcm * 1000000 : rawOldStats.volume,
-    elevation: rawOldStats.elevation
-  };
-  const upperNewStats = calculatePolyStats(currentUpperPoly, previewSite?.activeVolumeHm3 || 0, previewSite?.components_detail?.upper_reservoir?.elevation_m || previewSite?.headM || 0, true);
 
   const formatNum = (num: number) => num.toLocaleString('tr-TR', { maximumFractionDigits: 0 });
 
@@ -615,7 +616,7 @@ export default function ThreeDEditorPage({ site, onDone }: ThreeDEditorPageProps
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 16 }}>
             <button className="btn outline" onClick={() => {
               if (!previewSite) return;
-              const exportSite = hasEditorChanges ? applyEditorDerivedLayout(previewSite) : previewSite;
+              const exportSite = hasEditorChanges ? applyEditorDerivedLayout(previewSite, upperNewStats) : previewSite;
               const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(exportSite, null, 2));
               const dlAnchorElem = document.createElement('a');
               dlAnchorElem.setAttribute("href", dataStr);
