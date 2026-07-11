@@ -1644,9 +1644,9 @@ Geleceğin enerji şebekesi, PHES'in devasa kapasitesini milisaniyelik tepki ver
     author: 'Murathan Yeniceli',
     publishDate: '2026-07-07',
     readTime: 8,
-    coverImage: '/pdhes_site_gorselleri_webp/gokcekaya_pompaj_depolama_bataryasi/gokcekaya_pompaj_depolama_bataryasi_01.webp',
+    coverImage: '/pdhes-nedir/1/00.webp',
     summary: 'PDHES, elektrik sisteminin fazla enerjisini suyun potansiyel enerjisine çeviren, ihtiyaç anında ise bu enerjiyi yeniden şebekeye veren büyük ölçekli “su bataryalarıdır”.',
-    content: `![Görsel](/pdhes_site_gorselleri_webp/direncli_sebeke_mimarisi/direncli_sebeke_mimarisi_02.webp)
+    content: `![Görsel](/pdhes-nedir/1/1.png)
 
 Görsel 1 - PDHES’in iki modlu çalışma mantığı: pompalama ve üretim.
 
@@ -1662,7 +1662,7 @@ PDHES, iki farklı kotta bulunan su hazneleri arasında suyu pompalar veya türb
 
 PDHES’in “şarj” modu pompalama modudur. Elektrik talebinin düşük, yenilenebilir üretimin yüksek veya piyasa fiyatının zayıf olduğu saatlerde sistem elektrik tüketir ve suyu yukarı taşır. “Deşarj” modu ise üretim modudur. Puant talep saatlerinde, üretim açığında veya yan hizmet ihtiyacı oluştuğunda su aşağı akıtılır ve türbin-jeneratör seti şebekeye güç verir.
 
-![Görsel](/pdhes_site_gorselleri_webp/direncli_sebeke_mimarisi/direncli_sebeke_mimarisi_03.webp)
+![Görsel](/pdhes-nedir/1/2.png)
 
 Görsel 2 - Çift yönlü döngü: şarj ve deşarjın aynı altyapıda birleşmesi.
 
@@ -1672,7 +1672,7 @@ Bu iki mod, elektrik sisteminde “zaman kaydırma” etkisi yaratır. Öğle sa
 
 Modern PDHES tesislerinde en yaygın mimari, aynı hidrolik makinenin hem pompa hem türbin gibi çalışmasıdır. Tersinir Francis tipi pompa-türbinler, suyu yukarı basarken pompa, su aşağı inerken türbin gibi davranır. Bu yaklaşım ekipman sayısını azaltır, güç dönüşümünü sadeleştirir ve büyük ölçekli depolama için olgun bir mühendislik çözümü sunar.
 
-![Görsel](/pdhes_site_gorselleri_webp/direncli_sebeke_mimarisi/direncli_sebeke_mimarisi_04.webp)
+![Görsel](/pdhes-nedir/1/3.png)
 
 Görsel 3 - Tersinir Francis türbin/pompa mantığı.
 
@@ -1682,7 +1682,7 @@ Klasik sabit hızlı üniteler yıllardır güvenilir biçimde kullanılırken, 
 
 PDHES tesisleri su kaynakları ile ilişkisine göre iki ana gruba ayrılır. Açık devre sistemlerde rezervuarlardan en az biri doğal bir nehir, göl veya mevcut baraj sistemiyle hidrolojik ilişki içindedir. Kapalı devre sistemlerde ise iki rezervuar da doğal akarsu akışından büyük ölçüde bağımsızdır. Kapalı devre projeler, sucul ekosistem etkisini sınırlama ve izin süreçlerini daha yönetilebilir hale getirme potansiyeli nedeniyle güncel politika tartışmalarında daha fazla öne çıkar.
 
-![Görsel](/pdhes_site_gorselleri_webp/direncli_sebeke_mimarisi/direncli_sebeke_mimarisi_05.webp)
+![Görsel](/pdhes-nedir/1/4.png)
 
 Görsel 4 - Açık devre ve kapalı devre PDHES mimarileri.
 
@@ -1690,13 +1690,13 @@ Türkiye gibi mevcut baraj stoku güçlü ülkelerde açık devre veya mevcut HE
 
 # 4\\. PDHES’in şebekeye verdiği hizmetler
 
-![Görsel](/pdhes_site_gorselleri_webp/direncli_sebeke_mimarisi/direncli_sebeke_mimarisi_06.webp)
+![Görsel](/pdhes-nedir/1/5.png)
 
 Görsel 5 - PDHES değer katmanları: enerji kaydırma, frekans, gerilim, Oturan Sistemin Toparlanması - black start ve yedek kapasite.
 
 Bir PDHES’in gelir ve sistem değeri yalnızca elektrik fiyat farkından oluşmaz. Büyük senkron makineler sisteme ataletsel davranış, gerilim desteği ve kısa devre gücü katkısı sağlayabilir. İyi tasarlanmış bir tesis, işletme stratejisine bağlı olarak yan hizmetler pazarında frekans kontrolü, hızlı devreye girme, rezerv kapasite ve Oturan Sistemin Toparlanması - black start gibi kritik hizmetler sunabilir.
 
-![Görsel](/pdhes_site_gorselleri_webp/direncli_sebeke_mimarisi/direncli_sebeke_mimarisi_07.webp)
+![Görsel](/pdhes-nedir/1/6.png)
 
 Görsel 6 - Hızlı tepki ve şebeke güvenliği boyutu.
 
@@ -1706,7 +1706,7 @@ Bu çok katmanlı değer, PDHES’i lityum-iyon bataryalarla doğrudan rekabet e
 
 Klasik gelir modeli düşük fiyatlı saatlerde pompalamak, yüksek fiyatlı saatlerde üretmektir. Ancak yenilenebilir ağırlıklı sistemlerde gelir modeli daha karmaşık hale gelir. Gün içi fiyat farkları, negatif fiyat riski, dengeleme güç piyasası, kapasite mekanizmaları ve yan hizmet ödemeleri birlikte değerlendirilmelidir. Bu nedenle PDHES fizibilitesi yalnızca enerji arbitrajı üzerinden yapılırsa yatırımın gerçek sistem değeri eksik görülebilir.
 
-![Görsel](/pdhes_site_gorselleri_webp/direncli_sebeke_mimarisi/direncli_sebeke_mimarisi_08.webp)
+![Görsel](/pdhes-nedir/1/7.png)
 
 Görsel 7 - Ekonomik arbitraj ve yük dengeleme mantığı.
 
