@@ -53,8 +53,9 @@ describe('UI stylesheet compatibility contract', () => {
     expect(css).toContain('.map-popup-grid');
     expect(css).toContain('.map-popup-actions');
     expect(css).toContain('.map-popup-tooltip');
-    expect(css).toContain('max-width: min(340px, calc(100vw - 24px))');
-    expect(css).toContain('max-height: min(70vh, 460px)');
+    expect(css).toContain('max-width: min(300px, calc(100vw - 20px))');
+    expect(css).toContain('max-height: min(58vh, 340px)');
+    expect(css).toContain('font-size: 11.25px');
     expect(css).toContain('html[data-theme="light"] .map-popup-card');
   });
 

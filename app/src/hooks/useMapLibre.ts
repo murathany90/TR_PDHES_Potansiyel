@@ -27,8 +27,22 @@ function popupWaterwayText(site: Site): string {
   return 'Su yolu belirtilmedi';
 }
 
-function popupMetric(label: string, value: string): string {
-  return `<div class="map-popup-metric"><span>${escapeHtml(label)}</span><b>${value}</b></div>`;
+const MAP_POPUP_MAX_WIDTH = '300px';
+
+function compactPopupText(value: unknown, maxLength = 46): string {
+  const normalized = String(value ?? '—').replace(/\s+/g, ' ').trim() || '—';
+  if (normalized.length <= maxLength) return normalized;
+  return `${normalized.slice(0, maxLength - 1).trimEnd()}…`;
+}
+
+function popupMetric(label: string, value: unknown, maxLength = 46): string {
+  const fullValue = String(value ?? '—') || '—';
+  return `<div class="map-popup-metric"><span>${escapeHtml(label)}</span><b title="${escapeHtml(fullValue)}">${escapeHtml(compactPopupText(fullValue, maxLength))}</b></div>`;
+}
+
+function popupChip(value: unknown, maxLength = 42): string {
+  const fullValue = String(value ?? '—') || '—';
+  return `<div class="map-popup-chip" title="${escapeHtml(fullValue)}">${escapeHtml(compactPopupText(fullValue, maxLength))}</div>`;
 }
 
 function popupTooltip(title: string, rows: Array<[string, string]> = []): string {
@@ -563,20 +577,20 @@ export function useMapLibre({
                 <div class="map-popup-card map-popup-card--candidate">
                   <div class="map-popup-kicker">PDHES Aday Sahası</div>
                   <div class="map-popup-title">${escapeHtml(candidate.name)}</div>
-                  <div class="map-popup-chip">${escapeHtml(PDHES_TYPE_LABELS[candidate.pdhesType])}</div>
+                  ${popupChip(PDHES_TYPE_LABELS[candidate.pdhesType])}
                   <div class="map-popup-grid">
-                    ${popupMetric('Güç / Enerji', `${num(candidate.capacityMW)} MW${candidate.energyGWh ? ` / ${num(candidate.energyGWh)} GWh` : ''}`)}
-                    ${popupMetric('Düşü / Su Yolu', `${num(candidate.headM)} m / ${escapeHtml(popupWaterwayText(candidate))}`)}
-                    ${popupMetric('Teknik sınıf', escapeHtml(CYCLE_TYPE_LABELS[candidate.technicalClassification.cycleType]))}
-                    ${popupMetric('Alt rezervuar', escapeHtml(candidate.lowerReservoirName))}
-                    ${popupMetric('Üst rezervuar', escapeHtml(candidate.upperReservoirDescription))}
-                    ${popupMetric('Koordinat', escapeHtml(COORDINATE_CONFIDENCE_LABELS[candidate.coordinates.coordinateConfidence]))}
+                    ${popupMetric('Güç', `${num(candidate.capacityMW)} MW${candidate.energyGWh ? ` / ${num(candidate.energyGWh)} GWh` : ''}`)}
+                    ${popupMetric('Düşü', `${num(candidate.headM)} m / ${popupWaterwayText(candidate)}`)}
+                    ${popupMetric('Sınıf', CYCLE_TYPE_LABELS[candidate.technicalClassification.cycleType])}
+                    ${popupMetric('Alt R.', candidate.lowerReservoirName)}
+                    ${popupMetric('Üst R.', candidate.upperReservoirDescription)}
+                    ${popupMetric('Konum', COORDINATE_CONFIDENCE_LABELS[candidate.coordinates.coordinateConfidence])}
                   </div>
                   <div class="map-popup-actions">
-                    <a class="map-popup-action primary" href="#/3d">3D Çizimi Gör</a>
+                    <a class="map-popup-action primary" href="#/3d">3D Çizim</a>
                     ${['kamu-gokcekaya-pspp', 'kamu-sariyar-pspp'].includes(candidate.id)
-                      ? `<button class="show-3d-btn map-popup-action secondary" type="button">3D Görsel</button>`
-                      : `<button class="show-3d-btn map-popup-action disabled" type="button" disabled>3D Görsel Yok</button>`
+                      ? `<button class="show-3d-btn map-popup-action secondary" type="button">Görsel</button>`
+                      : `<button class="show-3d-btn map-popup-action disabled" type="button" disabled>Görsel Yok</button>`
                     }
                   </div>
                 </div>
@@ -592,7 +606,7 @@ export function useMapLibre({
               }
 
               activePopupRef.current?.remove();
-              activePopupRef.current = new maplibregl.Popup({ closeButton: true, offset: 25, maxWidth: '340px' })
+              activePopupRef.current = new maplibregl.Popup({ closeButton: true, offset: 20, maxWidth: MAP_POPUP_MAX_WIDTH })
                 .setLngLat(center)
                 .setDOMContent(popupContent)
                 .addTo(map);
@@ -642,19 +656,19 @@ export function useMapLibre({
           <div class="map-popup-card map-popup-card--world we-popup-content">
             <div class="map-popup-kicker">${escapeHtml(example.country)} &middot; ${escapeHtml(example.status)}</div>
             <div class="map-popup-title">${escapeHtml(example.name)}</div>
-            <div class="map-popup-chip">${escapeHtml(example.type)}</div>
+            ${popupChip(example.type)}
             <div class="map-popup-grid">
-              ${popupMetric('Kurulu güç', `${escapeHtml(String(example.capacityMw))} MW`)}
-              ${popupMetric('Depolama', `${escapeHtml(String(example.storageMwh))} MWh`)}
-              ${popupMetric('Düşü', `${escapeHtml(String(example.headM))} m`)}
-              ${popupMetric('Yıl', escapeHtml(String(example.commissioningYear)))}
+              ${popupMetric('Güç', `${String(example.capacityMw)} MW`)}
+              ${popupMetric('Enerji', `${String(example.storageMwh)} MWh`)}
+              ${popupMetric('Düşü', `${String(example.headM)} m`)}
+              ${popupMetric('Yıl', String(example.commissioningYear))}
             </div>
-            ${example.wikiUrl ? `<div class="map-popup-actions"><a class="map-popup-action primary" href="${escapeHtml(example.wikiUrl)}" target="_blank" rel="noopener noreferrer">Wikipedia ↗</a></div>` : ''}
+            ${example.wikiUrl ? `<div class="map-popup-actions"><a class="map-popup-action primary" href="${escapeHtml(example.wikiUrl)}" target="_blank" rel="noopener noreferrer">Wiki ↗</a></div>` : ''}
           </div>
         `;
 
         if (!cached.popup) {
-          const popup = new maplibregl.Popup({ closeButton: true, offset: 15, maxWidth: '340px' })
+          const popup = new maplibregl.Popup({ closeButton: true, offset: 14, maxWidth: MAP_POPUP_MAX_WIDTH })
             .setLngLat([example.lon || 0, example.lat || 0])
             .setHTML(popupHtml);
 
