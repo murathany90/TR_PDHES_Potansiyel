@@ -1341,7 +1341,6 @@ html[data-theme="light"] .pdhes-rich-shell .source-footer { background: var(--pa
 .fab-list-wrapper {
   flex: 1;
   overflow: auto;
-  -webkit-overflow-scrolling: touch;
 }
 
 .fab-table {
@@ -1350,6 +1349,13 @@ html[data-theme="light"] .pdhes-rich-shell .source-footer { background: var(--pa
   border-collapse: separate;
   border-spacing: 0;
   font-size: 12.5px;
+}
+
+.fab-table thead {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
 .fab-table th {
