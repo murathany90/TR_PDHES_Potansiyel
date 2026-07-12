@@ -256,11 +256,11 @@ export function useMapLibre({
 
       if (layers.projectLayout) {
         const activeBlocks: string[] = [];
-        if (layers.upperReservoir) activeBlocks.push('upper_reservoir', 'upperReservoirWater', 'upperReservoirEmbankment', 'upperIntake');
-        if (layers.lowerReservoir) activeBlocks.push('lower_reservoir', 'lowerReservoirFootprint');
+        if (layers.upperReservoir) activeBlocks.push('upper_reservoir', 'upperReservoirWater', 'upperReservoirEmbankment', 'upperIntake', 'intake', 'dam');
+        if (layers.lowerReservoir) activeBlocks.push('lower_reservoir', 'lowerReservoirFootprint', 'dam');
         if (layers.powerhouse) activeBlocks.push('powerhouse', 'powerhouseFootprint');
-        if (layers.surgeTank) activeBlocks.push('surge_tank', 'surgeTankFootprint');
-        if (layers.switchyard3d) activeBlocks.push('switchyard', 'switchyardFootprint');
+        if (layers.surgeTank) activeBlocks.push('surge_tank', 'surgeTankFootprint', 'penstock', 'tailrace');
+        if (layers.switchyard3d) activeBlocks.push('switchyard', 'switchyardFootprint', 'existing_switchyard', 'new_switchyard');
         if (layers.portal) activeBlocks.push('portal', 'serviceDrainPortal');
 
         const filteredBlocks = {

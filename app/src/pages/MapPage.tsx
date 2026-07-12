@@ -23,7 +23,7 @@ const DEFAULT_LAYERS: MapLayerVisibility = {
   lowerReservoir: true,
   powerhouse: true,
   surgeTank: true,
-  switchyard3d: true,
+  switchyard3d: false,
   portal: true,
 };
 
