@@ -95,6 +95,14 @@ export function getMapStyleSpecification(kind: MapStyleKind): StyleSpecification
         maxzoom: 15,
         attribution: 'Elevation tiles © AWS Open Data Terrain Tiles',
       },
+      hillshadeSource: {
+        type: 'raster-dem',
+        tiles: ['https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png'],
+        tileSize: 256,
+        encoding: 'terrarium',
+        maxzoom: 15,
+        attribution: 'Elevation tiles Â© AWS Open Data Terrain Tiles',
+      },
     },
     layers: [{ id: 'base', type: 'raster', source: 'base' }],
   };

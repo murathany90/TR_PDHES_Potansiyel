@@ -31,4 +31,16 @@ describe('map providers', () => {
       attribution: expect.stringContaining('AWS'),
     });
   });
+
+  it('keeps hillshade on a separate DEM source from 3D terrain', () => {
+    const style = getMapStyleSpecification('satellite');
+    const terrainSource = style.sources.terrainSource as { tiles: string[]; type: string };
+    const hillshadeSource = style.sources.hillshadeSource as { tiles: string[]; type: string };
+
+    expect(hillshadeSource).toMatchObject({
+      type: 'raster-dem',
+      tiles: terrainSource.tiles,
+    });
+    expect(hillshadeSource).not.toBe(terrainSource);
+  });
 });

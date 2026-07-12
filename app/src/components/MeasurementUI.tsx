@@ -1,7 +1,7 @@
 import { useMapToolsStore } from '../stores/useMapToolsStore';
 import { X, Trash2, LineChart } from 'lucide-react';
 import * as turf from '@turf/turf';
-import { useMemo, useState, useEffect } from 'react';
+import { useMemo, useState, useEffect, useRef } from 'react';
 import TerrainProfileChart from './TerrainProfileChart';
 import { useSiteStore } from '../stores/useSiteStore';
 import { useSettingsStore } from '../stores/useSettingsStore';
@@ -14,6 +14,8 @@ export default function MeasurementUI() {
   const [showProfile, setShowProfile] = useState(false);
   const [mousePos, setMousePos] = useState<[number, number] | null>(null);
   const [selectedType, setSelectedType] = useState<ManualFeatureType | ''>('');
+  const previewFrameRef = useRef<number | null>(null);
+  const previewMousePosRef = useRef<[number, number] | null>(null);
   
   const site = useSiteStore(state => state.selectedSite());
   const { addFeature, getFeaturesForSite } = useManualGeometryStore();
@@ -35,16 +37,27 @@ export default function MeasurementUI() {
     
     const onMouseMove = (e: any) => {
       if (isDrawing) {
-        setMousePos([e.lngLat.lng, e.lngLat.lat]);
+        previewMousePosRef.current = [e.lngLat.lng, e.lngLat.lat];
+        if (previewFrameRef.current === null) {
+          previewFrameRef.current = requestAnimationFrame(() => {
+            previewFrameRef.current = null;
+            setMousePos(previewMousePosRef.current);
+          });
+        }
       }
     };
     
     map.on('mousemove', onMouseMove);
     return () => {
       map.off('mousemove', onMouseMove);
+      if (previewFrameRef.current !== null) {
+        cancelAnimationFrame(previewFrameRef.current);
+        previewFrameRef.current = null;
+      }
+      previewMousePosRef.current = null;
       setMousePos(null);
     };
-  }, [map, mode]);
+  }, [isDrawing, map, mode]);
 
   useEffect(() => {
     if (!map) return;
@@ -78,12 +91,15 @@ export default function MeasurementUI() {
         });
       }
 
-      const source = map.getSource(sourceId) as maplibregl.GeoJSONSource;
+      if (!map.isStyleLoaded()) return;
+      const source = map.getSource(sourceId) as maplibregl.GeoJSONSource | undefined;
       if (source) {
         source.setData(geojson);
-      } else if (map.isStyleLoaded()) {
+      } else {
         map.addSource(sourceId, { type: 'geojson', data: geojson });
-        
+      }
+
+      if (!map.getLayer('measure-lines')) {
         map.addLayer({
           id: 'measure-lines',
           type: 'line',
@@ -91,7 +107,9 @@ export default function MeasurementUI() {
           layout: { 'line-cap': 'round', 'line-join': 'round' },
           paint: { 'line-color': '#10b981', 'line-width': 3, 'line-dasharray': [2, 2] }
         });
-        
+      }
+
+      if (!map.getLayer('measure-circles')) {
         map.addLayer({
           id: 'measure-circles',
           type: 'circle',

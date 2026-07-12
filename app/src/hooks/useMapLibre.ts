@@ -71,15 +71,49 @@ function filterGrid(gridAssets: FeatureCollection | null, geometryType: string, 
   );
 }
 
-function removeIfExists(map: maplibregl.Map, layers: string[], sources: string[]) {
-  if (!map || typeof map.getStyle !== 'function' || !map.getStyle()) return;
-  layers.forEach((id) => {
-    if (map.getLayer(id)) map.removeLayer(id);
-  });
-  sources.forEach((id) => {
-    if (map.getSource(id)) map.removeSource(id);
-  });
+function setLayerVisibility(map: maplibregl.Map, layerId: string, visible: boolean) {
+  if (!map.getLayer(layerId)) return;
+  map.setLayoutProperty(layerId, 'visibility', visible ? 'visible' : 'none');
 }
+
+function setLayersVisibility(map: maplibregl.Map, layerIds: string[], visible: boolean) {
+  layerIds.forEach((layerId) => setLayerVisibility(map, layerId, visible));
+}
+
+function ensureGeoJsonSource(map: maplibregl.Map, id: string, data: FeatureCollection | string) {
+  const source = map.getSource(id) as maplibregl.GeoJSONSource | undefined;
+  if (source) {
+    if (typeof data !== 'string') source.setData(data);
+    return source;
+  }
+  map.addSource(id, { type: 'geojson', data });
+  return map.getSource(id) as maplibregl.GeoJSONSource | undefined;
+}
+
+function ensureLayer(map: maplibregl.Map, layer: maplibregl.AddLayerObject, beforeId?: string) {
+  if (map.getLayer(layer.id)) return;
+  map.addLayer(layer, beforeId);
+}
+
+function safeOffLayer(
+  map: maplibregl.Map,
+  event: keyof maplibregl.MapLayerEventType,
+  layerId: string,
+  handler: (event: any) => void,
+) {
+  try {
+    map.off(event, layerId, handler);
+  } catch {
+    // Layer-scoped handlers can outlive style reloads; MapLibre throws if the layer is gone.
+  }
+}
+
+type CachedMarker = {
+  marker: maplibregl.Marker;
+  element: HTMLElement;
+  clickHandler?: EventListener;
+  popup?: maplibregl.Popup;
+};
 
 export function useMapLibre({
   containerRef,
@@ -100,16 +134,30 @@ export function useMapLibre({
   const mapRef = useRef<maplibregl.Map | null>(null);
   const mapStyleRef = useRef(mapStyle);
   const drawRequestRef = useRef(0);
+  const waitingForStyleRef = useRef(false);
   const onSelectSiteRef = useRef(onSelectSite);
-  const markersRef = useRef<maplibregl.Marker[]>([]);
+  const candidateMarkersRef = useRef<Map<string, CachedMarker>>(new Map());
+  const worldMarkersRef = useRef<Map<string, CachedMarker>>(new Map());
+  const activePopupRef = useRef<maplibregl.Popup | null>(null);
+  const layerEventCleanupRef = useRef<(() => void)[]>([]);
+  const boundLayerEventsRef = useRef<Set<string>>(new Set());
   const canCreateMap = Boolean(site);
 
   useEffect(() => {
     onSelectSiteRef.current = onSelectSite;
   }, [onSelectSite]);
 
-  const handleCandidateClick = useCallback(() => {
-    // Legacy click handler (can be kept if needed for fallback, but Markers use native events)
+  const bindLayerEvent = useCallback((
+    map: maplibregl.Map,
+    event: keyof maplibregl.MapLayerEventType,
+    layerId: string,
+    handler: (event: any) => void,
+  ) => {
+    const key = `${event}:${layerId}`;
+    if (boundLayerEventsRef.current.has(key)) return;
+    map.on(event, layerId, handler);
+    boundLayerEventsRef.current.add(key);
+    layerEventCleanupRef.current.push(() => safeOffLayer(map, event, layerId, handler));
   }, []);
 
   const queueDrawLayers = useCallback(() => {
@@ -120,111 +168,91 @@ export function useMapLibre({
       if (requestId !== drawRequestRef.current) return;
       if (!map.getStyle()) return;
       if (!map.isStyleLoaded()) {
-        map.once('styledata', queueDrawLayers);
+        if (!waitingForStyleRef.current) {
+          waitingForStyleRef.current = true;
+          map.once('styledata', () => {
+            waitingForStyleRef.current = false;
+            queueDrawLayers();
+          });
+        }
         return;
       }
-      const oldLayers = [
-        'grid-400-line',
-        'grid-154-line',
-        'substation-circles',
-        'substation-labels',
-        'risk-fill',
-        'risk-line',
-        'project-grid-line',
-        'water-line',
-        'candidate-circles',
-        'candidate-labels',
-        'hillshade-layer',
-        'osm-power-lines',
-        'osm-power-points',
-      ];
-      const oldSources = ['grid400', 'grid154', 'substations', 'risk', 'projectGrid', 'water', 'candidates', 'osm-power-grid'];
-      if (map.getLayer('candidate-circles')) {
-        map.off('click', 'candidate-circles', handleCandidateClick);
-      }
-      markersRef.current.forEach(m => m.remove());
-      markersRef.current = [];
-      
-      // Also cleanup world example markers if we are storing them in the same array or another ref
-      // Actually we'll just store them all in markersRef
-      
-      removeIfExists(map, oldLayers, oldSources);
+      waitingForStyleRef.current = false;
 
       if (layers.terrain3d) {
         map.setTerrain({ source: 'terrainSource', exaggeration: heightScale * 1.3 });
-        if (map.getSource('terrainSource') && !map.getLayer('hillshade-layer')) {
-          map.addLayer({
+        if (map.getSource('hillshadeSource')) {
+          ensureLayer(map, {
             id: 'hillshade-layer',
             type: 'hillshade',
-            source: 'terrainSource',
+            source: 'hillshadeSource',
             paint: {
               'hillshade-shadow-color': '#0f172a',
               'hillshade-illumination-direction': 315,
               'hillshade-exaggeration': 0.85
             }
           }, 'base');
+          setLayerVisibility(map, 'hillshade-layer', true);
         }
       } else {
         map.setTerrain(null);
+        setLayerVisibility(map, 'hillshade-layer', false);
       }
 
       const layout = buildLayout(site, heightScale);
 
-      if (layers.powerGrid) {
-        map.addSource('grid400', { type: 'geojson', data: filterGrid(gridAssets, 'LineString', ['400']) });
-        map.addLayer({
-          id: 'grid-400-line',
-          type: 'line',
-          source: 'grid400',
-          paint: { 'line-color': '#ffd75a', 'line-width': 1.1, 'line-opacity': 0.28 },
-        });
+      ensureGeoJsonSource(map, 'grid400', filterGrid(gridAssets, 'LineString', ['400']));
+      ensureLayer(map, {
+        id: 'grid-400-line',
+        type: 'line',
+        source: 'grid400',
+        paint: { 'line-color': '#ffd75a', 'line-width': 1.1, 'line-opacity': 0.28 },
+      });
 
-        map.addSource('grid154', { type: 'geojson', data: filterGrid(gridAssets, 'LineString', ['154']) });
-        map.addLayer({
-          id: 'grid-154-line',
-          type: 'line',
-          source: 'grid154',
-          paint: { 'line-color': '#48f49a', 'line-width': 0.8, 'line-opacity': 0.2 },
-        });
+      ensureGeoJsonSource(map, 'grid154', filterGrid(gridAssets, 'LineString', ['154']));
+      ensureLayer(map, {
+        id: 'grid-154-line',
+        type: 'line',
+        source: 'grid154',
+        paint: { 'line-color': '#48f49a', 'line-width': 0.8, 'line-opacity': 0.2 },
+      });
 
-        map.addSource('substations', { type: 'geojson', data: filterGrid(gridAssets, 'Point', ['400', '154']) });
-        map.addLayer({
-          id: 'substation-circles',
-          type: 'circle',
-          source: 'substations',
-          paint: {
-            'circle-radius': ['case', ['==', ['get', 'voltage'], '400'], 4, 2.8],
-            'circle-color': ['case', ['==', ['get', 'voltage'], '400'], '#ffd75a', '#48f49a'],
-            'circle-opacity': 0.65,
-            'circle-stroke-width': 1,
-            'circle-stroke-color': '#07110e',
-          },
-        });
+      ensureGeoJsonSource(map, 'substations', filterGrid(gridAssets, 'Point', ['400', '154']));
+      ensureLayer(map, {
+        id: 'substation-circles',
+        type: 'circle',
+        source: 'substations',
+        paint: {
+          'circle-radius': ['case', ['==', ['get', 'voltage'], '400'], 4, 2.8],
+          'circle-color': ['case', ['==', ['get', 'voltage'], '400'], '#ffd75a', '#48f49a'],
+          'circle-opacity': 0.65,
+          'circle-stroke-width': 1,
+          'circle-stroke-color': '#07110e',
+        },
+      });
 
-        map.addSource('projectGrid', { type: 'geojson', data: layout.grid });
-        map.addLayer({
-          id: 'project-grid-line',
-          type: 'line',
-          source: 'projectGrid',
-          paint: { 'line-color': ['get', 'color'], 'line-width': ['get', 'width'], 'line-opacity': 0.82 },
-        });
-      }
+      ensureGeoJsonSource(map, 'projectGrid', layout.grid);
+      ensureLayer(map, {
+        id: 'project-grid-line',
+        type: 'line',
+        source: 'projectGrid',
+        paint: { 'line-color': ['get', 'color'], 'line-width': ['get', 'width'], 'line-opacity': 0.82 },
+      });
+      setLayersVisibility(map, ['grid-400-line', 'grid-154-line', 'substation-circles', 'project-grid-line'], layers.powerGrid);
 
-      if (layers.risk) {
-        map.addSource('risk', { type: 'geojson', data: layout.risk });
-        map.addLayer({ id: 'risk-fill', type: 'fill', source: 'risk', paint: { 'fill-color': '#ff5c73', 'fill-opacity': 0.13 } });
-        map.addLayer({ id: 'risk-line', type: 'line', source: 'risk', paint: { 'line-color': '#ff5c73', 'line-width': 1.5, 'line-dasharray': [2, 2] } });
-      }
+      ensureGeoJsonSource(map, 'risk', layout.risk);
+      ensureLayer(map, { id: 'risk-fill', type: 'fill', source: 'risk', paint: { 'fill-color': '#ff5c73', 'fill-opacity': 0.13 } });
+      ensureLayer(map, { id: 'risk-line', type: 'line', source: 'risk', paint: { 'line-color': '#ff5c73', 'line-width': 1.5, 'line-dasharray': [2, 2] } });
+      setLayersVisibility(map, ['risk-fill', 'risk-line'], layers.risk);
 
-      if (layers.waterPath) {
-        map.addSource('water', { type: 'geojson', data: layout.water });
-        map.addLayer({
-          id: 'water-line',
-          type: 'line',
-          source: 'water',
-          paint: { 'line-color': ['get', 'color'], 'line-width': ['get', 'width'], 'line-opacity': 0.95, 'line-dasharray': [6, 2, 2, 2] },
-        });
-      }
+      ensureGeoJsonSource(map, 'water', layout.water);
+      ensureLayer(map, {
+        id: 'water-line',
+        type: 'line',
+        source: 'water',
+        paint: { 'line-color': ['get', 'color'], 'line-width': ['get', 'width'], 'line-opacity': 0.95, 'line-dasharray': [6, 2, 2, 2] },
+      });
+      setLayerVisibility(map, 'water-line', layers.waterPath);
 
       if (layers.projectLayout) {
         const activeBlocks: string[] = [];
@@ -248,65 +276,45 @@ export function useMapLibre({
           features: layout.labels.features.filter(f => activeBlocks.includes(f.properties?.key))
         } as any;
 
-        if (map.getSource('blocks')) {
-          (map.getSource('blocks') as maplibregl.GeoJSONSource).setData(filteredBlocks);
-          if (map.getLayer('blocks-extrusion')) {
-            map.setPaintProperty('blocks-extrusion', 'fill-extrusion-color', draftingMode ? [
-              'case',
-              ['==', ['get', 'component'], draftingMode],
-              '#aaaaaa',
-              ['get', 'color']
-            ] : ['get', 'color']);
-            map.setPaintProperty('blocks-extrusion', 'fill-extrusion-opacity', draftingMode ? [
-              'case',
-              ['==', ['get', 'component'], draftingMode],
-              0.4,
-              0.85
-            ] : 0.85);
-          }
-        } else {
-          map.addSource('blocks', { type: 'geojson', data: filteredBlocks });
-          setTimeout(() => {
-            if (map.getLayer('blocks-extrusion')) return;
-            map.addLayer({
-              id: 'blocks-extrusion',
-              type: 'fill-extrusion',
-              source: 'blocks',
-              paint: {
-                'fill-extrusion-color': draftingMode ? [
-                  'case',
-                  ['==', ['get', 'component'], draftingMode],
-                  '#aaaaaa',
-                  ['get', 'color']
-                ] : ['get', 'color'],
-                'fill-extrusion-height': ['get', 'height'],
-                'fill-extrusion-base': ['get', 'base'],
-                'fill-extrusion-opacity': draftingMode ? [
-                  'case',
-                  ['==', ['get', 'component'], draftingMode],
-                  0.4,
-                  0.85
-                ] : 0.85,
-              },
-            });
-          }, 50);
-        }
+        const extrusionColor = draftingMode ? [
+          'case',
+          ['==', ['get', 'component'], draftingMode],
+          '#aaaaaa',
+          ['get', 'color']
+        ] : ['get', 'color'];
+        const extrusionOpacity = draftingMode ? [
+          'case',
+          ['==', ['get', 'component'], draftingMode],
+          0.4,
+          0.85
+        ] : 0.85;
 
-        if (map.getSource('blockLabels')) {
-          (map.getSource('blockLabels') as maplibregl.GeoJSONSource).setData(filteredLabels);
-        } else {
-          map.addSource('blockLabels', { type: 'geojson', data: filteredLabels });
-          setTimeout(() => {
-            if (map.getLayer('block-labels')) return;
-            map.addLayer({
-              id: 'block-labels',
-              type: 'symbol',
-              source: 'blockLabels',
-              layout: { 'text-field': ['get', 'label'], 'text-size': 12, 'text-font': ['Noto Sans Bold'], 'text-variable-anchor': ['top', 'bottom', 'left', 'right'] },
-              paint: { 'text-color': '#d9fff0', 'text-halo-color': '#06100d', 'text-halo-width': 1.5 },
-            });
+        ensureGeoJsonSource(map, 'blocks', filteredBlocks);
+        ensureLayer(map, {
+          id: 'blocks-extrusion',
+          type: 'fill-extrusion',
+          source: 'blocks',
+          paint: {
+            'fill-extrusion-color': extrusionColor as any,
+            'fill-extrusion-height': ['get', 'height'],
+            'fill-extrusion-base': ['get', 'base'],
+            'fill-extrusion-opacity': extrusionOpacity as any,
+          },
+        });
+        map.setPaintProperty('blocks-extrusion', 'fill-extrusion-color', extrusionColor as any);
+        map.setPaintProperty('blocks-extrusion', 'fill-extrusion-opacity', extrusionOpacity as any);
 
-            if (!(map as any)._blockBound) {
+        ensureGeoJsonSource(map, 'blockLabels', filteredLabels);
+        ensureLayer(map, {
+          id: 'block-labels',
+          type: 'symbol',
+          source: 'blockLabels',
+          layout: { 'text-field': ['get', 'label'], 'text-size': 12, 'text-font': ['Noto Sans Bold'], 'text-variable-anchor': ['top', 'bottom', 'left', 'right'] },
+          paint: { 'text-color': '#d9fff0', 'text-halo-color': '#06100d', 'text-halo-width': 1.5 },
+        });
+        setLayersVisibility(map, ['blocks-extrusion', 'block-labels'], layers.projectLayout);
+
+        if (!(map as any)._blockBound) {
               (map as any)._blockBound = true;
               
               const showBlockTooltip = (e: any) => {
@@ -342,20 +350,16 @@ export function useMapLibre({
                 }
               };
 
-              map.on('mouseenter', 'blocks-extrusion', showBlockTooltip);
-              map.on('mouseleave', 'blocks-extrusion', hideBlockTooltip);
+              bindLayerEvent(map, 'mouseenter', 'blocks-extrusion', showBlockTooltip);
+              bindLayerEvent(map, 'mouseleave', 'blocks-extrusion', hideBlockTooltip);
             }
-          }, 50);
-        }
       } else {
-        if (map.getLayer('blocks-extrusion')) map.removeLayer('blocks-extrusion');
-        if (map.getSource('blocks')) map.removeSource('blocks');
-        if (map.getLayer('block-labels')) map.removeLayer('block-labels');
-        if (map.getSource('blockLabels')) map.removeSource('blockLabels');
+        setLayersVisibility(map, ['blocks-extrusion', 'block-labels'], false);
       }
 
-      if (showPowerGrid) {
-        map.addSource('osm-power-grid', { type: 'geojson', data: import.meta.env.BASE_URL.replace(/\/$/, '') + '/power-grid-filtered.geojson?v=4' });
+      const shouldKeepOsmPowerGrid = showPowerGrid || Boolean(map.getSource('osm-power-grid'));
+      if (shouldKeepOsmPowerGrid) {
+        ensureGeoJsonSource(map, 'osm-power-grid', import.meta.env.BASE_URL.replace(/\/$/, '') + '/power-grid-filtered.geojson?v=4');
         
         const getVoltageProp = (prop: 'color' | 'width'): any => {
           const v = ['to-number', ['coalesce', ['get', 'voltage'], 0]];
@@ -375,7 +379,7 @@ export function useMapLibre({
           if (powerGridConfig.elements.lines.show) typeFilter.push('line', 'minor_line');
           if (powerGridConfig.elements.cables.show) typeFilter.push('cable');
 
-          map.addLayer({
+          ensureLayer(map, {
             id: 'osm-power-lines',
             type: 'line',
             source: 'osm-power-grid',
@@ -393,6 +397,18 @@ export function useMapLibre({
               'line-opacity': 0.85
             }
           });
+          map.setFilter('osm-power-lines', ['in', ['get', 'type'], ['literal', typeFilter]]);
+          map.setPaintProperty('osm-power-lines', 'line-color', getVoltageProp('color'));
+          map.setPaintProperty('osm-power-lines', 'line-width', [
+            '*',
+            getVoltageProp('width'),
+            ['case',
+              ['==', ['get', 'type'], 'cable'], ['*', powerGridConfig.elements.cables.size || 0.5, 1.1],
+              ['*', powerGridConfig.elements.lines.size || 0.5, 1.1]
+            ]
+          ]);
+          map.setPaintProperty('osm-power-lines', 'line-opacity', 0.85);
+          setLayerVisibility(map, 'osm-power-lines', showPowerGrid);
         }
         
         if (powerGridConfig.elements.substation.show || powerGridConfig.elements.plant.show) {
@@ -400,7 +416,7 @@ export function useMapLibre({
           if (powerGridConfig.elements.substation.show) pointTypes.push('substation');
           if (powerGridConfig.elements.plant.show) pointTypes.push('plant');
 
-          map.addLayer({
+          ensureLayer(map, {
             id: 'osm-power-points',
             type: 'symbol',
             source: 'osm-power-grid',
@@ -432,6 +448,20 @@ export function useMapLibre({
               'text-halo-width': 2
             }
           });
+          map.setFilter('osm-power-points', ['in', ['get', 'type'], ['literal', pointTypes]]);
+          map.setPaintProperty('osm-power-points', 'text-color', [
+            'case',
+            ['==', ['get', 'type'], 'plant'], powerGridConfig.elements.plant.color,
+            powerGridConfig.elements.substation.color
+          ]);
+          setLayerVisibility(map, 'osm-power-points', showPowerGrid);
+        }
+
+        if (!(powerGridConfig.elements.lines.show || powerGridConfig.elements.cables.show)) {
+          setLayerVisibility(map, 'osm-power-lines', false);
+        }
+        if (!(powerGridConfig.elements.substation.show || powerGridConfig.elements.plant.show)) {
+          setLayerVisibility(map, 'osm-power-points', false);
         }
 
         // Add tooltips
@@ -463,10 +493,10 @@ export function useMapLibre({
             }
           };
 
-          map.on('mouseenter', 'osm-power-lines', showTooltip);
-          map.on('mouseleave', 'osm-power-lines', hideTooltip);
-          map.on('mouseenter', 'osm-power-points', showTooltip);
-          map.on('mouseleave', 'osm-power-points', hideTooltip);
+          bindLayerEvent(map, 'mouseenter', 'osm-power-lines', showTooltip);
+          bindLayerEvent(map, 'mouseleave', 'osm-power-lines', hideTooltip);
+          bindLayerEvent(map, 'mouseenter', 'osm-power-points', showTooltip);
+          bindLayerEvent(map, 'mouseleave', 'osm-power-points', hideTooltip);
         }
       }
 
@@ -479,28 +509,41 @@ export function useMapLibre({
             properties: { id: candidate.id, name: candidate.name, sourceGroupLabel: PDHES_TYPE_LABELS[candidate.pdhesType], color: getSiteColor(candidate) },
           })),
         };
-        map.addSource('candidates', { type: 'geojson', data: candidates });
-        map.addLayer({
+        ensureGeoJsonSource(map, 'candidates', candidates);
+        ensureLayer(map, {
           id: 'candidate-labels',
           type: 'symbol',
           source: 'candidates',
           layout: { 'text-field': ['get', 'name'], 'text-size': 11, 'text-offset': [0, 1.4], 'text-font': ['Noto Sans Regular'] },
           paint: { 'text-color': '#eafff2', 'text-halo-color': '#04100c', 'text-halo-width': 1.2 },
         });
+        setLayerVisibility(map, 'candidate-labels', true);
         
         sites.forEach((candidate) => {
-          const el = document.createElement('div');
           const markerColor = candidate.id === selectedId ? '#ff2a55' : getSiteColor(candidate);
           const center = getSiteCenter(candidate);
+          let cached = candidateMarkersRef.current.get(candidate.id);
+          if (!cached) {
+            const el = document.createElement('div');
+            cached = {
+              element: el,
+              marker: new maplibregl.Marker({ element: el }).setLngLat(center).addTo(map),
+            };
+            candidateMarkersRef.current.set(candidate.id, cached);
+          }
+          const { element: el, marker } = cached;
           el.innerHTML = getMarkerIconHtml(isSeaLowerReservoir(candidate) ? 'sea' : 'classic', markerColor, candidate.id === selectedId);
-          if (candidate.id === selectedId) el.classList.add('active-marker');
-          const marker = new maplibregl.Marker({ element: el })
-            .setLngLat(center)
-            .addTo(map);
+          el.classList.toggle('active-marker', candidate.id === selectedId);
+          el.style.display = '';
+          marker.setLngLat(center);
+          if (cached.clickHandler) {
+            el.removeEventListener('click', cached.clickHandler);
+            cached.clickHandler = undefined;
+          }
 
           if (interactiveCandidates) {
-            marker.getElement().style.cursor = 'pointer';
-            marker.getElement().addEventListener('click', (e) => {
+            el.style.cursor = 'pointer';
+            const clickHandler = (e: Event) => {
               e.stopPropagation();
               onSelectSiteRef.current?.(candidate.id);
               const popupContent = document.createElement('div');
@@ -533,27 +576,52 @@ export function useMapLibre({
                 }
               }
 
-              new maplibregl.Popup({ closeButton: false, offset: 25 })
+              activePopupRef.current?.remove();
+              activePopupRef.current = new maplibregl.Popup({ closeButton: false, offset: 25 })
                 .setLngLat(center)
                 .setDOMContent(popupContent)
                 .addTo(map);
-            });
+            };
+            el.addEventListener('click', clickHandler);
+            cached.clickHandler = clickHandler;
+          } else {
+            el.style.cursor = '';
           }
-          markersRef.current.push(marker);
+        });
+        const activeCandidateIds = new Set(sites.map(candidate => candidate.id));
+        candidateMarkersRef.current.forEach((cached, id) => {
+          if (!activeCandidateIds.has(id)) {
+            if (cached.clickHandler) cached.element.removeEventListener('click', cached.clickHandler);
+            cached.popup?.remove();
+            cached.marker.remove();
+            candidateMarkersRef.current.delete(id);
+          }
+        });
+      } else {
+        setLayerVisibility(map, 'candidate-labels', false);
+        candidateMarkersRef.current.forEach((cached) => {
+          cached.element.style.display = 'none';
         });
       }
       // Add World Examples
       WORLD_EXAMPLES_DETAILED.forEach((example) => {
         const isWorldSelected = example.id === worldExampleFocusId;
-        const el = document.createElement('div');
+        let cached = worldMarkersRef.current.get(example.id);
+        const el = cached?.element ?? document.createElement('div');
         el.innerHTML = getMarkerIconHtml('classic', isWorldSelected ? '#ff2a55' : '#00a8ff', isWorldSelected);
-        if (isWorldSelected) el.classList.add('active-marker');
+        el.classList.toggle('active-marker', isWorldSelected);
         el.style.cursor = 'pointer';
         el.style.zIndex = isWorldSelected ? '10' : '1';
         
-        const marker = new maplibregl.Marker({ element: el })
-          .setLngLat([example.lon || 0, example.lat || 0])
-          .addTo(map);
+        if (!cached) {
+          cached = {
+            element: el,
+            marker: new maplibregl.Marker({ element: el }).setLngLat([example.lon || 0, example.lat || 0]).addTo(map),
+          };
+          worldMarkersRef.current.set(example.id, cached);
+        } else {
+          cached.marker.setLngLat([example.lon || 0, example.lat || 0]);
+        }
 
         const popupHtml = `
           <div class="we-popup-content">
@@ -570,34 +638,37 @@ export function useMapLibre({
           </div>
         `;
 
-        const popup = new maplibregl.Popup({ offset: 15, maxWidth: '260px' })
-          .setLngLat([example.lon || 0, example.lat || 0])
-          .setHTML(popupHtml);
-          
-        popup.on('open', () => {
-          const { setWorldExampleFocus } = useSiteStore.getState();
-          setWorldExampleFocus(example.id);
-        });
+        if (!cached.popup) {
+          const popup = new maplibregl.Popup({ offset: 15, maxWidth: '260px' })
+            .setLngLat([example.lon || 0, example.lat || 0])
+            .setHTML(popupHtml);
 
-        popup.on('close', () => {
-          const { worldExampleFocusId, clearWorldExampleFocus } = useSiteStore.getState();
-          if (worldExampleFocusId === example.id) {
-            clearWorldExampleFocus();
-          }
-        });
-        
-        marker.setPopup(popup);
-        
+          popup.on('open', () => {
+            const { setWorldExampleFocus } = useSiteStore.getState();
+            setWorldExampleFocus(example.id);
+          });
+
+          popup.on('close', () => {
+            const { worldExampleFocusId, clearWorldExampleFocus } = useSiteStore.getState();
+            if (worldExampleFocusId === example.id) {
+              clearWorldExampleFocus();
+            }
+          });
+
+          cached.popup = popup;
+          cached.marker.setPopup(popup);
+        } else {
+          cached.popup.setLngLat([example.lon || 0, example.lat || 0]).setHTML(popupHtml);
+        }
+
         // Storing popup in the element so we can access it programmatically later if needed
-        (el as any)._popup = popup;
+        (el as any)._popup = cached.popup;
         el.id = `we-marker-${example.id}`;
-
-        markersRef.current.push(marker);
       });
 
     };
     run();
-  }, [gridAssets, handleCandidateClick, heightScale, interactiveCandidates, layers, selectedId, site, sites, showPowerGrid, powerGridConfig, draftingMode]);
+  }, [bindLayerEvent, draftingMode, gridAssets, heightScale, interactiveCandidates, layers, powerGridConfig, selectedId, site, sites, showPowerGrid, worldExampleFocusId]);
 
   useEffect(() => {
     if (!containerRef.current || mapRef.current || !site) return;
@@ -648,11 +719,26 @@ export function useMapLibre({
     });
 
     return () => {
-      markersRef.current.forEach(m => m.remove());
-      markersRef.current = [];
-      if (map && typeof map.getStyle === 'function' && map.getStyle() && map.getLayer('candidate-circles')) {
-        map.off('click', 'candidate-circles', handleCandidateClick);
-      }
+      drawRequestRef.current += 1;
+      waitingForStyleRef.current = false;
+      activePopupRef.current?.remove();
+      activePopupRef.current = null;
+      candidateMarkersRef.current.forEach((cached) => {
+        if (cached.clickHandler) cached.element.removeEventListener('click', cached.clickHandler);
+        cached.popup?.remove();
+        cached.marker.remove();
+      });
+      candidateMarkersRef.current.clear();
+      worldMarkersRef.current.forEach((cached) => {
+        cached.popup?.remove();
+        cached.marker.remove();
+      });
+      worldMarkersRef.current.clear();
+      layerEventCleanupRef.current.forEach((cleanup) => cleanup());
+      layerEventCleanupRef.current = [];
+      boundLayerEventsRef.current.clear();
+      (map as any)._blockPopup?.remove?.();
+      (map as any)._pgPopup?.remove?.();
       useMapToolsStore.getState().setMap(null);
       map.remove();
       mapRef.current = null;
@@ -660,7 +746,7 @@ export function useMapLibre({
     // Map creation is intentionally tied only to first data availability.
     // Site/style updates redraw layers without recreating the map instance.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [containerRef, handleCandidateClick, canCreateMap]);
+  }, [containerRef, canCreateMap]);
 
   useEffect(() => {
     const map = mapRef.current;
