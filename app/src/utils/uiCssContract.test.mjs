@@ -30,6 +30,18 @@ describe('UI stylesheet compatibility contract', () => {
     expect(css).toContain('-webkit-overflow-scrolling: touch');
   });
 
+  it('keeps the FAB popover table sticky, compact, and mobile-safe', () => {
+    const fabCss = css.slice(css.indexOf('/* --- FAB POPOVER --- */'), css.indexOf('/* --- ELEVATION PROFILE --- */'));
+
+    expect(fabCss).not.toContain('-webkit-overflow-scrolling: touch');
+    expect(fabCss).toContain('height: min(560px, calc(100vh - 112px), calc(100% - 72px))');
+    expect(fabCss).toContain('overscroll-behavior: contain');
+    expect(fabCss).toContain('min-width: 0');
+    expect(fabCss).toContain('overflow-wrap: anywhere');
+    expect(fabCss).toContain('.fab-table tbody tr:focus-visible');
+    expect(fabCss).toContain('z-index: 12');
+  });
+
   it('keeps the app chrome above 3D canvas and HTML overlays', () => {
     expect(css).toContain('.topbar, .tabs { position: relative; z-index: 40;');
     expect(css).toContain('border-bottom: 1px solid var(--line); background: var(--bg); z-index: 40;');

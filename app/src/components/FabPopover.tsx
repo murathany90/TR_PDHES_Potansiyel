@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, type KeyboardEvent } from 'react';
 import { Zap, X, Settings, Globe, List } from 'lucide-react';
 import { useSiteStore } from '../stores/useSiteStore';
 import { useSettingsStore, type VoltageGroup, type ElementGroup } from '../stores/useSettingsStore';
@@ -32,6 +32,12 @@ export function FabPopover({
   const setWorldExampleFocus = useSiteStore(state => state.setWorldExampleFocus);
   const { showPowerGrid, setShowPowerGrid, powerGridConfig, updatePowerGridVoltage, updatePowerGridElement } = useSettingsStore();
 
+  const handleRowKeyDown = (event: KeyboardEvent<HTMLTableRowElement>, action: () => void) => {
+    if (event.key !== 'Enter' && event.key !== ' ') return;
+    event.preventDefault();
+    action();
+  };
+
   // Close when clicking outside
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -60,31 +66,51 @@ export function FabPopover({
 
       {isOpen && (
         <div className="fab-popover">
-          <div className="fab-tabs">
+          <div className="fab-tabs" role="tablist" aria-label="Harita hızlı menüsü">
             <button 
+              type="button"
+              role="tab"
+              id="fab-tab-candidates"
+              aria-selected={activeTab === 'candidates'}
+              aria-controls="fab-panel-candidates"
               className={`fab-tab ${activeTab === 'candidates' ? 'active' : ''}`}
               onClick={() => setActiveTab('candidates')}
             >
-              <List size={16} /> Adaylar
+              <List size={16} /> <span className="fab-tab-label">Adaylar</span>
             </button>
             <button 
+              type="button"
+              role="tab"
+              id="fab-tab-world"
+              aria-selected={activeTab === 'world'}
+              aria-controls="fab-panel-world"
               className={`fab-tab ${activeTab === 'world' ? 'active' : ''}`}
               onClick={() => setActiveTab('world')}
             >
               <Globe size={16} /> Dünya Örnekleri
             </button>
             <button 
+              type="button"
+              role="tab"
+              id="fab-tab-settings"
+              aria-selected={activeTab === 'settings'}
+              aria-controls="fab-panel-settings"
               className={`fab-tab ${activeTab === 'settings' ? 'active' : ''}`}
               onClick={() => setActiveTab('settings')}
             >
-              <Settings size={16} /> Ayarlar
+              <Settings size={16} /> <span className="fab-tab-label">Ayarlar</span>
             </button>
           </div>
 
           <div className="fab-content">
             {activeTab === 'candidates' && (
-              <div className="fab-list-wrapper">
-                <table className="fab-table">
+              <div id="fab-panel-candidates" className="fab-list-wrapper" role="tabpanel" aria-labelledby="fab-tab-candidates">
+                <table className="fab-table" aria-label="PDHES adayları">
+                  <colgroup>
+                    <col style={{ width: '60%' }} />
+                    <col style={{ width: '20%' }} />
+                    <col style={{ width: '20%' }} />
+                  </colgroup>
                   <thead>
                     <tr>
                       <th>Aday Adı</th>
@@ -98,13 +124,16 @@ export function FabPopover({
                       <tr 
                         key={site.id} 
                         className={selectedSiteId === site.id ? 'active-row' : ''}
+                        tabIndex={0}
+                        aria-current={selectedSiteId === site.id ? 'true' : undefined}
                         onClick={() => {
                           selectSite(site.id);
                         }}
+                        onKeyDown={(event) => handleRowKeyDown(event, () => selectSite(site.id))}
                       >
                         <td>{site.name.replace(/^KAMU[-\s_]?/i, '').replace(/PSPP/g, 'PDHES')}</td>
-                        <td><div>{num(site.excelCalculated?.capacityMw ?? site.capacityMW)} MW</div><div style={{fontSize: '0.85em', color: 'var(--muted)'}}>{site.excelCalculated?.energyMwh ? num(site.excelCalculated.energyMwh / 1000, 1) + ' GWh' : (site.energyGWh ? num(site.energyGWh, 1) + ' GWh' : 'Belirtilmedi')}</div></td>
-                        <td><div>{num(site.excelCalculated?.grossHeadM ?? site.headM, 1)} m</div><div style={{fontSize: '0.85em', color: 'var(--muted)'}}>{num(site.tunnelLengthKm, 1)} km</div></td>
+                        <td><div>{num(site.excelCalculated?.capacityMw ?? site.capacityMW)} MW</div><div className="fab-subvalue">{site.excelCalculated?.energyMwh ? num(site.excelCalculated.energyMwh / 1000, 1) + ' GWh' : (site.energyGWh ? num(site.energyGWh, 1) + ' GWh' : 'Belirtilmedi')}</div></td>
+                        <td><div>{num(site.excelCalculated?.grossHeadM ?? site.headM, 1)} m</div><div className="fab-subvalue">{num(site.tunnelLengthKm, 1)} km</div></td>
                       </tr>
                     )})}
                   </tbody>
@@ -113,8 +142,13 @@ export function FabPopover({
             )}
 
             {activeTab === 'world' && (
-              <div className="fab-list-wrapper">
-                <table className="fab-table">
+              <div id="fab-panel-world" className="fab-list-wrapper" role="tabpanel" aria-labelledby="fab-tab-world">
+                <table className="fab-table" aria-label="Dünya PDHES örnekleri">
+                  <colgroup>
+                    <col style={{ width: '60%' }} />
+                    <col style={{ width: '20%' }} />
+                    <col style={{ width: '20%' }} />
+                  </colgroup>
                   <thead>
                     <tr>
                       <th>Tesis Adı</th>
@@ -124,10 +158,16 @@ export function FabPopover({
                   </thead>
                   <tbody>
                     {WORLD_EXAMPLES_DETAILED.map(ex => (
-                      <tr key={ex.id} onClick={() => setWorldExampleFocus(ex.id)} style={{ cursor: 'pointer' }} className="hoverable-row">
-                        <td>{ex.name} <span style={{color: 'var(--muted)', fontSize: '0.9em'}}>({ex.country})</span></td>
-                        <td><div>{ex.capacityMw} MW</div><div style={{fontSize: '0.85em', color: 'var(--muted)'}}>{ex.storageMwh && ex.storageMwh !== '-' ? ex.storageMwh + ' MWh' : '-'}</div></td>
-                        <td><div>{ex.headM && ex.headM !== '-' ? `${ex.headM} m` : '-'}</div><div style={{fontSize: '0.85em', color: 'var(--muted)'}}>{ex.efficiency || '-'}</div></td>
+                      <tr
+                        key={ex.id}
+                        onClick={() => setWorldExampleFocus(ex.id)}
+                        onKeyDown={(event) => handleRowKeyDown(event, () => setWorldExampleFocus(ex.id))}
+                        tabIndex={0}
+                        className="hoverable-row"
+                      >
+                        <td>{ex.name} <span className="fab-country">({ex.country})</span></td>
+                        <td><div>{ex.capacityMw} MW</div><div className="fab-subvalue">{ex.storageMwh && ex.storageMwh !== '-' ? ex.storageMwh + ' MWh' : '-'}</div></td>
+                        <td><div>{ex.headM && ex.headM !== '-' ? `${ex.headM} m` : '-'}</div><div className="fab-subvalue">{ex.efficiency || '-'}</div></td>
                       </tr>
                     ))}
                   </tbody>
@@ -136,7 +176,7 @@ export function FabPopover({
             )}
 
             {activeTab === 'settings' && (
-              <div className="fab-settings">
+              <div id="fab-panel-settings" className="fab-settings" role="tabpanel" aria-labelledby="fab-tab-settings">
                 <div className="setting-group">
                   <h4>Harita Altlığı</h4>
                   <div className="map-style-picker" style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>

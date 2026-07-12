@@ -1244,6 +1244,7 @@ html[data-theme="light"] .pdhes-rich-shell .source-footer { background: var(--pa
   align-items: flex-start;
   gap: 16px;
   pointer-events: none;
+  min-height: 0;
 }
 
 .fab-main {
@@ -1282,14 +1283,15 @@ html[data-theme="light"] .pdhes-rich-shell .source-footer { background: var(--pa
   border-radius: 12px;
   width: min(360px, calc(100vw - 32px));
   max-width: calc(100vw - 32px);
-  height: 500px;
-  max-height: calc(100vh - 240px);
+  height: min(560px, calc(100vh - 112px), calc(100% - 72px));
+  max-height: min(calc(100vh - 112px), calc(100% - 72px));
   min-height: 0;
   display: flex;
   flex-direction: column;
   box-shadow: 0 8px 32px rgba(0,0,0,0.3);
   animation: slideUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   overflow: hidden;
+  isolation: isolate;
 }
 
 @keyframes slideUp {
@@ -1301,10 +1303,13 @@ html[data-theme="light"] .pdhes-rich-shell .source-footer { background: var(--pa
   display: flex;
   border-bottom: 1px solid var(--line);
   background: var(--panel2);
+  flex-shrink: 0;
+  min-width: 0;
 }
 
 .fab-tab {
   flex: 1;
+  min-width: 0;
   padding: 12px 0;
   background: transparent;
   border: none;
@@ -1318,6 +1323,13 @@ html[data-theme="light"] .pdhes-rich-shell .source-footer { background: var(--pa
   gap: 6px;
   transition: all 0.2s;
   border-bottom: 2px solid transparent;
+}
+
+.fab-tab-label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .fab-tab:hover {
@@ -1340,22 +1352,28 @@ html[data-theme="light"] .pdhes-rich-shell .source-footer { background: var(--pa
 
 .fab-list-wrapper {
   flex: 1;
+  min-height: 0;
   overflow: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
 }
 
 .fab-table {
   width: 100%;
+  max-width: 100%;
+  min-width: 0;
   table-layout: fixed;
   border-collapse: separate;
   border-spacing: 0;
   font-size: 12.5px;
+  border: 0;
 }
 
 .fab-table thead {
   position: -webkit-sticky;
   position: sticky;
   top: 0;
-  z-index: 10;
+  z-index: 12;
 }
 
 .fab-table th {
@@ -1368,22 +1386,40 @@ html[data-theme="light"] .pdhes-rich-shell .source-footer { background: var(--pa
   position: sticky;
   top: 0;
   border-bottom: 1px solid var(--line);
-  z-index: 10;
+  z-index: 12;
 }
 
 .fab-table td, .fab-table th {
   padding: 8px 12px;
   border-bottom: 1px solid var(--line);
   color: var(--text);
+  min-width: 0;
 }
 .fab-table td:first-child, .fab-table th:first-child {
   width: 60%;
   white-space: normal;
   line-height: 1.4;
+  overflow-wrap: anywhere;
+  word-break: normal;
 }
 .fab-table td:not(:first-child), .fab-table th:not(:first-child) {
   white-space: nowrap;
   text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.fab-subvalue,
+.fab-country {
+  color: var(--muted);
+}
+
+.fab-subvalue {
+  font-size: 0.85em;
+  line-height: 1.25;
+}
+
+.fab-country {
+  font-size: 0.9em;
 }
 
 .fab-table tbody tr {
@@ -1393,6 +1429,12 @@ html[data-theme="light"] .pdhes-rich-shell .source-footer { background: var(--pa
 
 .fab-table tbody tr:hover {
   background: rgba(255,255,255,0.02);
+}
+
+.fab-table tbody tr:focus-visible {
+  outline: 3px solid rgba(var(--focus-rgb), .35);
+  outline-offset: -3px;
+  background: rgba(54, 214, 255, 0.08);
 }
 
 .fab-table tr.active-row td {
@@ -1488,14 +1530,15 @@ html[data-theme="light"] .pdhes-rich-shell .source-footer { background: var(--pa
   .fab-popover {
     width: min(360px, calc(100vw - 48px));
     max-width: calc(100vw - 48px);
+    height: min(560px, calc(100vh - 96px));
+    max-height: calc(100vh - 96px);
   }
 
-  .fab-tabs { min-width: 0; }
-  .fab-tab { padding: 10px 4px; font-size: 12px; gap: 4px; }
+  .fab-tab { padding: 9px 4px; font-size: 12px; gap: 4px; }
   .fab-content { padding: 0; }
   .fab-list-wrapper { margin: 0; }
-  .fab-table { width: 100%; font-size: 12px; }
-  .fab-table td, .fab-table th { padding: 6px 4px; }
+  .fab-table { width: 100%; font-size: 11.5px; }
+  .fab-table td, .fab-table th { padding: 6px 5px; }
   .fab-table td:not(:first-child), .fab-table th:not(:first-child) {
     white-space: normal;
   }
@@ -1523,6 +1566,8 @@ html[data-theme="light"] .pdhes-rich-shell .source-footer { background: var(--pa
   .fab-popover {
     width: min(360px, calc(100vw - 40px));
     max-width: calc(100vw - 40px);
+    height: min(560px, calc(100vh - 88px));
+    max-height: calc(100vh - 88px);
   }
 
   .map-overlay-controls {

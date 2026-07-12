@@ -31,7 +31,7 @@ describe('MapPage controls', () => {
 
     expect(screen.getByRole('button', { name: /kapasite özeti panelini kapat/i })).toBeTruthy();
 
-    const toggleBtn = screen.getByRole('button', { name: '3D' });
+    const toggleBtn = screen.getByRole('button', { name: '2D' });
     expect(toggleBtn).toBeTruthy();
 
     const fabBtn = screen.getByRole('button', { name: /Menüyü Aç/i });
@@ -39,18 +39,15 @@ describe('MapPage controls', () => {
 
     expect(screen.getAllByText(/Test PDHES/i).length).toBeGreaterThan(0);
 
-    const settingsTab = screen.getByRole('button', { name: /Ayarlar/i });
+    const settingsTab = screen.getByRole('tab', { name: /Ayarlar/i });
     fireEvent.click(settingsTab);
 
     const dimensionGroup = screen.getByRole('group', { name: 'Harita boyutu' });
     const dimension2D = within(dimensionGroup).getByRole('button', { name: '2D Düz' });
     const dimension3D = within(dimensionGroup).getByRole('button', { name: '3D Arazi' });
 
-    expect(dimension2D.classList.contains('active')).toBe(false);
-    expect(dimension3D.classList.contains('active')).toBe(true);
-
-    const qualityGroup = screen.getByRole('group', { name: '3D arazi kalitesi' });
-    const qualityOrta = within(qualityGroup).getByRole('button', { name: /Orta/i });
-    expect(qualityOrta.classList.contains('active')).toBe(true);
+    expect(dimension2D.classList.contains('active')).toBe(true);
+    expect(dimension3D.classList.contains('active')).toBe(false);
+    expect(screen.queryByRole('group', { name: '3D arazi kalitesi' })).toBeNull();
   });
 });

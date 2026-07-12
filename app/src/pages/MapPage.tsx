@@ -18,7 +18,7 @@ const DEFAULT_LAYERS: MapLayerVisibility = {
   risk: true,
   waterPath: true,
   powerGrid: false,
-  terrain3d: true,
+  terrain3d: false,
   upperReservoir: true,
   lowerReservoir: true,
   powerhouse: true,
