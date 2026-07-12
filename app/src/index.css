@@ -1346,7 +1346,9 @@ html[data-theme="light"] .pdhes-rich-shell .source-footer { background: var(--pa
 
 .fab-table {
   width: 100%;
-  border-collapse: collapse;
+  table-layout: fixed;
+  border-collapse: separate;
+  border-spacing: 0;
   font-size: 12.5px;
 }
 
@@ -1364,18 +1366,18 @@ html[data-theme="light"] .pdhes-rich-shell .source-footer { background: var(--pa
 }
 
 .fab-table td, .fab-table th {
-  padding: 8px 8px;
+  padding: 8px 12px;
   border-bottom: 1px solid var(--line);
   color: var(--text);
 }
 .fab-table td:first-child, .fab-table th:first-child {
-  width: 55%;
+  width: 60%;
   white-space: normal;
   line-height: 1.4;
 }
 .fab-table td:not(:first-child), .fab-table th:not(:first-child) {
   white-space: nowrap;
-  text-align: center;
+  text-align: right;
 }
 
 .fab-table tbody tr {
@@ -1487,6 +1489,7 @@ html[data-theme="light"] .pdhes-rich-shell .source-footer { background: var(--pa
   .fab-content { padding: 0; }
   .fab-list-wrapper { margin: 0; }
   .fab-table { width: 100%; font-size: 12px; }
+  .fab-table td, .fab-table th { padding: 6px 4px; }
   .fab-table td:not(:first-child), .fab-table th:not(:first-child) {
     white-space: normal;
   }
