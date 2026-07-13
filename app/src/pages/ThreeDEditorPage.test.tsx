@@ -71,4 +71,30 @@ describe('ThreeDEditorPage basic UI requirements', () => {
     
     expect(screen.getByTestId('fab-popover-mock')).toBeTruthy();
   });
+
+  it('renders sites with partial component detail data without crashing', () => {
+    const partialSite = makeTestSite({
+      id: 'partial-detail-site',
+      name: 'Partial Detail PDHES',
+      components_detail: {
+        upper_reservoir: {
+          elevation_m: 910,
+          dam_height_m: 30,
+          active_volume_mcm: 6,
+        },
+      } as any,
+    });
+
+    useSiteStore.setState({
+      sites: [partialSite],
+      baseSites: [partialSite],
+      selectedId: partialSite.id,
+      loading: false,
+    });
+
+    render(<ThreeDEditorPage site={partialSite} onDone={vi.fn()} />);
+
+    expect(screen.getByText('Partial Detail PDHES')).toBeTruthy();
+    expect(screen.getByText('Alt Rezervuar')).toBeTruthy();
+  });
 });

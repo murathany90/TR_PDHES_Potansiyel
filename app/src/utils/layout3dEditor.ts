@@ -193,6 +193,50 @@ function mergeFootprints(existing: Layout3DFootprint[] | undefined, generated: L
   return [...preserved, ...generated];
 }
 
+function mergeSourceFootprints(
+  current: Layout3DFootprint[] | undefined,
+  source: Layout3DFootprint[] | undefined,
+): Layout3DFootprint[] | undefined {
+  if ((!source || source.length === 0) && (!current || current.length === 0)) return current;
+  const byId = new Map<string, Layout3DFootprint>();
+  for (const footprint of source ?? []) {
+    byId.set(footprint.id, footprint);
+  }
+  for (const footprint of current ?? []) {
+    byId.set(footprint.id, footprint);
+  }
+  return Array.from(byId.values());
+}
+
+export function attachThreeDEditorSourceFootprints(
+  site: Site,
+  sourceFootprints?: Layout3DFootprint[] | null,
+): Site {
+  if (!site.layout3D) return site;
+  const componentFootprints = mergeSourceFootprints(site.layout3D.componentFootprints, sourceFootprints ?? undefined);
+  if (!componentFootprints || componentFootprints.length === 0) return site;
+  return {
+    ...site,
+    layout3D: {
+      ...site.layout3D,
+      componentFootprints,
+    },
+  };
+}
+
+export function buildThreeDEditorExportSite(
+  site: Site,
+  options: {
+    hasEditorChanges?: boolean;
+    sourceFootprints?: Layout3DFootprint[] | null;
+    upperStats?: { area: number; volume: number; elevation: number };
+  } = {},
+): Site {
+  const siteWithSourceFootprints = attachThreeDEditorSourceFootprints(site, options.sourceFootprints);
+  if (!options.hasEditorChanges) return siteWithSourceFootprints;
+  return applyEditorDerivedLayout(siteWithSourceFootprints, options.upperStats);
+}
+
 export function applyEditorDerivedLayout(
   site: Site,
   upperStats?: { area: number; volume: number; elevation: number }

@@ -1,10 +1,17 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useMapLibre, type MapLayerVisibility } from '../hooks/useMapLibre';
 import { useSettingsStore } from '../stores/useSettingsStore';
 import { useSiteStore } from '../stores/useSiteStore';
-import type { Site } from '../types/site';
-import { applyEditorDerivedLayout, ensureClosedRing } from '../utils/layout3dEditor';
+import type { Layout3DFootprint, Site } from '../types/site';
+import {
+  applyEditorDerivedLayout,
+  attachThreeDEditorSourceFootprints,
+  buildThreeDEditorExportSite,
+  ensureClosedRing,
+} from '../utils/layout3dEditor';
 import { FabPopover } from '../components/FabPopover';
+import { publicAssetUrl } from '../utils/publicUrl';
+import { buildComponentsDetail } from '../utils/siteDerived';
 import * as turf from '@turf/turf';
 
 interface ThreeDEditorPageProps {
@@ -43,6 +50,7 @@ export default function ThreeDEditorPage({ site, onDone }: ThreeDEditorPageProps
   const [message, setMessage] = useState('');
   const [hasEditorChanges, setHasEditorChanges] = useState(false);
   const [editorLayers, setEditorLayers] = useState<MapLayerVisibility>({ ...EDITOR_LAYERS });
+  const [sourceFootprints, setSourceFootprints] = useState<Layout3DFootprint[] | null>(null);
 
   // Draft drawing source setup
   const draftSourceId = 'draft-drawing-source';
@@ -54,11 +62,65 @@ export default function ThreeDEditorPage({ site, onDone }: ThreeDEditorPageProps
     }
   }, [site?.id]);
 
+  useEffect(() => {
+    let cancelled = false;
+
+    if (!site?.layout3D?.useFootprintPolygons) {
+      setSourceFootprints([]);
+      return () => {
+        cancelled = true;
+      };
+    }
+
+    if (site.layout3D.componentFootprints && site.layout3D.componentFootprints.length > 0) {
+      setSourceFootprints(site.layout3D.componentFootprints);
+      return () => {
+        cancelled = true;
+      };
+    }
+
+    setSourceFootprints(null);
+    fetch(publicAssetUrl(`/footprints/${site.id}.json`))
+      .then((res) => (res.ok ? res.json() : []))
+      .then((data) => {
+        if (!cancelled) setSourceFootprints(Array.isArray(data) ? data : []);
+      })
+      .catch(() => {
+        if (!cancelled) setSourceFootprints([]);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [site?.id, site?.layout3D?.useFootprintPolygons, site?.layout3D?.componentFootprints]);
+
+  const previewSiteWithFootprints = useMemo(() => (
+    previewSite ? attachThreeDEditorSourceFootprints(previewSite, sourceFootprints) : undefined
+  ), [previewSite, sourceFootprints]);
+
+  const loadSourceFootprintsForExport = async (): Promise<Layout3DFootprint[]> => {
+    if (!previewSite?.layout3D?.useFootprintPolygons) return [];
+    if (sourceFootprints !== null) return sourceFootprints;
+    if (previewSite.layout3D.componentFootprints && previewSite.layout3D.componentFootprints.length > 0) {
+      return previewSite.layout3D.componentFootprints;
+    }
+    try {
+      const response = await fetch(publicAssetUrl(`/footprints/${previewSite.id}.json`));
+      const data = response.ok ? await response.json() : [];
+      const footprints = Array.isArray(data) ? data : [];
+      setSourceFootprints(footprints);
+      return footprints;
+    } catch {
+      setSourceFootprints([]);
+      return [];
+    }
+  };
+
   const { mapRef } = useMapLibre({
     containerRef: mapContainer,
-    site: previewSite,
-    sites: previewSite ? [previewSite] : [],
-    selectedId: previewSite?.id || '',
+    site: previewSiteWithFootprints,
+    sites: previewSiteWithFootprints ? [previewSiteWithFootprints] : [],
+    selectedId: previewSiteWithFootprints?.id || '',
     mapStyle,
     heightScale,
     gridAssets,
@@ -320,6 +382,9 @@ export default function ThreeDEditorPage({ site, onDone }: ThreeDEditorPageProps
     return <section className="panel active"><p className="muted">Düzenlenecek 3D yerleşim bulunamadı.</p></section>;
   }
 
+  const siteDetail = buildComponentsDetail(site);
+  const previewDetail = buildComponentsDetail(previewSiteWithFootprints ?? previewSite);
+
   const calculatePolyStats = (polygonCoords: [number, number][] | undefined, baseVolume: number | null, fallbackElevation: number | null, queryTerrain: boolean = true) => {
     let area_m2 = 0;
     let centroid: [number, number] | null = null;
@@ -353,13 +418,13 @@ export default function ThreeDEditorPage({ site, onDone }: ThreeDEditorPageProps
   };
 
   const currentUpperPoly = drawingMode === 'upperReservoir' ? draftCoords : previewSite?.coordinates.upperReservoirPolygon;
-  const rawOldStats = calculatePolyStats(site.coordinates.upperReservoirPolygon, site.activeVolumeHm3 || 0, site.components_detail?.upper_reservoir?.elevation_m || site.headM || 0, false);
+  const rawOldStats = calculatePolyStats(site.coordinates.upperReservoirPolygon, site.activeVolumeHm3 || 0, siteDetail.upper_reservoir.elevation_m || site.headM || 0, false);
   const upperOldStats = {
     area: rawOldStats.area,
-    volume: site.components_detail?.upper_reservoir?.active_volume_mcm ? site.components_detail.upper_reservoir.active_volume_mcm * 1000000 : rawOldStats.volume,
+    volume: siteDetail.upper_reservoir.active_volume_mcm ? siteDetail.upper_reservoir.active_volume_mcm * 1000000 : rawOldStats.volume,
     elevation: rawOldStats.elevation
   };
-  const upperNewStats = calculatePolyStats(currentUpperPoly, previewSite?.activeVolumeHm3 || 0, previewSite?.components_detail?.upper_reservoir?.elevation_m || previewSite?.headM || 0, true);
+  const upperNewStats = calculatePolyStats(currentUpperPoly, previewSite?.activeVolumeHm3 || 0, previewDetail.upper_reservoir.elevation_m || previewSite?.headM || 0, true);
 
   const handleFinishDrawing = () => {
     if (draftCoords.length === 0) {
@@ -463,9 +528,14 @@ export default function ThreeDEditorPage({ site, onDone }: ThreeDEditorPageProps
     setMessage("Kalan bileşenler eksikse otomatik yerleştirildi, su yolu çizildi!");
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (previewSite) {
-      const siteToSave = hasEditorChanges ? applyEditorDerivedLayout(previewSite, upperNewStats) : previewSite;
+      const exportFootprints = await loadSourceFootprintsForExport();
+      const siteToSave = buildThreeDEditorExportSite(previewSite, {
+        hasEditorChanges,
+        sourceFootprints: exportFootprints,
+        upperStats: upperNewStats,
+      });
       updateSite(site.id, siteToSave);
       setPreviewSite(siteToSave);
       setHasEditorChanges(false);
@@ -491,9 +561,7 @@ export default function ThreeDEditorPage({ site, onDone }: ThreeDEditorPageProps
     setPreviewSite((prev) => {
       if (!prev) return prev;
       const newSite = { ...prev };
-      if (!newSite.components_detail) return newSite;
-      
-      const newDetail = JSON.parse(JSON.stringify(newSite.components_detail));
+      const newDetail = JSON.parse(JSON.stringify(buildComponentsDetail(newSite)));
       
       if (componentKey === 'upperReservoir') newDetail.upper_reservoir.elevation_m = value;
       else if (componentKey === 'lowerReservoir') newDetail.lower_reservoir.elevation_m = value;
@@ -582,10 +650,10 @@ export default function ThreeDEditorPage({ site, onDone }: ThreeDEditorPageProps
           <p className="muted small" style={{ marginBottom: 12 }}>{site.name}</p>
           
           <div style={{ flex: 1, overflowY: 'auto', paddingRight: '4px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            {renderComponentCard('Üst Rezervuar', 'upperReservoir', 'none', 'upperReservoir', previewSite?.components_detail?.upper_reservoir.elevation_m, { label: 'Derinlik', key: 'damHeight', value: previewSite?.components_detail?.upper_reservoir.dam_height_m || 20 })}
-            {renderComponentCard('Alt Rezervuar', 'lowerReservoir', 'none', 'lowerReservoir', previewSite?.components_detail?.lower_reservoir.elevation_m)}
-            {renderComponentCard('Denge Bacası', 'none', 'surgeTank', 'surgeTank', previewSite?.components_detail?.surge_tank.height_m)}
-            {renderComponentCard('Türbin Odası', 'none', 'powerhouse', 'powerhouse', previewSite?.components_detail?.powerhouse.cavern_height_m)}
+            {renderComponentCard('Üst Rezervuar', 'upperReservoir', 'none', 'upperReservoir', previewDetail.upper_reservoir.elevation_m, { label: 'Derinlik', key: 'damHeight', value: previewDetail.upper_reservoir.dam_height_m || 20 })}
+            {renderComponentCard('Alt Rezervuar', 'lowerReservoir', 'none', 'lowerReservoir', previewDetail.lower_reservoir.elevation_m)}
+            {renderComponentCard('Denge Bacası', 'none', 'surgeTank', 'surgeTank', previewDetail.surge_tank.height_m)}
+            {renderComponentCard('Türbin Odası', 'none', 'powerhouse', 'powerhouse', previewDetail.powerhouse.cavern_height_m)}
             {renderComponentCard('Şalt Sahası (3D)', 'none', 'switchyard')}
             {renderComponentCard('Tünel Portalı', 'none', 'portal')}
             {renderComponentCard('Su Yolu', 'penstockRoute')}
@@ -614,9 +682,14 @@ export default function ThreeDEditorPage({ site, onDone }: ThreeDEditorPageProps
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 16 }}>
-            <button className="btn outline" onClick={() => {
+            <button className="btn outline" onClick={async () => {
               if (!previewSite) return;
-              const exportSite = hasEditorChanges ? applyEditorDerivedLayout(previewSite, upperNewStats) : previewSite;
+              const exportFootprints = await loadSourceFootprintsForExport();
+              const exportSite = buildThreeDEditorExportSite(previewSite, {
+                hasEditorChanges,
+                sourceFootprints: exportFootprints,
+                upperStats: upperNewStats,
+              });
               const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(exportSite, null, 2));
               const dlAnchorElem = document.createElement('a');
               dlAnchorElem.setAttribute("href", dataStr);

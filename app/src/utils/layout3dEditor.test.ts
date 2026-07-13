@@ -3,8 +3,11 @@ import { makeTestSite } from '../test-utils/makeTestSite';
 import { validateSites } from './siteSchema';
 import {
   applyEditorDerivedLayout,
+  buildThreeDEditorExportSite,
   ensureClosedRing,
 } from './layout3dEditor';
+import rawSites from '../../public/data.json';
+import gokcekayaFootprints from '../../public/footprints/kamu-gokcekaya-pspp.json';
 
 describe('layout3dEditor helpers', () => {
   it('closes polygon rings without duplicating an already closed endpoint', () => {
@@ -44,5 +47,29 @@ describe('layout3dEditor helpers', () => {
     const validation = validateSites([prepared]);
     expect(validation.errors).toEqual([]);
     expect(validation.ok).toBe(true);
+  });
+
+  it('exports lazy-loaded footprint drawings with elevation and reservoir metadata', () => {
+    const gokcekaya = (rawSites as any[]).find((item) => item.id === 'kamu-gokcekaya-pspp');
+    const exportSite = buildThreeDEditorExportSite(gokcekaya, {
+      hasEditorChanges: false,
+      sourceFootprints: gokcekayaFootprints as any,
+    });
+    const footprints = exportSite.layout3D?.componentFootprints ?? [];
+    const upperWater = footprints.find((item) => item.id === 'upperReservoirWater');
+    const powerhouse = footprints.find((item) => item.id === 'powerhouseFootprint');
+    const penstock = footprints.find((item) => item.id === 'penstock01');
+
+    expect(footprints.length).toBe((gokcekayaFootprints as any[]).length);
+    expect(upperWater).toMatchObject({
+      activeVolumeHm3: expect.any(Number),
+      activeDepthM: expect.any(Number),
+      surfaceAreaM2: expect.any(Number),
+      volumeValidationDifferencePct: expect.any(Number),
+    });
+    expect(powerhouse?.baseElevationM).toEqual(expect.any(Number));
+    expect(powerhouse?.topElevationM).toEqual(expect.any(Number));
+    expect(powerhouse?.extrudeM).toEqual(expect.any(Number));
+    expect(penstock?.profileElevationM?.length).toBe(penstock?.coords.length);
   });
 });

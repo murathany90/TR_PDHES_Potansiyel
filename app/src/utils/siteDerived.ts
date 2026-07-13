@@ -111,8 +111,6 @@ export function getSiteLayout(site: Site): SiteLayout {
 }
 
 export function buildComponentsDetail(site: Site): ComponentsDetail {
-  if (site.components_detail) return site.components_detail;
-
   const hasExcel = !!site.excelCalculated;
   const isSea = isSeaLowerReservoir(site);
   const activeMcm = site.activeVolumeHm3 ?? (hasExcel ? site.excelCalculated!.upperActiveVolumeHm3 : null) ?? 10;
@@ -124,7 +122,7 @@ export function buildComponentsDetail(site: Site): ComponentsDetail {
   const lengthM = site.penstockLengthM ?? Math.round((site.tunnelLengthKm ?? 1.5) * 1000);
   const units = site.capacityMW >= 1000 ? 4 : site.capacityMW >= 500 ? 2 : 1;
   const voltage = site.capacityMW >= 1000 ? 380 : 154;
-  return {
+  const generated: ComponentsDetail = {
     upper_reservoir: {
       elevation_m: upperElevation,
       active_volume_mcm: activeMcm,
@@ -177,5 +175,21 @@ export function buildComponentsDetail(site: Site): ComponentsDetail {
       corrosion_control: 'Korozyon, biofouling ve sızdırmazlık doğrulaması gerekir.',
       note: site.coordinates.intakeOutfall?.description ?? 'Deniz alım/deşarj yapısı',
     } : null,
+  };
+
+  if (!site.components_detail) return generated;
+
+  const detail = site.components_detail;
+  return {
+    ...generated,
+    ...detail,
+    upper_reservoir: { ...generated.upper_reservoir, ...detail.upper_reservoir },
+    lower_reservoir: { ...generated.lower_reservoir, ...detail.lower_reservoir },
+    penstock: { ...generated.penstock, ...detail.penstock },
+    powerhouse: { ...generated.powerhouse, ...detail.powerhouse },
+    surge_tank: { ...generated.surge_tank, ...detail.surge_tank },
+    switchyard: { ...generated.switchyard, ...detail.switchyard },
+    tunnel: { ...generated.tunnel, ...detail.tunnel },
+    intake_outfall: detail.intake_outfall === undefined ? generated.intake_outfall : detail.intake_outfall,
   };
 }
