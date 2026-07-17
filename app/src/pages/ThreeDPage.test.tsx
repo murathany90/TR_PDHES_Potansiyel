@@ -12,6 +12,7 @@ vi.mock('../components/ui/ThreeDModel', () => ({
       data-active={props.activeComponent}
       data-active-units={props.activeUnits}
       data-active-unit-ids={JSON.stringify(props.activeUnitIds ?? [])}
+      data-max-units={props.maxUnits}
       data-layers={JSON.stringify(props.layers)}
       data-simulation-state={props.simulationState}
       data-upper-soc={props.upperSoc}
@@ -132,6 +133,41 @@ describe('ThreeDPage controls', () => {
 
     expect(model.getAttribute('data-active-units')).toBe('0');
     expect(model.getAttribute('data-active-unit-ids')).toBe('[]');
+  });
+
+  it('renders Gokcekaya controls as four 350 MW groups without G5 or G6', () => {
+    render(<ThreeDPage site={makeTestSite({
+      id: 'kamu-gokcekaya-pspp',
+      capacityMW: 1400,
+      projectFlowCms: 270,
+      components_detail: {
+        upper_reservoir: {
+          elevation_m: 889,
+          active_volume_mcm: 10.84,
+          dam_height_m: 55,
+          lining: '',
+          geology_note: '',
+        },
+        lower_reservoir: { elevation_m: 421, min_level_m: 413, note: '' },
+        penstock: { diameter_m: 6.6, length_m: 4050, material: '', pressure_class: '', count: 4 },
+        powerhouse: { cavern_width_m: 36, cavern_length_m: 266, cavern_height_m: 39, units: 4, turbine_type: '', unitPowerMW: 350 },
+        surge_tank: { type: '', height_m: 112, diameter_m: 33 },
+        switchyard: { voltage_kv: 380, transformer_count: 3, connection_line_km: 7.1 },
+        tunnel: { length_m: 4050, diameter_m: 8.2, excavation_type: '' },
+        intake_outfall: null,
+      },
+    })} />);
+
+    const model = screen.getByTestId('three-d-model');
+    expect(model.getAttribute('data-max-units')).toBe('4');
+    expect(model.getAttribute('data-active-units')).toBe('4');
+    expect(model.getAttribute('data-active-unit-ids')).toBe('["G1","G2","G3","G4"]');
+    expect(screen.getByRole('button', { name: 'G1' })).toBeTruthy();
+    expect(screen.getByRole('button', { name: 'G2' })).toBeTruthy();
+    expect(screen.getByRole('button', { name: 'G3' })).toBeTruthy();
+    expect(screen.getByRole('button', { name: 'G4' })).toBeTruthy();
+    expect(screen.queryByRole('button', { name: 'G5' })).toBeNull();
+    expect(screen.queryByRole('button', { name: 'G6' })).toBeNull();
   });
 
   it('advances reservoir SOC while generation simulation is running', async () => {

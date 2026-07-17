@@ -3,11 +3,28 @@ import { getLegacyCustomSites, getPersistedSites, useSiteStore } from '../stores
 import { publicAssetUrl } from '../utils/publicUrl';
 import { attachExcelCalculatedData } from '../utils/pdhes/excelDataMapper';
 import { validateSites } from '../utils/siteSchema';
+import { isLocalWorkspaceEnabled } from '../utils/workspaceMode';
 
 type FetchLike = (input: RequestInfo | URL, init?: RequestInit) => Promise<Response>;
 
 interface LoadedAppData {
   sites: ReturnType<typeof validateSites>['sites'];
+}
+
+type AppSite = LoadedAppData['sites'][number];
+
+export function mergeAppSites(baseSites: AppSite[], localSites: AppSite[] | null | undefined, preferLocalSites: boolean): AppSite[] {
+  if (!localSites?.length) return baseSites;
+  if (preferLocalSites) {
+    return [
+      ...localSites,
+      ...baseSites.filter((base) => !localSites.some((local) => local.id === base.id)),
+    ];
+  }
+  return [
+    ...baseSites,
+    ...localSites.filter((local) => !baseSites.some((base) => base.id === local.id)),
+  ];
 }
 
 export async function loadAppData(
@@ -48,10 +65,8 @@ export function useAppData() {
         const persistedSites = getPersistedSites();
         const legacySites = getLegacyCustomSites();
         const localSites = persistedSites ?? legacySites;
-        const mergedSites = [
-          ...localSites,
-          ...baseSites.filter((base) => !localSites.some((local) => local.id === base.id)),
-        ];
+        const workspaceEnabled = typeof window !== 'undefined' && isLocalWorkspaceEnabled(window.location.search);
+        const mergedSites = mergeAppSites(baseSites, localSites, workspaceEnabled);
         setBaseSites(baseSites);
         setSites(attachExcelCalculatedData(mergedSites));
         setError(null);

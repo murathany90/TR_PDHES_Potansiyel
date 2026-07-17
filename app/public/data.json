@@ -321,7 +321,8 @@
         "cavern_width_m": 36,
         "cavern_length_m": 266,
         "cavern_height_m": 39,
-        "units": 6,
+        "units": 4,
+        "unitPowerMW": 350,
         "turbine_type": "ayarlanabilir hızlı Francis pompa-türbin"
       },
       "surge_tank": {

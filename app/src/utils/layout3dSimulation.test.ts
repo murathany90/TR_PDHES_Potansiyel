@@ -21,7 +21,14 @@ function makeComponentsDetail(overrides: Partial<ComponentsDetail> = {}): Compon
     },
     lower_reservoir: { elevation_m: 421, min_level_m: 413, note: '' },
     penstock: { diameter_m: 6.6, length_m: 4050, material: '', pressure_class: '', count: 4 },
-    powerhouse: { cavern_width_m: 36, cavern_length_m: 266, cavern_height_m: 39, units: 6, turbine_type: '' },
+    powerhouse: {
+      cavern_width_m: 36,
+      cavern_length_m: 266,
+      cavern_height_m: 39,
+      units: 4,
+      turbine_type: '',
+      unitPowerMW: 350,
+    },
     surge_tank: { type: '', height_m: 112, diameter_m: 33 },
     switchyard: { voltage_kv: 380, transformer_count: 3, connection_line_km: 7.1 },
     tunnel: { length_m: 4050, diameter_m: 8.2, excavation_type: '' },
@@ -52,20 +59,22 @@ function makeFootprintPlan(penstockCount: number): Layout3DFootprintPlan {
 }
 
 describe('layout3d simulation topology', () => {
-  it('derives Gokcekaya as 6 units, 4 footprint penstocks and 3 transformers', () => {
+  it('derives Gokcekaya as 4 x 350 MW units, 4 footprint penstocks and 3 transformers', () => {
     const topology = deriveLayout3DTopology(
       makeTestSite({ capacityMW: 1400, projectFlowCms: 193 }),
       makeFootprintPlan(4),
       makeComponentsDetail(),
     );
 
-    expect(topology.units).toHaveLength(6);
+    expect(topology.units).toHaveLength(4);
     expect(topology.penstocks).toHaveLength(4);
     expect(topology.transformers).toHaveLength(3);
+    expect(topology.units.map((unit) => unit.ratedGenerationMW)).toEqual([350, 350, 350, 350]);
+    expect(calculateGenerationPowerMW(topology, ['G1', 'G2', 'G3', 'G4'])).toBe(1400);
     expect(topology.estimated).toBe(true);
     expect(topology.confidenceNotes.join(' ')).toMatch(/temsili/i);
-    expect(topology.penstocks.map((penstock) => penstock.connectedUnitIds.length)).toEqual([2, 2, 1, 1]);
-    expect(topology.transformers.map((transformer) => transformer.connectedUnitIds.length)).toEqual([2, 2, 2]);
+    expect(topology.penstocks.map((penstock) => penstock.connectedUnitIds.length)).toEqual([1, 1, 1, 1]);
+    expect(topology.transformers.map((transformer) => transformer.connectedUnitIds.length)).toEqual([2, 1, 1]);
   });
 
   it('keeps Altinkaya footprint penstock count instead of generating one penstock per unit', () => {
@@ -105,8 +114,8 @@ describe('layout3d simulation physics', () => {
       makeComponentsDetail(),
     );
 
-    expect(calculateGenerationPowerMW(topology, ['G1', 'G2'])).toBeCloseTo(466.67, 1);
-    expect(calculatePumpingPowerMW(topology, ['G1', 'G2'])).toBeCloseTo(569.11, 1);
+    expect(calculateGenerationPowerMW(topology, ['G1', 'G2'])).toBeCloseTo(700, 1);
+    expect(calculatePumpingPowerMW(topology, ['G1', 'G2'])).toBeCloseTo(853.66, 1);
     expect(calculatePumpingPowerMW(topology, ['G1', 'G2'])).toBeGreaterThan(calculateGenerationPowerMW(topology, ['G1', 'G2']));
   });
 

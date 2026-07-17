@@ -1,6 +1,7 @@
 import { describe, expect, it, vi } from 'vitest';
 import sites from '../../public/data.json';
-import { loadAppData } from './useAppData';
+import type { Site } from '../types/site';
+import { loadAppData, mergeAppSites } from './useAppData';
 
 describe('loadAppData', () => {
   it('loads and validates site data', async () => {
@@ -20,5 +21,20 @@ describe('loadAppData', () => {
     const fetcher = vi.fn(async () => new Response('missing', { status: 404 }));
 
     await expect(loadAppData(fetcher, '/')).rejects.toThrow('yüklenemedi');
+  });
+  it('uses canonical base data over stale local storage in public mode', () => {
+    const baseGokcekaya = structuredClone(sites.find((site) => site.id === 'kamu-gokcekaya-pspp')!) as Site;
+    const staleLocalGokcekaya = structuredClone(baseGokcekaya);
+    staleLocalGokcekaya.components_detail!.powerhouse.units = 6;
+    delete (staleLocalGokcekaya.components_detail!.powerhouse as { unitPowerMW?: number }).unitPowerMW;
+    const customLocalSite = { ...structuredClone(baseGokcekaya), id: 'local-custom-site', name: 'Yerel Özel Saha' } as Site;
+
+    const publicMerged = mergeAppSites([baseGokcekaya], [staleLocalGokcekaya, customLocalSite], false);
+    expect(publicMerged.find((site) => site.id === baseGokcekaya.id)?.components_detail?.powerhouse.units).toBe(4);
+    expect(publicMerged.find((site) => site.id === baseGokcekaya.id)?.components_detail?.powerhouse.unitPowerMW).toBe(350);
+    expect(publicMerged.some((site) => site.id === customLocalSite.id)).toBe(true);
+
+    const editorMerged = mergeAppSites([baseGokcekaya], [staleLocalGokcekaya], true);
+    expect(editorMerged.find((site) => site.id === baseGokcekaya.id)?.components_detail?.powerhouse.units).toBe(6);
   });
 });
