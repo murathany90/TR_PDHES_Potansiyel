@@ -1,12 +1,23 @@
 // @vitest-environment jsdom
 
-import { cleanup, render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { act, cleanup, render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { makeTestSite } from '../test-utils/makeTestSite';
 import ThreeDPage from './ThreeDPage';
 
 vi.mock('../components/ui/ThreeDModel', () => ({
-  default: (props: any) => <div data-testid="three-d-model" data-active={props.activeComponent} data-layers={JSON.stringify(props.layers)} />,
+  default: (props: any) => (
+    <div
+      data-testid="three-d-model"
+      data-active={props.activeComponent}
+      data-active-units={props.activeUnits}
+      data-active-unit-ids={JSON.stringify(props.activeUnitIds ?? [])}
+      data-layers={JSON.stringify(props.layers)}
+      data-simulation-state={props.simulationState}
+      data-upper-soc={props.upperSoc}
+      data-lower-soc={props.lowerSoc}
+    />
+  ),
 }));
 
 const site = makeTestSite({
@@ -19,6 +30,7 @@ const site = makeTestSite({
 describe('ThreeDPage controls', () => {
   afterEach(() => {
     cleanup();
+    vi.useRealTimers();
     vi.unstubAllGlobals();
   });
 
@@ -87,6 +99,102 @@ describe('ThreeDPage controls', () => {
     await waitFor(() => {
       expect(screen.getByTestId('three-d-model')).toBeTruthy();
     });
+  });
+
+  it('uses independent group toggles and allows zero active units', () => {
+    render(<ThreeDPage site={makeTestSite({
+      components_detail: {
+        upper_reservoir: {
+          elevation_m: 100,
+          active_volume_mcm: 1,
+          dam_height_m: 10,
+          lining: '',
+          geology_note: '',
+        },
+        lower_reservoir: { elevation_m: 50, min_level_m: 40, note: '' },
+        penstock: { diameter_m: 4, length_m: 100, material: '', pressure_class: '', count: 2 },
+        powerhouse: { cavern_width_m: 10, cavern_length_m: 20, cavern_height_m: 15, units: 3, turbine_type: '' },
+        surge_tank: { type: '', height_m: 20, diameter_m: 5 },
+        switchyard: { voltage_kv: 154, transformer_count: 2, connection_line_km: 1 },
+        tunnel: { length_m: 100, diameter_m: 4, excavation_type: '' },
+        intake_outfall: null,
+      },
+    })} />);
+
+    const model = screen.getByTestId('three-d-model');
+    expect(screen.getByRole('button', { name: 'G1' }).getAttribute('aria-pressed')).toBe('true');
+    expect(screen.getByRole('button', { name: 'G2' }).getAttribute('aria-pressed')).toBe('true');
+    expect(screen.getByRole('button', { name: 'G3' }).getAttribute('aria-pressed')).toBe('true');
+
+    fireEvent.click(screen.getByRole('button', { name: 'G1' }));
+    fireEvent.click(screen.getByRole('button', { name: 'G2' }));
+    fireEvent.click(screen.getByRole('button', { name: 'G3' }));
+
+    expect(model.getAttribute('data-active-units')).toBe('0');
+    expect(model.getAttribute('data-active-unit-ids')).toBe('[]');
+  });
+
+  it('advances reservoir SOC while generation simulation is running', async () => {
+    vi.useFakeTimers();
+    render(<ThreeDPage site={makeTestSite({
+      projectFlowCms: 120,
+      components_detail: {
+        upper_reservoir: {
+          elevation_m: 100,
+          active_volume_mcm: 1,
+          dam_height_m: 10,
+          lining: '',
+          geology_note: '',
+        },
+        lower_reservoir: { elevation_m: 50, min_level_m: 40, note: '' },
+        penstock: { diameter_m: 4, length_m: 100, material: '', pressure_class: '', count: 2 },
+        powerhouse: { cavern_width_m: 10, cavern_length_m: 20, cavern_height_m: 15, units: 2, turbine_type: '' },
+        surge_tank: { type: '', height_m: 20, diameter_m: 5 },
+        switchyard: { voltage_kv: 154, transformer_count: 1, connection_line_km: 1 },
+        tunnel: { length_m: 100, diameter_m: 4, excavation_type: '' },
+        intake_outfall: null,
+      },
+    })} />);
+
+    const model = screen.getByTestId('three-d-model');
+    const initialUpperSoc = Number(model.getAttribute('data-upper-soc'));
+    fireEvent.click(screen.getByRole('button', { name: /Sim/ }));
+
+    await act(async () => {
+      await Promise.resolve();
+    });
+    expect(model.getAttribute('data-simulation-state')).toBe('GENERATING');
+    act(() => {
+      vi.advanceTimersByTime(1000);
+    });
+
+    expect(Number(model.getAttribute('data-upper-soc'))).toBeLessThan(initialUpperSoc);
+    expect(Number(model.getAttribute('data-lower-soc'))).toBeGreaterThan(0.28);
+  });
+
+  it('shows a visible footprint fallback warning when lazy footprint loading fails', async () => {
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue({
+      ok: false,
+      status: 404,
+      json: async () => [],
+    }));
+    const lazyFootprintSite = makeTestSite({
+      layout3D: {
+        scale: 'macro',
+        preferredBearing: 0,
+        terrainExaggeration: 1,
+        reservoirSurfaceMode: 'polygon',
+        useFootprintPolygons: true,
+        hideLegacySquareReservoir: true,
+      },
+    });
+
+    render(<ThreeDPage site={lazyFootprintSite} />);
+
+    await waitFor(() => {
+      expect(screen.getByRole('alert').textContent).toMatch(/footprint.*yüklenemedi|fallback/i);
+    });
+    expect(screen.getByTestId('three-d-model')).toBeTruthy();
   });
 });
 

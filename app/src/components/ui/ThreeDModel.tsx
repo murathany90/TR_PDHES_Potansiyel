@@ -12,9 +12,19 @@ import {
   buildLayout3DFootprintPlan,
   LAYOUT_3D_MATERIAL_COLORS,
   type Layout3DProjectedFootprint,
+  type Layout3DFootprintPlan,
   groupFootprintsByLayer,
   isLayerVisible,
 } from '../../utils/layout3dFootprints';
+import {
+  calculateActiveFlowCms,
+  calculateGenerationPowerMW,
+  calculatePumpingPowerMW,
+  deriveLayout3DTopology,
+  type DerivedLayout3DTopology,
+  type SimulationQuality,
+  type SimulationState,
+} from '../../utils/layout3dSimulation';
 import { useManualGeometryStore } from '../../stores/useManualGeometryStore';
 import { overrideSiteWithManualGeometries } from '../../utils/manualGeometryConverter';
 import { useShallow } from 'zustand/react/shallow';
@@ -31,6 +41,11 @@ interface ThreeDModelProps {
   site: Site;
   isPlaying: boolean;
   activeUnits: number;
+  activeUnitIds?: string[];
+  simulationState?: SimulationState;
+  quality?: SimulationQuality;
+  upperSoc?: number;
+  lowerSoc?: number;
   maxUnits: number;
   showTerrain: boolean;
   showLabels: boolean;
@@ -1442,7 +1457,204 @@ function FootprintSceneLayer({ items, layers, activeComponent, onSelectComponent
   );
 }
 
-function Scene({ site, activeComponent, onSelectComponent, layers, mode, componentsDetail, isPlaying, activeUnits, maxUnits, showTerrain, showLabels, terrainOpacity, theme }: ThreeDModelProps & { theme?: string }) {
+function scenePoints(item: Layout3DProjectedFootprint): [number, number, number][] {
+  return item.points.map((point) => [point.x, point.y + 2, point.z]);
+}
+
+function componentsInPlan(plan: Layout3DFootprintPlan, components: string[]): Layout3DProjectedFootprint[] {
+  return plan.items.filter((item) => components.includes(item.component));
+}
+
+function firstCenter(plan: Layout3DFootprintPlan, components: string[], fallback: [number, number, number]): [number, number, number] {
+  const item = componentsInPlan(plan, components)[0];
+  return item ? footprintCenter(item) : fallback;
+}
+
+function formatPower(powerMW: number, mode: 'generate' | 'pump'): string {
+  if (powerMW <= 0) return '0 MW';
+  const sign = mode === 'generate' ? '+' : '-';
+  return `${sign}${powerMW.toFixed(1)} MW`;
+}
+
+function activePenstockFootprintIds(topology: DerivedLayout3DTopology, activeUnitIds: string[]): Set<string> {
+  const activeSet = new Set(activeUnitIds);
+  return new Set(
+    topology.penstocks
+      .filter((penstock) => penstock.connectedUnitIds.some((unitId) => activeSet.has(unitId)))
+      .map((penstock) => penstock.footprintId),
+  );
+}
+
+function HydraulicFlowLayer({ plan, topology, activeUnitIds, mode, isPlaying, quality, layers }: {
+  plan: Layout3DFootprintPlan;
+  topology: DerivedLayout3DTopology;
+  activeUnitIds: string[];
+  mode: 'generate' | 'pump';
+  isPlaying: boolean;
+  quality: SimulationQuality;
+  layers: Record<string, boolean>;
+}) {
+  const flowActive = isPlaying && activeUnitIds.length > 0;
+  const activePenstocks = activePenstockFootprintIds(topology, activeUnitIds);
+  const flowItems = componentsInPlan(plan, ['headrace_tunnel', 'pressure_tunnel', 'surge_tank', 'penstock', 'tailrace_tunnel'])
+    .filter((item) => item.component !== 'penstock' || activePenstocks.has(item.id));
+  const sharedVisible = isLayerVisible('tunnel', layers) || isLayerVisible('tailrace', layers) || isLayerVisible('penstock', layers);
+  const flowLabel = mode === 'generate' ? 'Üretim akışı: üst rezervuar → santral → alt rezervuar' : 'Pompa akışı: alt rezervuar → santral → üst rezervuar';
+  const particleFactor = quality === 'low' ? 'az' : quality === 'high' ? 'yogun' : 'otomatik';
+
+  return (
+    <group visible={sharedVisible}>
+      <Html position={firstCenter(plan, ['penstock', 'headrace_tunnel'], [0, 20, 0])} center zIndexRange={[110, 0]}>
+        <div
+          data-testid="hydraulic-flow-layer"
+          data-flow-active={String(flowActive)}
+          style={labelStyle(flowActive, '#22d3ee')}
+        >
+          {flowLabel} · {particleFactor} parçacık
+        </div>
+      </Html>
+      {flowItems.map((item) => (
+        <Line
+          key={`hydraulic-${item.id}`}
+          points={mode === 'generate' ? scenePoints(item) : [...scenePoints(item)].reverse()}
+          color={flowActive ? '#22d3ee' : '#64748b'}
+          lineWidth={flowActive ? 6 : 2}
+        />
+      ))}
+    </group>
+  );
+}
+
+function ElectricalFlowLayer({ plan, topology, activeUnitIds, mode, isPlaying, powerMW, layers }: {
+  plan: Layout3DFootprintPlan;
+  topology: DerivedLayout3DTopology;
+  activeUnitIds: string[];
+  mode: 'generate' | 'pump';
+  isPlaying: boolean;
+  powerMW: number;
+  layers: Record<string, boolean>;
+}) {
+  const flowActive = isPlaying && activeUnitIds.length > 0 && powerMW > 0;
+  const powerhouse = firstCenter(plan, ['powerhouse'], [20, 18, 0]);
+  const switchyard = firstCenter(plan, ['switchyard', 'new_switchyard', 'existing_switchyard'], [80, 16, -20]);
+  const grid: [number, number, number] = [switchyard[0] + 55, switchyard[1] + 8, switchyard[2] - 26];
+  const points = mode === 'generate' ? [powerhouse, switchyard, grid] : [grid, switchyard, powerhouse];
+  const label = mode === 'generate' ? `ÜRETİM ${formatPower(powerMW, mode)}` : `POMPA ${formatPower(powerMW, mode)}`;
+
+  return (
+    <group visible={isLayerVisible('switchyard', layers) || isLayerVisible('transmission', layers)}>
+      <Line points={points} color={flowActive ? '#facc15' : '#64748b'} lineWidth={flowActive ? 5 : 2} />
+      <Html position={switchyard} center zIndexRange={[110, 0]}>
+        <div
+          data-testid="electrical-flow-layer"
+          data-flow-active={String(flowActive)}
+          style={labelStyle(flowActive, '#facc15')}
+        >
+          {label} · {topology.transformers.length} trafo
+        </div>
+      </Html>
+    </group>
+  );
+}
+
+function ReservoirLevelLayer({ plan, upperSoc, lowerSoc, showLabels }: {
+  plan: Layout3DFootprintPlan;
+  upperSoc: number;
+  lowerSoc: number;
+  showLabels: boolean;
+}) {
+  const upper = firstCenter(plan, ['upper_reservoir'], [-80, 24, -20]);
+  const lower = firstCenter(plan, ['lower_reservoir'], [80, 16, 30]);
+  return (
+    <group>
+      <Html position={upper} center style={{ display: showLabels ? 'block' : 'none' }} zIndexRange={[120, 0]}>
+        <div data-testid="reservoir-level-layer" style={labelStyle(true, '#38bdf8')}>
+          Üst SOC %{Math.round(upperSoc * 100)} · Alt SOC %{Math.round(lowerSoc * 100)} · temsili seviye
+        </div>
+      </Html>
+      <mesh position={[upper[0], upper[1] - 6 + upperSoc * 5, upper[2]]} rotation={[-Math.PI / 2, 0, 0]}>
+        <circleGeometry args={[8, 32]} />
+        <meshStandardMaterial color="#38bdf8" transparent opacity={0.28} />
+      </mesh>
+      <mesh position={[lower[0], lower[1] - 6 + lowerSoc * 5, lower[2]]} rotation={[-Math.PI / 2, 0, 0]}>
+        <circleGeometry args={[8, 32]} />
+        <meshStandardMaterial color="#0ea5e9" transparent opacity={0.22} />
+      </mesh>
+    </group>
+  );
+}
+
+function EquipmentAnimationLayer({ plan, topology, activeUnitIds, isPlaying, showLabels }: {
+  plan: Layout3DFootprintPlan;
+  topology: DerivedLayout3DTopology;
+  activeUnitIds: string[];
+  isPlaying: boolean;
+  showLabels: boolean;
+}) {
+  const powerhouse = firstCenter(plan, ['powerhouse'], [0, 18, 0]);
+  const activeText = activeUnitIds.length > 0 ? activeUnitIds.join(', ') : 'aktif grup yok';
+  const transformers = topology.transformers
+    .filter((transformer) => transformer.connectedUnitIds.some((unitId) => activeUnitIds.includes(unitId)))
+    .map((transformer) => transformer.id)
+    .join(', ') || 'trafo pasif';
+
+  return (
+    <group>
+      <Html position={[powerhouse[0], powerhouse[1] + 10, powerhouse[2]]} center style={{ display: showLabels ? 'block' : 'none' }} zIndexRange={[130, 0]}>
+        <div data-testid="equipment-animation-layer" style={labelStyle(isPlaying && activeUnitIds.length > 0, '#a78bfa')}>
+          {activeText} · {transformers}
+        </div>
+      </Html>
+    </group>
+  );
+}
+
+function SimulationStatusLayer({ plan, state, mode, activeUnits, maxUnits, powerMW, flowCms, upperSoc, topology }: {
+  plan: Layout3DFootprintPlan;
+  state: SimulationState;
+  mode: 'generate' | 'pump';
+  activeUnits: number;
+  maxUnits: number;
+  powerMW: number;
+  flowCms: number;
+  upperSoc: number;
+  topology: DerivedLayout3DTopology;
+}) {
+  const position = firstCenter(plan, ['powerhouse', 'switchyard', 'penstock'], [0, 42, 0]);
+  const dataStatus = topology.estimated ? 'Temsili dağılım' : 'Doğrulanmış topoloji';
+  return (
+    <Html position={[position[0], position[1] + 20, position[2]]} center zIndexRange={[140, 0]}>
+      <div data-testid="simulation-status-layer" style={{ ...labelStyle(true, '#14b8a6'), minWidth: 230, textAlign: 'left' }}>
+        <div>{state} · {mode === 'generate' ? 'ÜRETİM' : 'POMPA'}</div>
+        <div>Aktif gruplar {activeUnits}/{maxUnits}</div>
+        <div>Şebeke gücü {formatPower(powerMW, mode)}</div>
+        <div>Toplam debi {flowCms.toFixed(1)} m³/s · Üst SOC %{Math.round(upperSoc * 100)}</div>
+        <div>{dataStatus}</div>
+      </div>
+    </Html>
+  );
+}
+
+function Scene({
+  site,
+  activeComponent,
+  onSelectComponent,
+  layers,
+  mode,
+  componentsDetail,
+  isPlaying,
+  activeUnits,
+  activeUnitIds,
+  simulationState = 'IDLE',
+  quality = 'auto',
+  upperSoc = 0.72,
+  lowerSoc = 0.28,
+  maxUnits,
+  showTerrain,
+  showLabels,
+  terrainOpacity,
+  theme,
+}: ThreeDModelProps & { theme?: string }) {
   const worldExampleFocusId = useSiteStore(state => state.worldExampleFocusId);
   const isPresenzano = worldExampleFocusId === 'presenzano';
   const isSeaWater = site ? isSeaLowerReservoir(site) : false;
@@ -1455,6 +1667,24 @@ function Scene({ site, activeComponent, onSelectComponent, layers, mode, compone
       return buildLayout3DFootprintPlan(overriddenSite);
     },
     [site, manualFeatures],
+  );
+  const resolvedActiveUnitIds = useMemo(
+    () => activeUnitIds ?? Array.from({ length: activeUnits }, (_, index) => `G${index + 1}`),
+    [activeUnitIds, activeUnits],
+  );
+  const topology = useMemo(
+    () => deriveLayout3DTopology(site, footprintPlan, componentsDetail),
+    [site, footprintPlan, componentsDetail],
+  );
+  const powerMW = useMemo(
+    () => mode === 'generate'
+      ? calculateGenerationPowerMW(topology, resolvedActiveUnitIds)
+      : calculatePumpingPowerMW(topology, resolvedActiveUnitIds),
+    [mode, topology, resolvedActiveUnitIds],
+  );
+  const flowCms = useMemo(
+    () => calculateActiveFlowCms(topology, resolvedActiveUnitIds, mode),
+    [mode, topology, resolvedActiveUnitIds],
   );
   
   // Shared Simulation Water Levels
@@ -1549,13 +1779,57 @@ function Scene({ site, activeComponent, onSelectComponent, layers, mode, compone
       )}
 
       {footprintPlan.enabled && (
-        <FootprintSceneLayer
-          items={footprintPlan.items}
-          layers={layers}
-          activeComponent={activeComponent}
-          onSelectComponent={onSelectComponent}
-          showLabels={showLabels}
-        />
+        <>
+          <FootprintSceneLayer
+            items={footprintPlan.items}
+            layers={layers}
+            activeComponent={activeComponent}
+            onSelectComponent={onSelectComponent}
+            showLabels={showLabels}
+          />
+          <HydraulicFlowLayer
+            plan={footprintPlan}
+            topology={topology}
+            activeUnitIds={resolvedActiveUnitIds}
+            mode={mode}
+            isPlaying={isPlaying}
+            quality={quality}
+            layers={layers}
+          />
+          <ElectricalFlowLayer
+            plan={footprintPlan}
+            topology={topology}
+            activeUnitIds={resolvedActiveUnitIds}
+            mode={mode}
+            isPlaying={isPlaying}
+            powerMW={powerMW}
+            layers={layers}
+          />
+          <ReservoirLevelLayer
+            plan={footprintPlan}
+            upperSoc={upperSoc}
+            lowerSoc={lowerSoc}
+            showLabels={showLabels}
+          />
+          <EquipmentAnimationLayer
+            plan={footprintPlan}
+            topology={topology}
+            activeUnitIds={resolvedActiveUnitIds}
+            isPlaying={isPlaying}
+            showLabels={showLabels}
+          />
+          <SimulationStatusLayer
+            plan={footprintPlan}
+            state={simulationState}
+            mode={mode}
+            activeUnits={resolvedActiveUnitIds.length}
+            maxUnits={maxUnits}
+            powerMW={powerMW}
+            flowCms={flowCms}
+            upperSoc={upperSoc}
+            topology={topology}
+          />
+        </>
       )}
 
       {/* Upper Reservoir & Dam */}

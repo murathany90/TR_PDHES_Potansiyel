@@ -132,6 +132,8 @@ export interface ComponentsDetail {
     cavern_length_m: number;
     cavern_height_m: number;
     units: number;
+    unitPowerMW?: number;
+    unitPumpMW?: number;
     turbine_type: string;
   };
   surge_tank: {
@@ -279,6 +281,52 @@ export interface Layout3DFootprint {
   volumeValidationDifferencePct?: number;
 }
 
+export interface UnitDefinition {
+  id: string;
+  name: string;
+  ratedGenerationMW: number;
+  ratedPumpMW: number;
+  generationFlowCms?: number;
+  pumpingFlowCms?: number;
+  penstockId?: string;
+  transformerId?: string;
+  estimated?: boolean;
+}
+
+export interface PenstockDefinition {
+  id: string;
+  footprintId: string;
+  connectedUnitIds: string[];
+  designFlowCms?: number;
+  diameterM?: number;
+  estimated?: boolean;
+}
+
+export interface TransformerDefinition {
+  id: string;
+  connectedUnitIds: string[];
+  ratedMVA?: number;
+  highVoltageKV?: number;
+  estimated?: boolean;
+}
+
+export interface GridCircuitDefinition {
+  id: string;
+  footprintId?: string;
+  transformerIds: string[];
+  ratedVoltageKV?: number;
+  estimated?: boolean;
+}
+
+export interface Layout3DTopology {
+  units?: UnitDefinition[];
+  penstocks?: PenstockDefinition[];
+  transformers?: TransformerDefinition[];
+  gridCircuits?: GridCircuitDefinition[];
+  estimated?: boolean;
+  confidenceNote?: string;
+}
+
 export interface Layout3DSpec {
   scale: 'macro' | 'local';
   preferredBearing: number;
@@ -290,6 +338,7 @@ export interface Layout3DSpec {
   renderUpperReservoirAsPolygon?: boolean;
   renderPenstocksAsParallelArray?: boolean;
   componentFootprints?: Layout3DFootprint[];
+  topology?: Layout3DTopology;
 }
 
 export type { WorldExample } from '../data/worldExamples';

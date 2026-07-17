@@ -1,8 +1,8 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useReducer } from 'react';
 import { Droplets, Mountain, Play, Square, Tag, Zap } from 'lucide-react';
 import { useSiteStore } from '../stores/useSiteStore';
 import { COMPONENTS } from '../utils/constants';
-import type { Site } from '../types/site';
+import type { Layout3DFootprint, Site } from '../types/site';
 import LayerToggle from '../components/ui/LayerToggle';
 import ScenarioSlider from '../components/ui/ScenarioSlider';
 import ThreeDModel from '../components/ui/ThreeDModel';
@@ -10,6 +10,12 @@ import WarningBanner from '../components/ui/WarningBanner';
 import { buildComponentsDetail, COORDINATE_CONFIDENCE_LABELS } from '../utils/siteDerived';
 import { publicAssetUrl } from '../utils/publicUrl';
 import { shouldClearActiveFootprintComponent } from '../utils/layout3dFootprints';
+import {
+  advanceReservoirSoc,
+  transitionSimulationState,
+  type SimulationQuality,
+  type SimulationState,
+} from '../utils/layout3dSimulation';
 
 function createLayerVisibilityState(visible: boolean): Record<string, boolean> {
   return COMPONENTS.reduce<Record<string, boolean>>((acc, component) => {
@@ -17,6 +23,43 @@ function createLayerVisibilityState(visible: boolean): Record<string, boolean> {
     return acc;
   }, {});
 }
+type FootprintLoadStatus =
+  | 'idle'
+  | 'loading'
+  | 'success'
+  | 'not-found'
+  | 'invalid-schema'
+  | 'network-error'
+  | 'timeout'
+  | 'fallback-model';
+
+interface FootprintLoadState {
+  status: FootprintLoadStatus;
+  footprints: Layout3DFootprint[];
+  error?: string;
+}
+
+function validateFootprintPayload(value: unknown): value is Layout3DFootprint[] {
+  return Array.isArray(value) && value.every((item) => (
+    item
+    && typeof item === 'object'
+    && typeof (item as Layout3DFootprint).id === 'string'
+    && typeof (item as Layout3DFootprint).component === 'string'
+    && ['polygon', 'polyline'].includes(String((item as Layout3DFootprint).kind))
+    && Array.isArray((item as Layout3DFootprint).coords)
+  ));
+}
+
+function makeUnitIds(count: number): string[] {
+  return Array.from({ length: Math.max(0, count) }, (_, index) => `G${index + 1}`);
+}
+
+function simulationReducer(state: SimulationState, action: Parameters<typeof transitionSimulationState>[1]): SimulationState {
+  return transitionSimulationState(state, action);
+}
+
+const INITIAL_RESERVOIR_SOC = { upper: 0.72, lower: 0.28 };
+const SIMULATION_STEP_SECONDS = 60;
 
 export default function ThreeDPage({ site: propSite }: { site?: Site }) {
   const { sites, selectedId } = useSiteStore();
@@ -27,28 +70,59 @@ export default function ThreeDPage({ site: propSite }: { site?: Site }) {
   }, []);
 
   const [layers, setLayers] = useState<Record<string, boolean>>(initialLayers);
-  const [footprints, setFootprints] = useState<any[] | null>(null);
+  const [footprintLoad, setFootprintLoad] = useState<FootprintLoadState>({
+    status: 'idle',
+    footprints: [],
+  });
 
   // Lazy load footprints
   useEffect(() => {
     if (site?.layout3D?.useFootprintPolygons) {
       if (site.layout3D.componentFootprints && site.layout3D.componentFootprints.length > 0) {
-        setFootprints(site.layout3D.componentFootprints);
+        setFootprintLoad({ status: 'success', footprints: site.layout3D.componentFootprints });
       } else {
-        setFootprints(null); // loading
-        fetch(publicAssetUrl(`/footprints/${site.id}.json`))
-          .then((res) => {
-            if (!res.ok) throw new Error('Footprint not found');
-            return res.json();
+        let cancelled = false;
+        const controller = new AbortController();
+        const timeout = window.setTimeout(() => controller.abort(), 10_000);
+        setFootprintLoad({ status: 'loading', footprints: [] });
+        fetch(publicAssetUrl(`/footprints/${site.id}.json`), { signal: controller.signal })
+          .then(async (res) => {
+            if (!res.ok) {
+              setFootprintLoad({
+                status: res.status === 404 ? 'not-found' : 'network-error',
+                footprints: [],
+                error: `HTTP ${res.status}`,
+              });
+              return;
+            }
+            const data = await res.json();
+            if (!validateFootprintPayload(data)) {
+              setFootprintLoad({
+                status: 'invalid-schema',
+                footprints: [],
+                error: 'Footprint semasi gecersiz.',
+              });
+              return;
+            }
+            if (!cancelled) setFootprintLoad({ status: 'success', footprints: data });
           })
-          .then((data) => setFootprints(data))
           .catch((err) => {
+            if (cancelled) return;
             console.error('Failed to load footprints:', err);
-            setFootprints([]); // empty fallback
+            setFootprintLoad({
+              status: err?.name === 'AbortError' ? 'timeout' : 'network-error',
+              footprints: [],
+              error: String(err?.message || err),
+            });
           });
+        return () => {
+          cancelled = true;
+          window.clearTimeout(timeout);
+          controller.abort();
+        };
       }
     } else {
-      setFootprints([]); // disable
+      setFootprintLoad({ status: 'idle', footprints: [] });
     }
   }, [site?.id, site?.layout3D?.useFootprintPolygons, site?.layout3D?.componentFootprints]);
 
@@ -56,9 +130,15 @@ export default function ThreeDPage({ site: propSite }: { site?: Site }) {
   const [mode, setMode] = useState<'generate' | 'pump'>('generate');
   
   const [isPlaying, setIsPlaying] = useState(false);
-  const componentsDetail = site ? buildComponentsDetail(site) : null;
+  const [simulationState, dispatchSimulation] = useReducer(simulationReducer, 'IDLE');
+  const [reservoirSoc, setReservoirSoc] = useState(INITIAL_RESERVOIR_SOC);
+  const [quality] = useState<SimulationQuality>('auto');
+  const componentsDetail = useMemo(() => (site ? buildComponentsDetail(site) : null), [site]);
   const maxUnits = componentsDetail?.powerhouse?.units || 4;
-  const [activeUnits, setActiveUnits] = useState(maxUnits);
+  const [activeUnitIds, setActiveUnitIds] = useState<string[]>(() => makeUnitIds(maxUnits));
+  const activeUnits = activeUnitIds.length;
+  const upperSoc = reservoirSoc.upper;
+  const lowerSoc = reservoirSoc.lower;
 
   const setAllLayerVisibility = (visible: boolean) => {
     setLayers(createLayerVisibilityState(visible));
@@ -80,9 +160,48 @@ export default function ThreeDPage({ site: propSite }: { site?: Site }) {
       setActiveComponent('upper_reservoir');
       setMode('generate');
       setIsPlaying(false);
-      setActiveUnits(buildComponentsDetail(site).powerhouse.units || 4);
+      dispatchSimulation({ type: 'STOP' });
+      setReservoirSoc(INITIAL_RESERVOIR_SOC);
+      setActiveUnitIds(makeUnitIds(buildComponentsDetail(site).powerhouse.units || 4));
     }
   }, [site?.id]);
+
+  useEffect(() => {
+    if (isPlaying) dispatchSimulation({ type: 'TICK' });
+  }, [isPlaying, mode]);
+
+  useEffect(() => {
+    const running = simulationState === 'GENERATING' || simulationState === 'PUMPING';
+    if (!site || !componentsDetail || !isPlaying || !running || activeUnits <= 0) return undefined;
+    const interval = window.setInterval(() => {
+      setReservoirSoc((current) => {
+        const activeRatio = maxUnits > 0 ? activeUnits / maxUnits : 0;
+        const flowCms = (site.projectFlowCms ?? 0) * activeRatio;
+        const next = advanceReservoirSoc({
+          upperSoc: current.upper,
+          lowerSoc: current.lower,
+          mode,
+          flowCms,
+          deltaSeconds: SIMULATION_STEP_SECONDS,
+          activeVolumeHm3: componentsDetail.upper_reservoir.active_volume_mcm,
+        });
+        if (next.limitState) {
+          dispatchSimulation({ type: next.limitState });
+          setIsPlaying(false);
+        }
+        return { upper: next.upperSoc, lower: next.lowerSoc };
+      });
+    }, 1000);
+    return () => window.clearInterval(interval);
+  }, [
+    activeUnits,
+    componentsDetail,
+    isPlaying,
+    maxUnits,
+    mode,
+    simulationState,
+    site,
+  ]);
 
   const [showTerrain, setShowTerrain] = useState(true);
   const [showLabels, setShowLabels] = useState(true);
@@ -95,16 +214,37 @@ export default function ThreeDPage({ site: propSite }: { site?: Site }) {
       ...site,
       layout3D: site.layout3D ? {
         ...site.layout3D,
-        componentFootprints: footprints || []
+        componentFootprints: footprintLoad.footprints
       } : undefined
     };
-  }, [site, footprints]);
+  }, [site, footprintLoad.footprints]);
 
-  if (!site || (site.layout3D?.useFootprintPolygons && footprints === null)) {
+  if (!site || (site.layout3D?.useFootprintPolygons && footprintLoad.status === 'loading')) {
     return <section className="panel active"><p className="muted">Veri yükleniyor...</p></section>;
   }
 
   const detail = componentsDetail ?? buildComponentsDetail(site);
+  const footprintWarning = site.layout3D?.useFootprintPolygons && !['idle', 'loading', 'success'].includes(footprintLoad.status)
+    ? `Footprint verisi yüklenemedi; fallback model kullanılıyor (${footprintLoad.status}).`
+    : '';
+  const representationalWarning = `Bu değerler ve 3D konumlar temsilidir. Koordinat güveni: ${COORDINATE_CONFIDENCE_LABELS[site.coordinates.coordinateConfidence]}.`;
+  const combinedWarning = [footprintWarning, representationalWarning].filter(Boolean).join(' ');
+  const isFootprintMode = Boolean(site.layout3D?.useFootprintPolygons);
+  const terrainLabel = isFootprintMode ? 'Temsili zemin' : '3D Arazi (Terrain)';
+  const toggleUnit = (id: string) => {
+    setActiveUnitIds((current) => (
+      current.includes(id) ? current.filter((item) => item !== id) : [...current, id].sort()
+    ));
+  };
+  const startOrStopSimulation = () => {
+    if (isPlaying) {
+      setIsPlaying(false);
+      dispatchSimulation({ type: 'STOP' });
+      return;
+    }
+    setIsPlaying(true);
+    dispatchSimulation({ type: 'START', mode });
+  };
 
   return (
     <section className="panel active no-pad threed-page">
@@ -121,6 +261,11 @@ export default function ThreeDPage({ site: propSite }: { site?: Site }) {
             site={siteWithFootprints ?? site}
             isPlaying={isPlaying}
             activeUnits={activeUnits}
+            activeUnitIds={activeUnitIds}
+            simulationState={simulationState}
+            quality={quality}
+            upperSoc={upperSoc}
+            lowerSoc={lowerSoc}
             maxUnits={maxUnits}
             showTerrain={showTerrain}
             showLabels={showLabels}
@@ -140,7 +285,10 @@ export default function ThreeDPage({ site: propSite }: { site?: Site }) {
               className={`btn ${mode === 'generate' ? 'primary' : 'ghost'}`}
               aria-pressed={mode === 'generate'}
               style={{ flex: 1, minHeight: 36, fontSize: 13 }}
-              onClick={() => setMode('generate')}
+              onClick={() => {
+                setMode('generate');
+                if (isPlaying) dispatchSimulation({ type: 'START', mode: 'generate' });
+              }}
             >
               <Zap size={16} aria-hidden="true" />
               Üretim modu
@@ -150,7 +298,10 @@ export default function ThreeDPage({ site: propSite }: { site?: Site }) {
               className={`btn ${mode === 'pump' ? 'primary' : 'ghost'}`}
               aria-pressed={mode === 'pump'}
               style={{ flex: 1, minHeight: 36, fontSize: 13 }}
-              onClick={() => setMode('pump')}
+              onClick={() => {
+                setMode('pump');
+                if (isPlaying) dispatchSimulation({ type: 'START', mode: 'pump' });
+              }}
             >
               <Droplets size={16} aria-hidden="true" />
               Pompalama modu
@@ -163,25 +314,25 @@ export default function ThreeDPage({ site: propSite }: { site?: Site }) {
               className={`btn ${isPlaying ? 'danger-solid' : 'ghost'}`}
               aria-pressed={isPlaying}
               style={{ flex: 1, minHeight: 36, fontSize: 13 }}
-              onClick={() => setIsPlaying(!isPlaying)}
+              onClick={startOrStopSimulation}
             >
               {isPlaying ? <Square size={16} aria-hidden="true" /> : <Play size={16} aria-hidden="true" />}
               {isPlaying ? 'Simülasyonu durdur' : 'Simülasyonu başlat'}
             </button>
           </div>
           
-          <h3 style={{ marginBottom: 12 }}>Aktif Üniteler ({activeUnits}/{maxUnits})</h3>
+          <h3 style={{ marginBottom: 12 }}>Aktif Gruplar ({activeUnits}/{maxUnits})</h3>
           <div style={{ display: 'flex', gap: 4, marginBottom: 24, flexWrap: 'wrap' }}>
-            {Array.from({ length: maxUnits }).map((_, i) => (
+            {makeUnitIds(maxUnits).map((unitId) => (
                <button
                 type="button"
-                key={i}
-                className={`btn ${i < activeUnits ? 'primary' : 'ghost'}`}
-                aria-pressed={i < activeUnits}
+                key={unitId}
+                className={`btn ${activeUnitIds.includes(unitId) ? 'primary' : 'ghost'}`}
+                aria-pressed={activeUnitIds.includes(unitId)}
                 style={{ padding: '4px 12px', minHeight: 32, fontSize: 13, flex: 1 }}
-                onClick={() => setActiveUnits(i + 1)}
+                onClick={() => toggleUnit(unitId)}
               >
-                Ünite {i + 1}
+                {unitId}
               </button>
             ))}
           </div>
@@ -197,11 +348,16 @@ export default function ThreeDPage({ site: propSite }: { site?: Site }) {
           </div>
           <div style={{ marginBottom: 24 }}>
             <LayerToggle 
-              label={<><Mountain size={16} aria-hidden="true" /> 3D Arazi (Terrain)</>}
+              label={<><Mountain size={16} aria-hidden="true" /> {terrainLabel}</>}
               color="#4c6b45"
               active={showTerrain} 
               onChange={setShowTerrain} 
             />
+            {isFootprintMode && (
+              <p className="muted" style={{ fontSize: 12, margin: '4px 0 8px' }}>
+                Gerçek DEM bağlı değil; zemin footprint sahnesinde referans düzlemi olarak gösterilir.
+              </p>
+            )}
             <LayerToggle 
               label={<><Tag size={16} aria-hidden="true" /> İsim Etiketleri</>}
               color="#aaaaaa"
@@ -248,7 +404,7 @@ export default function ThreeDPage({ site: propSite }: { site?: Site }) {
             ))}
             
             <div style={{ marginTop: 16 }}>
-              <WarningBanner type="danger" message={`Bu değerler ve 3D konumlar temsilidir. Koordinat güveni: ${COORDINATE_CONFIDENCE_LABELS[site.coordinates.coordinateConfidence]}.`} />
+              <WarningBanner type="danger" message={combinedWarning} />
             </div>
           </div>
 
